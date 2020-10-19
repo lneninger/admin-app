@@ -75,7 +75,7 @@ export class LayoutMainComponent implements OnInit, AfterViewInit {
     })).subscribe(options => {
       // debugger;
       if (options && options.expanded) {
-        this.router.navigate(['/app', { outlets: { options: options.current } }], { skipLocationChange: true });
+        this.router.navigate(['/app', { outlets: { options: `/app/${options.current}` } }], { skipLocationChange: true });
       }
     });
   }

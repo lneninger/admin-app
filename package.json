@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prestart": "ngtw build"
+    "prestart": "ngtw build",
+    "global": "npm list -g --depth 0"
   },
   "private": true,
   "dependencies": {
