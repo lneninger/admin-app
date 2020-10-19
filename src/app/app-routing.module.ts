@@ -2,10 +2,31 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'app',
+    loadChildren: () => import('./main/main.module').then(m => m.MainModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'app'
+  },
+  {
+    path: 'member',
+    loadChildren: () => import('./main/pages/member/member.module').then(m => m.MemberModule)
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./main/pages/member/dashboard/dashboard.module').then(m => m.DashboardModule)
+  }
+
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(
+    routes,
+    { enableTracing: true })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

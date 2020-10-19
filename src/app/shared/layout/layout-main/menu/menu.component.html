@@ -1,0 +1,20 @@
+<mat-list [fxFlex.xl]="menu.expanded ? '250px' : '64px'">
+  <mat-list-item class="expanded-handler" (click)="service.toggleExpanded()">
+    <mat-icon mat-list-icon>{{menu.expanded ? 'close_fullscreen' : 'open_in_full'}}</mat-icon>
+    <div mat-line>{{menu.expanded ? 'Minimize' : 'Maximize'}}</div>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+
+  <!-- <div mat-subheader>Folders</div> -->
+  <!-- <div mat-subheader>Notes</div> -->
+  <ng-container *ngFor="let item of items" [ngSwitch]="item.type">
+    <mat-divider *ngSwitchCase="'divider'"></mat-divider>
+
+    <mat-list-item *ngSwitchDefault>
+      <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
+      <div mat-line>{{item.name}}</div>
+      <!-- <mat-icon fxFlex="flex-end">{{item.icon}}</mat-icon> -->
+      <!-- <div mat-line> {{note.updated | date}} </div> -->
+    </mat-list-item>
+  </ng-container>
+</mat-list>
