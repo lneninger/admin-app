@@ -5,7 +5,7 @@ import { AppConfigState, AppConfigStateMenuModel } from 'src/app/shared/states/a
 import { Select } from '@ngxs/store';
 
 export interface Section {
-  type?: 'divider',
+  type?: 'divider';
   name?: string;
   updated?: Date;
   icon?: string;

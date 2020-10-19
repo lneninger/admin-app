@@ -92,12 +92,7 @@ export interface AppConfigStateMenuModel {
   expanded: boolean;
 }
 
-export interface AppConfigOptionsLayoutModel {
-
-}
-
 export interface AppConfigOptionsModel {
   expanded: boolean;
   current: string;
-  layout?: AppConfigOptionsLayoutModel;
 }

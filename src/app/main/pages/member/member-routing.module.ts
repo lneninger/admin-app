@@ -14,7 +14,8 @@ const routes: Routes = [
       },
       {
         path: 'options',
-        loadChildren: () => import('../../../shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
+        loadChildren: () => import('../../../shared/layout/layout-main/options/app-settings/app-settings.module')
+        .then(m => m.AppSettingsModule),
         outlet: 'options'
       }
     ]

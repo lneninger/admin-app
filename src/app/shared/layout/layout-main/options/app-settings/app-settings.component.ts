@@ -10,7 +10,7 @@ export class AppSettingsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    debugger;
+    // debugger;
   }
 
 }
