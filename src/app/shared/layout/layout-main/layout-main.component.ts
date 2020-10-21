@@ -1,23 +1,45 @@
+import { LazyLoaderService } from './../../lazy-loader/lazy-loader.service';
 import { AppConfigStateMenuModel, AppConfigOptionsModel } from './../../states/appconfig.state';
 import { MediaService } from './../../common/media.service';
 import { MediaObserver } from '@angular/flex-layout';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
-import { MatDrawer, MatDrawerContainer } from '@angular/material';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, QueryList, ViewChildren, Inject } from '@angular/core';
+import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { MenuService } from './menu/menu.service';
-import { environment } from 'src/environments/environment';
 import { Select } from '@ngxs/store';
-import { Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { delay, filter, switchMap, tap } from 'rxjs/operators';
 import { AppConfigState } from '../../states/appconfig.state';
 import { Router } from '@angular/router';
+import { LazyLoaderDirective } from '../../lazy-loader/lazy-loader.module';
+import { DynamicConfig, DYNAMIC_DATA } from '../../lazy-loader/lazy-loader.service';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { BaseComponent } from '../../base.component';
 
+@AutoUnsubscribe()
 @Component({
   selector: 'app-layout-main',
   templateUrl: './layout-main.component.html',
   styleUrls: ['./layout-main.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutMainComponent implements OnInit, AfterViewInit {
+export class LayoutMainComponent extends BaseComponent implements OnInit, AfterViewInit {
+  elem: HTMLElement;
+
+  lazyLoaderSubscription: Subscription;
+  private _lazyLoaderDirectives$ = new BehaviorSubject<LazyLoaderDirective[]>(null);
+  private _lazyLoaderDirectives: QueryList<LazyLoaderDirective>;
+  @ViewChildren(LazyLoaderDirective)
+  set lazyLoaderDirectives(value: QueryList<LazyLoaderDirective>) {
+    this._lazyLoaderDirectives = value;
+    const currentDirectives = this._lazyLoaderDirectives$.value;
+    if (this._lazyLoaderDirectives) {
+      const directiveArray = this._lazyLoaderDirectives.map(x => x);
+      this._lazyLoaderDirectives$.next(directiveArray);
+    }
+  }
+  get lazyLoaderDirectives() {
+    return this._lazyLoaderDirectives;
+  }
 
   @ViewChild('drawer', { static: true })
   drawer: MatDrawer;
@@ -38,15 +60,19 @@ export class LayoutMainComponent implements OnInit, AfterViewInit {
     public menuService: MenuService,
     private mediaService: MediaService,
     private mediaObserver: MediaObserver,
-    private router: Router
+    private router: Router,
+    private lazyLoaderService: LazyLoaderService
   ) {
+    super();
     this.initializeMedia();
   }
 
 
   async ngOnInit() {
+    this.elem = document.documentElement;
     this.initializeMenuListener();
     this.initializeOptionsListener();
+    this.initializeLazyLoadListener();
 
   }
   initializeMenuListener() {
@@ -72,12 +98,27 @@ export class LayoutMainComponent implements OnInit, AfterViewInit {
           this.drawerOptions.close().then(() => observer.next(options));
         });
       }
-    })).subscribe(options => {
-      // debugger;
-      if (options && options.expanded) {
-        this.router.navigate(['/app', { outlets: { options: `/app/${options.current}` } }], { skipLocationChange: true });
-      }
-    });
+    })).subscribe();
+  }
+
+  initializeLazyLoadListener() {
+
+    this.lazyLoaderSubscription = combineLatest([this._lazyLoaderDirectives$])
+      .pipe(filter(([lazyDirectives]) => !!lazyDirectives && lazyDirectives.length > 0), delay(0), tap(x => {
+        console.log(`custom directive triggered passed filter`, x);
+      }))
+      .subscribe(([lazyDirectives]) => {
+        lazyDirectives.forEach(async (directive: LazyLoaderDirective) => {
+
+          // Logic to deside to show the product tile
+          if (directive) {
+            const metadata = { data: directive.metadata } as DynamicConfig<any>;
+            await this.lazyLoaderService.load(directive.appLazy, directive.viewContainerRef, DYNAMIC_DATA, metadata);
+          } else {
+            // console.log();
+          }
+        });
+      });
   }
 
   ngAfterViewInit() {
@@ -88,6 +129,7 @@ export class LayoutMainComponent implements OnInit, AfterViewInit {
     // debugger;
     this.mediaService.initialize(this.mediaObserver);
   }
+
 
 
 }

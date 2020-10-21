@@ -37,13 +37,21 @@
     </button>
   </mat-form-field> -->
 
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click)="optionsService.toggleOptions('app-settings')">
+  <button mat-icon-button aria-label="Search member">
+    <mat-icon>search</mat-icon>
+  </button>
+
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click)="optionsService.toggleOptions('settings')">
     <mat-icon>settings</mat-icon>
   </button>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+  <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
     <mat-icon>share</mat-icon>
+  </button> -->
+  <button *ngIf="!layoutMainService.fullScreen" mat-icon-button aria-label="Full Screen" (click)="toggleFullscreen()">
+    <mat-icon fontSet="fas" fontIcon="fa-expand"></mat-icon>
   </button>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>fullscreen</mat-icon>
+
+  <button *ngIf="layoutMainService.fullScreen" mat-icon-button aria-label="Normal Window" (click)="toggleFullscreen()">
+    <mat-icon fontSet="fas" fontIcon="fa-compress"></mat-icon>
   </button>
 </mat-toolbar>

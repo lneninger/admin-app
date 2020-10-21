@@ -15,12 +15,12 @@ const routes: Routes = [
       {
         path: 'member',
         loadChildren: () => import('./pages/member/member.module').then(m => m.MemberModule)
-      },
-      {
-        path: 'app-settings',
-        loadChildren: () => import('../shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
-        outlet: 'options'
-      }
+       },
+      // {
+      //   path: 'settings',
+      //   loadChildren: () => import('../shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
+      //   outlet: 'options'
+      // }
     ]
   }
 ];

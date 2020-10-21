@@ -19,7 +19,12 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./main/pages/member/dashboard/dashboard.module').then(m => m.DashboardModule)
   }
-
+  ,
+  {
+    path: 'settings',
+    loadChildren: () => import('./shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
+    outlet: 'options'
+  }
 ];
 
 @NgModule({

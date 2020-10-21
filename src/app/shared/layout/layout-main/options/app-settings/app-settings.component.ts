@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppSettingsComponent implements OnInit {
 
+
+  legacy: string;
+
   constructor() { }
 
   ngOnInit() {

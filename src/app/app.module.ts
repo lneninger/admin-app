@@ -8,6 +8,8 @@ import { NgxsModule } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
 import { AppConfigState } from './shared/states/appconfig.state';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
+import { lazyArrayToObj } from './app-routing-lazy';
+import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,10 @@ import { NgxsDataPluginModule } from '@ngxs-labs/data';
     }),
     NgxsDataPluginModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    { provide: LAZY_WIDGETS, useFactory: lazyArrayToObj },
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

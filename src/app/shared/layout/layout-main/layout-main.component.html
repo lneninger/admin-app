@@ -13,8 +13,11 @@
   </div>
 
   <mat-drawer #drawerOptions class="example-sidenav" mode="side" position="end">
-    <span fxFlex="1 0 200px"></span>
-    <router-outlet name="options"></router-outlet>
+    <section fxFlex="1 0 200px" class="m-4">
+      <ng-container *ngIf="options$ | async as options">
+        <ng-template *ngIf="options.expanded && options.current" [appLazy]="options.current"></ng-template>
+      </ng-container>
+    </section>
   </mat-drawer>
 
 </mat-drawer-container>

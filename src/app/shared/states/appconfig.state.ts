@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { State, Selector, Action, Store, StateContext } from '@ngxs/store';
-import { PersistenceProvider, Persistence, StateRepository, NgxsDataRepository } from '@ngxs-labs/data';
+import { Persistence, StateRepository } from '@ngxs-labs/data';
+import { NgxsDataRepository } from '@ngxs-labs/data';
+import {  } from '@ngxs-labs/data';
 import produce from 'immer';
 
 export class MenuToggleAction {

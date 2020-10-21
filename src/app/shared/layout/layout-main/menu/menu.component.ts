@@ -8,7 +8,9 @@ export interface Section {
   type?: 'divider';
   name?: string;
   updated?: Date;
+  routerLink?: any;
   icon?: string;
+  iconFontSet?: string;
 }
 
 @Component({
@@ -33,28 +35,72 @@ export class MenuComponent implements OnInit {
   }
 
   items: Section[] = [
+
     {
-      name: 'Photos',
-      updated: new Date('1/1/16'),
-      icon: 'extension'
-    },
-    {
-      name: 'Recipes',
+      name: 'Dashboard',
       updated: new Date('1/17/16'),
-      icon: 'dashboard'
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-      icon: 'code'
+      icon: 'dashboard',
+      routerLink: ['/app/member/dashboard']
     },
     {
       type: 'divider'
     },
     {
-      name: 'Vacation Itinerary',
+      name: 'Community',
+      updated: new Date('1/28/16'),
+      icon: 'fa-address-card',
+      iconFontSet: 'far'
+    },
+    {
+      name: 'Medicaid',
+      updated: new Date('1/28/16'),
+      icon: 'fa-handshake',
+      iconFontSet: 'far'
+    },
+    {
+      name: 'SNAP',
+      updated: new Date('1/28/16'),
+      icon: 'fa-utensils',
+      iconFontSet: 'fas'
+    },
+
+    {
+      name: 'LIS',
+      updated: new Date('1/28/16'),
+      icon: 'fa-dollar-sign',
+      iconFontSet: 'fas'
+    },
+    {
+      type: 'divider'
+    },
+    {
+      name: 'Profile',
+      updated: new Date('1/28/16'),
+      icon: 'fa-id-card-alt',
+      iconFontSet: 'fas'
+    },
+
+    {
+      name: 'Documents',
       updated: new Date('2/20/16'),
-      icon: 'code'
+      icon: 'attach_file'
+    },
+    {
+      name: 'Notes',
+      updated: new Date('2/20/16'),
+      icon: 'note'
+    },
+    {
+      type: 'divider'
+    },
+    {
+      name: 'Interview',
+      updated: new Date('2/20/16'),
+      icon: 'fa-tasks',
+      iconFontSet: 'fas'
+    },
+    {
+      type: 'divider'
     },
     {
       name: 'Kitchen Remodel',

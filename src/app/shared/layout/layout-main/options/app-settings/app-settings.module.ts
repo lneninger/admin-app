@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { AppSettingsRoutingModule } from './app-settings-routing.module';
 import { AppSettingsComponent } from './app-settings.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,16 @@ import { AppSettingsComponent } from './app-settings.component';
   imports: [
     CommonModule,
     AppSettingsRoutingModule,
-    LayoutMainCommonModule
+    LayoutMainCommonModule,
+
+    FormsModule
+  ]
+  , entryComponents: [
+    AppSettingsComponent
   ]
 })
-export class AppSettingsModule { }
+export class AppSettingsModule {
+
+  static entry = AppSettingsComponent;
+
+}

@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  MatAccordion,
-  MatButtonModule,
-  MatCardModule,
-  MatExpansionModule,
-  MatFormField,
-  MatFormFieldModule,
-  MatGridListModule,
-  MatIconModule,
-  MatListModule,
-  MatSidenavModule,
-  MatToolbarModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppCommonModule } from 'src/app/shared/common/app-common.module';
 import { PageComponent } from './page/page.component';
 
@@ -30,6 +27,7 @@ import { PageComponent } from './page/page.component';
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
+    MatInputModule
 
 
 
@@ -45,7 +43,7 @@ import { PageComponent } from './page/page.component';
     MatListModule,
     MatCardModule,
     MatFormFieldModule,
-
+    MatInputModule,
 
     PageComponent,
 

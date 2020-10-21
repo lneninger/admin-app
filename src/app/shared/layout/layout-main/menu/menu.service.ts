@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-import { MatDrawer, MatDrawerContainer } from '@angular/material';
+import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { Select, State, Store } from '@ngxs/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MediaService } from 'src/app/shared/common/media.service';
