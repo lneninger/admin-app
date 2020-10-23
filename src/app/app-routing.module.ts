@@ -17,14 +17,15 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./main/pages/member/dashboard/dashboard.module').then(m => m.DashboardModule)
+    loadChildren: () => import('./main/pages/dashboard/dashboard.module').then(m => m.DashboardModule)
   }
   ,
   {
     path: 'settings',
     loadChildren: () => import('./shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
     outlet: 'options'
-  }
+  },
+  { path: 'member-list', loadChildren: () => import('./main/pages/member-list/member-list.module').then(m => m.MemberListModule) }
 ];
 
 @NgModule({

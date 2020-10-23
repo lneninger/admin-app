@@ -1,0 +1,26 @@
+<ol class="mx-20" class="flex flex-row flex-no-wrap  ml-12">
+  <ng-container *ngFor="let item of service.currentBreadCrumb; let last = last">
+    <li fxLayoutAlign="start center">
+      <a [routerLink]="item.routerLink" fxLayoutAlign="start center" class="text-sm text-gray-500 hover:text-gray-200">
+        <ng-container *ngIf="item.icon">
+          <mat-icon *ngIf="item.fontSet" [fontSet]="item.fontSet" [fontIcon]="item.icon" class="mr-1"></mat-icon>
+          <mat-icon *ngIf="!item.fontSet" class="mr-1">{{item.icon}}</mat-icon>
+        </ng-container>
+        <span class="border-opacity-50">{{item.label}}</span>
+      </a>
+    </li>
+
+    <li fxLayoutAlign="start center" class="mx-2" *ngIf="!last">
+      <span fxLayoutAlign="start center" class="text-sm text-gray-500">
+        >
+      </span>
+    </li>
+
+    <!-- <li fxLayoutAlign="start center">
+      <a href="javascript:void(0)" fxLayoutAlign="start center" class="text-sm text-gray-500 hover:text-gray-200">
+        <mat-icon class="mr-1">business_center</mat-icon>
+        <span class="border-opacity-50">About</span>
+      </a>
+    </li> -->
+  </ng-container>
+</ol>

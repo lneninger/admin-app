@@ -10,15 +10,14 @@ export class DashboardComponent implements OnInit {
 
   constructor(breadcrumbService: BreadcrumbService) {
     breadcrumbService.addItem({
-      id: 'MEMBER_DASHBOARD',
+      id: 'DASHBOARD',
       label: 'Dashboard',
-      routerLink: ['/app/member/dashboard'],
+      routerLink: ['/app/dashboard'],
       icon: 'dashboard'
     } as BreadCrumbItem);
 
-    breadcrumbService.build('HOME', 'MEMBER', 'MEMBER_DASHBOARD');
+    breadcrumbService.build('HOME', 'DASHBOARD');
   }
-
 
   ngOnInit() {
   }

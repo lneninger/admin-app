@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BreadCrumbItem, BreadcrumbService } from 'src/app/shared/layout/layout-main/breadcrumb/breadcrumb.service';
 
 @Component({
   selector: 'app-member',
@@ -7,7 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MemberComponent implements OnInit {
 
-  constructor() { }
+  constructor(breadcrumbService: BreadcrumbService) {
+    breadcrumbService.addItem({
+      id: 'MEMBER',
+      label: 'Member',
+      routerLink: ['/app/member'],
+      icon: 'fa-id-card',
+      fontSet: 'far'
+    } as BreadCrumbItem);
+
+    breadcrumbService.build('HOME', 'MEMBER');
+  }
+
 
   ngOnInit() {
   }

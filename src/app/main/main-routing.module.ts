@@ -10,17 +10,20 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
+      },
+      {
+        path: 'about',
         loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule),
       },
       {
         path: 'member',
         loadChildren: () => import('./pages/member/member.module').then(m => m.MemberModule)
        },
-      // {
-      //   path: 'settings',
-      //   loadChildren: () => import('../shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
-      //   outlet: 'options'
-      // }
+       {
+        path: 'search',
+        loadChildren: () => import('./pages/member-list/member-list.module').then(m => m.MemberListModule)
+       },
     ]
   }
 ];

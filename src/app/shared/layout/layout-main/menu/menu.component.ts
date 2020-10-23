@@ -7,6 +7,8 @@ import { Select } from '@ngxs/store';
 export interface Section {
   type?: 'divider';
   name?: string;
+  label?: string;
+  description?: string;
   updated?: Date;
   routerLink?: any;
   icon?: string;
@@ -38,35 +40,30 @@ export class MenuComponent implements OnInit {
 
     {
       name: 'Dashboard',
-      updated: new Date('1/17/16'),
       icon: 'dashboard',
-      routerLink: ['/app/member/dashboard']
+      routerLink: ['/app/dashboard']
     },
     {
       type: 'divider'
     },
     {
       name: 'Community',
-      updated: new Date('1/28/16'),
       icon: 'fa-address-card',
       iconFontSet: 'far'
     },
     {
       name: 'Medicaid',
-      updated: new Date('1/28/16'),
       icon: 'fa-handshake',
       iconFontSet: 'far'
     },
     {
       name: 'SNAP',
-      updated: new Date('1/28/16'),
       icon: 'fa-utensils',
       iconFontSet: 'fas'
     },
 
     {
       name: 'LIS',
-      updated: new Date('1/28/16'),
       icon: 'fa-dollar-sign',
       iconFontSet: 'fas'
     },
@@ -75,19 +72,16 @@ export class MenuComponent implements OnInit {
     },
     {
       name: 'Profile',
-      updated: new Date('1/28/16'),
       icon: 'fa-id-card-alt',
       iconFontSet: 'fas'
     },
 
     {
       name: 'Documents',
-      updated: new Date('2/20/16'),
       icon: 'attach_file'
     },
     {
       name: 'Notes',
-      updated: new Date('2/20/16'),
       icon: 'note'
     },
     {
@@ -95,7 +89,6 @@ export class MenuComponent implements OnInit {
     },
     {
       name: 'Interview',
-      updated: new Date('2/20/16'),
       icon: 'fa-tasks',
       iconFontSet: 'fas'
     },
@@ -103,9 +96,9 @@ export class MenuComponent implements OnInit {
       type: 'divider'
     },
     {
-      name: 'Kitchen Remodel',
-      updated: new Date('1/18/16'),
-      icon: 'search'
+      name: 'Search',
+      icon: 'search',
+      routerLink: ['/app/search']
     }
   ];
 

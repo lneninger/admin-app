@@ -11,12 +11,15 @@
     <mat-divider *ngSwitchCase="'divider'"></mat-divider>
 
     <mat-list-item *ngSwitchDefault>
-
-        <mat-icon *ngIf="!item.iconFontSet" mat-list-icon>{{item.icon}}</mat-icon>
-        <mat-icon *ngIf="item.iconFontSet" mat-list-icon [fontSet]="item.iconFontSet" [fontIcon]="item.icon"></mat-icon>
+      <ng-container>
+        <mat-icon *ngIf="!item.iconFontSet" mat-list-icon [routerLink]="item.routerLink" style="cursor:pointer;">{{item.icon}}</mat-icon>
+        <mat-icon *ngIf="item.iconFontSet" mat-list-icon [fontSet]="item.iconFontSet" [routerLink]="item.routerLink" [fontIcon]="item.icon"
+          [routerLink]="item.routerLink" style="cursor:pointer;"></mat-icon>
         <a mat-line *ngIf="menu.expanded" [routerLink]="item.routerLink">
           {{item.name}}
-      </a>
+        </a>
+      </ng-container>
+
     </mat-list-item>
   </ng-container>
 </mat-list>

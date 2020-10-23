@@ -41,10 +41,10 @@ export class LayoutMainService {
 
   chkScreenMode() {
     if (document.fullscreenElement) {
-      //fullscreen
+      // fullscreen
       this.fullScreen = true;
     } else {
-      //not in full screen
+      // not in full screen
       this.fullScreen = false;
     }
   }

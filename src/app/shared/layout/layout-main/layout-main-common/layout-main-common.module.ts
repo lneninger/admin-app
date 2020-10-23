@@ -12,6 +12,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppCommonModule } from 'src/app/shared/common/app-common.module';
 import { PageComponent } from './page/page.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -27,7 +28,8 @@ import { PageComponent } from './page/page.component';
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule
 
 
 
@@ -44,6 +46,7 @@ import { PageComponent } from './page/page.component';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatPaginatorModule,
 
     PageComponent,
 

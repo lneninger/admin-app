@@ -11,12 +11,6 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
-      },
-      {
-        path: 'options',
-        loadChildren: () => import('../../../shared/layout/layout-main/options/app-settings/app-settings.module')
-        .then(m => m.AppSettingsModule),
-        outlet: 'options'
       }
     ]
   }];

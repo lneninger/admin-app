@@ -26,19 +26,19 @@ export class LayoutMainComponent extends BaseComponent implements OnInit, AfterV
   elem: HTMLElement;
 
   lazyLoaderSubscription: Subscription;
-  private _lazyLoaderDirectives$ = new BehaviorSubject<LazyLoaderDirective[]>(null);
-  private _lazyLoaderDirectives: QueryList<LazyLoaderDirective>;
+  private lazyLoaderDirectivesInternal$ = new BehaviorSubject<LazyLoaderDirective[]>(null);
+  private lazyLoaderDirectivesInternal: QueryList<LazyLoaderDirective>;
   @ViewChildren(LazyLoaderDirective)
   set lazyLoaderDirectives(value: QueryList<LazyLoaderDirective>) {
-    this._lazyLoaderDirectives = value;
-    const currentDirectives = this._lazyLoaderDirectives$.value;
-    if (this._lazyLoaderDirectives) {
-      const directiveArray = this._lazyLoaderDirectives.map(x => x);
-      this._lazyLoaderDirectives$.next(directiveArray);
+    this.lazyLoaderDirectivesInternal = value;
+    const currentDirectives = this.lazyLoaderDirectivesInternal$.value;
+    if (this.lazyLoaderDirectivesInternal) {
+      const directiveArray = this.lazyLoaderDirectivesInternal.map(x => x);
+      this.lazyLoaderDirectivesInternal$.next(directiveArray);
     }
   }
   get lazyLoaderDirectives() {
-    return this._lazyLoaderDirectives;
+    return this.lazyLoaderDirectivesInternal;
   }
 
   @ViewChild('drawer', { static: true })
@@ -103,7 +103,7 @@ export class LayoutMainComponent extends BaseComponent implements OnInit, AfterV
 
   initializeLazyLoadListener() {
 
-    this.lazyLoaderSubscription = combineLatest([this._lazyLoaderDirectives$])
+    this.lazyLoaderSubscription = combineLatest([this.lazyLoaderDirectivesInternal$])
       .pipe(filter(([lazyDirectives]) => !!lazyDirectives && lazyDirectives.length > 0), delay(0), tap(x => {
         console.log(`custom directive triggered passed filter`, x);
       }))
