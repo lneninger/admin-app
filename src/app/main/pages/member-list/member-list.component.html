@@ -1,7 +1,21 @@
 
 
 <app-page title="Search">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">
+
+<section class="flex flex-col">
+
+  <section class="mb-10">
+      <mat-form-field class="example-full-width">
+        <mat-label>Telephone</mat-label>
+        <span matPrefix>+1 &nbsp;</span>
+        <input type="text" matInput placeholder="Search Criteria">
+        <mat-icon matSuffix>clear</mat-icon>
+        <mat-icon matSuffix>write</mat-icon>
+        <mat-icon matSuffix>mode_edit</mat-icon>
+      </mat-form-field>
+  </section>
+
+  <table mat-table [dataSource]="gridConfig?.data" class="mat-elevation-z8" style="width: 100%">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -34,6 +48,10 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator [length]="resultsLength" [pageSize]="30"></mat-paginator>
+  <mat-paginator [length]="gridConfig?.resultsLength" [pageSize]="10"></mat-paginator>
+
+</section>
+
+
 </app-page>
 

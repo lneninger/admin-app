@@ -3,11 +3,12 @@
   <!-- <span class="app-title">{{appTitle}}</span> -->
   <span class="flex app-title w-full h-full"> </span>
 
-  <button mat-icon-button class="sidenav-icon-toggle" aria-label="Example icon-button with menu icon" (click)="menuService.toggleMenu()">
+  <button mat-icon-button class="sidenav-icon-toggle" aria-label="Example icon-button with menu icon"
+    (click)="menuService.toggleMenu()">
     <mat-icon>menu</mat-icon>
   </button>
 
- <app-breadcrumb class="flex flex-row flex-no-wrap  ml-12"></app-breadcrumb>
+  <app-breadcrumb class="flex flex-row flex-no-wrap  ml-12"></app-breadcrumb>
 
   <span class="example-spacer"></span>
   <!-- <mat-form-field class="example-form-field">
@@ -17,11 +18,24 @@
     </button>
   </mat-form-field> -->
 
-  <button mat-icon-button aria-label="Search member">
-    <mat-icon>search</mat-icon>
-  </button>
+  <section fxLayout="row" fxFlex="1 0 20%" fxLayoutAlign="end center">
+    <section class="searchFields" [@searchToggle]="showSearch ? 'open' : 'close'"
+      (@searchToggle.done)="captureDoneEvent($event)">
 
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click)="optionsService.toggleOptions('settings')">
+      <input matInput #searchInput fxFlex placeholder="Search..." (keyup.enter)="search()" autocomplete="off" class="px-4">
+
+      <button mat-icon-button="" class="submitButton" (click)="search()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </section>
+    <button mat-icon-button aria-label="Search member" (click)="toggleSearch()">
+      <mat-icon *ngIf="!showSearch">search</mat-icon>
+      <mat-icon *ngIf="showSearch">close</mat-icon>
+    </button>
+  </section>
+
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+    (click)="optionsService.toggleOptions('settings')">
     <mat-icon>settings</mat-icon>
   </button>
   <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">

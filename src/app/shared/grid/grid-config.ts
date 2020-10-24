@@ -1,32 +1,37 @@
-import { APP_INITIALIZER } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { NumberFormatStyle } from '@angular/common';
+import { APP_INITIALIZER, EventEmitter } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
-export class GridConfig {
+export class GridConfig<T> {
   isLoadingResults: boolean;
   isRateLimitReached: boolean;
   resultsLength: any;
-  data: any[];
+  data: T[];
 
   constructor(
-    private dataRetriever: (input: DataRetrieverInput) => Observable<any>,
+    private dataRetriever: (input: DataRetrieverInput) => Observable<GridData<T>>,
     private paginator: MatPaginator,
     private sort: MatSort) {
     this.initialize();
   }
+
   initialize() {
-    merge(this.sort.sortChange, this.paginator.page)
+    const internalSortChange = this.sort ? this.sort.sortChange : new EventEmitter<Sort>();
+    const internalPaginatorPage = this.paginator ? this.paginator.page : new EventEmitter<PageEvent>();
+    merge(internalSortChange, internalPaginatorPage)
       .pipe(
         startWith({}),
         switchMap(() => {
+          // debugger;
           this.isLoadingResults = true;
 
           const input: DataRetrieverInput = {
-            sort: this.sort.active,
-            sortDirection: this.sort.direction,
-            pageIndex: this.paginator.pageIndex
+            sort: { target: this.sort && this.sort.active, direction: this.sort && this.sort.direction },
+            pageIndex: this.paginator && this.paginator.pageIndex,
+            pageSize: this.paginator && this.paginator.pageSize,
           };
 
           return this.dataRetriever(input);
@@ -53,6 +58,19 @@ export class GridConfig {
 
 
 export interface DataRetrieverInput {
-
-
+  sort: Sort;
+  pageIndex: number;
+  pageSize: number;
 }
+
+export interface Sort {
+  target: string;
+  direction: SortDirection;
+}
+
+export interface GridData<T> {
+  items: T[];
+  total_count: number;
+}
+
+export declare type SortDirection = 'asc' | 'desc' | '';
