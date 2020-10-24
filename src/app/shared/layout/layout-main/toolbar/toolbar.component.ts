@@ -38,11 +38,16 @@ import { NONE_TYPE } from '@angular/compiler';
 export class ToolbarComponent implements OnInit {
   appTitle = environment.appTitle;
 
+
+  @ViewChild('searchContainer')
+  searchContainer: ElementRef;
+
   @ViewChild('searchInput')
   searchInput: ElementRef;
 
   showSearch: boolean;
   searchText: string;
+  clickInside: boolean;
   constructor(
     public layoutMainService: LayoutMainService,
     public menuService: MenuService,
@@ -54,7 +59,21 @@ export class ToolbarComponent implements OnInit {
     console.log(`appTitle -> ${this.appTitle}`);
   }
 
+  @HostListener('click')
+  click() {
+    this.clickInside = true;
+  }
 
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    // debugger;
+    if (!this.clickInside) {
+      // debugger;
+      this.showSearch = false;
+    }
+
+    this.clickInside = false;
+  }
 
   toggleFullscreen() {
     // debugger;

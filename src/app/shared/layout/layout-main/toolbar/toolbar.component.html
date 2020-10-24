@@ -18,7 +18,7 @@
     </button>
   </mat-form-field> -->
 
-  <section fxLayout="row" fxFlex="1 0 20%" fxLayoutAlign="end center">
+  <section #searchContainer fxLayout="row" fxFlex="1 0 20%" fxLayoutAlign="end center">
     <section class="searchFields" [@searchToggle]="showSearch ? 'open' : 'close'"
       (@searchToggle.done)="captureDoneEvent($event)">
 
