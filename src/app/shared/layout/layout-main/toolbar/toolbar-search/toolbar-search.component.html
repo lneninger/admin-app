@@ -1,0 +1,48 @@
+<section #searchContainer fxLayout="row" fxLayoutAlign="end center">
+  <section class="searchFields" [@searchToggle]="showSearch ? 'open' : 'close'"
+    (@searchToggle.done)="captureDoneEvent($event)">
+
+    <input matInput #searchInput fxFlex placeholder="Search..." (keyup.enter)="search()" autocomplete="off"
+      class="px-4">
+
+    <button mat-icon-button="" class="submitButton" (click)="search()">
+      <mat-icon>search</mat-icon>
+    </button>
+  </section>
+  <button mat-icon-button aria-label="Search member" (click)="toggleSearch()">
+    <mat-icon *ngIf="!showSearch">search</mat-icon>
+    <mat-icon *ngIf="showSearch">close</mat-icon>
+  </button>
+
+
+
+</section>
+
+
+<section [@searchToggle]="showSearchResultDialog ? 'open-searchresult' : 'close-searchresult'"
+  class="rounded-xl overflow-hidden bg-gray-300 border border-gray-600"
+  style="position:absolute;z-index: 10000;width:100%;top: 70px;">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Result</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="m-8">
+    <mat-list #shoes>
+      <mat-list-item *ngFor="let item of result">
+        <mat-icon mat-list-icon>note</mat-icon>
+
+        <div mat-line fxFlex="100%">
+          <span fxFlex>{{item.name}}</span>
+          <span fxFlex>{{item.tenant}}</span>
+          <a fxFlex="64px" [routerLink]="['/app/dashboard']">
+            <mat-icon>search</mat-icon>
+          </a>
+        </div>
+
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+</section>

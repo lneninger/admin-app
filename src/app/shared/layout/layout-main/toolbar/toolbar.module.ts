@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ToolbarComponent } from './toolbar.component';
 import { FormsModule } from '@angular/forms';
 import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
+import { ToolbarSearchModule } from './toolbar-search/toolbar-search.module';
 
 
 
@@ -14,6 +15,7 @@ import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
     FormsModule,
     LayoutMainCommonModule,
     BreadcrumbModule,
+    ToolbarSearchModule,
 
   ],
   exports: [ToolbarComponent],

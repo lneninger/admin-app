@@ -1,7 +1,7 @@
 <ol class="mx-20" class="flex flex-row flex-no-wrap  ml-12">
   <ng-container *ngFor="let item of service.currentBreadCrumb; let last = last">
     <li fxLayoutAlign="start center">
-      <a [routerLink]="item.routerLink" fxLayoutAlign="start center" class="text-sm text-gray-500 hover:text-gray-600">
+      <a [routerLink]="item.routerLink" fxLayoutAlign="start center" class="text-sm text-gray-500 hover:text-gray-300">
         <ng-container *ngIf="item.icon">
           <mat-icon *ngIf="item.fontSet" [fontSet]="item.fontSet" [fontIcon]="item.icon" class="mr-1"></mat-icon>
           <mat-icon *ngIf="!item.fontSet" class="mr-1">{{item.icon}}</mat-icon>

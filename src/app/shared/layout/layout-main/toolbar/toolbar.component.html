@@ -1,4 +1,4 @@
-<mat-toolbar class="main-toolbar">
+<mat-toolbar  color="primary" class="main-toolbar">
 
   <!-- <span class="app-title">{{appTitle}}</span> -->
   <span class="flex app-title w-full h-full"> </span>
@@ -18,21 +18,9 @@
     </button>
   </mat-form-field> -->
 
-  <section #searchContainer fxLayout="row" fxFlex="1 0 20%" fxLayoutAlign="end center">
-    <section class="searchFields" [@searchToggle]="showSearch ? 'open' : 'close'"
-      (@searchToggle.done)="captureDoneEvent($event)">
+  <app-toolbar-search fxFlex="1 0 20%"></app-toolbar-search>
 
-      <input matInput #searchInput fxFlex placeholder="Search..." (keyup.enter)="search()" autocomplete="off" class="px-4">
 
-      <button mat-icon-button="" class="submitButton" (click)="search()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </section>
-    <button mat-icon-button aria-label="Search member" (click)="toggleSearch()">
-      <mat-icon *ngIf="!showSearch">search</mat-icon>
-      <mat-icon *ngIf="showSearch">close</mat-icon>
-    </button>
-  </section>
 
   <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
     (click)="optionsService.toggleOptions('settings')">
