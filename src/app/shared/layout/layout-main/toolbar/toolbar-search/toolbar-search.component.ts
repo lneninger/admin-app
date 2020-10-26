@@ -141,7 +141,7 @@ export class ToolbarSearchComponent implements OnInit, AfterViewInit {
 
   toggleSearch() {
     this.showSearch = !this.showSearch;
-    if(!this.showSearch) {
+    if (!this.showSearch) {
       this.showSearchResultDialog = false;
     }
   }
@@ -160,6 +160,13 @@ export class ToolbarSearchComponent implements OnInit, AfterViewInit {
       return ['Backspace', 'Delete'].some(key => !event || event.key === key);
     }));
 
+    const showResultDialog = merge(inputEvent, deleteEvent).subscribe(result => {
+      if (result != null) {
+        // debugger;
+        this.showSearchResultDialog = true;
+      }
+    });
+
     const event$ = merge(inputEvent, deleteEvent)
       .pipe(
         startWith(null),
@@ -172,7 +179,6 @@ export class ToolbarSearchComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe(result => {
-          this.showSearchResultDialog = true;
       });
 
 

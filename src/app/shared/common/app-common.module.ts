@@ -14,8 +14,8 @@ import { LazyLoaderModule } from '../lazy-loader/lazy-loader.module';
     LazyLoaderModule
   ],
   exports: [
-    MatIconModule,
     FlexLayoutModule,
+    MatIconModule,
     LazyLoaderModule
   ]
 })

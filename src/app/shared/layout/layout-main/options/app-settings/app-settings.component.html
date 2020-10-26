@@ -1,11 +1,44 @@
-<p>
-  <mat-form-field appearance="legacy">
-    <mat-label>Legacy form field</mat-label>
-    <input matInput placeholder="Placeholder" [(value)]="legacy">
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
-</p>
+<app-page title="Settings">
+
+  <p class="flex flex-col">
+    <!-- <span class="text-2xl font-semibold text-white-200">Settings</span>
+    <span class="mt-4"></span>
+    <mat-divider class="mt-4 mb-8"></mat-divider>
+    <span class="mb-8"></span> -->
+
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Selected Tenants</mat-label>
+      <mat-select [(ngModel)]="selectedTenants" multiple>
+        <mat-option *ngFor="let tenant of globalTenants" [value]="tenant">{{tenant.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>User Role</mat-label>
+      <mat-select [(ngModel)]="userRole">
+        <mat-option *ngFor="let role of globalRoles" [value]="role">{{role.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Legacy form field</mat-label>
+      <input matInput placeholder="Placeholder" [(value)]="legacy">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      <mat-hint>Hint</mat-hint>
+    </mat-form-field>
+  </p>
+</app-page>
+
+<!-- <mat-toolbar>
+  <mat-toolbar-row>
+    <span class="text-2xl font-semibold text-white-200">Settings</span>
+  </mat-toolbar-row>
+</mat-toolbar> -->
+
+
 <!-- <p>
   <mat-form-field appearance="standard">
     <mat-label>Standard form field</mat-label>

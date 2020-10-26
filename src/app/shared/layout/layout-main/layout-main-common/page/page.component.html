@@ -1,11 +1,17 @@
-<mat-card class="mb-8">
-  <span class="text-2xl font-semibold text-white-200">{{title}}</span>
-</mat-card>
+<div fxFlex fxLayout="column" class="max-h-full">
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span class="text-2xl font-semibold text-white-200">{{title}}</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
 
-<!-- <section class="px-8 mb-8">
+  <!-- <section class="px-8 mb-8">
   <span class="text-2xl font-semibold text-blue-500">{{title}}</span>
 </section> -->
 
-<section class="mx-4">
-  <ng-content></ng-content>
-</section>
+  <section fxFlex class="pt-4 overflow-y-auto">
+    <section class="ml-4">
+      <ng-content></ng-content>
+    </section>
+  </section>
+</div>

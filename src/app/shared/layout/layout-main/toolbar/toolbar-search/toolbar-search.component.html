@@ -2,8 +2,8 @@
   <section class="searchFields" [@searchToggle]="showSearch ? 'open' : 'close'"
     (@searchToggle.done)="captureDoneEvent($event)">
 
-    <input matInput #searchInput fxFlex placeholder="Search..." (keyup.enter)="search()" autocomplete="off"
-      class="px-4">
+    <input #searchInput fxFlex placeholder="Search..." (keyup.enter)="search()" autocomplete="off"
+      class="px-4 text-blue-800">
 
     <button mat-icon-button="" class="submitButton" (click)="search()">
       <mat-icon>search</mat-icon>
@@ -25,13 +25,31 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <span>Result</span>
+
+      <span class="example-spacer"></span>
+
+      <section fxLayoutGap="20px">
+        <button mat-mini-fab color="primary" aria-label="Full Screen">
+          <mat-icon fontSet="fas" fontIcon="fa-expand"></mat-icon>
+        </button>
+
+        <!-- <button mat-mini-fab aria-label="Normal Window">
+        <mat-icon fontSet="fas" fontIcon="fa-search"></mat-icon>
+      </button> -->
+
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+          <mat-icon fontSet="fas" fontIcon="fa-filter"></mat-icon>
+        </button>
+
+      </section>
+
     </mat-toolbar-row>
   </mat-toolbar>
 
   <div class="m-8">
     <mat-list #shoes>
       <mat-list-item *ngFor="let item of result">
-        <mat-icon mat-list-icon>note</mat-icon>
+        <mat-icon matListAvatar fontSet="fas" fontIcon="fa-user-circle"></mat-icon>
 
         <div mat-line fxFlex="100%">
           <span fxFlex>{{item.name}}</span>

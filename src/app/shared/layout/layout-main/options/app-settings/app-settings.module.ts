@@ -1,3 +1,4 @@
+import { AppPage } from './../../../../../../../e2e/src/app.po';
 import { LayoutMainCommonModule } from './../../layout-main-common/layout-main-common.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';

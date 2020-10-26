@@ -41,7 +41,7 @@ export class MenuComponent implements OnInit {
     {
       name: 'Dashboard',
       icon: 'dashboard',
-      routerLink: ['/app/dashboard']
+      routerLink: ['/app/member/dashboard']
     },
     {
       type: 'divider'

@@ -14,6 +14,7 @@ import { AppCommonModule } from 'src/app/shared/common/app-common.module';
 import { PageComponent } from './page/page.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -31,7 +32,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
 
 
 
@@ -50,6 +52,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatInputModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatSelectModule,
 
     PageComponent,
 
