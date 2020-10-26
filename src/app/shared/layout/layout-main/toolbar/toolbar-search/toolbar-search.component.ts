@@ -132,6 +132,7 @@ export class ToolbarSearchComponent implements OnInit, AfterViewInit {
     if (!this.clickInside) {
       // debugger;
       this.showSearch = false;
+      this.showSearchResultDialog = false;
     }
 
     this.clickInside = false;
