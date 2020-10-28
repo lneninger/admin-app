@@ -5,7 +5,12 @@
 export const environment = {
   production: false,
   appTitle: 'Benelynk',
-  hmr: true
+  hmr: true,
+
+  // app
+  apiBaseUrl: 'http://localhost:3000/',
+  useStorage: false,
+
 };
 
 /*

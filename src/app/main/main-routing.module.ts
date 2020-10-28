@@ -22,7 +22,7 @@ const routes: Routes = [
        },
        {
         path: 'search',
-        loadChildren: () => import('./pages/member-list/member-list.module').then(m => m.MemberListModule)
+        loadChildren: () => import('./pages/member-search/member-search.module').then(m => m.MemberSearchModule)
        },
     ]
   }

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "mock-server": "cd mockapi & json-server --watch db.json",
     "start": "ng serve & ngtw watch",
     "build": "ngtw build && ng build",
     "test": "ng test",

@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MemberListRoutingModule } from './member-list-routing.module';
-import { MemberListComponent } from './member-list.component';
+import { MemberSearchRoutingModule } from './member-search-routing.module';
+import { MemberSearchComponent } from './member-search.component';
 import { LayoutMainCommonModule } from 'src/app/shared/layout/layout-main/layout-main-common/layout-main-common.module';
 import { GridModule } from '../../../shared/grid/grid.module';
 
 
 @NgModule({
-  declarations: [MemberListComponent],
+  declarations: [MemberSearchComponent],
   imports: [
     CommonModule,
-    MemberListRoutingModule,
+    MemberSearchRoutingModule,
     LayoutMainCommonModule,
     GridModule
   ]
 })
-export class MemberListModule { }
+export class MemberSearchModule { }

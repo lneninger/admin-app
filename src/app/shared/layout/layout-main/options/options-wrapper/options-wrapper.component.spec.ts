@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MemberListComponent } from './member-list.component';
+import { OptionsWrapperComponent } from './options-wrapper.component';
 
-describe('MemberListComponent', () => {
-  let component: MemberListComponent;
-  let fixture: ComponentFixture<MemberListComponent>;
+describe('OptionsWrapperComponent', () => {
+  let component: OptionsWrapperComponent;
+  let fixture: ComponentFixture<OptionsWrapperComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MemberListComponent ]
+      declarations: [ OptionsWrapperComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MemberListComponent);
+    fixture = TestBed.createComponent(OptionsWrapperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,13 +5,10 @@
     </mat-toolbar-row>
   </mat-toolbar>
 
-  <!-- <section class="px-8 mb-8">
-  <span class="text-2xl font-semibold text-blue-500">{{title}}</span>
-</section> -->
-
-  <section fxFlex class="pt-4 overflow-y-auto">
-    <section class="mx-4">
+  <section fxFlex="100%" fxLayoutAlign="center start" class="pt-4 overflow-y-auto">
+    <section fxFlex="0 0 calc(100%-1em)">
       <ng-content></ng-content>
     </section>
   </section>
 </div>
+

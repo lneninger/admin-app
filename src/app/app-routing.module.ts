@@ -25,7 +25,6 @@ const routes: Routes = [
     loadChildren: () => import('./shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
     outlet: 'options'
   },
-  { path: 'member-list', loadChildren: () => import('./main/pages/member-list/member-list.module').then(m => m.MemberListModule) }
 ];
 
 @NgModule({

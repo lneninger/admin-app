@@ -1,4 +1,4 @@
-import { DataRetrieverInput, GridConfig, GridData } from './../../../shared/grid/grid-config';
+import { DataRetrieverInput, GridConfig, GridData } from '../../../shared/grid/grid-config';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { BreadCrumbItem, BreadcrumbService } from 'src/app/shared/layout/layout-main/breadcrumb/breadcrumb.service';
 import { MatSort } from '@angular/material/sort';
@@ -38,11 +38,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 
 @Component({
-  selector: 'app-member-list',
-  templateUrl: './member-list.component.html',
-  styleUrls: ['./member-list.component.scss']
+  selector: 'app-member-search',
+  templateUrl: './member-search.component.html',
+  styleUrls: ['./member-search.component.scss']
 })
-export class MemberListComponent implements OnInit, AfterViewInit {
+export class MemberSearchComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

@@ -1,0 +1,12 @@
+{
+  "tenant": [
+    { "id": 2, "name": "CAM" },
+    { "id": 3, "name": "CTC" },
+    { "id": 4, "name": "DEV" },
+    { "id": 4, "name": "EMB" },
+    { "id": 4, "name": "HIMRK" },
+    { "id": 4, "name": "HUM" },
+    { "id": 4, "name": "TRAINING" },
+    { "id": 1, "name": "UHC" }
+  ]
+}

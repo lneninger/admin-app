@@ -1,22 +1,11 @@
 import { identifierModuleUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Tenant } from 'src/app/main/states/tenant/tenant.models';
+import { TenantState } from 'src/app/main/states/tenant/tenant.state';
 
 
-
-const globalTenants = [
-  {
-    id: 1,
-    name: 'UHC'
-  },
-  {
-    id: 2,
-    name: 'EBM'
-  },
-  {
-    id: 3,
-    name: 'TESTING'
-  }
-];
 
 const globalRoles = [
   {
@@ -44,7 +33,9 @@ const globalRoles = [
 })
 export class AppSettingsComponent implements OnInit {
 
-  globalTenants = globalTenants;
+  @Select(TenantState.tenants)
+  globalTenants$: Observable<Tenant[]>;
+
   selectedTenants = [];
 
 

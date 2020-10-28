@@ -1,3 +1,4 @@
+import { TenantState } from './main/states/tenant/tenant.state';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,6 +11,7 @@ import { AppConfigState } from './shared/states/appconfig.state';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { lazyArrayToObj } from './app-routing-lazy';
 import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,9 +19,10 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgxsModule.forRoot([AppConfigState], {
+    NgxsModule.forRoot([AppConfigState, TenantState], {
       developmentMode: !environment.production
     }),
     NgxsDataPluginModule.forRoot()

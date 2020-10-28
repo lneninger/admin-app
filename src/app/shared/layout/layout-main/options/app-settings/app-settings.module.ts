@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AppSettingsRoutingModule } from './app-settings-routing.module';
 import { AppSettingsComponent } from './app-settings.component';
 import { FormsModule } from '@angular/forms';
+import { OptionsWrapperModule } from '../options-wrapper/options-wrapper.module';
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import { FormsModule } from '@angular/forms';
     AppSettingsRoutingModule,
     LayoutMainCommonModule,
 
-    FormsModule
+    FormsModule,
+
+    OptionsWrapperModule
   ]
   , entryComponents: [
     AppSettingsComponent

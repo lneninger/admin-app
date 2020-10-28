@@ -1,3 +1,5 @@
+import { TenantGetAction } from './main/states/tenant/tenant.state';
+import { Store } from '@ngxs/store';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ng-tailwind';
+
+  constructor(private store: Store) {
+
+    store.dispatch(new TenantGetAction());
+
+  }
 }
