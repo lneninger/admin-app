@@ -1,4 +1,4 @@
-import { TenantGetAction } from './main/states/tenant/tenant.state';
+import { TenantGetAction } from './main/services/tenant/states/tenant.state';
 import { Store } from '@ngxs/store';
 import { Component } from '@angular/core';
 

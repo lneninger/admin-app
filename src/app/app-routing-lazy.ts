@@ -10,7 +10,7 @@ export const lazyWidgets: { path: string, loadChildren: () => Promise<NgModuleFa
     // Headers
     {
         path: LazyLoadedWidgets.APP_SETTIGNS,
-        loadChildren: () => import('./shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
+        loadChildren: () => import('./main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
     }
 
 ];

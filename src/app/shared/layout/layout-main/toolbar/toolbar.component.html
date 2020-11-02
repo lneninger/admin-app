@@ -20,15 +20,17 @@
 
   <app-toolbar-search fxFlex="1 0 20%"></app-toolbar-search>
 
+  <ng-container *ngIf="toolbarExtraOptions" [ngTemplateOutlet]="toolbarExtraOptions">
+</ng-container>
+
 
 
   <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
     (click)="optionsService.toggleOptions('settings')">
     <mat-icon>settings</mat-icon>
   </button>
-  <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button> -->
+
+
   <button *ngIf="!layoutMainService.fullScreen" mat-icon-button aria-label="Full Screen" (click)="toggleFullscreen()">
     <mat-icon fontSet="fas" fontIcon="fa-expand"></mat-icon>
   </button>

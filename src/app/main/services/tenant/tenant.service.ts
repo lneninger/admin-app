@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Tenant } from '../../states/tenant/tenant.models';
+import { Tenant } from './states/tenant.models';
 import { TenantEndpointService } from './tenant-endpoint.service';
 
 @Injectable({

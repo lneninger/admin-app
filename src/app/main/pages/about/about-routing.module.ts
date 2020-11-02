@@ -7,12 +7,6 @@ const routes: Routes = [
   {
     path: '',
         component: AboutComponent,
-  },
-  {
-    path: 'app-settings',
-    loadChildren: () => import('../../../shared/layout/layout-main/options/app-settings/app-settings.module')
-    .then(m => m.AppSettingsModule),
-    outlet: 'options'
   }
 ];
 

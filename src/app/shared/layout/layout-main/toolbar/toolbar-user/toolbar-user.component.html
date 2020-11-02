@@ -1,0 +1,73 @@
+<!-- <button #overlayTarget (mouseover)="showOverlay()" (mouseout)="hideOverlay()" mat-icon-button  class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+(click)="optionsService.toggleOptions('settings')">
+<mat-icon>settings</mat-icon>
+</button>
+
+<app-custom-overlay [target]="overlayTarget"></app-custom-overlay> -->
+
+
+<button mat-icon-button="" class="submitButton" (mouseover)="showOverlay()" (mouseout)="hideOverlay()"
+  (click)="optionsService.toggleOptions('settings')">
+  <mat-icon fontSet="fas" fontIcon="fa-user-circle" style="font-size:23px;"></mat-icon>
+</button>
+
+
+<section [@searchToggle]="showUserDetailsDialog ? 'open-userdetails' : 'close-userdetails'"
+  class="rounded-xl overflow-hidden bg-gray-300 border border-gray-600"
+  style="position:absolute;z-index: 10000;width:400px;top: 70px; right: 0">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>User Details</span>
+
+      <span class="example-spacer"></span>
+
+      <section fxLayoutGap="20px">
+        <!-- <button mat-mini-fab color="primary" aria-label="Full Screen">
+          <mat-icon fontSet="fas" fontIcon="fa-expand"></mat-icon>
+        </button> -->
+
+        <!-- <button mat-mini-fab aria-label="Normal Window">
+        <mat-icon fontSet="fas" fontIcon="fa-search"></mat-icon>
+      </button> -->
+
+        <!-- <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+          <mat-icon fontSet="fas" fontIcon="fa-filter"></mat-icon>
+        </button> -->
+
+      </section>
+
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="mx-8 pb-4" fxLayout="column" fxLayoutGap="20px">
+    <ng-container *ngIf="user$ | async as user">
+      <section fxLayout="column">
+        <span class="text-lg font-light italic text-gray-900">{{user.fullName}}</span>
+        <span class="text-lg font-light italic text-gray-900">{{user.email}}</span>
+      </section>
+      <mat-chip-list *ngIf="userRoles$ | async as userRoles" class="example-chip " cdkDropList
+        cdkDropListOrientation="horizontal">
+        <mat-chip class="example-box" [color]="(currentRole$ | async)?.name == role.name ? 'primary' : null"
+          [selected]="(currentRole$ | async)?.name == role.name" cdkDrag *ngFor="let role of userRoles">
+          {{role.name}}
+        </mat-chip>
+      </mat-chip-list>
+
+    </ng-container>
+    <!-- <mat-list #shoes>
+      <mat-list-item *ngFor="let item of result">
+        <mat-icon matListAvatar fontSet="fas" fontIcon="fa-user-circle"></mat-icon>
+
+        <div mat-line fxFlex="100%">
+          <span fxFlex>{{item.name}}</span>
+          <span fxFlex>{{item.tenant}}</span>
+          <a fxFlex="64px" [routerLink]="['/app/dashboard']">
+            <mat-icon>search</mat-icon>
+          </a>
+        </div>
+
+      </mat-list-item>
+    </mat-list> -->
+  </div>
+
+</section>

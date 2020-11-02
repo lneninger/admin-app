@@ -1,14 +1,14 @@
 import { LazyLoaderService } from './../../lazy-loader/lazy-loader.service';
-import { AppConfigStateMenuModel, AppConfigOptionsModel } from './../../states/appconfig.state';
+import { AppConfigStateMenuModel, AppConfigOptionsModel } from '../states/appconfig.state';
 import { MediaService } from './../../common/media.service';
 import { MediaObserver } from '@angular/flex-layout';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, QueryList, ViewChildren, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, QueryList, ViewChildren, Inject, APP_INITIALIZER, ContentChild, Input, TemplateRef } from '@angular/core';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { MenuService } from './menu/menu.service';
 import { Select } from '@ngxs/store';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { delay, filter, switchMap, tap } from 'rxjs/operators';
-import { AppConfigState } from '../../states/appconfig.state';
+import { AppConfigState } from '../states/appconfig.state';
 import { Router } from '@angular/router';
 import { LazyLoaderDirective } from '../../lazy-loader/lazy-loader.module';
 import { DynamicConfig, DYNAMIC_DATA } from '../../lazy-loader/lazy-loader.service';
@@ -46,6 +46,9 @@ export class LayoutMainComponent extends BaseComponent implements OnInit, AfterV
 
   @ViewChild('drawerOptions', { static: true })
   drawerOptions: MatDrawer;
+
+  @ContentChild('toolbarOptions', { static: true })
+  toolbarOptions: TemplateRef<any>;
 
 
   @Select(AppConfigState.menu)

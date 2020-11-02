@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { OptionsExpandedToggleAction } from 'src/app/shared/states/appconfig.state';
+import { OptionsExpandedToggleAction } from '../../states/appconfig.state';
 
 
 @Injectable({

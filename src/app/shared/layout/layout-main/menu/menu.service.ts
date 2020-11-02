@@ -4,7 +4,7 @@ import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { Select, State, Store } from '@ngxs/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MediaService } from 'src/app/shared/common/media.service';
-import { AppConfigState, AppConfigStateMenuModel, MenuExpandedToggleAction, MenuToggleAction } from 'src/app/shared/states/appconfig.state';
+import { AppConfigState, AppConfigStateMenuModel, MenuExpandedToggleAction, MenuToggleAction } from '../../states/appconfig.state';
 
 @Injectable({
   providedIn: 'root'

@@ -1,0 +1,12 @@
+:host {
+  position: relative;
+}
+
+
+:host ::ng-deep * {
+
+
+  & .searchFields {
+    overflow: hidden;
+  }
+}

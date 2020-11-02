@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadCrumbItem, BreadcrumbService } from '../shared/layout/layout-main/breadcrumb/breadcrumb.service';
+import { UserService } from './services/user/user.service';
 
 @Component({
   selector: 'app-main',
@@ -8,7 +9,10 @@ import { BreadCrumbItem, BreadcrumbService } from '../shared/layout/layout-main/
 })
 export class MainComponent implements OnInit {
 
-  constructor(breadcrumbService: BreadcrumbService) {
+  constructor(
+    public userService: UserService,
+    breadcrumbService: BreadcrumbService
+    ) {
     breadcrumbService.addItem({
       id: 'HOME',
       label: 'Home',

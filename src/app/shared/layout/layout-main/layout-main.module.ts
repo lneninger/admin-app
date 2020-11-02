@@ -19,6 +19,6 @@ import { ToolbarModule } from './toolbar/toolbar.module';
     MenuModule,
     ToolbarModule,
   ],
-  exports: [LayoutMainComponent]
+  exports: [LayoutMainComponent, LayoutMainCommonModule]
 })
 export class LayoutMainModule { }

@@ -1,4 +1,4 @@
-import { TenantService } from '../../services/tenant/tenant.service';
+import { TenantService } from '../tenant.service';
 import { Injectable } from '@angular/core';
 import { State, Selector, Action, Store, StateContext } from '@ngxs/store';
 import { Persistence, StateRepository } from '@ngxs-labs/data';

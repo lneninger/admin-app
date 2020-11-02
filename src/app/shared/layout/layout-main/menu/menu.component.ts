@@ -1,7 +1,7 @@
 import { MenuService } from './menu.service';
 import { Component, OnInit, ChangeDetectionStrategy, HostBinding } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { AppConfigState, AppConfigStateMenuModel } from 'src/app/shared/states/appconfig.state';
+import { AppConfigState, AppConfigStateMenuModel } from '../../states/appconfig.state';
 import { Select } from '@ngxs/store';
 
 export interface Section {

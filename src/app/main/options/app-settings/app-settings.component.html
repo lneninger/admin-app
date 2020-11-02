@@ -12,9 +12,11 @@
 
     <mat-form-field appearance="fill">
       <mat-label>User Role</mat-label>
-      <mat-select [(ngModel)]="userRole">
-        <mat-option *ngFor="let role of globalRoles" [value]="role">{{role.name}}</mat-option>
+      <mat-select [(ngModel)]="userCurrentRole">
+        <mat-option *ngFor="let role of userRoles$ | async" [value]="role">{{role.name}}</mat-option>
       </mat-select>
+      <mat-hint>{{userCurrentRole?.name}}</mat-hint>
+
     </mat-form-field>
 
     <mat-form-field appearance="legacy">

@@ -1,30 +1,29 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthenticationGuard } from 'microsoft-adal-angular6';
 
 
 const routes: Routes = [
   {
     path: 'app',
+    canActivate: [AuthenticationGuard],
     loadChildren: () => import('./main/main.module').then(m => m.MainModule)
   },
   {
     path: '**',
     redirectTo: 'app'
   },
-  {
-    path: 'member',
-    loadChildren: () => import('./main/pages/member/member.module').then(m => m.MemberModule)
-  },
+
   {
     path: 'dashboard',
     loadChildren: () => import('./main/pages/dashboard/dashboard.module').then(m => m.DashboardModule)
   }
-  ,
-  {
-    path: 'settings',
-    loadChildren: () => import('./shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
-    outlet: 'options'
-  },
+  // ,
+  // {
+  //   path: 'settings',
+  //   loadChildren: () => import('./shared/layout/layout-main/options/app-settings/app-settings.module').then(m => m.AppSettingsModule),
+  //   outlet: 'options'
+  // },
 ];
 
 @NgModule({
@@ -32,6 +31,7 @@ const routes: Routes = [
     routes,
     { enableTracing: true })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthenticationGuard]
 })
 export class AppRoutingModule { }

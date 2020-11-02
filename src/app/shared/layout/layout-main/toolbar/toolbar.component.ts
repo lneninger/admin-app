@@ -1,5 +1,5 @@
 import { Select } from '@ngxs/store';
-import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ContentChild, ElementRef, HostListener, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MenuService } from '../menu/menu.service';
 import { environment } from 'src/environments/environment';
 import { AppOptionsService } from '../options/app-options.service';
@@ -17,6 +17,8 @@ import { NONE_TYPE } from '@angular/compiler';
 export class ToolbarComponent implements OnInit {
   appTitle = environment.appTitle;
 
+  @ContentChild('toolbarExtraOptions', { static: false })
+  toolbarExtraOptions: TemplateRef<any>;
 
   constructor(
     public layoutMainService: LayoutMainService,
