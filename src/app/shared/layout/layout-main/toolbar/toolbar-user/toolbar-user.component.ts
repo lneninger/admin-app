@@ -95,12 +95,12 @@ export class ToolbarUserComponent implements OnInit, AfterViewInit {
 
   showOverlay() {
     this.showUserDetailsDialog = true;
-    console.log(`show User details`);
+    // console.log(`show User details`);
   }
 
   hideOverlay() {
     this.showUserDetailsDialog = false;
-    console.log(`hide User details`);
+    // console.log(`hide User details`);
 
   }
 
