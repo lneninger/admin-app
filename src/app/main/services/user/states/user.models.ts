@@ -1,7 +1,7 @@
 
 export interface UserStateModel {
   user: UserModel;
-  currentRole: Role;
+  app_currentrole?: CurrentRoleStateModel;
 }
 
 
@@ -14,6 +14,11 @@ export class UserModel {
   lastName: any;
   fullName: string;
   roles: any[];
+}
+
+
+export interface CurrentRoleStateModel {
+  currentRole: string;
 }
 
 

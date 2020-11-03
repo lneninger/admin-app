@@ -13,7 +13,7 @@ import { lazyArrayToObj } from './app-routing-lazy';
 import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
 import { HttpClientModule } from '@angular/common/http';
 import { MsAdalAngular6Module } from 'microsoft-adal-angular6';
-import { UserState } from './main/services/user/states/user.state';
+import { CurrentRoleState, UserState } from './main/services/user/states/user.state';
 
 
 export function getMsAdalConfig() {
@@ -38,7 +38,7 @@ export function getMsAdalConfig() {
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgxsModule.forRoot([AppConfigState, TenantState, UserState], {
+    NgxsModule.forRoot([AppConfigState, TenantState, UserState, CurrentRoleState], {
       developmentMode: !environment.production
     }),
     NgxsDataPluginModule.forRoot()

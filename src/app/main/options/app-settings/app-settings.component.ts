@@ -1,3 +1,4 @@
+
 import { SetUserCurrentRoleAction, UserState } from './../../services/user/states/user.state';
 import { identifierModuleUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
@@ -43,10 +44,7 @@ export class AppSettingsComponent implements OnInit {
   userRoles$: Observable<Role[]>;
 
   get userCurrentRole() {
-    return this.store.selectSnapshot<Role>((storeInst: AppStateModel) => {
-      // debugger;
-      return storeInst.UserState && storeInst.UserState.currentRole;
-    });
+    return this.store.selectSnapshot<Role>(UserState.currentRole);
   }
 
   set userCurrentRole(value: Role) {

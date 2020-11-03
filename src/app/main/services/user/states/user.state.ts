@@ -5,7 +5,7 @@ import { Persistence, StateRepository } from '@ngxs-labs/data';
 import { NgxsDataRepository } from '@ngxs-labs/data';
 import { } from '@ngxs-labs/data';
 import produce from 'immer';
-import { Role, UserModel, UserStateModel } from './user.models';
+import { CurrentRoleStateModel, Role, UserModel, UserStateModel } from './user.models';
 import { environment } from 'src/environments/environment';
 
 export class SetUserLoggedAction {
@@ -26,14 +26,41 @@ export class SetUserCurrentRoleAction {
   }
 }
 
+
 @Persistence()
+@StateRepository()
+@State<CurrentRoleStateModel>({
+  name: 'app_currentrole',
+  defaults: {
+    currentRole: null
+  }
+})
+@Injectable()
+export class CurrentRoleState extends NgxsDataRepository<CurrentRoleStateModel> {
+
+  constructor(
+    private store: Store
+  ) {
+    super();
+  }
+
+  @Action(SetUserCurrentRoleAction)
+  async setUserCurrentRole(ctx: StateContext<CurrentRoleStateModel>, action: SetUserCurrentRoleAction) {
+    const state = ctx.getState();
+    return ctx.setState(produce(ctx.getState(), (draft: CurrentRoleStateModel) => {
+      draft.currentRole = action.payload.name;
+    }));
+  }
+}
+
+
 @StateRepository()
 @State<UserStateModel>({
   name: 'app_user',
   defaults: {
-    user: null,
-    currentRole: null
-  }
+    user: null
+  },
+  children: [CurrentRoleState]
 })
 @Injectable()
 export class UserState extends NgxsDataRepository<UserStateModel> {
@@ -55,7 +82,18 @@ export class UserState extends NgxsDataRepository<UserStateModel> {
 
   @Selector()
   static currentRole(state: UserStateModel) {
-    return state.currentRole;
+    // debugger;
+    if (!state.app_currentrole.currentRole) {
+      return state.app_currentrole.currentRole;
+    } else {
+      const user = state.user;
+      const userRole = user.roles.find(role => role.name === state.app_currentrole.currentRole);
+
+      console.log(`userRole => `, userRole);
+
+      return userRole;
+
+    }
   }
 
   @Action(SetUserLoggedAction)
@@ -70,9 +108,9 @@ export class UserState extends NgxsDataRepository<UserStateModel> {
       user.email = action.payload.profile.email;
       user.firstName = action.payload.profile.given_name;
       user.lastName = action.payload.profile.family_name;
-      user.fullName = `${ user.firstName} ${user.lastName}`;
+      user.fullName = `${user.firstName} ${user.lastName}`;
       user.roles = (action.payload.profile.roles as []).map(
-          o => new Role(o)
+        o => new Role(o)
       );
 
       draft.user = user;
@@ -80,18 +118,10 @@ export class UserState extends NgxsDataRepository<UserStateModel> {
     }));
   }
 
-
-  @Action(SetUserCurrentRoleAction)
-  async setUserCurrentRole(ctx: StateContext<UserStateModel>, action: SetUserCurrentRoleAction) {
-
-    const state = ctx.getState();
-    return ctx.setState(produce(ctx.getState(), (draft: UserStateModel) => {
-      draft.currentRole = action.payload;
-    }));
-  }
-
-
 }
+
+
+
 
 
 

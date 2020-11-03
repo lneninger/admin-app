@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { combineLatest, fromEvent, merge, Observable, of } from 'rxjs';
 import { debounceTime, filter, startWith, switchMap } from 'rxjs/operators';
 import { NONE_TYPE } from '@angular/compiler';
-import { UserState } from 'src/app/main/services/user/states/user.state';
+import { CurrentRoleState, UserState } from 'src/app/main/services/user/states/user.state';
 import { Role, UserModel } from 'src/app/main/services/user/states/user.models';
 import { Select } from '@ngxs/store';
 import { AppOptionsService } from '../../options/app-options.service';
