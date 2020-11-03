@@ -26,7 +26,8 @@ export class SetUserCurrentRoleAction {
   }
 }
 
-
+@Persistence()
+@StateRepository()
 @State<UserStateModel>({
   name: 'app_user',
   defaults: {
