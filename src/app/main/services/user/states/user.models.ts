@@ -22,6 +22,11 @@ export interface CurrentRoleStateModel {
   currentRole: string;
 }
 
+export interface IRouteData {
+  title?: string;
+  allowedRoles?: RoleNames[];
+}
+
 
 export class Role {
   constructor(name?: RoleNames);
@@ -51,3 +56,14 @@ export class Role {
 
 
 export type RoleNames = 'Admin' | 'Screener' | 'Advocate' | 'Member' | 'QualityAssurance' | 'Tester';
+
+
+export class RoleList {
+  static Administrator: RoleNames = 'Admin';
+  static Screener: RoleNames = 'Screener';
+  static Advocate: RoleNames = 'Advocate';
+  static Member: RoleNames = 'Member';
+  static Tester: RoleNames = 'Tester';
+  static QualityAssurance: RoleNames = 'QualityAssurance';
+}
+

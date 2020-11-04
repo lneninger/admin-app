@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Route, ActivatedRouteSnapshot, RouterStateSnapshot, Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../services/user.service';
 import { ErrorService } from './../error/error-service';
-import { IRouteData, RoleList } from 'src/app/models/role';
+import { UserService } from '../../services/user/user.service';
+import { IRouteData, RoleList } from '../../services/user/states/user.models';
 
 @Injectable({
     providedIn: 'root'
