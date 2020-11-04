@@ -15,6 +15,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatBadgeModule} from '@angular/material/badge';
 
 import { CustomOverlayModule } from './overlay/overlay.module';
 
@@ -35,6 +37,9 @@ import { CustomOverlayModule } from './overlay/overlay.module';
     MatDialogModule,
     MatSelectModule,
     MatChipsModule,
+    MatProgressBarModule,
+    MatBadgeModule,
+
 
     CustomOverlayModule
 
@@ -57,6 +62,8 @@ import { CustomOverlayModule } from './overlay/overlay.module';
     MatDialogModule,
     MatSelectModule,
     MatChipsModule,
+    MatProgressBarModule,
+    MatBadgeModule,
 
     CustomOverlayModule,
 

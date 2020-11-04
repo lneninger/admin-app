@@ -8,12 +8,16 @@ import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 })
 export class UserService {
 
+get isAuthenticated() {
+  return this.adalSvc.isAuthenticated;
+}
+
   constructor(
     private adalSvc: MsAdalAngular6Service,
     private store: Store
   ) {
 
-    if (this.adalSvc.isAuthenticated) {
+    if (this.isAuthenticated) {
       // debugger;
       this.store.dispatch(new SetUserLoggedAction(this.adalSvc.userInfo));
     }

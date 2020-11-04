@@ -2,7 +2,7 @@ import { LazyLoaderService } from './../../lazy-loader/lazy-loader.service';
 import { AppConfigStateMenuModel, AppConfigOptionsModel } from '../states/appconfig.state';
 import { MediaService } from './../../common/media.service';
 import { MediaObserver } from '@angular/flex-layout';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, QueryList, ViewChildren, Inject, APP_INITIALIZER, ContentChild, Input, TemplateRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, QueryList, ViewChildren, ContentChild, TemplateRef } from '@angular/core';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { MenuService } from './menu/menu.service';
 import { Select } from '@ngxs/store';

@@ -118,6 +118,13 @@ export class UserState extends NgxsDataRepository<UserStateModel> {
     }));
   }
 
+  @Action(SetUserTokenAction)
+  async setUserCurrentRole(ctx: StateContext<UserStateModel>, action: SetUserTokenAction) {
+    return ctx.setState(produce(ctx.getState(), (draft: UserStateModel) => {
+      draft.token = action.payload;
+    }));
+  }
+
 }
 
 

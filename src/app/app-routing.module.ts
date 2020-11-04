@@ -17,7 +17,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./main/pages/dashboard/dashboard.module').then(m => m.DashboardModule)
-  }
+  },
+  { path: 'profile', loadChildren: () => import('./main/pages/member/profile/profile.module').then(m => m.ProfileModule) },
+  { path: 'notes', loadChildren: () => import('./main/pages/member/notes/notes.module').then(m => m.NotesModule) },
+  { path: 'documents', loadChildren: () => import('./main/pages/member/documents/documents.module').then(m => m.DocumentsModule) }
   // ,
   // {
   //   path: 'settings',

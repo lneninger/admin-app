@@ -8,6 +8,7 @@ export const environment = {
   hmr: true,
 
   // app
+  appVersion: '1.0.0',
   apiBaseUrl: 'http://localhost:3000/',
   useStorage: false,
 

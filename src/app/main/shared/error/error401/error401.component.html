@@ -1,0 +1,17 @@
+<div class="exception-body accessdenied-page">
+
+    <div class="scroll-content no-padding-right">
+        <div class="exception-type">
+            <img src="../../../../assets/layout/images/401.svg">
+        </div>
+
+        <div class="card exception-panel">
+            <i class="material-icons">&#xE32A;</i>
+            <h1>Access Denied</h1>
+            <div class="exception-detail">You are not authorized to access {{errorService.data401 ? errorService.data401.targetRouteName : 'this resource'}}.</div>
+            <a routerLink="/" class="ui-button secondary">
+                <span class="ui-button-text">Homepage</span>
+            </a>
+        </div>
+    </div>
+</div>

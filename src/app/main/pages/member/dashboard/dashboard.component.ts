@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadCrumbItem, BreadcrumbService } from 'src/app/shared/layout/layout-main/breadcrumb/breadcrumb.service';
 
 
@@ -40,17 +42,20 @@ const productContexts = [
   }
 ];
 
+@AutoUnsubscribe()
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent extends BaseComponent implements OnInit {
 
 
   productContexts = productContexts;
 
   constructor(breadcrumbService: BreadcrumbService) {
+    super();
+
     breadcrumbService.addItem({
       id: 'MEMBER_DASHBOARD',
       label: 'Dashboard',

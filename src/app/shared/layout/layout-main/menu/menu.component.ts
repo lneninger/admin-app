@@ -73,16 +73,19 @@ export class MenuComponent implements OnInit {
     {
       name: 'Profile',
       icon: 'fa-id-card-alt',
-      iconFontSet: 'fas'
+      iconFontSet: 'fas',
+      routerLink: ['/app/member/profile']
     },
 
     {
       name: 'Documents',
-      icon: 'attach_file'
+      icon: 'attach_file',
+      routerLink: ['/app/member/documents']
     },
     {
       name: 'Notes',
-      icon: 'note'
+      icon: 'note',
+      routerLink: ['/app/member/notes']
     },
     {
       type: 'divider'
