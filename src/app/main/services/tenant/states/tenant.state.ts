@@ -1,6 +1,6 @@
 import { TenantService } from '../tenant.service';
 import { Injectable } from '@angular/core';
-import { State, Selector, Action, Store, StateContext } from '@ngxs/store';
+import { State, Selector, Action, Store, StateContext, Actions, ofActionCompleted } from '@ngxs/store';
 import { Persistence, StateRepository } from '@ngxs-labs/data';
 import { NgxsDataRepository } from '@ngxs-labs/data';
 import { } from '@ngxs-labs/data';
@@ -15,7 +15,7 @@ export class TenantGetAction {
 @Persistence()
 @StateRepository()
 @State<TenantStateModel>({
-  name: 'app_tenants',
+  name: 'tenantState',
   defaults: {
     globalTenants: []
   }
@@ -23,8 +23,11 @@ export class TenantGetAction {
 @Injectable()
 export class TenantState extends NgxsDataRepository<TenantStateModel> {
 
-  constructor(private service: TenantService) {
+  constructor(private service: TenantService, private store: Store, private actions$: Actions) {
     super();
+
+    this.store.dispatch(new TenantGetAction());
+
   }
 
   @Selector()
@@ -36,6 +39,7 @@ export class TenantState extends NgxsDataRepository<TenantStateModel> {
   async tenantGet(ctx: StateContext<TenantStateModel>, action: TenantGetAction) {
 
 
+    debugger;
     const state = ctx.getState();
     if (environment.useStorage && state?.globalTenants?.length > 0) {
       return state;

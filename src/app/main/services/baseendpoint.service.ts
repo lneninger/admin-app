@@ -7,13 +7,18 @@ import { environment } from 'src/environments/environment';
 
 export abstract class BaseEndpointService{
 
+  private mokedBaseUrl = environment.apiBaseUrl;
   private apiBaseUrl = environment.apiBaseUrl;
 
   get baseUrl(){
     return `${this.apiBaseUrl}${this.relativeName}`;
   }
 
-  constructor(private relativeName: string) {
+  get mockedBaseUrl(){
+    return `${this.mockedBaseUrl}${this.relativeName}`;
+  }
+
+  constructor(private relativeName: string, private mocked: boolean = true) {
 
   }
 

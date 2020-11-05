@@ -1,6 +1,7 @@
 import { TenantGetAction } from './main/services/tenant/states/tenant.state';
 import { Store } from '@ngxs/store';
 import { Component } from '@angular/core';
+import { UserService } from './main/services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  constructor(private store: Store) {
+  constructor(
+    private userService: UserService) {
 
-    store.dispatch(new TenantGetAction());
+    // store.dispatch(new TenantGetAction());
 
   }
 }

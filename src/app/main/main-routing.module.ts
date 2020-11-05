@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MainComponent } from './main.component';
+import { MainResolveService } from './main.resolve.service';
 
 const routes: Routes = [
   {
     path: '',
     component: MainComponent,
+    // resolve: [/*MainResolveService*/],
     children: [
       {
         path: '',

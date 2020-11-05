@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 
 import { MemberRoutingModule } from './member-routing.module';
 import { MemberComponent } from './member.component';
+import { OverviewModule } from './components/overview/overview.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { MemberComponent } from './member.component';
   imports: [
     CommonModule,
     MemberRoutingModule,
-    LayoutMainCommonModule
+    LayoutMainCommonModule,
+    OverviewModule
   ]
 })
 export class MemberModule { }

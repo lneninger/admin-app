@@ -4,7 +4,7 @@
   <section fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="flex-start baseline">
     <mat-card class="dashboard-tile mb-8" fxFlex="0 0 calc(25%-20px)" *ngFor="let productContext of productContexts">
       <mat-card-header>
-        <mat-icon mat-card-avatar class="header-icon" [fontSet]="productContext.fontSet"
+        <mat-icon mat-card-avatar class="header-icon text-4xl" [fontSet]="productContext.fontSet"
           [fontIcon]="productContext.icon"></mat-icon>
 
 
@@ -23,7 +23,10 @@
         </mat-card-content>
         <mat-card-actions>
           <!-- <button mat-button>LIKE</button> -->
-          <button mat-button>SMART ACTIONS</button>
+          <div class="flex justify-end">
+            <button mat-button>SMART ACTIONS</button>
+
+          </div>
         </mat-card-actions>
       </ng-container>
     </mat-card>

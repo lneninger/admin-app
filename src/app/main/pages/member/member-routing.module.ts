@@ -1,12 +1,17 @@
+import { MemberResolveService } from './member.resolve.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { TelephonyResolveService } from '../../services/telephony/telephony.resolve.service';
 
 import { MemberComponent } from './member.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':id',
     component: MemberComponent,
+    resolve: {
+      memberWrapper: MemberResolveService
+    },
     children: [
       {
         path: 'dashboard',

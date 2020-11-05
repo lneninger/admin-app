@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LazyLoaderModule } from '../lazy-loader/lazy-loader.module';
 import { SecurityModule } from 'src/app/main/shared/security/security-module';
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
   declarations: [],
@@ -13,13 +14,17 @@ import { SecurityModule } from 'src/app/main/shared/security/security-module';
     MatIconModule,
     FlexLayoutModule,
     LazyLoaderModule,
-    SecurityModule
+    SecurityModule,
+
+    PipesModule
   ],
   exports: [
     FlexLayoutModule,
     MatIconModule,
     LazyLoaderModule,
-    SecurityModule
+    SecurityModule,
+
+    PipesModule
   ]
 })
 export class AppCommonModule { }

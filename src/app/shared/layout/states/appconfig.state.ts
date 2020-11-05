@@ -33,7 +33,7 @@ export class OptionsExpandedToggleAction {
 @Persistence()
 @StateRepository()
 @State<AppConfigStateModel>({
-  name: 'app_config',
+  name: 'configState',
   defaults: {
     menu: {
       show: true,

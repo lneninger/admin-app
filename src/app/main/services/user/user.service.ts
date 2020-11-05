@@ -15,9 +15,9 @@ export class UserService {
     return this.adalSvc.isAuthenticated;
   }
 
-private get user() {
-  return this.store.selectSnapshot<UserModel>((selector: AppStateModel) => selector.UserState.user);
-}
+  private get user() {
+    return this.store.selectSnapshot<UserModel>((selector: AppStateModel) => selector.userState.user);
+  }
 
   constructor(
     private adalSvc: MsAdalAngular6Service,
@@ -27,6 +27,7 @@ private get user() {
     if (this.isAuthenticated) {
       // debugger;
       this.store.dispatch(new SetUserLoggedAction(this.adalSvc.userInfo));
+      this.store.dispatch(new SetUserTokenAction(this.adalSvc.accessToken));
     }
 
     this.acquireToken();

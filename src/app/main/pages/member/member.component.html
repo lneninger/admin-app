@@ -1,37 +1,6 @@
 <div fxLayout="column" class="page">
-  <mat-accordion class="example-headers-align" multi>
-    <mat-expansion-panel [expanded]="true" class="bg-red-200">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon fontSet="fas" fontIcon="fa-id-card-alt" class="mr-4 text-red-600" style="font-size: 20px;"></mat-icon>
-          Member Name
-        </mat-panel-title>
-        <mat-panel-description>
-          Type your name and age
-          <mat-icon>account_circle</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
 
-      <div fxFlex="0 0 100%" fxLayout="row wrap" fxLayout="flex-start baseline" fxLayoutGap="20px">
-        <mat-card fxFlex="0 0 calc(20%-20px)" fxFlex.md="0 0 calc(25%-20px)" *ngFor="let productContext of productContexts" [matBadge]="productContext.notifications ? '!': 'ok'" [matBadgeColor]="productContext.notifications ? 'warn': 'primary'"
-        class="mb-8">
-          <mat-card-header>
-            <mat-icon mat-card-avatar [fontSet]="productContext.fontSet"
-            [fontIcon]="productContext.icon" class="header-icon text-4xl"></mat-icon>
-
-
-          <!-- <div mat-card-avatar class="example-header-image"></div> -->
-          <mat-card-title>{{productContext.name}}</mat-card-title>
-          <mat-card-subtitle>{{productContext.stage}}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
-        </mat-card>
-
-
-      </div>
-
-    </mat-expansion-panel>
-  </mat-accordion>
+  <app-member-overview></app-member-overview>
 
   <div fxFlex style="position:relative;">
     <router-outlet></router-outlet>

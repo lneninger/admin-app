@@ -56,7 +56,7 @@ export class CurrentRoleState extends NgxsDataRepository<CurrentRoleStateModel> 
 
 @StateRepository()
 @State<UserStateModel>({
-  name: 'app_user',
+  name: 'userState',
   defaults: {
     user: null
   },

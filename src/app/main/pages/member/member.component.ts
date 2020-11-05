@@ -1,50 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { Select } from '@ngxs/store';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { Observable } from 'rxjs';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadCrumbItem, BreadcrumbService } from 'src/app/shared/layout/layout-main/breadcrumb/breadcrumb.service';
+import { environment } from 'src/environments/environment';
+import { MemberWrapperModel } from '../../services/member/states/member.models';
+import { MemberState } from '../../services/member/states/member.state';
 
-const productContexts = [
-  {
-    id: 1,
-    name: 'Community',
-    stage: 'Eligibility',
-    icon: 'fa-address-card',
-    fontSet: 'far',
-    notifications: true
-  },
-  {
-    id: 2,
-    name: 'Medicaid',
-    stage: 'Eligibility',
-    icon: 'fa-handshake',
-    fontSet: 'far',
-    notifications: false
-  },
-  {
-    id: 3,
-    name: 'LIS',
-    stage: 'Eligibility',
-    icon: 'fa-dollar-sign',
-    fontSet: 'fas',
-    notifications: false
-  },
-  {
-    id: 4,
-    name: 'SNAP',
-    stage: 'Eligibility',
-    icon: 'fa-utensils',
-    fontSet: 'fas',
-    notifications: true
-  },
-  {
-    id: 5,
-    name: 'Veteran',
-    stage: 'ENGAGEMENT',
-    icon: 'fa-flag-usa',
-    fontSet: 'fas',
-    notifications: true
-  }
-];
 
 @AutoUnsubscribe()
 @Component({
@@ -54,24 +19,30 @@ const productContexts = [
 })
 export class MemberComponent extends BaseComponent implements OnInit {
 
-  productContexts = productContexts;
 
-  constructor(breadcrumbService: BreadcrumbService) {
+  constructor(private breadcrumbService: BreadcrumbService, private titleService: Title, private route: ActivatedRoute) {
     super();
 
-    breadcrumbService.addItem({
+    const memberWrapper = route.snapshot.data.memberWrapper as MemberWrapperModel;
+
+    this.titleService.setTitle(`${environment.appTitle} - ${memberWrapper.member.fullName}`);
+
+    this.breadcrumbService.addItem({
       id: 'MEMBER',
-      label: 'Member',
+      label: memberWrapper.member.fullName, // 'Member',
       routerLink: ['/app/member'],
       icon: 'fa-id-card',
       fontSet: 'far'
     } as BreadCrumbItem);
 
-    breadcrumbService.build('HOME', 'MEMBER');
+    this.breadcrumbService.build('HOME', 'MEMBER');
   }
 
 
   ngOnInit() {
+
+
+
   }
 
 }

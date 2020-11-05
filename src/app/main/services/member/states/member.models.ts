@@ -5,11 +5,15 @@ import { IPhoneNumber, MemberPhone } from '../../phone/states/phone.models';
 
 import * as moment from 'moment';
 
-export class MemberWrapper {
+export interface MemberStateModel {
+  member: MemberWrapperModel;
+}
+
+export class MemberWrapperModel {
   member: Member;
   context: MemberContext;
 
-  constructor(input: Partial<MemberWrapper>) {
+  constructor(input: Partial<MemberWrapperModel>) {
     this.member = new Member(input.member);
     this.context = new MemberContext(input.context, this.member);
   }

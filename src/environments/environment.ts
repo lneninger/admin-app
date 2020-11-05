@@ -9,7 +9,8 @@ export const environment = {
 
   // app
   appVersion: '1.0.0',
-  apiBaseUrl: 'http://localhost:3000/',
+  mockedBaseUrl: 'http://localhost:3000/',
+  apiBaseUrl: 'https://localhost:44350/api/',
   useStorage: false,
 
 };
