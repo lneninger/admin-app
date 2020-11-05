@@ -21,6 +21,15 @@ export class GetMemberAction {
   }
 }
 
+export class MemberMMRAction {
+  static readonly type = `[Member] GetMemberMMR`;
+  constructor(public base64: string) {
+
+  }
+}
+
+
+
 @StateRepository()
 @State<MemberStateModel>({
   name: 'currentMemberState',
@@ -59,9 +68,11 @@ export class MemberState {
 
     return this.memberService.get(action.base64, contextParams).pipe(tap(state => {
       ctx.setState(produce(ctx.getState(), (draft: MemberStateModel) => {
-        // debugger;
         draft.member = state;
       }));
+    }))
+    .pipe(tap(state => {
+      this.store.dispatch(new MemberMMRAction(state.member.base64));
     }));
   }
 }

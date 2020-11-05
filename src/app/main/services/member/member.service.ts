@@ -14,4 +14,8 @@ export class MemberService {
   get(base64: string, contextParams: any): Observable<MemberWrapperModel> {
     return this.endpoint.get(base64, contextParams);
   }
+
+  getMMR(base64: string): Observable<MemberWrapperModel> {
+    return this.endpoint.getMMR(base64);
+  }
 }

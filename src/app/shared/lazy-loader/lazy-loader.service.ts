@@ -1,4 +1,4 @@
-import { Injectable, Injector, Compiler, Inject, NgModuleFactory, Type, ViewContainerRef, InjectionToken, InjectFlags, QueryList } from '@angular/core';
+import { Injectable, Injector, Compiler, Inject, NgModuleFactory, Type, ViewContainerRef, InjectionToken, InjectFlags, QueryList, NgZone } from '@angular/core';
 import { LAZY_WIDGETS } from './tokens';
 
 
@@ -42,7 +42,8 @@ export class LazyLoaderService {
     constructor(
         private injector: Injector,
         private compiler: Compiler,
-        @Inject(LAZY_WIDGETS) private lazyWidgets: { [key: string]: () => Promise<NgModuleFactory<any> | Type<any>> }
+        @Inject(LAZY_WIDGETS) private lazyWidgets: { [key: string]: () => Promise<NgModuleFactory<any> | Type<any>> },
+        private zone: NgZone
     ) { }
 
     async load(name: string, container: ViewContainerRef, dataToken?: any, data?: any) {
@@ -74,7 +75,11 @@ export class LazyLoaderService {
             const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(entryComponent);
 
             container.clear();
-            container.createComponent(compFactory);
+            container.createComponent(compFactory, undefined, this.injector);
+            // setTimeout(() => {
+            //   this.zone.run(_ => {});
+            //   this.document.
+            // });
         }
     }
 

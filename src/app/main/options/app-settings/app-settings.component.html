@@ -2,7 +2,7 @@
 
   <p class="flex flex-col">
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="mb-4">
       <mat-label>Selected Tenants</mat-label>
       <mat-select [(ngModel)]="selectedTenants" multiple>
         <mat-option *ngFor="let tenant of globalTenants$ | async" [value]="tenant">{{tenant.name}}</mat-option>
@@ -10,16 +10,17 @@
     </mat-form-field>
 
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="mb-4">
       <mat-label>User Role</mat-label>
       <mat-select [(ngModel)]="userCurrentRole">
         <mat-option *ngFor="let role of userRoles$ | async" [value]="role">{{role.name}}</mat-option>
       </mat-select>
-      <mat-hint>{{userCurrentRole?.name}}</mat-hint>
+      <!-- <mat-hint>User role to be applied through all the app</mat-hint> -->
+      <!-- <mat-hint>{{userCurrentRole?.name}}</mat-hint> -->
 
     </mat-form-field>
 
-    <mat-form-field appearance="legacy">
+    <mat-form-field appearance="legacy" class="mb-4">
       <mat-label>Legacy form field</mat-label>
       <input matInput placeholder="Placeholder" [(value)]="legacy">
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>

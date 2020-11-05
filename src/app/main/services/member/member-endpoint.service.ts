@@ -10,7 +10,6 @@ import { MemberWrapperModel } from './states/member.models';
 })
 export class MemberEndpointService extends BaseEndpointService {
 
-
   constructor(private http: HttpClient) {
     super('member');
   }
@@ -18,6 +17,13 @@ export class MemberEndpointService extends BaseEndpointService {
 
   get(base64: string, contextParams: any): Observable<MemberWrapperModel> {
     const url = `${this.baseUrl}/${base64}`;
-    return this.http.post<MemberWrapperModel>(url, contextParams).pipe(map(rawData => new MemberWrapperModel(rawData)));
+    return this.http.post<MemberWrapperModel>(url, contextParams).pipe(map(rawData => new MemberWrapperModel(rawData, base64)));
   }
+
+  getMMR(base64: string): Observable<MemberWrapperModel> {
+    const url = `${this.baseUrl}/${base64}/mmr`;
+    return this.http.get<MemberWrapperModel>(url).pipe(map(rawData => new MemberWrapperModel(rawData)));
+  }
+
+
 }

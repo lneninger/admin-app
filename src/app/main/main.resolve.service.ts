@@ -1,3 +1,4 @@
+import { TenantGetAction } from './services/tenant/states/tenant.state';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Actions, ofActionCompleted, Store } from '@ngxs/store';
@@ -13,13 +14,15 @@ export class MainResolveService implements  Resolve<any> {
 
    }
 
-   resolve(
+   async resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<any>|Promise<any>|any {
+  ): Promise<any> {
 
 
-    return this.actions$
-    .pipe(ofActionCompleted(SetUserTokenAction));
+
+
+
+    return true;
   }
 }

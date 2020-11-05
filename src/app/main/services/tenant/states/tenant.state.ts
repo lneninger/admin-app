@@ -39,7 +39,6 @@ export class TenantState extends NgxsDataRepository<TenantStateModel> {
   async tenantGet(ctx: StateContext<TenantStateModel>, action: TenantGetAction) {
 
 
-    debugger;
     const state = ctx.getState();
     if (environment.useStorage && state?.globalTenants?.length > 0) {
       return state;

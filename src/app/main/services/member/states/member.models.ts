@@ -13,8 +13,8 @@ export class MemberWrapperModel {
   member: Member;
   context: MemberContext;
 
-  constructor(input: Partial<MemberWrapperModel>) {
-    this.member = new Member(input.member);
+  constructor(input: Partial<MemberWrapperModel>, base64?: string) {
+    this.member = new Member(input.member, base64);
     this.context = new MemberContext(input.context, this.member);
   }
 }
@@ -59,9 +59,11 @@ export class Member {
   phones: MemberPhone[];
   tenantId?: string;
 
+  base64?: string;
+
   constructor(input: Partial<Member>, base64?: string) {
     Object.assign(this, input);
-
+    this.base64 = base64;
 
     const gender = Genders.find(item => item.value == input.gender || item.label.toUpperCase() == input.gender.toUpperCase());
     const language = Languages.find(item => input.language && (item.id == input.language.toString() || item.name == input.language.toString()));
