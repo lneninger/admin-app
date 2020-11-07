@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ToolbarModule } from './toolbar/toolbar.module';
 
 
+
 @NgModule({
   declarations: [LayoutMainComponent],
   imports: [
@@ -17,7 +18,7 @@ import { ToolbarModule } from './toolbar/toolbar.module';
     LayoutMainCommonModule,
 
     MenuModule,
-    ToolbarModule,
+    ToolbarModule
   ],
   exports: [LayoutMainComponent, LayoutMainCommonModule]
 })

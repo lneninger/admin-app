@@ -4,9 +4,13 @@ import { Address, MemberAddress } from '../../address/states/address.models';
 import { IPhoneNumber, MemberPhone } from '../../phone/states/phone.models';
 
 import * as moment from 'moment';
+import { NotificationWrapper } from './notification.models';
 
 export interface MemberStateModel {
   member: MemberWrapperModel;
+  mmr: MemberMMRModel;
+  notifications: NotificationWrapper;
+
 }
 
 export class MemberWrapperModel {
@@ -141,5 +145,28 @@ export class MemberContextOverview {
 
     this.status = this.status || 'change';
 
+  }
+}
+
+export class MemberMMRModel {
+
+  contractNumber: string;
+  dualStatusCode: number;
+  eghp?: boolean;
+  esrd?: boolean;
+  hospice?: number;
+  lis?: boolean;
+  lti: boolean;
+  mbi: any;
+  medicaidStatus?: string;
+  medicaidStatusEndDate: Date;
+  medicaidStatusStartDate?: Date;
+  medicaidType: string;
+  orec?: number;
+  pbp?: string;
+  runDate?: Date;
+
+  constructor(input: Partial<MemberMMRModel>) {
+    Object.assign(this, input);
   }
 }

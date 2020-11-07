@@ -5,7 +5,6 @@ import { ToolbarComponent } from './toolbar.component';
 import { FormsModule } from '@angular/forms';
 import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
 import { ToolbarSearchModule } from './toolbar-search/toolbar-search.module';
-import { ToolbarUserModule } from './toolbar-user/toolbar-user.module';
 
 
 
@@ -17,10 +16,9 @@ import { ToolbarUserModule } from './toolbar-user/toolbar-user.module';
     LayoutMainCommonModule,
     BreadcrumbModule,
     ToolbarSearchModule,
-    ToolbarUserModule,
 
   ],
-  exports: [ToolbarComponent, ToolbarUserModule],
+  exports: [ToolbarComponent],
 
 })
 export class ToolbarModule {

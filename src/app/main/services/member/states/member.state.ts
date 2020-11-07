@@ -28,13 +28,21 @@ export class MemberMMRAction {
   }
 }
 
+export class MemberNotificationsAction {
+  static readonly type = `[Member] GetMemberNotifications`;
+  constructor(public base64: string) {
+
+  }
+}
 
 
 @StateRepository()
 @State<MemberStateModel>({
   name: 'currentMemberState',
   defaults: {
-    member: null
+    member: null,
+    mmr: null,
+    notifications: null
   }
 })
 @Injectable()
@@ -73,6 +81,28 @@ export class MemberState {
     }))
     .pipe(tap(state => {
       this.store.dispatch(new MemberMMRAction(state.member.base64));
+      this.store.dispatch(new MemberNotificationsAction(state.member.base64));
+    }));
+  }
+
+
+  @Action(MemberMMRAction)
+  getMemberMMR(ctx: StateContext<MemberStateModel>, action: MemberMMRAction) {
+
+    return this.memberService.getMMR(action.base64).pipe(tap(state => {
+      ctx.setState(produce(ctx.getState(), (draft: MemberStateModel) => {
+        draft.mmr = state;
+      }));
+    }));
+  }
+
+  @Action(MemberNotificationsAction)
+  getMemberNotifications(ctx: StateContext<MemberStateModel>, action: MemberNotificationsAction) {
+
+    return this.memberService.getNotifications(action.base64).pipe(tap(state => {
+      ctx.setState(produce(ctx.getState(), (draft: MemberStateModel) => {
+        draft.notifications = state;
+      }));
     }));
   }
 }

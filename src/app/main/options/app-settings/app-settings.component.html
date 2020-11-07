@@ -1,11 +1,11 @@
 <app-options-wrapper title="Settings">
 
   <p class="flex flex-col">
-
+<!-- {{globalTenants$ | async | json}} -->
     <mat-form-field appearance="fill" class="mb-4">
-      <mat-label>Selected Tenants</mat-label>
-      <mat-select [(ngModel)]="selectedTenants" multiple>
-        <mat-option *ngFor="let tenant of globalTenants$ | async" [value]="tenant">{{tenant.name}}</mat-option>
+      <mat-label>Default Tenants</mat-label>
+      <mat-select [(ngModel)]="defaultTenants" multiple>
+        <mat-option *ngFor="let tenant of globalTenants$ | async" [value]="tenant">{{tenant.tenantName}}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -20,11 +20,6 @@
 
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" class="mb-4">
-      <mat-label>Legacy form field</mat-label>
-      <input matInput placeholder="Placeholder" [(value)]="legacy">
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Hint</mat-hint>
-    </mat-form-field>
+
   </p>
 </app-options-wrapper>

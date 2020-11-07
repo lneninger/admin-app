@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Tenant } from 'src/app/main/services/tenant/states/tenant.models';
-import { TenantState } from 'src/app/main/services/tenant/states/tenant.state';
+import { SetDefaultTenantsAction, TenantState } from 'src/app/main/services/tenant/states/tenant.state';
 import { Role } from '../../services/user/states/user.models';
 import { AppStateModel } from 'src/app/app.state';
 
@@ -37,11 +37,19 @@ const globalRoles = [
 })
 export class AppSettingsComponent implements OnInit {
 
-  @Select(TenantState.tenants)
+  @Select(TenantState.globalTenants)
   globalTenants$: Observable<Tenant[]>;
 
   @Select(UserState.userRoles)
   userRoles$: Observable<Role[]>;
+
+  get defaultTenants() {
+    return this.store.selectSnapshot<Tenant[]>(TenantState.defaultTenants);
+  }
+
+  set defaultTenants(value: Tenant[]) {
+    this.store.dispatch(new SetDefaultTenantsAction(value));
+  }
 
   get userCurrentRole() {
     return this.store.selectSnapshot<Role>(UserState.currentRole);

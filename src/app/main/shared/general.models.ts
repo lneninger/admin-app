@@ -30,3 +30,12 @@ export const Languages: { id: string, name: string, englishName: string, number:
   { id: 'Unknown', name: 'Unknown', englishName: 'Unknown', number: 99 },
   { id: 'Other', name: 'Other', englishName: 'Other', number: 1000 },
 ];
+
+
+export enum ProductCategoryNames {
+  Medicaid = 'medicaid',
+  SNAP = 'snap',
+  LIS = 'lis',
+  Community = 'community',
+  VA = 'va'
+}
