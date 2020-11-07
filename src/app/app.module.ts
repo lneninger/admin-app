@@ -17,6 +17,7 @@ import { MsAdalAngular6Module } from 'microsoft-adal-angular6';
 import { CurrentRoleState, UserState } from './main/services/user/states/user.state';
 import { MemberState } from './main/services/member/states/member.state';
 import { AppCommonModule } from './shared/common/app-common.module';
+import { AggregatorsState } from './main/services/+state-aggregators/aggregators.state';
 
 
 export function getMsAdalConfig() {
@@ -42,7 +43,17 @@ export function getMsAdalConfig() {
     BrowserAnimationsModule,
     AppRoutingModule,
     AppCommonModule,
-    NgxsModule.forRoot([AppConfigState, TenantState, MemberState, UserState, CurrentRoleState, UserState, TelephonyState, TelephonySessionState], {
+    NgxsModule.forRoot([
+      AppConfigState,
+      TenantState,
+      MemberState,
+      UserState,
+      CurrentRoleState,
+      UserState,
+      TelephonyState,
+      TelephonySessionState,
+      AggregatorsState
+    ], {
       developmentMode: !environment.production
     }),
     NgxsDataPluginModule.forRoot()

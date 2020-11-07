@@ -1,0 +1,52 @@
+import { CaseService } from './../case/case.service';
+import { Actions, State, Store, ofActionCompleted, Action, StateContext } from '@ngxs/store';
+import { SetMemberBase64Action } from '../member/states/member.state';
+import { BaseCategoryStateModel } from './base-category.models';
+import produce from 'immer';
+
+
+export class GetCurrentCaseAction {
+  static readonly type = '[Category] GetCurrentCase';
+  constructor(public base64: string, public productCategoryName: string) {
+
+  }
+}
+
+@State<BaseCategoryStateModel>({
+  name: 'baseCategoryState',
+  defaults: {
+    currentCase: null
+  }
+})
+export class BaseCategoryState {
+
+  get categoryName() {
+    return this.internalCategoryName;
+  }
+
+  constructor(
+    protected internalCategoryName: string,
+    protected store: Store,
+    protected actions$: Actions,
+    protected caseService: CaseService
+  ) {
+
+
+    // debugger;
+    this.actions$.pipe(ofActionCompleted(SetMemberBase64Action)).subscribe(completion => {
+      // debugger
+      const base64 = (completion.action as SetMemberBase64Action).base64;
+      this.store.dispatch(new GetCurrentCaseAction(base64, this.internalCategoryName));
+    });
+
+  }
+
+  @Action(GetCurrentCaseAction)
+  async getCurrentCase(ctx: StateContext<BaseCategoryStateModel>, action: GetCurrentCaseAction) {
+    const state = await this.caseService.getCurrent(action.base64, action.productCategoryName).toPromise();
+
+    ctx.setState(produce(ctx.getState(), (draft: BaseCategoryStateModel) => {
+      draft.currentCase = state;
+    }));
+  }
+}

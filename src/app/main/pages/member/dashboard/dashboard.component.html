@@ -2,6 +2,10 @@
 
 
   <section fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="flex-start baseline">
+
+    <!-- {{aggregatorMemberTenant$ | async | json}} -->
+
+
     <mat-card class="dashboard-tile mb-8" fxFlex="0 0 calc(25%-20px)" *ngFor="let productContext of productContexts">
       <mat-card-header>
         <mat-icon mat-card-avatar class="header-icon text-4xl" [fontSet]="productContext.fontSet"

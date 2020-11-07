@@ -29,7 +29,7 @@ export class MemberEndpointService extends BaseEndpointService {
 
   getNotifications(base64: string): Observable<NotificationWrapper> {
     const url = `${this.baseUrl}/${base64}/notifications`;
-    return this.http.get<INotification[]>(url).pipe(map(rawData => new NotificationWrapper(rawData)));
+    return this.http.get<{Notifications: INotification[]}>(url).pipe(map(rawData => new NotificationWrapper(rawData.Notifications)));
   }
 
 }

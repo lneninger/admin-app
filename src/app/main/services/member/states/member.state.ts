@@ -14,6 +14,12 @@ export class ClearMemberAction {
 
 }
 
+export class SetMemberBase64Action {
+  static readonly type = `[Member] SetMemberBase64`;
+  constructor(public base64: string) {
+  }
+}
+
 export class GetMemberAction {
   static readonly type = `[Member] GetMember`;
   constructor(public base64: string, public contextParams?: any) {
@@ -40,6 +46,7 @@ export class MemberNotificationsAction {
 @State<MemberStateModel>({
   name: 'currentMemberState',
   defaults: {
+    base64: null,
     member: null,
     mmr: null,
     notifications: null
@@ -63,8 +70,18 @@ export class MemberState {
     }));
   }
 
+  @Action(SetMemberBase64Action)
+  async setMemberBase64(ctx: StateContext<MemberStateModel>, action: SetMemberBase64Action) {
+
+    return ctx.setState(produce(ctx.getState(), (draft: MemberStateModel) => {
+      draft.base64 = action.base64;
+    }));
+  }
+
   @Action(GetMemberAction)
   getMember(ctx: StateContext<MemberStateModel>, action: GetMemberAction) {
+
+    this.store.dispatch(new SetMemberBase64Action(action.base64));
 
     const telephonySession = this.store.selectSnapshot<TelephonySession>((store: AppStateModel) => store.telephonyState.telephonySessionState.data);
 

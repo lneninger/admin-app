@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { NotificationWrapper } from './notification.models';
 
 export interface MemberStateModel {
+  base64: string;
   member: MemberWrapperModel;
   mmr: MemberMMRModel;
   notifications: NotificationWrapper;

@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { InjectorInstance } from './global/global.service';
+import { InjectorInstance } from './global.service';
 
 @Injectable({
     providedIn: 'root'
