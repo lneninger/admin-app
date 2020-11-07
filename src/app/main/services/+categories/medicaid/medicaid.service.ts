@@ -10,14 +10,15 @@ import { MedicaidStateModel } from './medicaid.models';
 @State<MedicaidStateModel>({
   name: 'medicaidState',
   defaults: {
-    currentCase: null,
+    categoryName: null,
+    currentCase: null
   }
 })
 @Injectable()
 export class MedicaidService extends BaseCategoryState {
 
   constructor(store: Store, actions$: Actions, caseService: CaseService) {
-    super(ProductCategoryNames.Medicaid, store, actions$, caseService);
+    super(ProductCategoryNames.Medicaid, 'far', 'fa-handshake', store, actions$, caseService);
   }
 
 }

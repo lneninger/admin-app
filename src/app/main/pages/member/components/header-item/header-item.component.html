@@ -1,5 +1,6 @@
+<ng-container *ngIf="categoryState$ | async as categoryState">
 <mat-card fxFlex="0 0 calc(20%-20px)" fxFlex.md="0 0 calc(25%-20px)"
-        *ngFor="let productContext of productContexts" [matBadge]="productContext.notifications ? '!': 'ok'"
+        [matBadge]="categoryState.notifications ? '!': 'ok'"
         [matBadgeColor]="productContext.notifications ? 'warn': 'primary'" class="mb-8">
         <mat-card-header>
           <mat-icon mat-card-avatar [fontSet]="productContext.fontSet" [fontIcon]="productContext.icon"
@@ -7,8 +8,9 @@
 
 
           <!-- <div mat-card-avatar class="example-header-image"></div> -->
-          <mat-card-title>{{productContext.name}}</mat-card-title>
-          <mat-card-subtitle>{{productContext.stage}}</mat-card-subtitle>
+          <mat-card-title>{{categoryState.categoryName}}</mat-card-title>
+          <mat-card-subtitle>{{categoryState.currentCase.currentStage}}</mat-card-subtitle>
         </mat-card-header>
         <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
       </mat-card>
+    </ng-container>

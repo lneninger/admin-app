@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { BaseCategoryStateModel } from './../../../../services/+categories/base-category.models';
+import { Store } from '@ngxs/store';
+import { Component, Input, OnInit } from '@angular/core';
+import { BaseCategoryState } from 'src/app/main/services/+categories/base-category.service';
+import { Observable } from 'rxjs';
+import { CategoryOrchestratorService } from 'src/app/main/services/+categories/orchestrator.service';
 
 @Component({
   selector: 'app-header-item',
@@ -7,7 +12,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderItemComponent implements OnInit {
 
-  constructor() { }
+  private internalCategoryName: string;
+  categoryState$: Observable<BaseCategoryStateModel>;
+
+  @Input()
+  set categoryName(value: string) {
+    this.internalCategoryName = value;
+    this.categoryState$ = this.store.select<BaseCategoryStateModel>(CategoryOrchestratorService.specificState(this.internalCategoryName));
+  }
+
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
   }
