@@ -6,7 +6,7 @@ import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggre
 import { MemberStateModel } from 'src/app/main/services/member/states/member.models';
 import { TenantStateModel } from 'src/app/main/services/tenant/states/tenant.models';
 import { BaseComponent } from 'src/app/shared/base.component';
-import { BreadCrumbItem, BreadcrumbService } from 'src/app/shared/layout/layout-main/breadcrumb/breadcrumb.service';
+import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 
 
 const productContexts = [
@@ -64,12 +64,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   constructor(breadcrumbService: BreadcrumbService) {
     super();
 
-    breadcrumbService.addItem({
-      id: 'MEMBER_DASHBOARD',
-      label: 'Dashboard',
-      routerLink: ['/app/member/dashboard'],
-      icon: 'dashboard'
-    } as BreadCrumbItem);
+
 
     breadcrumbService.build('HOME', 'MEMBER', 'MEMBER_DASHBOARD');
   }

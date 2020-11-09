@@ -5,8 +5,9 @@ import { Select } from '@ngxs/store';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Observable } from 'rxjs';
 import { BaseComponent } from 'src/app/shared/base.component';
-import { BreadCrumbItem, BreadcrumbService } from 'src/app/shared/layout/layout-main/breadcrumb/breadcrumb.service';
+import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { environment } from 'src/environments/environment';
+import { NavigationItemIds } from '../../main.navigation';
 import { MemberWrapperModel } from '../../services/member/states/member.models';
 import { MemberState } from '../../services/member/states/member.state';
 
@@ -27,15 +28,8 @@ export class MemberComponent extends BaseComponent implements OnInit {
 
     this.titleService.setTitle(`${environment.appTitle} - ${memberWrapper.member.fullName}`);
 
-    this.breadcrumbService.addItem({
-      id: 'MEMBER',
-      label: memberWrapper.member.fullName, // 'Member',
-      routerLink: ['/app/member'],
-      icon: 'fa-id-card',
-      fontSet: 'far'
-    } as BreadCrumbItem);
-
-    this.breadcrumbService.build('HOME', 'MEMBER');
+    this.breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.MEMBER);
+    this.breadcrumbService.updateItem(NavigationItemIds.MEMBER, {label: memberWrapper.member.fullName});
   }
 
 

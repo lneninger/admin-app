@@ -3,8 +3,10 @@ import { MediaObserver } from '@angular/flex-layout';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { Select, State, Store } from '@ngxs/store';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { MediaService } from 'src/app/shared/common/media.service';
-import { AppConfigState, AppConfigStateMenuModel, MenuExpandedToggleAction, MenuToggleAction } from '../../states/appconfig.state';
+import { AppConfigState, AppConfigStateMenuModel, MenuToggleAction, MenuExpandedToggleAction } from '../../../states/appconfig.state';
+import { NavigationItem, NavigationService } from '../navigation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,32 +28,30 @@ export class MenuService {
   @Select(AppConfigState.menu)
   menu$: Observable<AppConfigStateMenuModel>;
 
-  constructor(private store: Store, private configState: AppConfigState, private mediaService: MediaService) {
+  constructor(
+    private navigationService: NavigationService,
+    private store: Store,
+    private configState: AppConfigState,
+    private mediaService: MediaService
+    ) {
 
   }
 
   initialize(menuDrawer: MatDrawer, optionsDrawer: MatDrawer) {
-    // this.menuDrawer = menuDrawer;
-    // this.optionsDrawer = optionsDrawer;
 
-    // this.initializeStateListeners();
   }
-  // initializeStateListeners() {
-  //   this.menu$.subscribe(menu => {
-  //     // debugger;
-  //     if (menu.show) {
-  //       this.menuDrawer.open();
-  //     } else {
-  //       this.menuDrawer.close();
-  //     }
 
-  //     if (menu.expanded) {
-  //       this.optionsDrawer.open();
-  //     } else {
-  //       this.optionsDrawer.close();
-  //     }
-  //   });
-  // }
+
+  build(...ids: string[]) {
+    return this.navigationService.build(...ids);
+  }
+
+  updateItem(items: NavigationItem[], id: NavigationItemIds, patch: Partial<NavigationItem>) {
+    const index = items.findIndex(item => item.id === id);
+    items.splice(index, 1, {...items[index], ...patch});
+
+    return items;
+  }
 
 
   toggleMenu() {

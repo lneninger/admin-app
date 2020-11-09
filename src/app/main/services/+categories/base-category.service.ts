@@ -1,3 +1,4 @@
+import { NgxsDataRepository } from '@ngxs-labs/data';
 import { MemberStateModel } from './../member/states/member.models';
 import { MemberState } from './../member/states/member.state';
 import { CaseService } from './../case/case.service';
@@ -26,7 +27,7 @@ export class GetCurrentCaseAction {
     currentCase: null
   }
 })
-export class BaseCategoryState {
+export class BaseCategoryState extends NgxsDataRepository<BaseCategoryStateModel> {
 
   @Selector([MemberState])
   notifications(state: BaseCategoryStateModel, memberState: MemberStateModel) {
@@ -40,14 +41,15 @@ export class BaseCategoryState {
 
 
   constructor(
-    protected internalCategoryName: string,
-    protected iconFontSet: string,
-    protected icon: string,
+    public internalCategoryName: string,
+    public iconFontSet: string,
+    public icon: string,
     protected store: Store,
     protected actions$: Actions,
     protected caseService: CaseService
   ) {
 
+    super();
     this.store.dispatch(new InitializeAction(internalCategoryName, iconFontSet, icon));
 
     // debugger;

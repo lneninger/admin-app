@@ -1,5 +1,6 @@
-import { BreadCrumbItem, BreadcrumbService } from './../../../shared/layout/layout-main/breadcrumb/breadcrumb.service';
 import { Component, OnInit } from '@angular/core';
+import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { NavigationItemIds } from '../../main.navigation';
 
 @Component({
   templateUrl: './about.component.html',
@@ -8,14 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class AboutComponent implements OnInit {
 
   constructor(breadcrumbService: BreadcrumbService) {
-    breadcrumbService.addItem({
-      id: 'ABOUT',
-      label: 'About',
-      routerLink: ['/app/about'],
-      icon: 'business_center'
-    } as BreadCrumbItem);
 
-    breadcrumbService.build('HOME', 'ABOUT');
+    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.ABOUT);
   }
 
   ngOnInit() {

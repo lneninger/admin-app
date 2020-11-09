@@ -4,7 +4,6 @@ import { MediaService } from './../../common/media.service';
 import { MediaObserver } from '@angular/flex-layout';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, QueryList, ViewChildren, ContentChild, TemplateRef } from '@angular/core';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
-import { MenuService } from './menu/menu.service';
 import { Select } from '@ngxs/store';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { delay, filter, switchMap, tap } from 'rxjs/operators';
@@ -14,6 +13,7 @@ import { LazyLoaderDirective } from '../../lazy-loader/lazy-loader.module';
 import { DynamicConfig, DYNAMIC_DATA } from '../../lazy-loader/lazy-loader.service';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { BaseComponent } from '../../base.component';
+import { MenuService } from './navigation/menu/menu.service';
 
 @AutoUnsubscribe()
 @Component({

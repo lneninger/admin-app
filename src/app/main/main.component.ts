@@ -2,12 +2,13 @@ import { Actions, ofActionCompleted, Store } from '@ngxs/store';
 import { Component, OnInit } from '@angular/core';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { BaseComponent } from '../shared/base.component';
-import { BreadCrumbItem, BreadcrumbService } from '../shared/layout/layout-main/breadcrumb/breadcrumb.service';
 import { TenantService } from './services/tenant/tenant.service';
 import { UserService } from './services/user/user.service';
 import { TenantGetAction } from './services/tenant/states/tenant.state';
 import { SetUserTokenAction } from './services/user/states/user.state';
 import { first } from 'rxjs/operators';
+import { NavigationItemIds } from './main.navigation';
+import { BreadcrumbService } from '../shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -25,15 +26,7 @@ export class MainComponent extends BaseComponent implements OnInit {
   ) {
     super();
 
-
-    breadcrumbService.addItem({
-      id: 'HOME',
-      label: 'Home',
-      routerLink: ['/app'],
-      icon: 'home'
-    } as BreadCrumbItem);
-
-    breadcrumbService.build('HOME');
+    breadcrumbService.build(NavigationItemIds.HOME);
   }
 
 
