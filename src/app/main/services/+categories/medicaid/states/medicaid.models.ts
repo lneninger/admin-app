@@ -1,4 +1,4 @@
-import { BaseCategoryStateModel } from '../base-category.models';
+import { BaseCategoryStateModel } from '../../base-category.models';
 
 
 

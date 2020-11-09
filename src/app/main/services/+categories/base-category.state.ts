@@ -7,7 +7,6 @@ import { SetMemberBase64Action } from '../member/states/member.state';
 import { BaseCategoryStateModel } from './base-category.models';
 import produce from 'immer';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
-import { BaseCategoryState } from './base-category.state';
 
 export class InitializeAction {
   static readonly type = '[Category] Initialize';
@@ -28,7 +27,7 @@ export class GetCurrentCaseAction {
 //     currentCase: null
 //   }
 // })
-export class BaseCategoryService {
+export class BaseCategoryState extends NgxsDataRepository<BaseCategoryStateModel> {
 
   @Selector([MemberState])
   notifications(state: BaseCategoryStateModel, memberState: MemberStateModel) {
@@ -42,16 +41,16 @@ export class BaseCategoryService {
 
 
   constructor(
-    public repository: BaseCategoryState,
     public internalCategoryName: string,
     public iconFontSet: string,
     public icon: string,
+    protected store: Store,
     protected actions$: Actions,
     protected caseService: CaseService
   ) {
 
-    this.repository.dispatch(InitializeAction);
-    // this.repository.dispatch(new InitializeAction(internalCategoryName, iconFontSet, icon));
+    super();
+    this.store.dispatch(new InitializeAction(internalCategoryName, iconFontSet, icon));
 
     // debugger;
     this.actions$.pipe(ofActionCompleted(SetMemberBase64Action)).subscribe(completion => {

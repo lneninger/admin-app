@@ -1,10 +1,11 @@
-import { CaseService } from './../../case/case.service';
-import { ProductCategoryNames } from './../../../shared/general.models';
 import { Injectable } from '@angular/core';
 import { Actions, State, StateToken, Store } from '@ngxs/store';
-import { BaseCategoryState } from '../base-category.service';
-import { LISStateModel } from './lis.models';
 import { StateRepository } from '@ngxs-labs/data';
+import { CaseService } from '../../case/case.service';
+import { ProductCategoryNames } from 'src/app/main/shared/general.models';
+import { LISState } from './states/lis.state';
+import { LISStateModel } from './states/lis.models';
+import { BaseCategoryService } from '../base-category.service';
 
 export const LIS_STATE_NAME = `${ProductCategoryNames.LIS}State`;
 export const LIS_STATE_TOKEN = new StateToken<LISStateModel>(LIS_STATE_NAME);
@@ -18,10 +19,10 @@ export const LIS_STATE_TOKEN = new StateToken<LISStateModel>(LIS_STATE_NAME);
   }
 })
 @Injectable({providedIn: 'root'})
-export class LISService extends BaseCategoryState {
+export class LISService  extends BaseCategoryService {
 
-  constructor(store: Store, actions$: Actions, caseService: CaseService) {
-    super(ProductCategoryNames.LIS, 'fas', 'fa-dollar-sign', store, actions$, caseService);
+  constructor(repository: LISState, actions$: Actions, caseService: CaseService) {
+    super(repository, ProductCategoryNames.LIS, 'fas', 'fa-dollar-sign', actions$, caseService);
   }
 
 }
