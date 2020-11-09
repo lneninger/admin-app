@@ -1,3 +1,4 @@
+import { LISService } from './../../services/+categories/lis/lis.service';
 import { LayoutMainCommonModule } from './../../../shared/layout/layout-main/layout-main-common/layout-main-common.module';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -18,7 +19,7 @@ import { MedicaidService } from '../../services/+categories/medicaid/medicaid.se
     MemberRoutingModule,
     LayoutMainCommonModule,
 
-    NgxsModule.forFeature([MedicaidService]),
+    NgxsModule.forFeature([MedicaidService, LISService]),
 
     OverviewModule
   ]

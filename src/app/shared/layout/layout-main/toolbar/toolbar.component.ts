@@ -1,6 +1,5 @@
 import { Select } from '@ngxs/store';
 import { Component, ContentChild, ElementRef, HostListener, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MenuService } from '../menu/menu.service';
 import { environment } from 'src/environments/environment';
 import { AppOptionsService } from '../options/app-options.service';
 import { DOCUMENT } from '@angular/common';
@@ -8,6 +7,7 @@ import { LayoutMainService } from '../layout-main.service';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { MatInput } from '@angular/material/input';
 import { NONE_TYPE } from '@angular/compiler';
+import { MenuService } from '../navigation/menu/menu.service';
 
 @Component({
   selector: 'app-toolbar',

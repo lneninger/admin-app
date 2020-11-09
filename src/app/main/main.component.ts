@@ -7,8 +7,9 @@ import { UserService } from './services/user/user.service';
 import { TenantGetAction } from './services/tenant/states/tenant.state';
 import { SetUserTokenAction } from './services/user/states/user.state';
 import { first } from 'rxjs/operators';
-import { NavigationItemIds } from './main.navigation';
+import { NavigationItemIds, navigationItems } from './main.navigation';
 import { BreadcrumbService } from '../shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { NavigationService } from '../shared/layout/layout-main/navigation/navigation.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -22,9 +23,13 @@ export class MainComponent extends BaseComponent implements OnInit {
     private store: Store,
     private userService: UserService,
     private actions$: Actions,
+    navigationService: NavigationService,
     breadcrumbService: BreadcrumbService
   ) {
     super();
+
+    navigationService.addItem(...navigationItems);
+
 
     breadcrumbService.build(NavigationItemIds.HOME);
   }

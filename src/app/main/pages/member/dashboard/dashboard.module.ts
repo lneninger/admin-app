@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
+import { MedicaidHeaderComponent } from '../categories/medicaid/header/header.component';
+import { MedicaidHeaderModule } from '../categories/medicaid/header/header.module';
 
 
 @NgModule({

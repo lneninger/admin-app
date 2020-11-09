@@ -20,7 +20,7 @@ export enum NavigationItemIds {
 
 }
 
-const navigationItems: NavigationItem[] = [
+export const navigationItems: NavigationItem[] = [
  {
     id: NavigationItemIds.HOME,
     label: 'Home',

@@ -4,6 +4,7 @@ import { Component, Input, OnInit, ViewChild, TemplateRef } from '@angular/core'
 import { BaseCategoryState } from 'src/app/main/services/+categories/base-category.service';
 import { Observable } from 'rxjs';
 import { CategoryOrchestratorService } from 'src/app/main/services/+categories/orchestrator.service';
+import { DeepImmutableObject } from '@ngxs-labs/data';
 
 @Component({
   selector: 'app-header-item',
@@ -13,7 +14,7 @@ import { CategoryOrchestratorService } from 'src/app/main/services/+categories/o
 export class HeaderItemComponent implements OnInit {
 
   private internalCategoryName: string;
-  categoryState$: Observable<BaseCategoryStateModel>;
+  categoryState$: Observable<DeepImmutableObject<BaseCategoryStateModel>>;
   categoryService: BaseCategoryState;
 
   @ViewChild('bodyContent')
@@ -21,8 +22,11 @@ export class HeaderItemComponent implements OnInit {
 
   @Input()
   set categoryName(value: string) {
+    // debugger;
     this.internalCategoryName = value;
     this.categoryService = this.service.loadCategoryServiceByName(value);
+    this.categoryState$ = this.categoryService.state$;
+
   }
 
   constructor(private store: Store, private service: CategoryOrchestratorService) { }

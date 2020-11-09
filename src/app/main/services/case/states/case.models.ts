@@ -100,7 +100,8 @@ export class CaseModel {
           if (status.progress) {
               const progress = status.progress;
               this.currentStageCompletion = progress && progress.completion as number;
-              if (this.currentStageCompletion) {
+              debugger;
+              if (this.currentStageCompletion != null) {
                   this.currentStageCompletion = Math.round(Math.abs(this.currentStageCompletion));
               }
 

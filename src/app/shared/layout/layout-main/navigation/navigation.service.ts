@@ -31,9 +31,12 @@ export class NavigationService {
   }
 
   build(...ids: string[]) {
-    return ids
-      .map(id => id === NavigationItemIds.DIVIDER ? {type: 'divider'} as NavigationItem : this.itemsInternal.find(item => item.id ? item.id.toUpperCase() === id.toUpperCase() : false))
+    const result = ids
+      .map(id => id === NavigationItemIds.DIVIDER ? {type: 'divider'} as NavigationItem : (this.itemsInternal.find(item => item.id ? item.id.toUpperCase() === id.toUpperCase() : false)))
       .filter(item => item != null);
+
+    // debugger;
+    return result;
   }
 }
 

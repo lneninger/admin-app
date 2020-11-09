@@ -2,6 +2,8 @@ import { LayoutMainCommonModule } from 'src/app/shared/layout/layout-main/layout
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverviewComponent } from './overview.component';
+import { MedicaidHeaderModule } from '../../categories/medicaid/header/header.module';
+import { LISHeaderModule } from '../../categories/lis/header/header.module';
 
 
 
@@ -9,7 +11,9 @@ import { OverviewComponent } from './overview.component';
   declarations: [OverviewComponent],
   imports: [
     CommonModule,
-    LayoutMainCommonModule
+    LayoutMainCommonModule,
+    MedicaidHeaderModule,
+    LISHeaderModule
   ],
   exports: [OverviewComponent]
 })
