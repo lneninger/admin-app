@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToolbarComponent } from './toolbar.component';
 import { FormsModule } from '@angular/forms';
-import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
 import { ToolbarSearchModule } from './toolbar-search/toolbar-search.module';
+import { BreadcrumbModule } from '../navigation/breadcrumb/breadcrumb.module';
 
 
 

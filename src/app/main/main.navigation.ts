@@ -4,6 +4,7 @@ export enum NavigationItemIds {
   HOME = 'HOME',
   DASHBOARD = 'DASHBOARD',
   ABOUT = 'ABOUT',
+  SEARCH_MEMBER = 'SEARCH_MEMBER',
   MEMBER = 'MEMBER',
   MEMBER_DASHBOARD = 'MEMBER_DASHBOARD',
   MEMBER_NOTES = 'MEMBER_NOTES',
@@ -15,7 +16,6 @@ export enum NavigationItemIds {
   MEMBER_SNAP = 'MEMBER_SNAP',
   MEMBER_VETERAN = 'MEMBER_VETERAN',
   MEMBER_CUSTOM_INTERVIEW = 'MEMBER_CUSTOM_INTERVIEW',
-  SEARCH = 'SEARCH',
   DIVIDER = 'DIVIDER'
 
 }
@@ -38,6 +38,12 @@ const navigationItems: NavigationItem[] = [
     label: 'About',
     routerLink: ['/app/about'],
     icon: 'business_center'
+  },
+  {
+    id: NavigationItemIds.SEARCH_MEMBER,
+    label: 'Search',
+    routerLink: ['/app/search'],
+    icon: 'search'
   },
   {
     id: NavigationItemIds.MEMBER,

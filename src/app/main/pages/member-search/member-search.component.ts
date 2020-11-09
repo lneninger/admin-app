@@ -1,9 +1,10 @@
 import { DataRetrieverInput, GridConfig, GridData } from '../../../shared/grid/grid-config';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { BreadCrumbItem, BreadcrumbService } from 'src/app/shared/layout/layout-main/breadcrumb/breadcrumb.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { of } from 'rxjs';
+import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { NavigationItemIds } from '../../main.navigation';
 
 
 export interface PeriodicElement {
@@ -53,14 +54,8 @@ export class MemberSearchComponent implements OnInit, AfterViewInit {
   gridConfig: GridConfig<PeriodicElement>;
 
   constructor(breadcrumbService: BreadcrumbService) {
-    breadcrumbService.addItem({
-      id: 'SEARCH',
-      label: 'Search',
-      routerLink: ['/app/search'],
-      icon: 'search'
-    } as BreadCrumbItem);
 
-    breadcrumbService.build('HOME', 'SEARCH');
+    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SEARCH_MEMBER);
   }
 
 

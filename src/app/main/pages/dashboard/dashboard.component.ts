@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BreadCrumbItem, BreadcrumbService } from 'src/app/shared/layout/layout-main/breadcrumb/breadcrumb.service';
+import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { NavigationItemIds } from '../../main.navigation';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,14 +10,8 @@ import { BreadCrumbItem, BreadcrumbService } from 'src/app/shared/layout/layout-
 export class DashboardComponent implements OnInit {
 
   constructor(breadcrumbService: BreadcrumbService) {
-    breadcrumbService.addItem({
-      id: 'DASHBOARD',
-      label: 'Dashboard',
-      routerLink: ['/app/dashboard'],
-      icon: 'dashboard'
-    } as BreadCrumbItem);
 
-    breadcrumbService.build('HOME', 'DASHBOARD');
+    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.DASHBOARD);
   }
 
   ngOnInit() {
