@@ -9,6 +9,7 @@ import { ToolbarModule } from '../shared/layout/layout-main/toolbar/toolbar.modu
 import { AuthenticationGuard } from 'microsoft-adal-angular6';
 import { ToolbarUserModule } from './options/toolbar-user/toolbar-user.module';
 import { MenuModule } from '../shared/layout/layout-main/navigation/menu/menu.module';
+import { ToolbarAddModule } from './options/toolbar-add/toolbar-user.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { MenuModule } from '../shared/layout/layout-main/navigation/menu/menu.mo
     LayoutMainModule,
     MenuModule,
     LayoutMainCommonModule,
-    ToolbarUserModule
+    ToolbarUserModule,
+    ToolbarAddModule
   ],
   providers: [AuthenticationGuard]
 })

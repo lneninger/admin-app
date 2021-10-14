@@ -1,3 +1,8 @@
+// =============================
+// Email: info@ebenmonney.com
+// www.ebenmonney.com/templates
+// =============================
+
 import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
 
@@ -8,16 +13,8 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display application title: RiverdaleAPI2', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('ng-tailwind app is running!');
-  });
-
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
+    expect(page.getAppTitle()).toEqual('RiverdaleAPI2');
   });
 });

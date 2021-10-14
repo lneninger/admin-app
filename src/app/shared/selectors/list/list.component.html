@@ -1,0 +1,12 @@
+<section class="flex items-center gap-4" *ngIf="this.config">
+  <section class="flex items-center">
+    <ng-container *ngFor="let item of currentSelectors">
+      <app-selector-item class="mr-1" [config]="this.config" [item]="item" (editing)="this.setEditing($event, item)" (identifierChanged)="this.identifierChanged($event, item)" class="flex"></app-selector-item>
+    </ng-container>
+  </section>
+
+  <button mat-mini-fab aria-label="New selector" class="ml-3" color="primary" (click)="this.newSelector()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <!-- <section class="flex rounded-full py-1 px-3 border-2 border-blue-500 hover:bg-blue-700">Pill Shape</section> -->
+</section>

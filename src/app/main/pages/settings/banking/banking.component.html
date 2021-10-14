@@ -1,0 +1,17 @@
+<app-page title="Banking" icon="account_balance">
+  <section fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="flex-start baseline">
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Payment Methods">
+        <form novalidate (ngSubmit)="createToken()" [formGroup]="stripeTest">
+          <input type="text" formControlName="name" placeholder="Jane Doe">
+          <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+          <button type="submit">
+            CREATE TOKEN
+          </button>
+        </form>
+      </mat-tab>
+      <mat-tab label="Transfers">Transfers</mat-tab>
+    </mat-tab-group>
+
+  </section>
+</app-page>

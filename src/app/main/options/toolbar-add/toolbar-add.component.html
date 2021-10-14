@@ -1,0 +1,45 @@
+<button mat-icon-button="" class="submitButton" (click)="toggleOverlay()">
+  <mat-icon fontSet="fas" fontIcon="fa-plus-square" style="font-size:23px;"></mat-icon>
+</button>
+
+
+<section [@searchToggle]="showUserDetailsDialog ? 'open-userdetails' : 'close-userdetails'"
+  class="rounded-xl overflow-hidden bg-gray-300 border border-gray-600"
+  style="position:absolute;z-index: 10000;width:400px;top: 70px; right: 0">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Options</span>
+
+      <span class="example-spacer"></span>
+
+      <section fxLayoutGap="20px">
+        <!-- <button mat-mini-fab color="primary" aria-label="Full Screen">
+          <mat-icon fontSet="fas" fontIcon="fa-expand"></mat-icon>
+        </button> -->
+
+        <!-- <button mat-mini-fab aria-label="Normal Window">
+        <mat-icon fontSet="fas" fontIcon="fa-search"></mat-icon>
+      </button> -->
+
+        <!-- <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+          <mat-icon fontSet="fas" fontIcon="fa-filter"></mat-icon>
+        </button> -->
+
+      </section>
+
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="mx-8 pb-4" fxLayout="column" fxLayoutGap="20px">
+
+    <mat-list>
+      <mat-list-item>
+        <mat-icon mat-list-icon fontSet="fas" fontIcon="fa-plus"></mat-icon>
+        <a mat-line routerLink="/app/quotes/new">New Quote</a>
+        <a mat-line routerLink="/app/specialists/new">New Specialist</a>
+      </mat-list-item>
+    </mat-list>
+
+  </div>
+
+</section>

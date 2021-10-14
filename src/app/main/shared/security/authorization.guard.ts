@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Route, ActivatedRouteSnapshot, RouterStateSnapshot, Router, ActivatedRoute } from '@angular/router';
 import { ErrorService } from './../error/error-service';
 import { UserService } from '../../services/user/user.service';
-import { IRouteData, RoleList } from '../../services/user/states/user.models';
+import { IRouteData, RoleList } from '../../services/user/auth.models';
 
 @Injectable({
     providedIn: 'root'

@@ -9,23 +9,50 @@ const routes: Routes = [
     path: '',
     component: MainComponent,
     resolve: [MainResolveService],
+    canActivate: [],
+    canActivateChild: [],
     children: [
       {
         path: '',
         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
       },
       {
+        path: 'admin',
+        loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule),
+        data: { menu: 'admin' }
+      },
+      {
+        path: 'settings',
+        loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule),
+        data: { menu: 'settings' }
+      },
+      {
         path: 'about',
         loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule),
       },
       {
-        path: 'member',
-        loadChildren: () => import('./pages/member/member.module').then(m => m.MemberModule)
-       },
-       {
-        path: 'search',
-        loadChildren: () => import('./pages/member-search/member-search.module').then(m => m.MemberSearchModule)
-       },
+        path: 'quotes',
+        loadChildren: () => import('./pages/quote/quote.module').then(m => m.QuoteModule),
+        data: { menu: 'quote' }
+      },
+      {
+        path: 'specialists',
+        loadChildren: () => import('./pages/specialist/specialist.module').then(m => m.SpecialistModule),
+        data: { menu: 'specialist' }
+      },
+      {
+        path: 'products',
+        loadChildren: () => import('./pages/product/list/product-list.module').then(m => m.ProductCategoryListModule)
+      },
+      {
+        path: 'product-categories',
+        loadChildren: () => import('./pages/product-category/list/product-category-list.module').then(m => m.ProductCategoryListModule)
+      },
+      {
+        path: 'product-categories/:id',
+        loadChildren: () => import('./pages/product-category/item/product-category.module').then(m => m.ProductCategoryModule)
+      },
+
     ]
   }
 ];

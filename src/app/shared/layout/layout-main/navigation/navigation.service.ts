@@ -30,13 +30,31 @@ export class NavigationService {
     this.itemsInternal = [];
   }
 
-  build(...ids: string[]) {
-    const result = ids
-      .map(id => id === NavigationItemIds.DIVIDER ? {type: 'divider'} as NavigationItem : (this.itemsInternal.find(item => item.id ? item.id.toUpperCase() === id.toUpperCase() : false)))
+  build(...ids: NavigationItemInput[]) {
+    return ids
+      .map(idInput => {
+
+        let complex = false;
+        let id: string;
+        if (idInput instanceof NavigationItemInputComplex) {
+          id = (idInput as NavigationItemInputComplex).id;
+          complex = true;
+        } else {
+          id = idInput as string;
+        }
+
+        if (id === NavigationItemIds.DIVIDER) {
+          return { type: 'divider' } as NavigationItem;
+        } else {
+          let item = this.itemsInternal.find(internalItem => internalItem.id ? internalItem.id.toUpperCase() === id.toUpperCase() : false);
+          return complex ? this.formatComplexNavigationItem(item, idInput) : item;
+        }
+      })
       .filter(item => item != null);
 
-    // debugger;
-    return result;
+  }
+  formatComplexNavigationItem(item: NavigationItem, idInput: NavigationItemInput): any {
+    throw new Error('Method not implemented.');
   }
 }
 
@@ -48,4 +66,11 @@ export interface NavigationItem {
   label?: string;
   routerLink?: any;
   type?: 'divider';
+  bottom?: boolean;
 }
+
+export class NavigationItemInputComplex {
+  id: string;
+}
+
+export type NavigationItemInput = string | NavigationItemInputComplex;

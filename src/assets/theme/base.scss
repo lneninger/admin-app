@@ -10,6 +10,7 @@ body {
 }
 
 app-root,
+.app-wrapper,
 app-main,
 app-layout-main,
 app-page,
@@ -53,11 +54,33 @@ app-toolbar {
 }
 
 .app-title {
-  display: flex;
-  flex: 0 1 200px;
-  background-image: url('../img/logo.svg');
-  background-repeat: no-repeat;
-  background-position: center;
+  // background-color: #fff;
+  // position: relative;
+  // top: -50px;
+  // border-radius: 15px;
+  align-items: center;
+
+  & .text {
+    font-family: "Major Mono Display", monospace;
+    font-family: "Montserrat", sans-serif;
+    font-size: 29px;
+    font-weight: bolder;
+
+    text-shadow: 1px 0px 0px  #000;
+    color: rgb(102, 4, 1);
+    background: linear-gradient(180deg, rgba(102, 4, 1, 1) 0%, rgba(158, 77, 2, 1) 35%, rgba(255, 214, 0, 1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex: 0 1 200px;
+    // background-image: url("../img/logo.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }
 
 .example-spacer {
@@ -96,8 +119,48 @@ app-menu {
   }
 
   &.collapsed {
-      & .expanded-handler {
-        cursor: pointer;
-      }
+    & .expanded-handler {
+      cursor: pointer;
+    }
   }
+}
+
+.custom-tree {
+  & .tree-invisible {
+    display: none;
+  }
+
+  & li {
+    & ul {
+      padding-left: 10px;
+    }
+  }
+
+  & ul,
+  & li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+}
+
+.fa-letter {
+  font-family: Arial; /* your font family here! */
+  font-weight: bold;
+}
+
+.fa-a:before {
+  content: "A";
+}
+
+.fa-p:before {
+  content: "P";
+}
+
+.fa-p:before {
+  content: "Q";
+}
+
+.fa-p:before {
+  content: "C";
 }

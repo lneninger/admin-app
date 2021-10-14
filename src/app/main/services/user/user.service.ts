@@ -4,7 +4,7 @@ import { SetUserLoggedAction, SetUserTokenAction } from './states/user.state';
 import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
-import { RoleNames, UserModel } from './states/user.models';
+import { RoleNames, UserModel } from './auth.models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,8 @@ import { RoleNames, UserModel } from './states/user.models';
 export class UserService {
 
   get isAuthenticated() {
-    return this.adalSvc.isAuthenticated;
+    return true;
+    // return this.adalSvc.isAuthenticated;
   }
 
   private get user() {
@@ -20,24 +21,29 @@ export class UserService {
   }
 
   constructor(
-    private adalSvc: MsAdalAngular6Service,
+    // private adalSvc: MsAdalAngular6Service,
     private store: Store
   ) {
 
-    if (this.isAuthenticated) {
-      // debugger;
-      this.store.dispatch(new SetUserLoggedAction(this.adalSvc.userInfo));
-      this.store.dispatch(new SetUserTokenAction(this.adalSvc.accessToken));
-    }
+    // if (this.isAuthenticated) {
+    //   // debugger;
+    //   this.store.dispatch(new SetUserLoggedAction(this.adalSvc.userInfo));
+    //   this.store.dispatch(new SetUserTokenAction(this.adalSvc.accessToken));
+    // }
 
-    this.acquireToken();
+    // this.acquireToken();
   }
 
 
-  async acquireToken() {
-    const token = await this.adalSvc.acquireToken('https://graph.microsoft.com').toPromise();
-    this.store.dispatch(new SetUserTokenAction(token));
-  }
+  // async acquireToken() {
+  //   const token = await this.adalSvc.acquireToken('https://graph.microsoft.com').toPromise();
+  //   this.store.dispatch(new SetUserTokenAction(token));
+  // }
+
+//  async acquireToken() {
+//     const token = await this.account.acquireToken('https://graph.microsoft.com').toPromise();
+//     this.store.dispatch(new SetUserTokenAction(token));
+//   }
 
   isInRole(...roles: RoleNames[]): boolean {
     if (this.user != null) {
@@ -57,8 +63,8 @@ export class UserService {
     return null;
   }
 
-  logout(): void {
-    this.adalSvc.logout();
-  }
+  // logout(): void {
+  //   this.adalSvc.logout();
+  // }
 
 }

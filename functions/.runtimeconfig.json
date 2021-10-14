@@ -1,0 +1,9 @@
+{
+  "gmail": {
+    "password": "hiphop-usa2015",
+    "email": "lneninger@hipalanet.com"
+  },
+  "stripe":{
+    "token": "pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O"
+  }
+}

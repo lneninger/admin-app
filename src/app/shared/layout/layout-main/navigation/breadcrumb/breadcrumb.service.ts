@@ -19,9 +19,12 @@ export class BreadcrumbService {
     return this.currentBreadCrumb;
   }
 
-  updateItem(id: NavigationItemIds, patch: Partial<NavigationItem>) {
-    const index = this.currentBreadCrumb.findIndex(item => item.id === id);
-    this.currentBreadCrumb.splice(index, 1, {...this.currentBreadCrumb[index], ...patch});
+  updateItems(patch: Partial<NavigationItem>, ids: NavigationItemIds[]) {
+    ids.forEach(id => {
+      const index = this.currentBreadCrumb.findIndex(item => item.id === id);
+      this.currentBreadCrumb.splice(index, 1, {...this.currentBreadCrumb[index], ...patch});
+    });
+
   }
 
 }

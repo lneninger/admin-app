@@ -41,3 +41,6 @@ export enum ProductCategoryNames {
 }
 
 export const ProductCategoryList = Object.getOwnPropertyNames(ProductCategoryNames).map(prop => ProductCategoryNames[prop]);
+
+
+

@@ -1,11 +1,11 @@
 import { UserService } from '../user.service';
 import { Injectable } from '@angular/core';
 import { State, Selector, Action, Store, StateContext } from '@ngxs/store';
-import { Persistence, StateRepository } from '@ngxs-labs/data';
-import { NgxsDataRepository } from '@ngxs-labs/data';
+import { Persistence, StateRepository } from '@ngxs-labs/data/decorators';
+import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { } from '@ngxs-labs/data';
 import produce from 'immer';
-import { CurrentRoleStateModel, Role, UserModel, UserStateModel } from './user.models';
+import { CurrentRoleStateModel, Role, UserModel, AuthStateModel } from '../auth.models';
 import { environment } from 'src/environments/environment';
 
 export class SetUserLoggedAction {
@@ -55,7 +55,7 @@ export class CurrentRoleState extends NgxsDataRepository<CurrentRoleStateModel> 
 
 
 @StateRepository()
-@State<UserStateModel>({
+@State<AuthStateModel>({
   name: 'userState',
   defaults: {
     user: null
@@ -63,25 +63,25 @@ export class CurrentRoleState extends NgxsDataRepository<CurrentRoleStateModel> 
   children: [CurrentRoleState]
 })
 @Injectable()
-export class UserState extends NgxsDataRepository<UserStateModel> {
+export class UserState extends NgxsDataRepository<AuthStateModel> {
 
   constructor() {
     super();
   }
 
   @Selector()
-  static user(state: UserStateModel) {
+  static user(state: AuthStateModel) {
     // debugger;
     return state.user;
   }
 
   @Selector()
-  static userRoles(state: UserStateModel) {
+  static userRoles(state: AuthStateModel) {
     return state.user.roles;
   }
 
   @Selector()
-  static currentRole(state: UserStateModel) {
+  static currentRole(state: AuthStateModel) {
     // debugger;
     if (!state.app_currentrole.currentRole) {
       return state.app_currentrole.currentRole;
@@ -97,12 +97,12 @@ export class UserState extends NgxsDataRepository<UserStateModel> {
   }
 
   @Action(SetUserLoggedAction)
-  async setUser(ctx: StateContext<UserStateModel>, action: SetUserLoggedAction) {
+  async setUser(ctx: StateContext<AuthStateModel>, action: SetUserLoggedAction) {
 
     const state = ctx.getState();
-    return ctx.setState(produce(ctx.getState(), (draft: UserStateModel) => {
+    return ctx.setState(produce(ctx.getState(), (draft: AuthStateModel) => {
 
-      const user = new UserModel();
+      const user = new UserModel(null);
       user.name = action.payload.profile.name;
       user.userName = action.payload.userName;
       user.email = action.payload.profile.email;
@@ -119,8 +119,8 @@ export class UserState extends NgxsDataRepository<UserStateModel> {
   }
 
   @Action(SetUserTokenAction)
-  async setUserCurrentRole(ctx: StateContext<UserStateModel>, action: SetUserTokenAction) {
-    return ctx.setState(produce(ctx.getState(), (draft: UserStateModel) => {
+  async setUserCurrentRole(ctx: StateContext<AuthStateModel>, action: SetUserTokenAction) {
+    return ctx.setState(produce(ctx.getState(), (draft: AuthStateModel) => {
       draft.token = action.payload;
     }));
   }

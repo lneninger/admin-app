@@ -4,11 +4,11 @@ export class EnumItemTyped<T, V> {
     extras?: { [key: string]: any };
 }
 
-export class EnumItem<T> extends EnumItemTyped<T, string> {
+export class EnumItem<T> extends EnumItemTyped<string, T> {
 }
 
 
-export const yesNoItems: EnumItem<boolean>[] = [
+export const yesNoItems: EnumItemTyped<boolean, string>[] = [
     {
         key: true,
         value: 'Yes',

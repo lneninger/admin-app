@@ -18,7 +18,7 @@ export abstract class BaseEndpointService{
     return `${this.mockedBaseUrl}${this.relativeName}`;
   }
 
-  constructor(private relativeName: string, private mocked: boolean = true) {
+  constructor(protected relativeName: string, private mocked: boolean = true) {
 
   }
 

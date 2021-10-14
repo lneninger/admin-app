@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/user/auth.service';
 import { environment } from './../../../../environments/environment';
 import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
@@ -19,7 +20,13 @@ export class SecurityHttpIOnterceptor implements HttpInterceptor {
   private refreshTokenInProgress = false;
   private refreshTokenSubject = new BehaviorSubject<any>(null);
 
-  constructor(private router: Router, private userService: UserService, private store: Store, private errorService: ErrorService) { }
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private store: Store,
+    private errorService: ErrorService,
+    private authService: AuthService
+    ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // debugger;
@@ -45,7 +52,7 @@ export class SecurityHttpIOnterceptor implements HttpInterceptor {
             // Set the refreshTokenSubject to null so that subsequent API calls will wait until the new token has been retrieved
             this.refreshTokenSubject.next(null);
 
-            const token = this.userService.acquireToken();
+            const token = '';//this.authService.reLogin();
             this.refreshTokenSubject.next(token);
 
             request = next.handle(this.formatRequest(req)).pipe(
@@ -73,20 +80,21 @@ export class SecurityHttpIOnterceptor implements HttpInterceptor {
   }
 
   formatRequest(req: HttpRequest<any>): HttpRequest<any> {
+    // return req;
     const token = this.store.selectSnapshot<string>((store: AppStateModel) => {
       // debugger;
       return store.userState.token;
     });
     const defaultAuthorizationHeaders = {
 
-      Authorization: req.headers.get('Authorization') || ('Bearer ' + token),
+      Authorization:  req.headers.has('Authorization') && req.headers.get('Authorization') != undefined ? req.headers.get('Authorization') : ('Bearer ' + token),
     };
 
     const defaultHeaders = {
       ...defaultAuthorizationHeaders, ...{
-        'Content-Type': req.headers.get('Content-Type') || 'application/json',
-        Accept: req.headers.get('Accept') || `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`,
-        'App-Version': req.headers.get('App-Version') || environment.appVersion
+        'Content-Type': req.headers.has('Content-Type') ? req.headers.get('Content-Type') : 'application/json',
+        Accept: req.headers.has('Accept') ? req.headers.get('Accept') : `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`,
+        'App-Version': req.headers.has('App-Version') ? req.headers.get('App-Version') : environment.appVersion
       }
     };
 
@@ -96,7 +104,7 @@ export class SecurityHttpIOnterceptor implements HttpInterceptor {
       headers = headers.delete(KeepOriginalHeadersKey);
       if (!req.headers.get(NoAuthorizationHeaderKey)) {
         headers = req.headers.delete(NoAuthorizationHeaderKey);
-        headers = headers.set('Authorization', req.headers.get('Authorization') || ('Bearer ' + this.store.selectSnapshot<string>((store: AppStateModel) => store.userState.token)));
+        headers = headers.set('Authorization', req.headers.has('Authorization') ? req.headers.get('Authorization') : ('Bearer ' + this.store.selectSnapshot<string>((store: AppStateModel) => store.userState.token)));
       }
       result = req.clone({
         headers
@@ -104,7 +112,7 @@ export class SecurityHttpIOnterceptor implements HttpInterceptor {
     }
     else {
       result = req.clone({
-        headers: new HttpHeaders(defaultHeaders)
+        headers: new HttpHeaders(defaultAuthorizationHeaders)
       });
     }
 

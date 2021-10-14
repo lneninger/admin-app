@@ -1,0 +1,24 @@
+<ng-container *ngIf="categoryState$ | async as categoryState">
+  <mat-card
+    [matBadge]="categoryService?.notifications ? '!': 'ok'"
+    [matBadgeColor]="categoryService?.notifications ? 'warn': 'primary'">
+    <mat-card-header>
+      <mat-icon mat-card-avatar [fontSet]="categoryService.iconFontSet" [fontIcon]="categoryService.icon"
+        class="header-icon text-4xl"></mat-icon>
+
+
+      <!-- <div mat-card-avatar class="example-header-image"></div> -->
+      <mat-card-title>{{categoryService?.categoryName}}</mat-card-title>
+      <mat-card-subtitle>{{categoryState?.currentCase?.currentStage}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <ng-container *ngIf="bodyContent; else defaultBodyContent" [ngTemplateOutlet]="bodyContent"></ng-container>
+  </mat-card>
+
+
+
+<ng-template #defaultBodyContent>
+  <mat-progress-bar *ngIf="categoryState?.currentCase?.currentStageCompletion" mode="determinate" [value]="categoryState.currentCase.currentStageCompletion"></mat-progress-bar>
+
+</ng-template>
+</ng-container>

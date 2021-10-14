@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, State, StateToken, Store } from '@ngxs/store';
 import { MedicaidStateModel } from './medicaid.models';
-import { StateRepository } from '@ngxs-labs/data';
+import { StateRepository } from '@ngxs-labs/data/decorators';
 import { ProductCategoryNames } from 'src/app/main/shared/general.models';
-import { BaseCategoryState } from '../../base-category.service';
 import { CaseService } from '../../../case/case.service';
+import { BaseCategoryState } from '../../base-category.state';
 
 export const MEDICAID_STATE_NAME = `${ProductCategoryNames.Medicaid}State`;
 export const MEDICAID_STATE_TOKEN = new StateToken<MedicaidStateModel>(MEDICAID_STATE_NAME);

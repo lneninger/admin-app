@@ -1,3 +1,8 @@
+// =============================
+// Email: info@ebenmonney.com
+// www.ebenmonney.com/templates
+// =============================
+
 // @ts-check
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
@@ -13,7 +18,7 @@ exports.config = {
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    browserName: 'chrome'
+    'browserName': 'chrome'
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',

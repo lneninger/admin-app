@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-layout-empty',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./layout-empty.component.scss']
 })
 export class LayoutEmptyComponent implements OnInit {
+
+@HostBinding('class.app-wrapper') appWrapper = true;
 
   constructor() { }
 

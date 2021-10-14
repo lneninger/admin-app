@@ -1,14 +1,14 @@
 <mat-toolbar  color="primary" class="main-toolbar">
 
   <!-- <span class="app-title">{{appTitle}}</span> -->
-  <span class="flex app-title w-full h-full"> </span>
+  <span class="flex app-title mr-2"> {{appTitle}} </span>
 
   <button mat-icon-button class="sidenav-icon-toggle" aria-label="Example icon-button with menu icon"
     (click)="menuService.toggleMenu()">
     <mat-icon>menu</mat-icon>
   </button>
 
-  <app-breadcrumb class="flex flex-row flex-no-wrap  ml-12"></app-breadcrumb>
+  <app-breadcrumb class="flex flex-row flex-no-wrap  ml-10"></app-breadcrumb>
 
   <span class="example-spacer"></span>
   <!-- <mat-form-field class="example-form-field">

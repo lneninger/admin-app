@@ -1,4 +1,4 @@
-import { NgxsDataRepository } from '@ngxs-labs/data';
+import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { MemberStateModel } from './../member/states/member.models';
 import { MemberState } from './../member/states/member.state';
 import { CaseService } from './../case/case.service';
@@ -8,6 +8,7 @@ import { BaseCategoryStateModel } from './base-category.models';
 import produce from 'immer';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { BaseCategoryState } from './base-category.state';
+import { Computed, DataAction } from '@ngxs-labs/data/decorators';
 
 export class InitializeAction {
   static readonly type = '[Category] Initialize';
@@ -28,11 +29,13 @@ export class GetCurrentCaseAction {
 //     currentCase: null
 //   }
 // })
-export class BaseCategoryService {
+export class BaseCategoryService extends NgxsDataRepository<BaseCategoryStateModel> {
 
-  @Selector([MemberState])
-  notifications(state: BaseCategoryStateModel, memberState: MemberStateModel) {
-    return  memberState.notifications && memberState.notifications.getNotificationsByCategory(state.categoryName);
+
+  @Computed()
+  get notifications() {
+    const globalMemberState = this.store.selectSnapshot<MemberStateModel>(MemberState.state);
+    return globalMemberState.notifications && globalMemberState.notifications.getNotificationsByCategory(this.internalCategoryName);
   }
 
   get categoryName() {
@@ -46,18 +49,17 @@ export class BaseCategoryService {
     public internalCategoryName: string,
     public iconFontSet: string,
     public icon: string,
+    protected store: Store,
     protected actions$: Actions,
     protected caseService: CaseService
   ) {
-
-    this.repository.dispatch(InitializeAction);
-    // this.repository.dispatch(new InitializeAction(internalCategoryName, iconFontSet, icon));
+    super();
 
     // debugger;
     this.actions$.pipe(ofActionCompleted(SetMemberBase64Action)).subscribe(completion => {
       // debugger
       const base64 = (completion.action as SetMemberBase64Action).base64;
-      this.store.dispatch(new GetCurrentCaseAction(base64, this.internalCategoryName));
+      this.repository.store.dispatch(new GetCurrentCaseAction(base64, this.internalCategoryName));
     });
 
   }
@@ -71,13 +73,4 @@ export class BaseCategoryService {
     }));
   }
 
-  @Action(InitializeAction)
-  async SetCategoryName(ctx: StateContext<BaseCategoryStateModel>, action: InitializeAction) {
-
-    ctx.setState(produce(ctx.getState(), (draft: BaseCategoryStateModel) => {
-      draft.categoryName = action.categoryName;
-      draft.iconFontSet = action.iconFontSet;
-      draft.icon = action.icon;
-    }));
-  }
 }

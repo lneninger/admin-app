@@ -2,11 +2,12 @@ import { AppStateModel } from 'src/app/app.state';
 import { TelephonySession } from './../../telephony/states/telephony.models';
 import { MemberService } from './../member.service';
 import { Injectable } from '@angular/core';
-import { Persistence, StateRepository } from '@ngxs-labs/data';
+import { StateRepository } from '@ngxs-labs/data/decorators';
+import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import produce from 'immer';
 import { MemberStateModel } from './member.models';
-import { UserModel } from '../../user/states/user.models';
+import { UserModel } from '../../user/auth.models';
 import { tap } from 'rxjs/operators';
 
 export class ClearMemberAction {
@@ -53,14 +54,21 @@ export class MemberNotificationsAction {
   }
 })
 @Injectable()
-export class MemberState {
+export class MemberState extends NgxsDataRepository<MemberStateModel> {
+
+  @Selector()
+  static state(state: MemberStateModel) {
+    return state;
+  }
 
   @Selector()
   static memberWrapper(state: MemberStateModel) {
     return state.member;
   }
 
-  constructor(private store: Store, private memberService: MemberService) { }
+  constructor(private store: Store, private memberService: MemberService) {
+    super();
+   }
 
   @Action(ClearMemberAction)
   async clearMember(ctx: StateContext<MemberStateModel>, action: ClearMemberAction) {

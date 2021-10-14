@@ -1,3 +1,4 @@
+import { MaterialImportsModule } from './../../material-imports.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,20 +26,7 @@ import { CustomOverlayModule } from './overlay/overlay.module';
   imports: [
     CommonModule,
     AppCommonModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatChipsModule,
-    MatProgressBarModule,
-    MatBadgeModule,
+    MaterialImportsModule,
 
 
     CustomOverlayModule
@@ -49,27 +37,10 @@ import { CustomOverlayModule } from './overlay/overlay.module';
   exports: [
     CommonModule,
     AppCommonModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatListModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatChipsModule,
-    MatProgressBarModule,
-    MatBadgeModule,
-
+    MaterialImportsModule,
     CustomOverlayModule,
 
     PageComponent,
-
-
   ]
 })
 export class LayoutMainCommonModule { }

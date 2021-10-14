@@ -20,7 +20,8 @@ import { MenuService } from './navigation/menu/menu.service';
   selector: 'app-layout-main',
   templateUrl: './layout-main.component.html',
   styleUrls: ['./layout-main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  // : { '[class]': 'app-wrapper' }
 })
 export class LayoutMainComponent extends BaseComponent implements OnInit, AfterViewInit {
   elem: HTMLElement;
@@ -41,7 +42,7 @@ export class LayoutMainComponent extends BaseComponent implements OnInit, AfterV
     return this.lazyLoaderDirectivesInternal;
   }
 
-  @ViewChild('drawer', { static: true })
+  @ViewChild('drawer', { static: false })
   drawer: MatDrawer;
 
   @ViewChild('drawerOptions', { static: true })
@@ -72,12 +73,16 @@ export class LayoutMainComponent extends BaseComponent implements OnInit, AfterV
 
 
   async ngOnInit() {
-    this.elem = document.documentElement;
-    this.initializeMenuListener();
-    this.initializeOptionsListener();
-    this.initializeLazyLoadListener();
 
   }
+
+  async ngAfterViewInit() {
+      this.elem = document.documentElement;
+      this.initializeMenuListener();
+      this.initializeOptionsListener();
+      this.initializeLazyLoadListener();
+  }
+
   initializeMenuListener() {
     this.menu$$ = this.menu$.subscribe(menu => {
       // debugger;
@@ -122,10 +127,6 @@ export class LayoutMainComponent extends BaseComponent implements OnInit, AfterV
           }
         });
       });
-  }
-
-  ngAfterViewInit() {
-    this.menuService.initialize(this.drawer, this.drawerOptions);
   }
 
   initializeMedia() {

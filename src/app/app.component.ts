@@ -1,7 +1,9 @@
-import { TenantGetAction } from './main/services/tenant/states/tenant.state';
+import { AuthService } from './main/services/user/auth.service';
 import { Store } from '@ngxs/store';
 import { Component } from '@angular/core';
 import { UserService } from './main/services/user/user.service';
+import { NavigationService } from './shared/layout/layout-main/navigation/navigation.service';
+import { navigationItems } from './main/main.navigation';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +13,10 @@ import { UserService } from './main/services/user/user.service';
 export class AppComponent {
 
   constructor(
-    private userService: UserService) {
+    navigationService: NavigationService,
 
-    // store.dispatch(new TenantGetAction());
+  ) {
+    navigationService.addItem(...navigationItems);
 
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, State, StateToken, Store } from '@ngxs/store';
-import { StateRepository } from '@ngxs-labs/data';
+import { StateRepository } from '@ngxs-labs/data/decorators';
 import { CaseService } from '../../case/case.service';
 import { ProductCategoryNames } from 'src/app/main/shared/general.models';
 import { LISState } from './states/lis.state';
@@ -21,8 +21,8 @@ export const LIS_STATE_TOKEN = new StateToken<LISStateModel>(LIS_STATE_NAME);
 @Injectable({providedIn: 'root'})
 export class LISService  extends BaseCategoryService {
 
-  constructor(repository: LISState, actions$: Actions, caseService: CaseService) {
-    super(repository, ProductCategoryNames.LIS, 'fas', 'fa-dollar-sign', actions$, caseService);
+  constructor(repository: LISState, store: Store, actions$: Actions, caseService: CaseService) {
+    super(repository, ProductCategoryNames.LIS, 'fas', 'fa-dollar-sign', store, actions$, caseService);
   }
 
 }

@@ -1,0 +1,89 @@
+<app-page title="Product Categories">
+
+
+  <section class="flex flex-col">
+
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Table">
+        <table mat-table [dataSource]="gridConfig?.data" class="mat-elevation-z8" style="width: 100%">
+
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [length]="gridConfig?.resultsLength" [pageSize]="10"></mat-paginator>
+
+      </mat-tab>
+      <mat-tab label="Tree">
+        <!-- {{treeDataSource.data | json}} -->
+        <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="custom-tree">
+
+          <!-- This is the tree node template for leaf nodes -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+
+            <li class="mat-tree-node">
+
+              <!-- use a disabled button to provide padding for tree leaf -->
+              <button mat-icon-button disabled></button>
+              {{node.name}}
+              <button mat-icon-button [matMenuTriggerFor]="menu" (click)="setCurrent(node)" aria-label="Options">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            </li>
+          </mat-tree-node>
+
+          <!-- This is the tree node template for expandable nodes -->
+          <mat-nested-tree-node *matTreeNodeDef="let node;when: hasChild">
+
+            <li>
+              <div class="mat-tree-node">
+
+                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                  </mat-icon>
+                </button>
+                {{node.name}}
+                <button mat-icon-button [matMenuTriggerFor]="menu" (click)="setCurrent(node)" aria-label="Options">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+              </div>
+              <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
+                <ng-container matTreeNodeOutlet></ng-container>
+              </ul>
+            </li>
+
+          </mat-nested-tree-node>
+        </mat-tree>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="newChildCategory(this.currentCategory)">New child</button>
+          <button mat-menu-item (click)="deleteCurrentCategory()">Delete</button>
+        </mat-menu>
+      </mat-tab>
+    </mat-tab-group>
+
+  </section>
+
+  <ng-template #optionsContent>
+    <button mat-mini-fab aria-label="New product category" (click)="newProductCategory($event)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </ng-template>
+</app-page>

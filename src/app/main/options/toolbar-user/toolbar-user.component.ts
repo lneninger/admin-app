@@ -1,5 +1,6 @@
+import { AuthService } from 'src/app/main/services/user/auth.service';
+import { TenantService } from './../../services/tenant/tenant.service';
 import { BaseComponent } from 'src/app/shared/base.component';
-import { TenantState } from 'src/app/main/services/tenant/states/tenant.state';
 import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { animate, state, style, transition, trigger, useAnimation, AnimationEvent } from '@angular/animations';
 import { bounce, bounceInLeft, fadeInLeft, fadeInRight, fadeOutLeft, fadeOutRight } from 'ng-animate';
@@ -8,11 +9,12 @@ import { combineLatest, fromEvent, merge, Observable, of, Subscription } from 'r
 import { debounceTime, filter, startWith, switchMap } from 'rxjs/operators';
 import { NONE_TYPE } from '@angular/compiler';
 import { CurrentRoleState, UserState } from 'src/app/main/services/user/states/user.state';
-import { Role, UserModel } from 'src/app/main/services/user/states/user.models';
+import { Role, UserModel } from 'src/app/main/services/user/auth.models';
 import { Select, Store } from '@ngxs/store';
-import { Tenant } from 'src/app/main/services/tenant/states/tenant.models';
+import { Tenant } from 'src/app/main/services/tenant/tenant.models';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { AppOptionsService } from 'src/app/shared/layout/layout-main/options/app-options.service';
+import firebase from 'firebase/app';
 
 @AutoUnsubscribe()
 @Component({
@@ -50,8 +52,7 @@ export class ToolbarUserComponent extends BaseComponent implements OnInit, After
 
   clickInside: boolean;
 
-  @Select(UserState.user)
-  user$: Observable<UserModel>;
+  user$: Observable<firebase.User>;
 
   @Select(UserState.userRoles)
   userRoles$: Observable<Role[]>;
@@ -60,7 +61,7 @@ export class ToolbarUserComponent extends BaseComponent implements OnInit, After
   currentRole$: Observable<Role>;
 
 
-  @Select(TenantState.globalTenants)
+  @Select(TenantService.globalTenants)
   globalTenants$: Observable<Tenant[]>;
 
   defaultTenants: Tenant[] = [];
@@ -69,15 +70,17 @@ export class ToolbarUserComponent extends BaseComponent implements OnInit, After
   constructor(
     public store: Store,
     public dialog: MatDialog,
-    public optionsService: AppOptionsService
+    public optionsService: AppOptionsService,
+    private authService: AuthService
   ) {
     super();
-    this.defaultTenantsSubnscriptions = this.store.select<Tenant[]>(TenantState.defaultTenants).subscribe(defaultTenants => {
+    this.defaultTenantsSubnscriptions = this.store.select<Tenant[]>(TenantService.defaultTenants).subscribe(defaultTenants => {
       this.defaultTenants = defaultTenants;
     });
   }
 
   ngOnInit(): void {
+    this.user$ = this.authService.user$;
   }
 
   ngAfterViewInit() {

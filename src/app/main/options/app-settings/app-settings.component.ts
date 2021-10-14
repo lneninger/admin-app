@@ -4,10 +4,10 @@ import { identifierModuleUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Tenant } from 'src/app/main/services/tenant/states/tenant.models';
-import { SetDefaultTenantsAction, TenantState } from 'src/app/main/services/tenant/states/tenant.state';
-import { Role } from '../../services/user/states/user.models';
+import { Tenant } from 'src/app/main/services/tenant/tenant.models';
+import { Role } from '../../services/user/auth.models';
 import { AppStateModel } from 'src/app/app.state';
+import { TenantService } from '../../services/tenant/tenant.service';
 
 
 
@@ -37,18 +37,18 @@ const globalRoles = [
 })
 export class AppSettingsComponent implements OnInit {
 
-  @Select(TenantState.globalTenants)
+  @Select(TenantService.globalTenants)
   globalTenants$: Observable<Tenant[]>;
 
   @Select(UserState.userRoles)
   userRoles$: Observable<Role[]>;
 
   get defaultTenants() {
-    return this.store.selectSnapshot<Tenant[]>(TenantState.defaultTenants);
+    return this.store.selectSnapshot<Tenant[]>(TenantService.defaultTenants);
   }
 
   set defaultTenants(value: Tenant[]) {
-    this.store.dispatch(new SetDefaultTenantsAction(value));
+    this.tenantService.setDefaultTenants(value);
   }
 
   get userCurrentRole() {
@@ -68,7 +68,8 @@ export class AppSettingsComponent implements OnInit {
   legacy: string;
 
   constructor(
-    private store: Store
+    private store: Store,
+    private tenantService: TenantService
   ) { }
 
   ngOnInit() {

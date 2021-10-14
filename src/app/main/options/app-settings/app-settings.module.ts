@@ -6,6 +6,7 @@ import { AppSettingsRoutingModule } from './app-settings-routing.module';
 import { AppSettingsComponent } from './app-settings.component';
 import { FormsModule } from '@angular/forms';
 import { OptionsWrapperModule } from '../../../shared/layout/layout-main/options/options-wrapper/options-wrapper.module';
+import { LogoutModule } from '../../shared/security/logout/logout.module';
 
 
 @NgModule({
@@ -17,7 +18,9 @@ import { OptionsWrapperModule } from '../../../shared/layout/layout-main/options
 
     FormsModule,
 
-    OptionsWrapperModule
+    OptionsWrapperModule,
+
+    LogoutModule
   ]
   , entryComponents: [
     AppSettingsComponent

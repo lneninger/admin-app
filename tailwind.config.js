@@ -7,7 +7,11 @@ module.exports = {
   },
   purge: [],
   theme: {
-    extend: {}
+    extend: {},
+    flex: {
+      '100per': '0 0 100%',
+      '25per': '1 1 25%'
+    }
   },
   variants: {},
   plugins: []

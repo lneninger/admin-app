@@ -1,0 +1,80 @@
+<div class="app-wrapper bg-gradient-to-b from-red-600 via-orange-400 to-yellow-300" fxLayoutAlign="center center">
+
+
+  <mat-card fxFlex.le-sm="50%" fxFlex="30%" fxLayoutGap="30px" fxLayout="column">
+
+    <span *ngIf="this.validationErrors" fxLayoutAlign="center center">
+      <mat-error *ngIf="userName.dirty && userName.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+    </span>
+
+    <span *ngIf="this.errorMessage" fxLayoutAlign="center center">
+      <mat-error>
+      {{this.errorMessage}}
+      </mat-error>
+    </span>
+
+    <span fxLayoutAlign="center center" class="app-title">
+      <span class="text">
+        My HCare
+      </span>
+    </span>
+
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit($event)" class="max-w-7xl">
+      <div fxLayout="column" fxLayoutGap="70px">
+        <div fxLayout="column" fxLayoutGap="20px">
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <mat-icon matPrefix>email</mat-icon>
+            <input [(ngModel)]="userLogin.userName" name="userName" #userName="ngModel" matInput type="text" required
+              email>
+            <mat-hint>User email. If you don't have one, please contact your IT support</mat-hint>
+            <mat-error *ngIf="userName.dirty && userName.hasError('required')">
+              Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="userName.hasError('email') && !userName.hasError('required')">
+              Please enter a valid email address
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <mat-icon matPrefix>lock</mat-icon>
+            <input [(ngModel)]="userLogin.password" name="password" #password="ngModel" matInput type="password"
+              required pattern="[A-Za-z0-9._%+-@]{3,}$">
+            <mat-hint>User password. If you don't remember your password, please contact your IT support</mat-hint>
+            <mat-error *ngIf="password.dirty && password.hasError('required')">
+              Please enter your password
+            </mat-error>
+            <mat-error *ngIf="password.hasError('pattern') && !password.hasError('required')">
+              Please enter a valid password
+            </mat-error>
+          </mat-form-field>
+
+          <!-- <div>
+          <mat-checkbox [(ngModel)]="userLogin.rememberMe" name="rememberMe" class="example-margin">Remember me</mat-checkbox>
+        </div> -->
+        </div>
+
+        <div class="flex" fxLayoutAlign="stretch center">
+          <button mat-flat-button class="flex justify-center" fxFlexFill color="primary" type="submit"
+            [disabled]="loginForm.invalid || this.authenticating">
+            <ng-container *ngIf="this.authenticating; then authenticatingSpinnerTemplate; else loginLabelTemplate">
+            </ng-container>
+            <ng-template #authenticatingSpinnerTemplate>
+              <section class="flex justify-center">
+                <mat-progress-spinner [mode]="'indeterminate'" diameter="30">
+                </mat-progress-spinner>
+              </section>
+
+            </ng-template>
+            <ng-template #loginLabelTemplate>Login</ng-template>
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+
+
+</div>

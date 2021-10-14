@@ -1,0 +1,6 @@
+<mat-list *ngIf="authService.isLoggedIn">
+  <a href="javascript:void(0)" mat-list-item (click)="logout()" title="Logout user">
+    <mat-icon mat-list-icon>exit_to_app</mat-icon>
+    <div mat-line>Logout</div>
+  </a>
+</mat-list>

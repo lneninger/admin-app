@@ -1,7 +1,16 @@
 <div fxFlex fxLayout="column" class="max-h-full">
   <mat-toolbar>
-    <mat-toolbar-row>
-      <span class="text-2xl font-semibold text-white-200">{{title}}</span>
+    <mat-toolbar-row class="flex justify-between">
+      <section class="flex items-center">
+        <mat-icon class="mr-4">{{icon}}</mat-icon>
+        <span class="text-2xl font-semibold text-white-200">{{title}}</span>
+      </section>
+
+
+      <section *ngIf="optionsContent">
+        <ng-container [ngTemplateOutlet]="optionsContent"></ng-container>
+      </section>
+
     </mat-toolbar-row>
   </mat-toolbar>
 

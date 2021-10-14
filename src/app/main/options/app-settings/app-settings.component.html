@@ -1,7 +1,6 @@
 <app-options-wrapper title="Settings">
 
   <p class="flex flex-col">
-<!-- {{globalTenants$ | async | json}} -->
     <mat-form-field appearance="fill" class="mb-4">
       <mat-label>Default Tenants</mat-label>
       <mat-select [(ngModel)]="defaultTenants" multiple>
@@ -15,10 +14,9 @@
       <mat-select [(ngModel)]="userCurrentRole">
         <mat-option *ngFor="let role of userRoles$ | async" [value]="role">{{role.name}}</mat-option>
       </mat-select>
-      <!-- <mat-hint>User role to be applied through all the app</mat-hint> -->
-      <!-- <mat-hint>{{userCurrentRole?.name}}</mat-hint> -->
-
     </mat-form-field>
+
+    <app-logout></app-logout>
 
 
   </p>

@@ -1,10 +1,10 @@
-import { CaseService } from './../../case/case.service';
-import { ProductCategoryNames } from './../../../shared/general.models';
+import { BaseCategoryState } from './../../base-category.state';
 import { Injectable } from '@angular/core';
 import { Actions, State, StateToken, Store } from '@ngxs/store';
-import { BaseCategoryState } from '../base-category.service';
 import { LISStateModel } from './lis.models';
-import { StateRepository } from '@ngxs-labs/data';
+import { StateRepository } from '@ngxs-labs/data/decorators';
+import { ProductCategoryNames } from 'src/app/main/shared/general.models';
+import { CaseService } from '../../../case/case.service';
 
 export const LIS_STATE_NAME = `${ProductCategoryNames.LIS}State`;
 export const LIS_STATE_TOKEN = new StateToken<LISStateModel>(LIS_STATE_NAME);

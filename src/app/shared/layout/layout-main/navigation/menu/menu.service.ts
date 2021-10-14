@@ -8,6 +8,9 @@ import { MediaService } from 'src/app/shared/common/media.service';
 import { AppConfigState, AppConfigStateMenuModel, MenuToggleAction, MenuExpandedToggleAction } from '../../../states/appconfig.state';
 import { NavigationItem, NavigationService } from '../navigation.service';
 
+
+export declare type PatchTypeFunction = (item: NavigationItem) => Partial<NavigationItem>;
+export declare type PatchType = Partial<NavigationItem> | PatchTypeFunction;
 @Injectable({
   providedIn: 'root'
 })
@@ -22,18 +25,34 @@ export class MenuService {
 
   fullScreenInternal$ = new BehaviorSubject<boolean>(false);
 
-  // private expandedInternal$ = new BehaviorSubject<boolean>(false);
-  // expanded$ = this.expandedInternal$.asObservable();
-
   @Select(AppConfigState.menu)
   menu$: Observable<AppConfigStateMenuModel>;
+
+  _currentMenu: NavigationItem[];
+  set currentMenu(value: NavigationItem[]) {
+    this._currentMenu = value;
+    console.info(`set currentMenu => `, value);
+  }
+  get currentMenu() {
+    return this._currentMenu;
+  }
+
+
+  get currentMenuTop() {
+    return this._currentMenu && this._currentMenu.filter(item => !item.bottom);
+  }
+
+  get currentMenuBottom() {
+    return this._currentMenu && this._currentMenu.filter(item => item.bottom);
+  }
+
 
   constructor(
     private navigationService: NavigationService,
     private store: Store,
     private configState: AppConfigState,
     private mediaService: MediaService
-    ) {
+  ) {
 
   }
 
@@ -46,11 +65,25 @@ export class MenuService {
     return this.navigationService.build(...ids);
   }
 
-  updateItem(items: NavigationItem[], id: NavigationItemIds, patch: Partial<NavigationItem>) {
-    const index = items.findIndex(item => item.id === id);
-    items.splice(index, 1, {...items[index], ...patch});
+  buildCurrentMenu(...ids: string[]) {
+    this.currentMenu = this.navigationService.build(...ids);
+  }
 
-    return items;
+  updateItems(patch: PatchType, ids: NavigationItemIds[]) {
+    ids.forEach(id => {
+      const index = this.currentMenu.findIndex(item => item.id === id);
+      if (index >= 0) {
+        let formatted: Partial<NavigationItem>;
+        if (typeof (patch) === 'function') {
+          formatted = (patch as PatchTypeFunction)(this.currentMenu[index]);
+        } else {
+          formatted = patch as Partial<NavigationItem>;
+        }
+        this.currentMenu.splice(index, 1, { ...this.currentMenu[index], ...formatted });
+      }
+    });
+
+
   }
 
 

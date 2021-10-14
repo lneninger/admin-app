@@ -1,5 +1,5 @@
 import { UserState } from './../user/states/user.state';
-import { UserModel } from './../user/states/user.models';
+import { UserModel } from '../user/auth.models';
 import { MemberWrapperModel } from './../member/states/member.models';
 import { MemberState } from './../member/states/member.state';
 import { Injectable } from '@angular/core';

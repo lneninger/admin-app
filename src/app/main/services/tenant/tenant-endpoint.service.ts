@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Tenant } from './states/tenant.models';
+import { Tenant } from './tenant.models';
 import { BaseEndpointService } from '../baseendpoint.service';
 
 @Injectable({

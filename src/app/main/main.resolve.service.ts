@@ -1,4 +1,3 @@
-import { TenantGetAction } from './services/tenant/states/tenant.state';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Actions, ofActionCompleted, Store } from '@ngxs/store';

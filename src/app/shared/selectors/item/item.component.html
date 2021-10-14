@@ -1,0 +1,94 @@
+<ng-container [ngSwitch]="true">
+
+  <div *ngSwitchCase="item.editing"
+    class="rounded-full py-2 px-3 border-2 border-blue-700 grid-flow-row grid-cols-4 gap-4 flex">
+
+    <section name="identifier">
+      <select [(ngModel)]="item.identifier" (change)="onSelectorChange($event)">
+        <option></option>
+        <option *ngFor="let selector of this.selectors" [value]="selector.value">{{selector.label}}</option>
+      </select>
+    </section>
+
+    <section name="operator" class="mx-2">
+      <select [(ngModel)]="item.operator">
+        <option></option>
+        <option *ngFor="let operator of itemSelector?.operators">{{operator}}</option>
+      </select>
+    </section>
+
+    <section name="selection">
+      <ng-container *ngTemplateOutlet="this.template; context: {$implicit: config}"></ng-container>
+    </section>
+
+    <div class="flex">
+      <div
+        class="ml-2 flex items-center justify-center rounded-full h-6 w-6  bg-blue-700 text-gray-100 cursor-pointer hover:h-8 hover:w-8"
+        (click)="setEditing(false)">
+        <!-- <em [ngClass]="{'fas fa-save': !item?.isNew, 'fas fa-plus': item?.isNew}"></em> -->
+        <em [ngClass]="saveOptions"></em>
+      </div>
+
+      <!-- <em class="" [ngClass]="{'fas fa-save': !item?.isNew, 'fab fa-creative-commons-by': item?.isNew}"></em> -->
+
+
+      <div
+        class="ml-2 flex items-center justify-center rounded-full h-6 w-6  bg-blue-700 text-gray-100 cursor-pointer hover:h-8 hover:w-8"
+        (click)="setEditing()">
+        <em class="fas fa-eraser"></em>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngSwitchDefault>
+    <div class="rounded-full py-2 px-3 border-2 bg-blue-100 border-blue-500 grid-flow-row grid-cols-4 gap-4 flex">
+
+      <section name="identifier">{{itemSelector.label || 'N/A'}}</section>
+
+      <section name="operator" class="mx-2">
+        {{item?.operator || 'N/A'}}
+      </section>
+
+      <section name="selection">
+        <ng-container *ngTemplateOutlet="this.template"></ng-container>
+      </section>
+
+      <div class="flex">
+        <div
+          class="ml-2 flex items-center justify-center rounded-full h-6 w-6  bg-blue-700 text-gray-100 cursor-pointer hover:h-8 hover:w-8"
+          (click)="setEditing()">
+          <em class="fas fa-pencil-alt"></em>
+        </div>
+
+        <div
+          class="ml-2 flex items-center justify-center rounded-full h-6 w-6  bg-blue-700 text-gray-100 cursor-pointer hover:h-8 hover:w-8"
+          (click)="setEditing()">
+          <em class="fas fa-eraser"></em>
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #multiSelect>
+  <ng-container *ngIf="item?.editing; else readStatusValue">
+    <select [(ngModel)]="item.value">
+      <option *ngFor="let option of itemSelector.valueOptions" [value]="option.value">
+        {{option.label}}
+      </option>
+    </select>
+  </ng-container>
+  <ng-template #readStatusValue>
+    {{item?.value || 'N/A'}}
+  </ng-template>
+</ng-template>
+
+<ng-template #input>
+  <ng-container *ngIf="item?.editing; else readStatusValue">
+    <input [(ngModel)]="item.value">
+  </ng-container>
+  <ng-template #readStatusValue>
+    {{item?.value || 'N/A'}}
+  </ng-template>
+</ng-template>
