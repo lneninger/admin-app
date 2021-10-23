@@ -1,7 +1,11 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import firebase from 'firebase/app';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import 'firebase/auth';
 import * as Cors from 'cors';
 import { IUserCreate } from './user.models';
+import { initializeApp } from 'firebase-admin/app';
 
 const cors = Cors({ origin: true });
 

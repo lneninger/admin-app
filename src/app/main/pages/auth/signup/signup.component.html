@@ -27,13 +27,18 @@
           <mat-form-field>
             <mat-label>Email</mat-label>
             <mat-icon matPrefix>email</mat-icon>
-            <input [(ngModel)]="this.signUp.email" name="email" #email="ngModel" matInput type="text" required email>
+            <input [(ngModel)]="this.signUp.email" name="email" #email="ngModel" matInput type="text" required email
+            autocomplete="email">
             <mat-hint>User email. If you don't have one, please contact your IT support</mat-hint>
-            <mat-error *ngIf="email.dirty && email.hasError('required')">
-              Please enter a valid email address
-            </mat-error>
-            <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
-              Please enter a valid email address
+            <mat-error [ngSwitch]="true">
+              <ng-template [ngSwitchCase]="!email.dirty">
+              </ng-template>
+              <ng-template [ngSwitchCase]="email.hasError('required')">
+                Please enter your email address
+              </ng-template>
+              <ng-template [ngSwitchCase]="email.hasError('email') && !email.hasError('required')">
+                Please enter a valid email address
+              </ng-template>
             </mat-error>
           </mat-form-field>
 
@@ -42,27 +47,37 @@
               <mat-label>Password</mat-label>
               <mat-icon matPrefix>lock</mat-icon>
               <input [(ngModel)]="signUp.password" name="password" #password="ngModel" matInput type="password" required
-                pattern="[A-Za-z0-9._%+-@]{3,}$">
-              <mat-hint>User password. If you don't remember your password, please contact your IT support</mat-hint>
-              <mat-error *ngIf="password.dirty && password.hasError('required')">
-                Please enter your password
-              </mat-error>
-              <mat-error *ngIf="password.hasError('pattern') && !password.hasError('required')">
-                Please enter a valid password
+                pattern="[A-Za-z0-9._%+-@]{3,}$"
+                autocomplete="current-password">
+              <mat-hint>User password.</mat-hint>
+              <mat-error [ngSwitch]="true">
+                <ng-template [ngSwitchCase]="!password.dirty">
+                </ng-template>
+                <ng-template [ngSwitchCase]="password.hasError('required')">
+                  Please enter your password
+                </ng-template>
+                <ng-template [ngSwitchCase]="password.hasError('pattern')">
+                  Please enter a valid password
+                </ng-template>
               </mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex="0 1 40%">
               <mat-label>Confirm Password</mat-label>
               <mat-icon matPrefix>lock</mat-icon>
-              <input [(ngModel)]="signUp.password" name="password" #passwordConfirm="ngModel" matInput type="password"
-                required pattern="[A-Za-z0-9._%+-@]{3,}$">
-              <mat-hint>User password. If you don't remember your password, please contact your IT support</mat-hint>
-              <mat-error *ngIf="passwordConfirm.dirty && passwordConfirm.hasError('required')">
-                Please enter your password
-              </mat-error>
-              <mat-error *ngIf="passwordConfirm.hasError('pattern') && !passwordConfirm.hasError('required')">
-                Please enter a valid password
+              <input [(ngModel)]="signUp.confirmPassword" name="confirmPassword" #confirmPassword="ngModel" matInput
+                type="password" required [equalTo]="password"
+                autocomplete="off">
+              <mat-hint>Confirm password.</mat-hint>
+              <mat-error [ngSwitch]="true">
+                <ng-template [ngSwitchCase]="!confirmPassword.dirty">
+                </ng-template>
+                <ng-template [ngSwitchCase]="confirmPassword.hasError('required')">
+                  Please enter your password confirmation
+                </ng-template>
+                <ng-template [ngSwitchCase]="confirmPassword.hasError('equalTo')">
+                  Password need to match
+                </ng-template>
               </mat-error>
             </mat-form-field>
           </section>
@@ -75,20 +90,26 @@
         <mat-form-field>
           <mat-label>Phone Number</mat-label>
           <mat-icon matPrefix>phoneNumber</mat-icon>
-          <input [(ngModel)]="this.signUp.phoneNumber" name="phoneNumber" #phoneNumber="ngModel" matInput type="text" required email>
-          <mat-hint>User email. If you don't have one, please contact your IT support</mat-hint>
-          <mat-error *ngIf="phoneNumber.dirty && phoneNumber.hasError('required')">
-            Please enter a valid phone number
-          </mat-error>
-          <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
-            Please enter a valid phone number
+          <input [(ngModel)]="this.signUp.phoneNumber" name="phoneNumber" #phoneNumber="ngModel" matInput type="text"
+            appPhoneMask
+            autocomplete="tel">
+          <mat-hint>User phone number</mat-hint>
+          <mat-error [ngSwitch]="true">
+            <ng-template [ngSwitchCase]="!phoneNumber.dirty">
+            </ng-template>
+            <ng-template [ngSwitchCase]="phoneNumber.hasError('required')">
+              Please enter your phone number
+            </ng-template>
+            <ng-template [ngSwitchCase]="phoneNumber.hasError('phoneNumber')">
+              Please enter a valid phone number
+            </ng-template>
           </mat-error>
         </mat-form-field>
 
         <div class="flex" fxLayoutAlign="stretch center">
           <button mat-flat-button class="flex justify-center" fxFlexFill color="primary" type="submit"
             [disabled]="signUpForm.invalid || this.signingUp">
-            <ng-container *ngIf="this.signingUp; then signingUpSpinnerTemplate; else signupLabelTemplate">
+            <ng-container *ngIf="this.signingUp; then signingUpSpinnerTemplate; else signUpLabelTemplate">
             </ng-container>
             <ng-template #signingUpSpinnerTemplate>
               <section class="flex justify-center">
@@ -97,7 +118,7 @@
               </section>
 
             </ng-template>
-            <ng-template #signupLabelTemplate>Signup</ng-template>
+            <ng-template #signUpLabelTemplate>Signup</ng-template>
           </button>
         </div>
 

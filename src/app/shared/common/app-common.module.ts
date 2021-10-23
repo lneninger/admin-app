@@ -6,6 +6,7 @@ import { LazyLoaderModule } from '../lazy-loader/lazy-loader.module';
 import { SecurityModule } from 'src/app/main/shared/security/security-module';
 import { PipesModule } from '../pipes/pipes.module';
 
+
 @NgModule({
   declarations: [],
   imports: [

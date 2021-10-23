@@ -6,6 +6,8 @@ import { LayoutEmptyModule } from '../../../../shared/layout/layout-empty/layout
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SignupComponent } from './signup.component';
+import { CustomFormsModule } from 'ngx-custom-validators';
+import { CustomDirectivesModule } from 'src/app/shared/directives/custom-directives.module';
 
 
 
@@ -20,7 +22,9 @@ import { SignupComponent } from './signup.component';
     ]),
     CommonModule,
     FormsModule,
-    MaterialImportsModule
+    CustomFormsModule,
+    MaterialImportsModule,
+    CustomDirectivesModule
   ],
   exports: [SignupComponent]
 })

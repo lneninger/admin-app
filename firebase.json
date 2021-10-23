@@ -33,6 +33,9 @@
     "database": {
       "port": 9000
     },
+    "auth": {
+      "port": 9099
+    },
     "pubsub": {
       "port": 8082
     },
