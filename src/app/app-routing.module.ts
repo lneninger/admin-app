@@ -29,6 +29,18 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'signup',
+    component: LayoutEmptyComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToApp },
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./main/pages/auth/signup/signup.module').then(m => m.SignupModule)
+      }
+    ]
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('./main/pages/dashboard/dashboard.module').then(m => m.DashboardModule)
   },

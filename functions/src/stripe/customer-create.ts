@@ -2,14 +2,13 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import {Stripe} from 'stripe';
 import * as Cors from 'cors';
-import { ICustomerInputModel, IPaymentInputModel } from './payment.models';
+import { ICustomerInputModel } from './payment.models';
 import { Observable } from 'rxjs';
-import e = require('cors');
 
 const cors = Cors({ origin: true });
 
 const stripe = new Stripe(functions.config().stripe.token, {apiVersion: '2020-08-27'});
-const currency = functions.config().stripe.currency || 'USD';
+// const currency = functions.config().stripe.currency || 'USD';
 
 export const anonymousPayment = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 
@@ -18,10 +17,6 @@ export const anonymousPayment = functions.https.onRequest((req: functions.https.
     const data = <ICustomerInputModel>req.body.data;
 
     console.log(`Mapped to model`, data, `original body`, req.body);
-
-    //const token = data.source;
-
-
 
 
     const customer: Stripe.CustomerCreateParams = {

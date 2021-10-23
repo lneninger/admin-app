@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { AuthorizationGuard } from './authorization.guard';
 import { httpInterceptorProviders } from './security.interceptor';
 
 
@@ -9,7 +8,6 @@ import { httpInterceptorProviders } from './security.interceptor';
 
     ],
     providers: [
-        AuthorizationGuard,
         httpInterceptorProviders
     ],
 })

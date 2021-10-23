@@ -5,6 +5,8 @@ import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 import { RoleNames, UserModel } from './auth.models';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { IUserCreate } from 'functions/src/user/user.models';
 
 @Injectable({
   providedIn: 'root'
@@ -21,50 +23,13 @@ export class UserService {
   }
 
   constructor(
-    // private adalSvc: MsAdalAngular6Service,
+    private fns: AngularFireFunctions,
     private store: Store
   ) {
-
-    // if (this.isAuthenticated) {
-    //   // debugger;
-    //   this.store.dispatch(new SetUserLoggedAction(this.adalSvc.userInfo));
-    //   this.store.dispatch(new SetUserTokenAction(this.adalSvc.accessToken));
-    // }
-
-    // this.acquireToken();
   }
 
-
-  // async acquireToken() {
-  //   const token = await this.adalSvc.acquireToken('https://graph.microsoft.com').toPromise();
-  //   this.store.dispatch(new SetUserTokenAction(token));
-  // }
-
-//  async acquireToken() {
-//     const token = await this.account.acquireToken('https://graph.microsoft.com').toPromise();
-//     this.store.dispatch(new SetUserTokenAction(token));
-//   }
-
-  isInRole(...roles: RoleNames[]): boolean {
-    if (this.user != null) {
-      return this.user.roles.some(r => r.inRoles(roles));
-    }
-    return false;
+  createUser(user: Partial<IUserCreate>) {
+    return this.fns.httpsCallable('userCreate')(user);
   }
-
-  userInitials(): string {
-    if (this.user) {
-      return (
-        this.user.firstName.charAt(0).toUpperCase() +
-        this.user.lastName.charAt(0).toUpperCase()
-      );
-    }
-
-    return null;
-  }
-
-  // logout(): void {
-  //   this.adalSvc.logout();
-  // }
 
 }

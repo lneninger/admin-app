@@ -9,3 +9,13 @@ export interface ICustomerInputModel{
   email: string;
   fullName: string;
 }
+
+export interface ICustomerAddPaymentMethodInputModel {
+  userId: string;
+
+}
+
+
+export interface IUserPaymentConfig{
+  customerId?: string;
+}

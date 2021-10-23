@@ -11,7 +11,7 @@
 
     <span *ngIf="this.errorMessage" fxLayoutAlign="center center">
       <mat-error>
-      {{this.errorMessage}}
+        {{this.errorMessage}}
       </mat-error>
     </span>
 
@@ -71,6 +71,15 @@
             </ng-template>
             <ng-template #loginLabelTemplate>Login</ng-template>
           </button>
+        </div>
+
+
+        <div class="flex" fxLayoutAlign="stretch center">
+          <a routerLink="/signup" fxLayoutAlign="start center" fxLayoutGap="5px">
+            <span class="material-icons">
+              person_add
+            </span>
+            <span>Signup</span></a>
         </div>
       </div>
     </form>
