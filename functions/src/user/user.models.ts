@@ -1,11 +1,8 @@
 
 
-export interface IUserCreate {
-  photoUrl: string | null | undefined;
+export interface IUserMetadata {
   displayName: string | null | undefined;
   phoneNumber: string | null | undefined;
-  email: string;
-  password: string;
 }
 
 export interface IUserExists {

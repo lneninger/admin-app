@@ -8,3 +8,10 @@
 @import "~@fortawesome/fontawesome-free/css/all.css";
 
 @import '~@angular/cdk/overlay-prebuilt.css';
+
+
+.dashboard-tile {
+  & .header-icon {
+    font-size: 20px;
+  }
+}

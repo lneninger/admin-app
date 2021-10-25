@@ -10,6 +10,5 @@ export class FirebaseService {
     public firestore: AngularFirestore,
     public auth: AngularFireAuth
   ) {
-    firestore
   }
 }

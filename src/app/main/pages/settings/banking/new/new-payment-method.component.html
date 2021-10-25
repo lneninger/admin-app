@@ -1,0 +1,15 @@
+<app-page title="New payment method">
+
+  <section fxFlex="100%" fxLayout="row wrap">
+    <form class="checkout" novalidate (ngSubmit)="createToken()" [formGroup]="stripeTest">
+      <input type="text" formControlName="name" placeholder="Jane Doe">
+      <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+      <button type="submit">
+        Create
+      </button>
+    </form>
+
+  </section>
+
+
+</app-page>

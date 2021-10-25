@@ -1,4 +1,4 @@
-import { IUserCreate } from './../../../../../../functions/src/user/user.models';
+import { IUserMetadata } from './../../../../../../functions/src/user/user.models';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -55,17 +55,14 @@ export class SignupComponent implements OnInit {
     if (this.signUpForm.valid) {
 
       this.signingUp = true;
-      const signUp: IUserCreate = {
-        email: this.signUp.email,
-        password: this.signUp.password,
+      const metadata: IUserMetadata = {
         displayName: this.signUp.displayName,
-        phoneNumber: this.signUp.phoneNumber,
-        photoUrl: this.signUp.photoUrl,
+        phoneNumber: this.signUp.phoneNumber
       };
 
       this.errorMessage = undefined;
       try {
-        await this.userService.createUser(signUp).toPromise();
+        await this.userService.createUser(this.signUp.email, this.signUp.password, this.signUp.phoneNumber, this.signUp.photoUrl, metadata);
         await this.router.navigate(['/']);
       } catch (error) {
         console.log('login error: ', error);
