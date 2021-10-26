@@ -1,12 +1,14 @@
+import { PaymentService } from 'src/app/main/services/payment/payment.service';
 import { SpecialistService } from './main/services/specialist/specialist.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxsDataPluginModule } from '@ngxs-labs/data';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
+import { NgxsDataPluginModule } from '@ngxs-labs/data';
+import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
+// import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { ProductCategoryService } from 'src/app/main/services/product-category/product-category.service';
 import { environment } from 'src/environments/environment';
@@ -68,18 +70,20 @@ import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions'
       UserState,
       TelephonyState,
       TelephonySessionState,
+      PaymentService,
       AggregatorsState
     ], {
       developmentMode: !environment.production
     }),
-    NgxsDataPluginModule.forRoot(),
-    NgxsStoragePluginModule.forRoot({
-      key: [
-        AuthService,
-        TenantService
-      ]
-    }),
-    NgxStripeModule.forRoot(environment.stripeKey),
+    // NgxsDataPluginModule.forRoot(),
+    // NgxsStoragePluginModule.forRoot({
+    //   key: [
+    //     AuthService,
+    //     TenantService
+    //   ]
+    // }),
+        NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
+        NgxStripeModule.forRoot(environment.stripeKey),
   ],
   providers: [
     { provide: LAZY_WIDGETS, useFactory: lazyArrayToObj },

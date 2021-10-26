@@ -1,3 +1,4 @@
+import { PaymentService } from 'src/app/main/services/payment/payment.service';
 import { Component, OnInit } from '@angular/core';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
@@ -12,16 +13,19 @@ import { NavigationItemIds } from './main.navigation';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent extends BaseComponent implements OnInit {
+  currentPaymentMethod: string;
 
   constructor(
-    breadcrumbService: BreadcrumbService
+    breadcrumbService: BreadcrumbService,
+    private paymentService: PaymentService
   ) {
     super();
     breadcrumbService.build(NavigationItemIds.HOME);
+    this.currentPaymentMethod = this.paymentService.currentPaymentMethod;
   }
 
 
   async ngOnInit() {
-
+    await this.paymentService.load();
   }
 }
