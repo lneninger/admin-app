@@ -1,15 +1,17 @@
-import { PaymentService } from 'src/app/main/services/payment/payment.service';
-import { SpecialistService } from './main/services/specialist/specialist.service';
+import { NgxsDataPluginModule } from '@angular-ru/ngxs';
+import { NGXS_DATA_STORAGE_PLUGIN } from '@angular-ru/ngxs/storage';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+import { PERSISTENCE, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
+import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
+import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
-import { NgxsDataPluginModule } from '@ngxs-labs/data';
-import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
-// import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
-import { OAuthModule } from 'angular-oauth2-oidc';
+import { NgxStripeModule } from 'ngx-stripe';
+import { PaymentService } from 'src/app/main/services/payment/payment.service';
 import { ProductCategoryService } from 'src/app/main/services/product-category/product-category.service';
 import { environment } from 'src/environments/environment';
 
@@ -20,6 +22,7 @@ import { AggregatorsState } from './main/services/+state-aggregators/aggregators
 import { MemberState } from './main/services/member/states/member.state';
 import { ProductService } from './main/services/product/product.service';
 import { QuoteService } from './main/services/quote/quote.service';
+import { SpecialistService } from './main/services/specialist/specialist.service';
 import { TelephonySessionState, TelephonyState } from './main/services/telephony/states/telephony.state';
 import { TenantService } from './main/services/tenant/tenant.service';
 import { AuthService } from './main/services/user/auth.service';
@@ -27,15 +30,6 @@ import { CurrentRoleState, UserState } from './main/services/user/states/user.st
 import { AppCommonModule } from './shared/common/app-common.module';
 import { AppConfigState } from './shared/layout/states/appconfig.state';
 import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
-import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { PERSISTENCE } from '@angular/fire/auth';
-import { NgxStripeModule } from 'ngx-stripe';
-
-import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
-import { USE_EMULATOR as USE_DATABASE_EMULATOR } from '@angular/fire/database';
-import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
-import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
 
 @NgModule({
   declarations: [

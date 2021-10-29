@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, State, StateToken, Store } from '@ngxs/store';
-import { StateRepository } from '@ngxs-labs/data/decorators';
+import { StateRepository } from '@angular-ru/ngxs/decorators';
 import { CaseService } from '../../case/case.service';
 import { ProductCategoryNames } from 'src/app/main/shared/general.models';
 import { LISState } from './states/lis.state';

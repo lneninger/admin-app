@@ -1,4 +1,4 @@
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 
 
 

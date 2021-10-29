@@ -1,4 +1,4 @@
-import { StateRepository } from '@ngxs-labs/data/decorators';
+import { StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsBaseDataRepository } from '../+redux/base-redux.service';
 import { Injectable } from '@angular/core';
 import { AddProductRequest, AddProductResponse, IProduct, IProductItem, ProductStateModel } from './product.models';

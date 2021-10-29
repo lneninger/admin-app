@@ -1,9 +1,8 @@
 import { UserService } from '../user.service';
 import { Injectable } from '@angular/core';
 import { State, Selector, Action, Store, StateContext } from '@ngxs/store';
-import { Persistence, StateRepository } from '@ngxs-labs/data/decorators';
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
-import { } from '@ngxs-labs/data';
+import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
+import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import produce from 'immer';
 import { CurrentRoleStateModel, Role, UserModel, AuthStateModel } from '../auth.models';
 import { environment } from 'src/environments/environment';

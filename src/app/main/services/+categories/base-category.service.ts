@@ -1,4 +1,4 @@
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { MemberStateModel } from './../member/states/member.models';
 import { MemberState } from './../member/states/member.state';
 import { CaseService } from './../case/case.service';
@@ -8,7 +8,7 @@ import { BaseCategoryStateModel } from './base-category.models';
 import produce from 'immer';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { BaseCategoryState } from './base-category.state';
-import { Computed, DataAction } from '@ngxs-labs/data/decorators';
+import { Computed, DataAction } from '@angular-ru/ngxs/decorators';
 
 export class InitializeAction {
   static readonly type = '[Category] Initialize';

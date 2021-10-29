@@ -2,7 +2,7 @@ import { BaseCategoryState } from './../../base-category.state';
 import { Injectable } from '@angular/core';
 import { Actions, State, StateToken, Store } from '@ngxs/store';
 import { LISStateModel } from './lis.models';
-import { StateRepository } from '@ngxs-labs/data/decorators';
+import { StateRepository } from '@angular-ru/ngxs/decorators';
 import { ProductCategoryNames } from 'src/app/main/shared/general.models';
 import { CaseService } from '../../../case/case.service';
 

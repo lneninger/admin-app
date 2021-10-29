@@ -1,10 +1,10 @@
 import { UserService } from 'src/app/main/services/user/user.service';
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { FirebaseService } from './../../../shared/firebase/firebase.service';
 import { Injectable } from '@angular/core';
-import { Persistence, StateRepository } from '@ngxs-labs/data/decorators';
 import { State, Store } from '@ngxs/store';
 import { IPaymentStateModel } from './paymernt.state.models';
+import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
+import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 
 
 @Persistence({
@@ -37,6 +37,7 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
   }
 
   async load(){
+    this.firebase.firestore.collection('users').add({name: 'Test'});
     return this.firebase.firestore.collection('users').get().toPromise();
   }
 }

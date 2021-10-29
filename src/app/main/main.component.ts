@@ -26,6 +26,6 @@ export class MainComponent extends BaseComponent implements OnInit {
 
 
   async ngOnInit() {
-    await this.paymentService.load();
+    const loaded = await this.paymentService.load();
   }
 }

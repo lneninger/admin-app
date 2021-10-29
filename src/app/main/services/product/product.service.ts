@@ -3,7 +3,7 @@ import { NgxsBaseDataRepository } from '../+redux/base-redux.service';
 import { Injectable } from '@angular/core';
 import { AddProductRequest, AddProductResponse, IProduct, IProductItem, ProductStateModel } from './product.models';
 import { Observable } from 'rxjs';
-import { DataAction, Payload, StateRepository } from '@ngxs-labs/data/decorators';
+import { DataAction, Payload, StateRepository } from '@angular-ru/ngxs/decorators';
 import produce from 'immer';
 import { State } from '@ngxs/store';
 import { DataRetrieverInput } from 'src/app/shared/grid/grid-config';

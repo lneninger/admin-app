@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Persistence, StateRepository } from '@ngxs-labs/data/decorators';
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
+import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Action, State, StateContext } from '@ngxs/store';
 import produce from 'immer';
 import { TelephonySessionStateModel, TelephonyStateModel } from './telephony.models';

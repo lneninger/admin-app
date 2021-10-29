@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DataAction, Payload, StateRepository } from '@ngxs-labs/data/decorators';
+import { DataAction, Payload, StateRepository } from '@angular-ru/ngxs/decorators';
 import { Selector, State, Store } from '@ngxs/store';
 import produce from 'immer';
 import { Observable } from 'rxjs';

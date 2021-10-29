@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { DataAction, Payload, StateRepository } from '@ngxs-labs/data/decorators';
+import { DataAction, Payload, StateRepository } from '@angular-ru/ngxs/decorators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Tenant, TenantStateModel } from './tenant.models';
 import { TenantEndpointService } from './tenant-endpoint.service';
 import { Selector, State, Store } from '@ngxs/store';
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { environment } from 'src/environments/environment';
 import produce from 'immer';
 import { first } from 'rxjs/operators';

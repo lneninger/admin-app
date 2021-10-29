@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { QuoteEndpointService } from './quote-endpoint.service';
 import { AddQuoteRequest, AddQuoteResponse, UpdateQuoteRequest, Quote, QuoteStateModel } from './quote.models';
 import { NgxsBaseDataRepository } from '../+redux/base-redux.service';
-import { DataAction, Payload, StateRepository } from '@ngxs-labs/data/decorators';
+import { DataAction, Payload, StateRepository } from '@angular-ru/ngxs/decorators';
 import produce from 'immer';
 import { Selector, State, Store } from '@ngxs/store';
 import { DataRetrieverInput } from 'src/app/shared/grid/grid-config';

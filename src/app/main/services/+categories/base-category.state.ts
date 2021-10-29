@@ -1,6 +1,6 @@
 import { MemberStateModel } from 'src/app/main/services/member/states/member.models';
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
-import { Computed } from '@ngxs-labs/data/decorators';
+import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
+import { Computed } from '@angular-ru/ngxs/decorators';
 import { MemberState } from './../member/states/member.state';
 import { CaseService } from './../case/case.service';
 import { Actions, State, Store, ofActionCompleted, Action, StateContext, Selector } from '@ngxs/store';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { StateRepository } from '@ngxs-labs/data/decorators';
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { StateRepository } from '@angular-ru/ngxs/decorators';
+import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { State } from '@ngxs/store';
 import firebase from 'firebase/app';
 import { first } from 'rxjs/operators';
