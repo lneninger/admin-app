@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/main/services/user/auth.service';
 import { UserService } from 'src/app/main/services/user/user.service';
 import { AlertService, MessageSeverity } from 'src/app/shared/common/alert.service';
 import { environment } from 'src/environments/environment';
+import { mockedSignUp } from 'src/app/shared/firebase/mocker.service';
 
 @Component({
   selector: 'app-signup',
@@ -16,14 +17,7 @@ import { environment } from 'src/environments/environment';
 export class SignupComponent implements OnInit {
 
   @ViewChild('signUpForm') public signUpForm: NgForm;
-  signUp: IUserCreateForm = {
-    email: !environment.production ? 'lneninger@hotmail.com' : undefined,
-    password: !environment.production ? '123123' : undefined,
-    confirmPassword: !environment.production ? '123123' : undefined,
-    displayName: !environment.production ? 'Leonardo' : undefined,
-    phoneNumber: !environment.production ? '+17864553456' : undefined,
-    photoUrl: !environment.production ? environment.uploadUrl : undefined,
-  };
+  signUp: IUserCreateForm = environment.production ? {} as IUserCreateForm : mockedSignUp;
 
   isLoading = false;
   formResetToggle = true;

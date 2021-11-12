@@ -28,6 +28,8 @@ import { TenantService } from './main/services/tenant/tenant.service';
 import { AuthService } from './main/services/user/auth.service';
 import { CurrentRoleState, UserState } from './main/services/user/states/user.state';
 import { AppCommonModule } from './shared/common/app-common.module';
+import { MockerService } from './shared/firebase/mocker.service';
+import { NoOpMockerService } from './shared/firebase/noop-mocker.service';
 import { AppConfigState } from './shared/layout/states/appconfig.state';
 import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
 
@@ -87,6 +89,9 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
     // { provide: USE_DATABASE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 9000] : undefined },
     { provide: USE_FIRESTORE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 8081] : undefined },
     { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 5001] : undefined },
+
+    { provide: MockerService, useClass: environment.production ? MockerService : NoOpMockerService },
+
 
   ],
   bootstrap: [AppComponent]

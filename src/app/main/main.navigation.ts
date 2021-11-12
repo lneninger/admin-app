@@ -12,6 +12,10 @@ export enum NavigationItemIds {
   SETTINGS_DASHBOARD = 'SETTINGS_DASHBOARD',
   SETTINGS_BANKING = 'SETTINGS_BANKING',
 
+  PAYMENTMETHOD_NEW = 'PAYMENTMETHOD_NEW',
+  PAYMENTMETHOD_EDIT = 'PAYMENTMETHOD_EDIT',
+
+
   ADMIN_USERS = 'ADMIN_USERS',
   ADMIN_ROLES = 'ADMIN_ROLES',
 
@@ -112,6 +116,19 @@ export const navigationItems: NavigationItem[] = [
     id: NavigationItemIds.SETTINGS_BANKING,
     label: 'Banking',
     routerLink: ['/app/settings/banking'],
+    icon: 'account_balance'
+  },
+
+  {
+    id: NavigationItemIds.PAYMENTMETHOD_NEW,
+    label: 'New Payment',
+    routerLink: ['/app/settings/banking/'],
+    icon: 'account_balance'
+  },
+  {
+    id: NavigationItemIds.PAYMENTMETHOD_EDIT,
+    label: 'Edit Payment',
+    routerLink: ['/app/settings/banking/'],
     icon: 'account_balance'
   },
 

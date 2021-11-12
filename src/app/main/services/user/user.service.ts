@@ -26,13 +26,12 @@ export class UserService {
 
   constructor(
     private firebaseService: FirebaseService,
-    private fns: AngularFireFunctions,
     private router: Router,
     private store: Store
   ) {
   }
 
-  async createUser(email: string, password: string, photoURL, phoneNumber: string, metadata: Partial<IUserMetadata>) {
+  async createUser(email: string, password: string, phoneNumber: string, photoURL: string, metadata: Partial<IUserMetadata>) {
     // return this.fns.httpsCallable('userCreate')(user);
     let error;
     try {
@@ -61,6 +60,10 @@ export class UserService {
       window.alert(error.message)
     }
 
+  }
+
+  attachRole(userId: string, roleName: string ){
+this.firebaseService.fns.httpsCallable('')
   }
 
 }

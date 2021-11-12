@@ -6,7 +6,7 @@ import { IUserAddRole } from './user.models';
 const cors = Cors({ origin: true });
 
 
-export const userAddRole = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
+export const attachRole = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 
   return cors(req, res, async () => {
 
@@ -16,11 +16,29 @@ export const userAddRole = functions.https.onRequest((req: functions.https.Reque
 
     //const token = data.source;
 
-    await admin.auth().setCustomUserClaims(data.uid, { roles: [data.role] });
+    const roleName = data.role.toUpperCase();
+    const role = (await admin.firestore().collection(`/auth/roles`).where('name', '==', roleName).limit(1).get()).docs.at(0);
+    let roleId: string;
+    if (role) {
+      roleId = role.id
+    } else {
+      const newRole = (await admin.firestore().collection(`/auth/roles`).add({ name: roleName }));
+      roleId = newRole.id;
+    }
 
-    console.log('User Get Role Response:', data.role);
+    if (data.uid) {
+      const relationshipRef = (await admin.firestore().collection(`/auth/users-roles`).add({ userId: data.uid, roleId }));
+      const relationship = await relationshipRef.get();
+      console.log('Attach role response:', relationship);
 
-    res.status(200);
+      res.status(200).json(relationship);
+    } else {
+      console.log('Add role response:', roleId);
+
+      res.status(200).json({ roleId });
+    }
+
+
 
 
   });

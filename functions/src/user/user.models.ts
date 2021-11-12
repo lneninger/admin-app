@@ -15,6 +15,13 @@ export interface IUserAddRole{
   role: string;
 }
 
+export interface IUserRemoveRole{
+  uid: string;
+  userRoleId: string;
+  roleId: string;
+  role: string;
+}
+
 export interface IUserClaims{
   roles: string[];
 }
