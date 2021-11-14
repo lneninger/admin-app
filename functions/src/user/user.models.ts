@@ -10,7 +10,7 @@ export interface IUserExists {
   email: string;
 }
 
-export interface IUserAddRole{
+export interface IAttachRole{
   uid: string;
   role: string;
 }

@@ -7,8 +7,9 @@ import { Injectable } from '@angular/core';
 import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 import { RoleNames, UserModel } from './auth.models';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { IUserMetadata } from 'functions/src/user/user.models';
+import { IAttachRole, IUserMetadata } from 'functions/src/user/user.models';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +51,8 @@ export class UserService {
 
         await userCreateResponse.user.sendEmailVerification() //Send email verification
         await this.firebaseService.auth.signOut() //Logout is triggered --> line 16 in app.js
-        this.router.navigate(['/login'])
+
+        return userCreateResponse;
 
       } catch (error) {
         window.alert(error.message)
@@ -62,8 +64,9 @@ export class UserService {
 
   }
 
-  attachRole(userId: string, roleName: string ){
-this.firebaseService.fns.httpsCallable('')
+  async attachRole(userId: string, roleName: string) {
+    const attachRole = this.firebaseService.fns.httpsCallable('attachRole');
+    return await attachRole({ uid: userId, role: roleName } as IAttachRole).pipe(first()).toPromise();
   }
 
 }

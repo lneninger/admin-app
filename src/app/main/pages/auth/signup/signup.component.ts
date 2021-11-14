@@ -56,7 +56,7 @@ export class SignupComponent implements OnInit {
 
       this.errorMessage = undefined;
       try {
-        await this.userService.createUser(this.signUp.email, this.signUp.password, this.signUp.phoneNumber, this.signUp.photoUrl, metadata);
+        const result = await this.userService.createUser(this.signUp.email, this.signUp.password, this.signUp.phoneNumber, this.signUp.photoUrl, metadata);
         await this.router.navigate(['/']);
       } catch (error) {
         console.log('login error: ', error);

@@ -1,3 +1,4 @@
+import { MockerService } from './shared/firebase/mocker.service';
 import { AuthService } from './main/services/user/auth.service';
 import { Store } from '@ngxs/store';
 import { Component } from '@angular/core';
@@ -14,7 +15,7 @@ export class AppComponent {
 
   constructor(
     navigationService: NavigationService,
-
+    mockerService: MockerService
   ) {
     navigationService.addItem(...navigationItems);
 

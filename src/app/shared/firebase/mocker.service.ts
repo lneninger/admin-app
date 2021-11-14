@@ -35,8 +35,8 @@ export class MockerService {
       displayName: mockedSignUp.displayName,
       phoneNumber: mockedSignUp.phoneNumber
     };
-    await this.userService.createUser(mockedSignUp.email, mockedSignUp.password, mockedSignUp.phoneNumber, mockedSignUp.photoUrl, metadata);
-    await this.userService.attachRole
+    const createUserResult = await this.userService.createUser(mockedSignUp.email, mockedSignUp.password, mockedSignUp.phoneNumber, mockedSignUp.photoUrl, metadata);
+    await this.userService.attachRole(createUserResult.user.uid, 'Admin');
 
     //#endregion
   }

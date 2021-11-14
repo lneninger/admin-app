@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as Cors from 'cors';
-import { IUserAddRole } from './user.models';
+import { IAttachRole } from './user.models';
 
 const cors = Cors({ origin: true });
 
@@ -10,24 +10,24 @@ export const attachRole = functions.https.onRequest((req: functions.https.Reques
 
   return cors(req, res, async () => {
 
-    const data = <IUserAddRole>req.body.data;
+    const data = <IAttachRole>req.body.data;
 
     console.log(`Mapped to model`, data, `original body`, req.body);
 
     //const token = data.source;
 
     const roleName = data.role.toUpperCase();
-    const role = (await admin.firestore().collection(`/auth/roles`).where('name', '==', roleName).limit(1).get()).docs.at(0);
+    const role = (await admin.firestore().collection(`auth-roles`).where('name', '==', roleName).limit(1).get()).docs.at(0);
     let roleId: string;
     if (role) {
       roleId = role.id
     } else {
-      const newRole = (await admin.firestore().collection(`/auth/roles`).add({ name: roleName }));
+      const newRole = (await admin.firestore().collection(`auth-roles`).add({ name: roleName }));
       roleId = newRole.id;
     }
 
     if (data.uid) {
-      const relationshipRef = (await admin.firestore().collection(`/auth/users-roles`).add({ userId: data.uid, roleId }));
+      const relationshipRef = (await admin.firestore().collection(`auth-users-roles`).add({ userId: data.uid, roleId }));
       const relationship = await relationshipRef.get();
       console.log('Attach role response:', relationship);
 

@@ -90,7 +90,7 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
     { provide: USE_FIRESTORE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 8081] : undefined },
     { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 5001] : undefined },
 
-    { provide: MockerService, useClass: environment.production ? MockerService : NoOpMockerService },
+    { provide: MockerService, useClass: environment.production ? NoOpMockerService : MockerService  },
 
 
   ],
