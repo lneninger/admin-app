@@ -85,7 +85,6 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
     const claims = tokenResult.claims as IUserClaims;
 
     this.ctx.setState(produce(this.ctx.getState(), (draft: AuthStateModel) => {
-
       draft.userCredential = userCredential;
       draft.claims = claims;
     }));
