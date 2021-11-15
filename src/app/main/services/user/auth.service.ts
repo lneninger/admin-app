@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { StateRepository } from '@angular-ru/ngxs/decorators';
+import { DataAction, Payload, Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { State } from '@ngxs/store';
 import firebase from 'firebase/app';
 import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
-import { AuthStateModel, User, UserLogin } from './auth.models';
+import { AuthStateModel, User, UserLogin, UserModel } from './auth.models';
+import { resourceLimits } from 'worker_threads';
+import { IUserClaims } from 'functions/src/user/user.models';
+import produce from 'immer';
 
 
 export const LoginErrorCodes = {
@@ -20,6 +23,9 @@ API key not valid. Please pass a valid API key. (invalid API key provided)`,
   MISSING_REFRESH_TOKEN: `No refresh token provided.`
 }
 
+@Persistence({
+  existingEngine: sessionStorage
+})
 @StateRepository()
 @State<AuthStateModel>({
   name: 'authState',
@@ -31,6 +37,7 @@ API key not valid. Please pass a valid API key. (invalid API key provided)`,
 export class AuthService extends NgxsDataRepository<AuthStateModel> {
 
   user$ = this.firebaseService.auth.authState;
+  claims: IUserClaims;
 
   constructor(
     private firebaseService: FirebaseService
@@ -41,6 +48,9 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   async login(userLogin: UserLogin): Promise<firebase.User> {
     try {
       const userCredential = await this.firebaseService.auth.signInWithEmailAndPassword(userLogin.userName, userLogin.password);
+      const user = userCredential;
+      await this.setUserCredential(userCredential);
+
       return userCredential.user;
     } catch (error) {
       throw error;
@@ -68,5 +78,17 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
     }
   }
 
+  @DataAction()
+  async setUserCredential(@Payload('userCredential') userCredential: firebase.auth.UserCredential ) {
+
+    const tokenResult = await userCredential.user.getIdTokenResult();
+    const claims = tokenResult.claims as IUserClaims;
+
+    this.ctx.setState(produce(this.ctx.getState(), (draft: AuthStateModel) => {
+
+      draft.userCredential = userCredential;
+      draft.claims = claims;
+    }));
+  }
 
 }

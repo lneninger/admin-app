@@ -1,8 +1,6 @@
 
 export interface UserStateModel {
-  token?: string;
-  user: UserModel;
-  app_currentrole?: CurrentRoleStateModel;
+  roles: string[];
 }
 
 

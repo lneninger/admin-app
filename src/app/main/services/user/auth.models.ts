@@ -1,13 +1,13 @@
-import { PermissionValues } from './permission.model';
+import { IUserClaims } from './../../../../../functions/src/user/user.models';
+import firebase from 'firebase/app';
 
 export interface AuthStateModel {
-  permissions?: PermissionValues[];
+  userCredential?: firebase.auth.UserCredential;
+  claims?: IUserClaims;
   rememberMe?: boolean;
   token?: string;
   user?: UserModel;
 
-
-  app_currentrole?: CurrentRoleStateModel;
 }
 
 
@@ -24,18 +24,7 @@ export class UserLogin {
 }
 
 export class UserModel {
-  id: number;
-  sub: string;
-  name: string;
-  userName: any;
-  email: any;
-  firstName: any;
-  lastName: any;
-  fullName: string;
-  jobTitle: string;
-  phoneNumber: string;
-  roles: any[];
-  isEnabled: boolean;
+  uid: string;
 
   constructor(input: Partial<UserModel>) {
     Object.assign(this, input);

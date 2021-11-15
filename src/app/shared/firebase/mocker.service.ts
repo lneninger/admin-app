@@ -31,12 +31,23 @@ export class MockerService {
    */
   async initialize() {
     //#region Auth
+    let alreadyFeed = false;
     const metadata: IUserMetadata = {
       displayName: mockedSignUp.displayName,
       phoneNumber: mockedSignUp.phoneNumber
     };
-    const createUserResult = await this.userService.createUser(mockedSignUp.email, mockedSignUp.password, mockedSignUp.phoneNumber, mockedSignUp.photoUrl, metadata);
-    await this.userService.attachRole(createUserResult.user.uid, 'Admin');
+    let createUserResult: any;
+    try {
+      createUserResult = await this.userService.createUser(mockedSignUp.email, mockedSignUp.password, mockedSignUp.phoneNumber, mockedSignUp.photoUrl, metadata);
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        alreadyFeed = true;
+      }
+    }
+
+    if (!alreadyFeed) {
+      await this.userService.attachRole(createUserResult.user.uid, 'Admin');
+    }
 
     //#endregion
   }

@@ -13,6 +13,7 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxStripeModule } from 'ngx-stripe';
 import { PaymentService } from 'src/app/main/services/payment/payment.service';
 import { ProductCategoryService } from 'src/app/main/services/product-category/product-category.service';
+import { UserService } from 'src/app/main/services/user/user.service';
 import { environment } from 'src/environments/environment';
 
 import { lazyArrayToObj } from './app-routing-lazy';
@@ -26,7 +27,6 @@ import { SpecialistService } from './main/services/specialist/specialist.service
 import { TelephonySessionState, TelephonyState } from './main/services/telephony/states/telephony.state';
 import { TenantService } from './main/services/tenant/tenant.service';
 import { AuthService } from './main/services/user/auth.service';
-import { CurrentRoleState, UserState } from './main/services/user/states/user.state';
 import { AppCommonModule } from './shared/common/app-common.module';
 import { MockerService } from './shared/firebase/mocker.service';
 import { NoOpMockerService } from './shared/firebase/noop-mocker.service';
@@ -61,9 +61,7 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
       QuoteService,
       SpecialistService,
 
-      UserState,
-      CurrentRoleState,
-      UserState,
+      UserService,
       TelephonyState,
       TelephonySessionState,
       PaymentService,

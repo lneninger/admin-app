@@ -1,20 +1,28 @@
-import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
-import { AppStateModel } from './../../../app.state';
-import { UserState } from 'src/app/main/services/user/states/user.state';
-import { SetUserLoggedAction, SetUserTokenAction } from './states/user.state';
-import { Store } from '@ngxs/store';
+import { DataAction, Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
+import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
-import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
-import { RoleNames, UserModel } from './auth.models';
-import { AngularFireFunctions } from '@angular/fire/functions';
-import { IAttachRole, IUserMetadata } from 'functions/src/user/user.models';
 import { Router } from '@angular/router';
+import { Store, State } from '@ngxs/store';
+import { IAttachRole, IUserMetadata } from 'functions/src/user/user.models';
+import produce from 'immer';
 import { first } from 'rxjs/operators';
+import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
-@Injectable({
-  providedIn: 'root'
+import { AppStateModel } from './../../../app.state';
+import { AuthStateModel, UserModel } from './auth.models';
+import { UserStateModel } from './user.models';
+
+
+@StateRepository()
+@State<UserStateModel>({
+  name: 'userState',
+  defaults: {
+    roles: []
+  }
 })
-export class UserService {
+@Injectable()
+@Injectable()
+export class UserService extends NgxsDataRepository<UserStateModel>{
 
   get isAuthenticated() {
     return true;
@@ -30,6 +38,12 @@ export class UserService {
     private router: Router,
     private store: Store
   ) {
+    super();
+  }
+
+  async ngxsAfterBootstrap(){
+    super.ngxsAfterBootstrap();
+    await this.getRoles();
   }
 
   async createUser(email: string, password: string, phoneNumber: string, photoURL: string, metadata: Partial<IUserMetadata>) {
@@ -59,9 +73,20 @@ export class UserService {
       }
 
     } catch (error) {
-      window.alert(error.message)
+      throw error;
     }
 
+  }
+
+  @DataAction()
+  async getRoles() {
+    const roles = await (await this.firebaseService.firestore.collection('auth-roles').get());
+    this.ctx.setState(produce(this.ctx.getState(), (draft: UserStateModel) => {
+
+      draft.roles = roles as string[];
+    }));
+
+    return roles;
   }
 
   async attachRole(userId: string, roleName: string) {
