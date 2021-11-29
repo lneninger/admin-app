@@ -1,13 +1,12 @@
-import { IUserMetadata } from './../../../../../../functions/src/user/user.models';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserLogin } from 'src/app/main/services/user/auth.models';
-import { AuthService } from 'src/app/main/services/user/auth.service';
+import { mockedSignUp } from 'functions/src/_mocker/mocker';
 import { UserService } from 'src/app/main/services/user/user.service';
 import { AlertService, MessageSeverity } from 'src/app/shared/common/alert.service';
 import { environment } from 'src/environments/environment';
-import { mockedSignUp } from 'src/app/shared/firebase/mocker.service';
+
+import { IUserMetadata } from './../../../../../../functions/src/user/user.models';
 
 @Component({
   selector: 'app-signup',
@@ -37,7 +36,6 @@ export class SignupComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-
   }
 
 
@@ -54,9 +52,9 @@ export class SignupComponent implements OnInit {
         phoneNumber: this.signUp.phoneNumber
       };
 
-      this.errorMessage = undefined;
+      this.errorMessage = null;
       try {
-        const result = await this.userService.createUser(this.signUp.email, this.signUp.password, this.signUp.phoneNumber, this.signUp.photoUrl, metadata);
+        await this.userService.createUser(this.signUp.email, this.signUp.password, this.signUp.phoneNumber, this.signUp.photoUrl, metadata);
         await this.router.navigate(['/']);
       } catch (error) {
         console.log('login error: ', error);
@@ -75,11 +73,11 @@ export class SignupComponent implements OnInit {
 }
 
 
-export interface IUserCreateForm{
+export interface IUserCreateForm {
   email: string,
-    password: string,
-    confirmPassword: string;
-    displayName: string,
-    phoneNumber: string,
-    photoUrl: string,
+  password: string,
+  confirmPassword: string;
+  displayName: string,
+  phoneNumber: string,
+  photoUrl?: string,
 }

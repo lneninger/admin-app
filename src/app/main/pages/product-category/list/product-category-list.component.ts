@@ -1,16 +1,16 @@
-import { AddProductCategoryRequest, IProductCategoryDialogData } from './../../../services/product-category/product-category.models';
-import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource } from '@angular/material/tree';
-import { of } from 'rxjs';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { first, tap } from 'rxjs/operators';
 import { IProductCategoryItem } from 'src/app/main/services/product-category/product-category.models';
 import { ProductCategoryService } from 'src/app/main/services/product-category/product-category.service';
 import { DataRetrieverInput, GridConfig } from 'src/app/shared/grid/grid-config';
+
 import { ProductCategoryComponent } from '../item/product-category.component';
+import { IProductCategoryDialogData } from './../../../services/product-category/product-category.models';
 
 @Component({
   selector: 'app-product-category',

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { MemberWrapperModel } from 'src/app/main/services/member/states/member.models';
-import { MemberState } from 'src/app/main/services/member/states/member.state';
 import { Quote } from 'src/app/main/services/quote/quote.models';
 import { QuoteService } from 'src/app/main/services/quote/quote.service';
 

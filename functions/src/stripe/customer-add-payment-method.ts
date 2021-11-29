@@ -1,9 +1,9 @@
+import { ICustomerAddPaymentMethodInputModel, IUserPaymentConfig } from './payment.models';
+import { Observable } from 'rxjs';
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { Stripe } from 'stripe';
 import * as Cors from 'cors';
-import { ICustomerAddPaymentMethodInputModel, IUserPaymentConfig } from './payment.models';
-import { Observable } from 'rxjs';
 
 const cors = Cors({ origin: true });
 

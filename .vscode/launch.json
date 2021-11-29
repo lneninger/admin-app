@@ -34,6 +34,13 @@
       "pathMapping": {
         "/_karma_webpack_": "${workspaceFolder}"
       }
+    },
+    {
+      "name": "Firebase Functions Emulator",
+      "port": 5001,
+      "request": "attach",
+      "type": "node",
+      "webRoot": "${workspaceFolder}/functions"
     }
   ]
 }

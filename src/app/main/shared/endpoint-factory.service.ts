@@ -1,12 +1,10 @@
-import { AppStateModel } from 'src/app/app.state';
-import { UserState } from './../services/user/states/user.state';
-import { AppConfigState } from './../../shared/layout/states/appconfig.state';
-import { Store } from '@ngxs/store';
-import { environment } from './../../../environments/environment';
-import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, Subject, throwError } from 'rxjs';
-import { mergeMap, switchMap, catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { throwError } from 'rxjs';
+import { AppStateModel } from 'src/app/app.state';
+
+import { environment } from './../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'

@@ -1,5 +1,6 @@
 
 export interface UserStateModel {
+  currentRole?: string;
   roles: string[];
 }
 

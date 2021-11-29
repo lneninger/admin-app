@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import  nodemailer = require('nodemailer');
 
 
-export const onNewslettersSubscriptions = functions.database.ref('/newsletters_subscriptions/{subscriptionId}').onCreate((snapshot, context) => {
+export const onNewslettersSubscriptions = functions.firestore.document('/newsletters_subscriptions/{subscriptionId}').onCreate((snapshot, context) => {
 
   console.log(`Executing onNewslettersSubscriptions cloud function`);
   console.log(functions.config());
@@ -11,7 +11,7 @@ export const onNewslettersSubscriptions = functions.database.ref('/newsletters_s
   const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
 
-  const subscription = snapshot.val();
+  const subscription = snapshot.data();
 
   const mailOptions = {
     to: subscription.email,

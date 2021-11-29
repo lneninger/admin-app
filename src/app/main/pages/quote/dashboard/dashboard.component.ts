@@ -1,9 +1,9 @@
+import { UserStateModel } from './../../../services/user/user.models';
 import { Component, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Observable } from 'rxjs';
 import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggregators.state';
-import { MemberStateModel } from 'src/app/main/services/member/states/member.models';
 import { TenantStateModel } from 'src/app/main/services/tenant/tenant.models';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
@@ -59,7 +59,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   productContexts = productContexts;
 
   @Select(AggregatorsState.aggregatorMemberTenant)
-  aggregatorMemberTenant$: Observable<{member: MemberStateModel, tenant: TenantStateModel}>;
+  aggregatorMemberTenant$: Observable<{user: UserStateModel, tenant: TenantStateModel}>;
 
   constructor(breadcrumbService: BreadcrumbService) {
     super();

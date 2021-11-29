@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/main/services/user/user.service';
 import { TenantService } from '../../services/tenant/tenant.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -7,7 +8,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { combineLatest, fromEvent, merge, Observable, of, Subscription } from 'rxjs';
 import { debounceTime, filter, startWith, switchMap } from 'rxjs/operators';
 import { NONE_TYPE } from '@angular/compiler';
-import { CurrentRoleState, UserState } from 'src/app/main/services/user/states/user.state';
 import { Role, UserModel } from 'src/app/main/services/user/auth.models';
 import { Select, Store } from '@ngxs/store';
 import { Tenant } from 'src/app/main/services/tenant/tenant.models';
@@ -50,14 +50,8 @@ export class ToolbarAddComponent extends BaseComponent implements OnInit, AfterV
 
   clickInside: boolean;
 
-  @Select(UserState.user)
-  user$: Observable<UserModel>;
-
-  @Select(UserState.userRoles)
+  @Select(UserService.userRoles)
   userRoles$: Observable<Role[]>;
-
-  @Select(UserState.currentRole)
-  currentRole$: Observable<Role>;
 
 
   @Select(TenantService.globalTenants)

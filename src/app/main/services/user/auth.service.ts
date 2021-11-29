@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
 import { DataAction, Payload, Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
+import { Injectable } from '@angular/core';
 import { State } from '@ngxs/store';
 import firebase from 'firebase/app';
+import { IUserClaims } from 'functions/src/user/user.models';
+import produce from 'immer';
 import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
-import { AuthStateModel, User, UserLogin, UserModel } from './auth.models';
-import { resourceLimits } from 'worker_threads';
-import { IUserClaims } from 'functions/src/user/user.models';
-import produce from 'immer';
+import { AuthStateModel, User, UserLogin } from './auth.models';
 
 
 export const LoginErrorCodes = {

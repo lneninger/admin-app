@@ -1,5 +1,7 @@
+import { SecuredModuleGuardService } from './../shared/secured-modules/secured-module-guard.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ISecuredModuleReferece } from '../shared/secured-modules/secured-module.models';
 
 import { MainComponent } from './main.component';
 import { MainResolveService } from './main.resolve.service';
@@ -52,6 +54,22 @@ const routes: Routes = [
         path: 'product-categories/:id',
         loadChildren: () => import('./pages/product-category/item/product-category.module').then(m => m.ProductCategoryModule)
       },
+
+
+      // Secured Modules
+      {
+        path: 'secured',
+        // canActivate: [SecuredModuleGuardService],
+        canActivateChild: [SecuredModuleGuardService],
+        children: [
+          {
+            path: 'axie-infinity',
+            loadChildren: () => import('./dynamic-modules/axie-infinity/axie-infinity.module').then(m => m.AxieInfinityModule),
+            data: {name: 'AXIE-INFINITY'} as ISecuredModuleReferece
+          }
+        ]
+
+      }
 
     ]
   }

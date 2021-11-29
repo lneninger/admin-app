@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import  nodemailer = require('nodemailer');
 
 
-export const onContactus = functions.database.ref('/contactus/{contactId}').onCreate((snapshot, context) => {
+export const onContactus = functions.firestore.document('/contactus/{contactId}').onCreate((snapshot, context) => {
 
   console.log(`Executing onNContactus cloud function`);
   console.log(functions.config());
@@ -11,7 +11,7 @@ export const onContactus = functions.database.ref('/contactus/{contactId}').onCr
   const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
 
-  const data = snapshot.val();
+  const data = snapshot.data();
 
   const toContactEmailOptions = {
     to: data.email,

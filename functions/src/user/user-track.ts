@@ -4,7 +4,7 @@ import * as functions from 'firebase-functions';
 // const cors = Cors({ origin: true });
 
 
-export const userTrack = functions.firestore.document('auth-users/{userId}').onWrite(async (change, context) => {
+export const userTrack = functions.firestore.document(`auth-users/{userId}`).onWrite(async (change, context) => {
 
 
   // if(!change.after.exists){ // deleted

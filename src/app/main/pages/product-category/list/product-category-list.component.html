@@ -1,5 +1,10 @@
 <app-page title="Product Categories">
 
+  <ng-template #optionsContent>
+    <button mat-mini-fab aria-label="New product category" (click)="newProductCategory($event)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </ng-template>
 
   <section class="flex flex-col">
 
@@ -81,9 +86,5 @@
 
   </section>
 
-  <ng-template #optionsContent>
-    <button mat-mini-fab aria-label="New product category" (click)="newProductCategory($event)">
-      <mat-icon>add</mat-icon>
-    </button>
-  </ng-template>
+
 </app-page>

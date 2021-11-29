@@ -6,6 +6,9 @@ import { MenuService } from 'src/app/shared/layout/layout-main/navigation/menu/m
 import { Observable, Subscription } from 'rxjs';
 import { Select } from '@ngxs/store';
 import { filter, first } from 'rxjs/operators';
+import { AppInitializerService } from 'src/app/shared/app-initializer/app-initializer.service';
+import { ISecuredModule } from 'functions/src/site/site.models';
+import { NavigationItem, NavigationService } from 'src/app/shared/layout/layout-main/navigation/navigation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +23,8 @@ export class AppMenuService {
   constructor(
     public service: MenuService,
     public route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private navigationService: NavigationService
   ) {
 
     this.initializeListener();
@@ -43,19 +47,19 @@ export class AppMenuService {
             await this.generateNewQuoteMenu();
             break;
 
-            case 'SPECIALIST':
-              await this.generateSpecialistMenu();
-              break;
-            case 'NEW-SPECIALIST':
-              await this.generateNewSpecialistMenu();
-              break;
+          case 'SPECIALIST':
+            await this.generateSpecialistMenu();
+            break;
+          case 'NEW-SPECIALIST':
+            await this.generateNewSpecialistMenu();
+            break;
 
 
 
-            case 'ADMIN':
+          case 'ADMIN':
             await this.generateAdminMenu();
             break;
-            case 'SETTINGS':
+          case 'SETTINGS':
             await this.generateSettingsMenu();
             break;
           default:
@@ -76,6 +80,11 @@ export class AppMenuService {
       NavigationItemIds.SPECIALISTS,
       NavigationItemIds.PRODUCT_CATEGORIES,
       NavigationItemIds.PRODUCTS,
+      ...(AppInitializerService.configuration && AppInitializerService.configuration.modules && AppInitializerService.configuration.modules.length) ? [
+        NavigationItemIds.DIVIDER,
+        ...this.generateSecuredModuleMenuItems(AppInitializerService.configuration.modules),
+        NavigationItemIds.DIVIDER,
+      ] : [],
       // NavigationItemIds.DIVIDER,
       // NavigationItemIds.QUOTE_CUSTOM_INTERVIEW,
       // NavigationItemIds.DIVIDER,
@@ -85,6 +94,19 @@ export class AppMenuService {
     );
     console.info(`ended await this.generateGlobalMenu() => `, this.service.currentMenu);
 
+  }
+
+  private generateSecuredModuleMenuItems(modules: ISecuredModule[]): string[] {
+    const navigationItems = modules.map(moduleItem => ({
+      id: moduleItem.name,
+      label: moduleItem.displayName,
+      routerLink: [`/app/secured/${moduleItem.path}`],
+      bottom: false,
+      icon: moduleItem.icon,
+    } as NavigationItem))
+    this.navigationService.addItem(...navigationItems);
+
+    return navigationItems.map(item => item.id);
   }
 
   async generateNewQuoteMenu() {

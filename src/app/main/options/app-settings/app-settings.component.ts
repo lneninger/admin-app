@@ -1,5 +1,5 @@
+import { UserService } from 'src/app/main/services/user/user.service';
 
-import { SetUserCurrentRoleAction, UserState } from './../../services/user/states/user.state';
 import { identifierModuleUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -8,6 +8,7 @@ import { Tenant } from 'src/app/main/services/tenant/tenant.models';
 import { Role } from '../../services/user/auth.models';
 import { AppStateModel } from 'src/app/app.state';
 import { TenantService } from '../../services/tenant/tenant.service';
+import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
 
 
@@ -40,7 +41,7 @@ export class AppSettingsComponent implements OnInit {
   @Select(TenantService.globalTenants)
   globalTenants$: Observable<Tenant[]>;
 
-  @Select(UserState.userRoles)
+  @Select(UserService.userRoles)
   userRoles$: Observable<Role[]>;
 
   get defaultTenants() {
@@ -52,11 +53,11 @@ export class AppSettingsComponent implements OnInit {
   }
 
   get userCurrentRole() {
-    return this.store.selectSnapshot<Role>(UserState.currentRole);
+    return this.store.selectSnapshot<string>(UserService.currentRole);
   }
 
-  set userCurrentRole(value: Role) {
-    this.store.dispatch(new SetUserCurrentRoleAction(value));
+  set userCurrentRole(value: string) {
+    this.userService.setCurentRole(value);
   }
 
   selectedTenants = [];
@@ -69,7 +70,9 @@ export class AppSettingsComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private tenantService: TenantService
+    private tenantService: TenantService,
+    private userService: UserService,
+    private firebaseService: FirebaseService
   ) { }
 
   ngOnInit() {

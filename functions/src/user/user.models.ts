@@ -1,9 +1,14 @@
 
-
-export interface IUserMetadata {
+  export interface ICurrentRole{
+    currentRole?: string;
+  }
+export interface IUserMetadata extends ICurrentRole{
   displayName: string | null | undefined;
   phoneNumber: string | null | undefined;
 }
+
+
+
 
 export interface IUserExists {
   phoneNumber: string;
@@ -24,4 +29,17 @@ export interface IUserRemoveRole{
 
 export interface IUserClaims{
   roles: string[];
+}
+
+export interface IRole{
+  name: string;
+}
+export interface IUserRole{
+  userId: string;
+  roleId: string;
+}
+
+
+export interface ISetCurrentRole{
+  name: string;
 }

@@ -2,14 +2,14 @@ import { DataAction, Persistence, StateRepository } from '@angular-ru/ngxs/decor
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store, State } from '@ngxs/store';
-import { IAttachRole, IUserMetadata } from 'functions/src/user/user.models';
+import { Store, State, Selector } from '@ngxs/store';
+import { IAttachRole, ISetCurrentRole, IUserMetadata } from 'functions/src/user/user.models';
 import produce from 'immer';
 import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
 import { AppStateModel } from './../../../app.state';
-import { AuthStateModel, UserModel } from './auth.models';
+import { AuthStateModel, Role, UserModel } from './auth.models';
 import { UserStateModel } from './user.models';
 
 
@@ -23,6 +23,16 @@ import { UserStateModel } from './user.models';
 @Injectable()
 @Injectable()
 export class UserService extends NgxsDataRepository<UserStateModel>{
+
+  @Selector()
+  static userRoles(state: UserStateModel) {
+    return state.roles;
+  }
+
+  @Selector()
+  static currentRole(state: UserStateModel) {
+    return state.currentRole;
+  }
 
   get isAuthenticated() {
     return true;
@@ -41,7 +51,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
     super();
   }
 
-  async ngxsAfterBootstrap(){
+  async ngxsAfterBootstrap() {
     super.ngxsAfterBootstrap();
     await this.getRoles();
   }
@@ -83,7 +93,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
     const roles = await (await this.firebaseService.firestore.collection('auth-roles').get());
     this.ctx.setState(produce(this.ctx.getState(), (draft: UserStateModel) => {
 
-      draft.roles = roles as string[];
+      // draft.roles = roles as string[];
     }));
 
     return roles;
@@ -93,5 +103,11 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
     const attachRole = this.firebaseService.fns.httpsCallable('attachRole');
     return await attachRole({ uid: userId, role: roleName } as IAttachRole).pipe(first()).toPromise();
   }
+
+  async setCurentRole(value: string) {
+    const setCurrentRole = this.firebaseService.fns.httpsCallable('setCurrentRole');
+    return await setCurrentRole({ name: value } as ISetCurrentRole).pipe(first()).toPromise();
+  }
+
 
 }

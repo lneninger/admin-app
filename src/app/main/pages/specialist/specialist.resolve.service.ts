@@ -1,12 +1,6 @@
-import { first, switchMap, tap } from 'rxjs/operators';
-import { MemberStateModel, MemberWrapperModel } from '../../services/member/states/member.models';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Actions, ofActionCompleted, ofActionDispatched, Store } from '@ngxs/store';
-import { Observable, combineLatest } from 'rxjs';
-import { ClearMemberAction, GetMemberAction } from '../../services/member/states/member.state';
-import { ProcessTelephonyParamsAction } from '../../services/telephony/states/telephony.state';
-import { AppStateModel } from 'src/app/app.state';
+
 import { Specialist } from '../../services/specialist/specialist.models';
 import { SpecialistService } from '../../services/specialist/specialist.service';
 

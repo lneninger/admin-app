@@ -9,11 +9,11 @@ export const environment = {
 
   // app
   appVersion: '1.0.0',
-  apiBaseUrl: 'https://localhost:5001/',
+  // apiBaseUrl: 'https://localhost:5001/',
+  apiBaseUrl: 'http://localhost:5001/firebase-adminsys-20210823/us-central1/',
 
   uploadUrl: 'https://localhost:44350/api/uploads/write',
 
-  tokenUrl: null as string, // For IdentityServer/Authorization Server API. You can set to null if same as baseUrl
   useStorage: false,
   loginUrl: '/login',
   useEmulators: true,
