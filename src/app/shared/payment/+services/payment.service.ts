@@ -1,10 +1,12 @@
 import { UserService } from 'src/app/main/services/user/user.service';
-import { FirebaseService } from './../../../shared/firebase/firebase.service';
+import { FirebaseService } from '../../firebase/firebase.service';
 import { Injectable } from '@angular/core';
 import { State, Store } from '@ngxs/store';
 import { IPaymentStateModel } from './paymernt.state.models';
 import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
+import { ICustomerInputModel } from '../+models/customer-create';
+import { AuthService } from 'src/app/main/services/user/auth.service';
 
 
 @Persistence({
@@ -31,13 +33,20 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
 
   constructor(
     private firebase: FirebaseService,
-    private userService: UserService
-    ) {
+    private authService: AuthService,
+  ) {
     super();
   }
 
-  async load(){
-    this.firebase.firestore.collection('users').add({name: 'Test'});
-    return this.firebase.firestore.collection('users').get().toPromise();
+  async setCurrentUserAsCustomer() {
+    const req = {
+      entityId: this.authService.credentials.user.uid,
+      email: this.authService.credentials.user.email,
+      fullName: this.authService.credentials.user.displayName,
+    } as ICustomerInputModel;
+
+    const customerCreateFn = this.firebase.fns.httpsCallable('customerCreate');
+
+    return customerCreateFn(req).toPromise();
   }
 }

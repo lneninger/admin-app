@@ -1,7 +1,7 @@
 import { DataAction, Payload, Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
-import { State } from '@ngxs/store';
+import { Selector, State, Store } from '@ngxs/store';
 import firebase from 'firebase/app';
 import { IUserClaims } from 'functions/src/user/user.models';
 import produce from 'immer';
@@ -36,10 +36,29 @@ API key not valid. Please pass a valid API key. (invalid API key provided)`,
 export class AuthService extends NgxsDataRepository<AuthStateModel> {
 
   user$ = this.firebaseService.auth.authState;
-  claims: IUserClaims;
+  // claims: IUserClaims;
+
+  @Selector()
+  static credentials(state: AuthStateModel) {
+    return state.userCredential;
+  }
+
+  @Selector()
+  static claims(state: AuthStateModel) {
+    return state.claims;
+  }
+
+  get claims(){
+    return this.store.selectSnapshot<IUserClaims>(AuthService.claims);
+  }
+
+  get credentials(){
+    return this.store.selectSnapshot<firebase.auth.UserCredential>(AuthService.credentials);
+  }
 
   constructor(
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private store: Store
   ) {
     super();
   }
@@ -47,7 +66,6 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   async login(userLogin: UserLogin): Promise<firebase.User> {
     try {
       const userCredential = await this.firebaseService.auth.signInWithEmailAndPassword(userLogin.userName, userLogin.password);
-      const user = userCredential;
       await this.setUserCredential(userCredential);
 
       return userCredential.user;
@@ -78,7 +96,7 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   }
 
   @DataAction()
-  async setUserCredential(@Payload('userCredential') userCredential: firebase.auth.UserCredential ) {
+  async setUserCredential(@Payload('userCredential') userCredential: firebase.auth.UserCredential) {
 
     const tokenResult = await userCredential.user.getIdTokenResult();
     const claims = tokenResult.claims as IUserClaims;

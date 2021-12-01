@@ -39,7 +39,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
     // return this.adalSvc.isAuthenticated;
   }
 
-  private get user() {
+  get user() {
     return this.store.selectSnapshot<UserModel>((selector: AppStateModel) => selector.userState.user);
   }
 

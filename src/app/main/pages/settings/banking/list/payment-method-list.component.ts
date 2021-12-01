@@ -5,7 +5,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeService } from 'ngx-stripe';
 import { Observable } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
-import { PaymentService } from 'src/app/main/services/payment/payment.service';
+import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { ComponentDisplayMode } from 'src/app/shared/general.models';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';

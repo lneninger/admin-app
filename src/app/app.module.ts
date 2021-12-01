@@ -11,7 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { NgxStripeModule } from 'ngx-stripe';
-import { PaymentService } from 'src/app/main/services/payment/payment.service';
+import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { ProductCategoryService } from 'src/app/main/services/product-category/product-category.service';
 import { UserService } from 'src/app/main/services/user/user.service';
 import { environment } from 'src/environments/environment';

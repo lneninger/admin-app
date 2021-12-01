@@ -5,6 +5,7 @@ import { AppConfigStateModel } from './shared/layout/states/appconfig.state';
 
 
 export interface AppStateModel {
+  authState: AuthStateModel;
   appConfigState: AppConfigStateModel;
   tenantState: TenantStateModel;
   userState: AuthStateModel;

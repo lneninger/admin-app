@@ -10,7 +10,7 @@ const cors = Cors({ origin: true });
 const stripe = new Stripe(functions.config().stripe.token, {apiVersion: '2020-08-27'});
 // const currency = functions.config().stripe.currency || 'USD';
 
-export const anonymousPayment = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
+export const customerCreate = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 
   return cors(req, res, async () => {
 

@@ -1,4 +1,4 @@
-import { PaymentService } from 'src/app/main/services/payment/payment.service';
+import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { Component, OnInit } from '@angular/core';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
@@ -26,6 +26,5 @@ export class MainComponent extends BaseComponent implements OnInit {
 
 
   async ngOnInit() {
-    const loaded = await this.paymentService.load();
   }
 }
