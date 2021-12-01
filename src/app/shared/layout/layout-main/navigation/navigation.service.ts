@@ -1,6 +1,8 @@
-import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavigationItemIds } from 'src/app/main/main.navigation';
+
+import { NavigationItem, NavigationItemInput, NavigationItemInputComplex } from './navigation.models';
 
 @Injectable({
   providedIn: 'root'
@@ -30,47 +32,44 @@ export class NavigationService {
     this.itemsInternal = [];
   }
 
-  build(...ids: NavigationItemInput[]) {
-    return ids
-      .map(idInput => {
+  async build(...ids: NavigationItemInput[]) {
+    const result:  NavigationItem[] = [];
+    let generatedItem: NavigationItem;
+    for (let idInput of ids) {
 
-        let complex = false;
-        let id: string;
-        if (idInput instanceof NavigationItemInputComplex) {
-          id = (idInput as NavigationItemInputComplex).id;
-          complex = true;
-        } else {
-          id = idInput as string;
-        }
+      let complex = false;
+      let id: string;
+      if (idInput instanceof NavigationItemInputComplex) {
+        id = (idInput as NavigationItemInputComplex).id;
+        complex = true;
+      } else {
+        id = idInput as string;
+      }
 
-        if (id === NavigationItemIds.DIVIDER) {
-          return { type: 'divider' } as NavigationItem;
-        } else {
-          let item = this.itemsInternal.find(internalItem => internalItem.id ? internalItem.id.toUpperCase() === id.toUpperCase() : false);
-          return complex ? this.formatComplexNavigationItem(item, idInput) : item;
-        }
-      })
-      .filter(item => item != null);
+      if (id === NavigationItemIds.DIVIDER) {
+        generatedItem = { type: 'divider' } as NavigationItem;
+      } else {
+        let item = this.itemsInternal.find(internalItem => internalItem.id ? internalItem.id.toUpperCase() === id.toUpperCase() : false);
+        generatedItem = complex ? await this.formatComplexNavigationItem(item, idInput as NavigationItemInputComplex) : item;
+      }
+
+      result.push(generatedItem);
+    }
+
+
+    return result.filter(item => item != null);
 
   }
-  formatComplexNavigationItem(item: NavigationItem, idInput: NavigationItemInput): any {
-    throw new Error('Method not implemented.');
+
+  async formatComplexNavigationItem(item: NavigationItem, idInput: NavigationItemInputComplex): Promise<NavigationItem> {
+    const disabled = typeof (idInput.disabled) === 'boolean' ? idInput.disabled : await idInput.disabled();
+
+    return {
+      ...item,
+      disabled
+    } as NavigationItem;
   }
 }
 
 
-export interface NavigationItem {
-  id?: string;
-  icon?: string;
-  fontSet?: string;
-  label?: string;
-  routerLink?: any;
-  type?: 'divider';
-  bottom?: boolean;
-}
 
-export class NavigationItemInputComplex {
-  id: string;
-}
-
-export type NavigationItemInput = string | NavigationItemInputComplex;

@@ -8,7 +8,8 @@ import { Select } from '@ngxs/store';
 import { filter, first } from 'rxjs/operators';
 import { AppInitializerService } from 'src/app/shared/app-initializer/app-initializer.service';
 import { ISecuredModule } from 'functions/src/site/site.models';
-import { NavigationItem, NavigationService } from 'src/app/shared/layout/layout-main/navigation/navigation.service';
+import { NavigationService } from 'src/app/shared/layout/layout-main/navigation/navigation.service';
+import { NavigationItem } from 'src/app/shared/layout/layout-main/navigation/navigation.models';
 
 @Injectable({
   providedIn: 'root'
@@ -72,8 +73,8 @@ export class AppMenuService {
 
 
   async generateGlobalMenu() {
-    const agreggated = await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
-    this.service.buildCurrentMenu(
+    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
+    await this.service.buildCurrentMenu(
       NavigationItemIds.DASHBOARD,
       NavigationItemIds.DIVIDER,
       NavigationItemIds.QUOTES,
@@ -119,7 +120,7 @@ export class AppMenuService {
   }
 
   async generateQuoteMenu() {
-    const agreggated = await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
+    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.HOME,
       NavigationItemIds.DIVIDER,
@@ -155,7 +156,7 @@ export class AppMenuService {
   }
 
   async generateSpecialistMenu() {
-    const agreggated = await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
+    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.HOME,
       NavigationItemIds.DIVIDER,
@@ -177,12 +178,8 @@ export class AppMenuService {
     console.info(`ended await this.generateSpecialistMenu() => `, this.service.currentMenu);
   }
 
-
-
-
-
   async generateAdminMenu() {
-    const agreggated = await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
+    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.HOME,
       NavigationItemIds.ADMIN_DASHBOARD,
@@ -198,7 +195,7 @@ export class AppMenuService {
   }
 
   async generateSettingsMenu() {
-    const agreggated = await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
+    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.HOME,
       NavigationItemIds.SETTINGS_DASHBOARD,

@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
-import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
-import { Select, State, Store } from '@ngxs/store';
+import { MatDrawer } from '@angular/material/sidenav';
+import { Select, Store } from '@ngxs/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { MediaService } from 'src/app/shared/common/media.service';
-import { AppConfigState, AppConfigStateMenuModel, MenuToggleAction, MenuExpandedToggleAction } from '../../../states/appconfig.state';
-import { NavigationItem, NavigationService } from '../navigation.service';
+
+import {
+  AppConfigState,
+  AppConfigStateMenuModel,
+  MenuExpandedToggleAction,
+  MenuToggleAction,
+} from '../../../states/appconfig.state';
+import { NavigationItem, PatchType, PatchTypeFunction } from '../navigation.models';
+import { NavigationService } from '../navigation.service';
 
 
-export declare type PatchTypeFunction = (item: NavigationItem) => Partial<NavigationItem>;
-export declare type PatchType = Partial<NavigationItem> | PatchTypeFunction;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -65,8 +70,8 @@ export class MenuService {
     return this.navigationService.build(...ids);
   }
 
-  buildCurrentMenu(...ids: string[]) {
-    this.currentMenu = this.navigationService.build(...ids);
+  async buildCurrentMenu(...ids: string[]) {
+    this.currentMenu = await this.navigationService.build(...ids);
   }
 
   updateItems(patch: PatchType, ids: NavigationItemIds[]) {
