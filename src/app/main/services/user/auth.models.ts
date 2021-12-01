@@ -1,5 +1,18 @@
-import { IUserClaims } from './../../../../../functions/src/user/user.models';
 import firebase from 'firebase/app';
+
+export interface IUserClaims{
+  roles: string[];
+}
+
+export interface ICurrentRole{
+  currentRole?: string;
+}
+
+export interface IUserMetadata extends ICurrentRole{
+  displayName: string | null | undefined;
+  phoneNumber: string | null | undefined;
+}
+
 
 export interface AuthStateModel {
   userCredential?: firebase.auth.UserCredential;

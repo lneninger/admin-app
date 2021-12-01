@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { mockedSignUp } from 'functions/src/_mocker/mocker';
+import { mockedSignUp } from 'functions/src/_mocker/mocker.models';
+import { IUserMetadata } from 'src/app/main/services/user/auth.models';
 import { UserService } from 'src/app/main/services/user/user.service';
 import { AlertService, MessageSeverity } from 'src/app/shared/common/alert.service';
 import { environment } from 'src/environments/environment';
 
-import { IUserMetadata } from './../../../../../../functions/src/user/user.models';
 
 @Component({
   selector: 'app-signup',

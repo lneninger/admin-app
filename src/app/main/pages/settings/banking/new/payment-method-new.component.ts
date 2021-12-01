@@ -1,35 +1,26 @@
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { StripeCardComponent, StripeIdealBankComponent, StripeService } from 'ngx-stripe';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
+import { PaymentService } from 'src/app/main/services/payment/payment.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
-import { AddQuoteRequest } from 'src/app/main/services/quote/quote.models';
-import { PaymentService } from 'src/app/main/services/payment/payment.service';
-import { Select } from '@ngxs/store';
-import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
-import { StripeCardComponent, StripeIdealBankComponent, StripeService } from 'ngx-stripe';
-import { Observable } from 'rxjs';
-import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggregators.state';
-import { MemberStateModel } from 'src/app/main/services/member/states/member.models';
-import { TenantStateModel } from 'src/app/main/services/tenant/tenant.models';
 
 @AutoUnsubscribe()
 @Component({
-  selector: 'app-new-payment-method',
-  templateUrl: './new-payment-method.component.html',
-  styleUrls: ['./new-payment-method.component.scss']
+  selector: 'app-payment-method-new',
+  templateUrl: './payment-method-new.component.html',
+  styleUrls: ['./payment-method-new.component.scss']
 })
-export class NewPaymentMethodComponent extends BaseComponent implements OnInit {
+export class PaymentMethodNewComponent extends BaseComponent implements OnInit {
 
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
 
   stripeTest: FormGroup;
-
-  @Select(AggregatorsState.aggregatorMemberTenant)
-  aggregatorMemberTenant$: Observable<{ member: MemberStateModel, tenant: TenantStateModel }>;
 
   cardOptions: StripeCardElementOptions = {
     style: {

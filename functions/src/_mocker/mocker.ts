@@ -7,16 +7,11 @@ import { UserRecord } from 'firebase-admin/lib/auth/user-record';
 import * as functions from 'firebase-functions';
 
 import { ISecuredModule, IUserSecuredModule } from '../site/site.models';
-import { attachRoleCore } from '../user/user-attach-role';
+import { attachRoleCore } from "../user/user-attach-role-utils";
+import { mockedSignUp } from './mocker.models';
 
 
-export const mockedSignUp: IUserCreateForm = {
-  email: 'lneninger@hotmail.com',
-  password: '123123',
-  confirmPassword: '123123',
-  displayName: 'Leonardo',
-  phoneNumber: '+17864553456',
-};
+
 
 
 const cors = Cors({ origin: true });
@@ -75,11 +70,3 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
 });
 
 
-export interface IUserCreateForm {
-  email: string,
-  password: string,
-  confirmPassword: string;
-  displayName: string,
-  phoneNumber: string,
-  photoUrl?: string,
-}

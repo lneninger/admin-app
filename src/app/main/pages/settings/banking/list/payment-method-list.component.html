@@ -1,0 +1,24 @@
+<app-page title="New payment method" *ngIf="this.mode == 'Page'; else componentView">
+
+  <ng-container [ngTemplateOutlet]="content"></ng-container>
+
+
+</app-page>
+
+<ng-template #componentView>
+  <ng-container *ngIf="this.mode == 'Component'">
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </ng-container>
+</ng-template>
+
+
+<ng-template #content>
+  <section fxFlex="100%" fxLayout="row wrap">
+    <ng-container *ngFor="let item of paymentMethods$ | async">
+      <mat-card>
+        <mat-card-title>Payment Method</mat-card-title>
+        <mat-card-footer></mat-card-footer>
+      </mat-card>
+    </ng-container>
+  </section>
+</ng-template>

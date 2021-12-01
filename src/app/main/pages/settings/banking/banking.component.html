@@ -1,12 +1,19 @@
 <app-page title="Banking" icon="account_balance">
-  <section fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="flex-start baseline">
+  <section fxLayout="row wrap" fxLayoutGap="20px" class="h-full" fxLayoutAlign="flex-start baseline">
     <mat-tab-group mat-align-tabs="start">
       <mat-tab label="Payment Methods">
 
+        <!-- <app-payment-method-list></app-payment-method-list>
+
+        <app-payment-method-new></app-payment-method-new> -->
+
+      <app-bank-account></app-bank-account>
 
 
       </mat-tab>
-      <mat-tab label="Transfers">Transfers</mat-tab>
+      <mat-tab label="Transfers">
+        Transfers
+      </mat-tab>
     </mat-tab-group>
 
   </section>

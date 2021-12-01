@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { NewPaymentMethodComponent } from './new-payment-method.component';
+import { PaymentMethodNewComponent } from './payment-method-new.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: NewPaymentMethodComponent,
+    component: PaymentMethodNewComponent,
     data: { menu: 'new-payment-method' }
   }
 ];
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SettingsRoutingModule { }
+export class PaymentMethodNewRoutingModule { }

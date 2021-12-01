@@ -1,3 +1,5 @@
+import { PaymentMethodNewModule } from './new/payment-method-new.module';
+import { BankAccountModule } from './../../../../shared/payment/bank-account/bank-account.module';
 import { NgxStripeModule } from 'ngx-stripe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutMainCommonModule } from '../../../../shared/layout/layout-main/layout-main-common/layout-main-common.module';
@@ -6,6 +8,7 @@ import { CommonModule } from '@angular/common';
 
 import { SettingsBankingRoutingModule } from './banking-routing.module';
 import { SettingsBankingComponent } from './banking.component';
+import { PaymentMethodListModule } from './list/payment-method-list.module';
 
 
 @NgModule({
@@ -16,7 +19,11 @@ import { SettingsBankingComponent } from './banking.component';
     LayoutMainCommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxStripeModule
+    NgxStripeModule,
+    BankAccountModule,
+    PaymentMethodListModule,
+    PaymentMethodNewModule,
+    BankAccountModule
   ]
 })
 export class SettingsBankingModule { }

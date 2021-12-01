@@ -59,6 +59,7 @@
     "ngx-auto-unsubscribe": "^3.0.1",
     "ngx-awesome-uploader": "^10.0.4",
     "ngx-custom-validators": "^8.0.0",
+    "ngx-plaid-link": "^1.0.3",
     "ngx-stripe": "^11.1.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
