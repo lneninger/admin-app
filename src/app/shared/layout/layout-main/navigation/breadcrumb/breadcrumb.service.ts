@@ -1,7 +1,8 @@
-import { NavigationItem, NavigationService } from './../navigation.service';
+import { NavigationService } from './../navigation.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
+import { NavigationItem } from '../navigation.models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class BreadcrumbService {
 
   }
 
-  build(...ids: string[]) {
-    this.currentBreadCrumb = this.navigationService.build(...ids);
+  async build(...ids: string[]) {
+    this.currentBreadCrumb = await this.navigationService.build(...ids);
     return this.currentBreadCrumb;
   }
 

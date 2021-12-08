@@ -1,11 +1,10 @@
-import { AppMenuService } from './../../../../../main/shared/menu/app-menu.service';
-import { NavigationItemIds } from 'src/app/main/main.navigation';
-import { NavigationItem } from './../navigation.service';
-import { MenuService } from './menu.service';
-import { Component, OnInit, ChangeDetectionStrategy, HostBinding } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
+import { Observable, Subscription } from 'rxjs';
+
 import { AppConfigState, AppConfigStateMenuModel } from '../../../states/appconfig.state';
+import { AppMenuService } from './../../../../../main/shared/menu/app-menu.service';
+import { MenuService } from './menu.service';
 
 export interface Section {
   type?: 'divider';

@@ -1,4 +1,4 @@
-import { NavigationItem } from '../shared/layout/layout-main/navigation/navigation.service';
+import { NavigationItem } from '../shared/layout/layout-main/navigation/navigation.models';
 
 export enum NavigationItemIds {
   HOME = 'HOME',

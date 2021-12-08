@@ -5,7 +5,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { QuoteService } from 'src/app/main/services/quote/quote.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
-import { NavigationItem } from 'src/app/shared/layout/layout-main/navigation/navigation.service';
+import { NavigationItem } from 'src/app/shared/layout/layout-main/navigation/navigation.models';
 import { environment } from 'src/environments/environment';
 
 import { NavigationItemIds } from '../../main.navigation';

@@ -50,7 +50,7 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
         name: 'AXIE-INFINITY',
         displayName: 'Axie Infinity',
         path: 'axie-infinity',
-        icon: 'fas fa-joystick',
+        icon: 'pets',
       } as ISecuredModule);
 
       await userModuleCollection.add({

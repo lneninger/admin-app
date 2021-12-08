@@ -5,9 +5,9 @@ import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeCardComponent, StripeIdealBankComponent, StripeService } from 'ngx-stripe';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
-import { PaymentService } from 'src/app/main/services/payment/payment.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 
 @AutoUnsubscribe()
 @Component({
