@@ -10,8 +10,23 @@ const routes: Routes = [
     component: SettingsBankingComponent,
     data: {
       menu: 'settings'
-    }
-  }
+    },
+    children:[
+      {
+        path: 'new',
+        component: SettingsBankingComponent,
+        loadChildren: () => import('../banking/new/payment-method-new.module').then(m => m.PaymentMethodNewModule),
+        data: {
+          menu: 'settings'
+        },
+        outlet: 'productOutlet'
+      },
+
+    ]
+
+  },
+
+
 ];
 
 @NgModule({

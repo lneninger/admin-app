@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Select } from '@ngxs/store';
@@ -29,7 +30,7 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
   stripeTest: FormGroup;
 
   @Select(AggregatorsState.aggregatorMemberTenant)
-  aggregatorMemberTenant$: Observable<{userState: UserStateModel, tenant: TenantStateModel}>;
+  aggregatorMemberTenant$: Observable<{ userState: UserStateModel, tenant: TenantStateModel }>;
 
   cardOptions: StripeCardElementOptions = {
     style: {
@@ -50,7 +51,12 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
     locale: 'en'
   };
 
-  constructor(breadcrumbService: BreadcrumbService, private stripeService: StripeService) {
+  constructor(
+    breadcrumbService: BreadcrumbService,
+    private stripeService: StripeService,
+    private router: Router
+  ) {
+
     super();
 
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SETTINGS, NavigationItemIds.SETTINGS_BANKING);
@@ -60,7 +66,7 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
   async ngOnInit() {
     const stripe = (await this.stripeService.getStripeReference().pipe(filter(_ => !!_), first()).toPromise())(environment.stripeKey);
     // const instance = Stripe(environment.stripeKey);
-    stripe.accounts.create({type: 'standard'});
+    stripe.accounts.create({ type: 'standard' });
   }
 
 
@@ -77,5 +83,9 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
           console.log(result.error.message);
         }
       });
+  }
+
+  async newPaymentMethod($event?: Event) {
+    await this.router.navigate(['/app/settings/banking/new'], {});
   }
 }
