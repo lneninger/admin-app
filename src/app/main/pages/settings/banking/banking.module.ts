@@ -1,3 +1,4 @@
+import { RouterOutletModule } from './../../../../shared/layout/layout-main/router-outlet/router-outlet.module';
 import { PaymentMethodNewModule } from './new/payment-method-new.module';
 import { BankAccountModule } from './../../../../shared/payment/bank-account/bank-account.module';
 import { NgxStripeModule } from 'ngx-stripe';
@@ -23,7 +24,8 @@ import { PaymentMethodListModule } from './list/payment-method-list.module';
     BankAccountModule,
     PaymentMethodListModule,
     PaymentMethodNewModule,
-    BankAccountModule
+    BankAccountModule,
+    RouterOutletModule
   ]
 })
 export class SettingsBankingModule { }

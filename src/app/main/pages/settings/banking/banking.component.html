@@ -2,7 +2,7 @@
 
 
   <section fxFlex="auto" fxLayout="column" fxLayoutGap="20px" class="max-h-full" fxLayoutAlign="flex-start baseline">
-    <mat-tab-group fxFlex>
+    <mat-tab-group class="custom-tab-group fill" fxFlexFill fxFlex fxLayout="column" fxLayoutAlign="stretch stretch">
       <mat-tab label="Payment Methods">
         <section class="relative">
           <app-page title="" icon="account_balance">
@@ -29,4 +29,4 @@
 </app-page>
 
 
-<router-outlet key="actions"></router-outlet>
+<router-outlet name="actions"></router-outlet>

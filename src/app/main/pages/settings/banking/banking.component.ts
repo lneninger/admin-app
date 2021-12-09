@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Select } from '@ngxs/store';
@@ -54,7 +54,8 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
   constructor(
     breadcrumbService: BreadcrumbService,
     private stripeService: StripeService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
 
     super();
@@ -66,7 +67,7 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
   async ngOnInit() {
     const stripe = (await this.stripeService.getStripeReference().pipe(filter(_ => !!_), first()).toPromise())(environment.stripeKey);
     // const instance = Stripe(environment.stripeKey);
-    stripe.accounts.create({ type: 'standard' });
+    // stripe.accounts.create({ type: 'standard' });
   }
 
 
@@ -86,6 +87,8 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
   }
 
   async newPaymentMethod($event?: Event) {
-    await this.router.navigate(['/app/settings/banking/new'], {});
+    await this.router.navigate([{outlets: {actions: ['actions', 'new']}}],
+    {relativeTo: this.route.parent});
   }
 }
+
