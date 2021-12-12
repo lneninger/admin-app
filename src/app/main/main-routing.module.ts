@@ -9,6 +9,11 @@ import { MainResolveService } from './main.resolve.service';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'ws',
+    pathMatch: 'full',
+  },
+  {
+    path: 'ws',
     component: MainComponent,
     resolve: [MainResolveService],
     canActivate: [],
@@ -65,7 +70,7 @@ const routes: Routes = [
           {
             path: 'axie-infinity',
             loadChildren: () => import('./dynamic-modules/axie-infinity/axie-infinity.module').then(m => m.AxieInfinityModule),
-            data: {name: 'AXIE-INFINITY'} as ISecuredModuleReferece
+            data: { name: 'AXIE-INFINITY' } as ISecuredModuleReferece
           }
         ]
 

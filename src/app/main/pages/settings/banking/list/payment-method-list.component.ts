@@ -9,6 +9,7 @@ import { PaymentService } from 'src/app/shared/payment/+services/payment.service
 import { BaseComponent } from 'src/app/shared/base.component';
 import { ComponentDisplayMode } from 'src/app/shared/general.models';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -16,9 +17,8 @@ import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/
   templateUrl: './payment-method-list.component.html',
   styleUrls: ['./payment-method-list.component.scss']
 })
-export class PaymentMethodListComponent extends BaseComponent implements OnInit {
+export class PaymentMethodListComponent extends HybridDisplayModeComponent implements OnInit {
 
-  @Input() mode: ComponentDisplayMode = ComponentDisplayMode.Component;
 
   paymentMethods$: Observable<any>;
 

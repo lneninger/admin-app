@@ -87,8 +87,8 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
   }
 
   async newPaymentMethod($event?: Event) {
-    await this.router.navigate([{outlets: {actions: ['actions', 'new']}}],
-    {relativeTo: this.route.parent});
+    await this.router.navigate([{outlets: {action: ['new']}}],
+    {relativeTo: this.route});
   }
 }
 

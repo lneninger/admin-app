@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeCardComponent, StripeIdealBankComponent, StripeService } from 'ngx-stripe';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
-import { BaseComponent } from 'src/app/shared/base.component';
+import { ComponentDisplayMode } from 'src/app/shared/general.models';
+import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 
@@ -15,10 +17,12 @@ import { PaymentService } from 'src/app/shared/payment/+services/payment.service
   templateUrl: './payment-method-new.component.html',
   styleUrls: ['./payment-method-new.component.scss']
 })
-export class PaymentMethodNewComponent extends BaseComponent implements OnInit {
+export class PaymentMethodNewComponent extends HybridDisplayModeComponent implements OnInit {
 
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
+
+
 
   stripeTest: FormGroup;
 
@@ -42,18 +46,40 @@ export class PaymentMethodNewComponent extends BaseComponent implements OnInit {
   };
   constructor(
     breadcrumbService: BreadcrumbService,
-    private fmBuilder: FormBuilder,
-    private service: PaymentService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private stripeService: StripeService
+    protected fmBuilder: FormBuilder,
+    protected service: PaymentService,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected stripeService: StripeService,
+    protected dialog: MatDialog
   ) {
     super();
 
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.QUOTES, NavigationItemIds.QUOTE_NEW);
+    this.displayMode = ComponentDisplayMode.Dialog;
+
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
+    setTimeout(() => {
+      this.initialize();
+    }, 0);
+  }
+  private initialize() {
+    if ([ComponentDisplayMode.Dialog, undefined].findIndex(dialogMode => dialogMode === this.displayMode) >= 0) {
+      const dialogRef = this.dialog.open(BankingPaymentMethodDialog, {
+        width: '450px', height: '350px',
+        data: { displayMode: this.displayMode },
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
   }
 
   createForm() {
@@ -84,3 +110,38 @@ export class PaymentMethodNewComponent extends BaseComponent implements OnInit {
       });
   }
 }
+
+
+@Component({
+  selector: 'app-banking-paymentmethod-dialog',
+  templateUrl: './payment-method-new.component.html',
+  styleUrls: ['./payment-method-new.component.scss']
+})
+export class BankingPaymentMethodDialog extends PaymentMethodNewComponent{
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public readonly data: { displayMode: ComponentDisplayMode },
+    breadcrumbService: BreadcrumbService,
+    fmBuilder: FormBuilder,
+    service: PaymentService,
+    router: Router,
+    route: ActivatedRoute,
+    stripeService: StripeService,
+    dialog: MatDialog
+    ) {
+super(
+  breadcrumbService,
+  fmBuilder,
+  service,
+  router,
+  route,
+  stripeService,
+  dialog);
+    this.displayMode = data.displayMode;
+    this.isDialog = true;
+
+  }
+
+  ngAfterViewInit() {
+  }
+}
+

@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    redirectTo: 'ws'
+  },
+  {
+    path: 'ws',
     component: SettingsBankingComponent,
     data: {
       menu: 'settings'
@@ -21,14 +25,14 @@ const routes: Routes = [
           {
             path: 'new',
             loadChildren: () => import('./new/payment-method-new.module').then(m => m.PaymentMethodNewModule),
-            outlet: 'actions'
+            outlet: 'action'
           }
         ]
       },
       {
         path: 'new',
         loadChildren: () => import('./new/payment-method-new.module').then(m => m.PaymentMethodNewModule),
-        outlet: 'actions'
+        outlet: 'action'
       }
     ]
 
@@ -36,7 +40,7 @@ const routes: Routes = [
   {
     path: 'new',
     loadChildren: () => import('./new/payment-method-new.module').then(m => m.PaymentMethodNewModule),
-    outlet: 'actions'
+    outlet: 'action'
   },
   {
     path: '**',

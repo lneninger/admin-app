@@ -8,14 +8,14 @@
           <app-page title="" icon="account_balance">
 
             <ng-template #optionsContent>
-              <button mat-mini-fab aria-label="New quote" (click)="newPaymentMethod($event)">
+              <button mat-mini-fab aria-label="New payment method" (click)="newPaymentMethod($event)">
                 <mat-icon>account_balance</mat-icon>
               </button>
             </ng-template>
-            <app-payment-method-list></app-payment-method-list>
+            <!-- <app-payment-method-list></app-payment-method-list> -->
 
 
-            <app-bank-account></app-bank-account>
+            <!-- <app-bank-account></app-bank-account> -->
 
           </app-page>
         </section>
@@ -29,4 +29,4 @@
 </app-page>
 
 
-<router-outlet name="actions"></router-outlet>
+<router-outlet name="action"></router-outlet>

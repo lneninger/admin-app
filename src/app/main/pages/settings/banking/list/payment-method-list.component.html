@@ -1,4 +1,4 @@
-<app-page title="New payment method" *ngIf="this.mode == 'Page'; else componentView">
+<app-page title="New payment method" *ngIf="this.displayMode == 'Page'; else componentView">
 
   <ng-container [ngTemplateOutlet]="content"></ng-container>
 
@@ -6,7 +6,7 @@
 </app-page>
 
 <ng-template #componentView>
-  <ng-container *ngIf="this.mode == 'Component'">
+  <ng-container *ngIf="this.displayMode == 'Component'">
     <ng-container [ngTemplateOutlet]="content"></ng-container>
   </ng-container>
 </ng-template>

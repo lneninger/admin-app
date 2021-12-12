@@ -102,33 +102,33 @@ export const navigationItems: NavigationItem[] = [
   {
     id: NavigationItemIds.SETTINGS,
     label: 'Settings',
-    routerLink: ['/app/settings'],
+    routerLink: ['/app/ws/settings'],
     bottom: true,
     icon: 'admin_panel_settings'
   },
   {
     id: NavigationItemIds.SETTINGS_DASHBOARD,
     label: 'Dashboard',
-    routerLink: ['/app/settings/dashboard'],
+    routerLink: ['/app/ws/settings/dashboard'],
     icon: 'dashboard'
   },
   {
     id: NavigationItemIds.SETTINGS_BANKING,
     label: 'Banking',
-    routerLink: ['/app/settings/banking'],
+    routerLink: ['/app/ws/settings/banking'],
     icon: 'account_balance'
   },
 
   {
     id: NavigationItemIds.PAYMENTMETHOD_NEW,
     label: 'New Payment',
-    routerLink: ['/app/settings/banking/'],
+    routerLink: ['/app/ws/settings/banking'],
     icon: 'account_balance'
   },
   {
     id: NavigationItemIds.PAYMENTMETHOD_EDIT,
     label: 'Edit Payment',
-    routerLink: ['/app/settings/banking/'],
+    routerLink: ['/app/ws/settings/banking'],
     icon: 'account_balance'
   },
 
@@ -136,7 +136,7 @@ export const navigationItems: NavigationItem[] = [
   {
     id: NavigationItemIds.PRODUCT_CATEGORIES,
     label: 'Product Categories',
-    routerLink: ['/app/product-categories'],
+    routerLink: ['/app/ws/product-categories'],
     // icon: 'fa-object-group',
     // fontSet: 'fas'
   },

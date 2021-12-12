@@ -65,6 +65,8 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       res.status(500).json(error);
     }
 
+    return Promise.resolve();
+
   });
 
 });
