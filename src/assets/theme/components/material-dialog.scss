@@ -1,0 +1,16 @@
+.mat-dialog-override {
+  height: 0px;
+  mat-dialog-container {
+    > :first-child {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    mat-dialog-content,
+    div[mat-dialog-content] {
+      display: flex;
+      flex-grow: 1;
+      max-height: unset;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PlaidEvent, PlaidSuccess } from '../+models/plaid';
 
 @Component({
   selector: 'app-bank-account',
@@ -14,7 +15,7 @@ export class BankAccountComponent implements OnInit {
 
 
 
-  onPlaidSuccess($event: any) {
+  onPlaidSuccess($event: PlaidSuccess) {
 
   }
 
@@ -26,7 +27,7 @@ export class BankAccountComponent implements OnInit {
 
   }
 
-  onPlaidEvent($event: any) {
+  onPlaidEvent($event: PlaidEvent) {
 
   }
 

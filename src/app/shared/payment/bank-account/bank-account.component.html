@@ -1,11 +1,18 @@
-<button ngxPlaidLink
-  env="sandbox"
-  publicKey="f2697b9b441211ed4ee92df3850108"
-  institution=""
-  [countryCodes]="['US', 'CA', 'GB']"
-  (Success)="onPlaidSuccess($event)"
-  (Exit)="onPlaidExit($event)"
-  (Load)="onPlaidLoad($event)"
-  (Event)="onPlaidEvent($event)"
-  (Click)="onPlaidClick($event)"
->Link Your Bank Account</button>
+<section fxFlex fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+  <button ngxPlaidLink env="sandbox" publicKey="f2697b9b441211ed4ee92df3850108" institution=""
+    [countryCodes]="['US', 'CA', 'GB']" (Success)="onPlaidSuccess($event)" (Exit)="onPlaidExit($event)"
+    (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">Link Your Bank
+    Account</button>
+
+  <dl fxFlex fxLayout="row wrap" style="">
+    <dt fxFlex="30%" fxLayout="row" class="mx-0">User:</dt>
+    <dd fxFlex="calc(70%-40px)" fxLayout="row">user_good</dd>
+
+    <dt fxFlex="30%" fxLayout="row">Password:</dt>
+    <dd fxFlex="calc(70%-40px)" fxLayout="row">pass_good</dd>
+
+    <dt fxFlex="30%" fxLayout="row">Code:</dt>
+    <dd fxFlex="calc(70%-40px)" fxLayout="row">1234</dd>
+  </dl>
+
+</section>
