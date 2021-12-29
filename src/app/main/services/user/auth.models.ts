@@ -20,6 +20,7 @@ export interface AuthStateModel {
   rememberMe?: boolean;
   token?: string;
   user?: UserModel;
+  metadata?: IUserMetadata;
 
 }
 

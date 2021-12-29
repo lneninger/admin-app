@@ -19,3 +19,9 @@ export interface ICustomerAddPaymentMethodInputModel {
 export interface IUserPaymentConfig{
   customerId?: string;
 }
+
+
+export interface IPlaidTokenInputModel{
+  appName: string;
+  stripeCustomerId: string;
+}

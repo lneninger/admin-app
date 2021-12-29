@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/main/services/user/user.service';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { Injectable } from '@angular/core';
@@ -7,6 +8,7 @@ import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { ICustomerInputModel } from '../+models/customer-create';
 import { AuthService } from 'src/app/main/services/user/auth.service';
+import { IPlaidTokenInputModel } from '../+models/plaid';
 
 
 @Persistence({
@@ -42,11 +44,21 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
     const req = {
       entityId: this.authService.credentials.user.uid,
       email: this.authService.credentials.user.email,
-      fullName: this.authService.credentials.user.displayName,
+      name: this.authService.credentials.user.displayName,
     } as ICustomerInputModel;
 
     const customerCreateFn = this.firebase.fns.httpsCallable('customerCreate');
+    return customerCreateFn(req).toPromise();
+  }
 
+
+  async createPlaidToken() {
+    const req = {
+      appName: environment.appTitle,
+      stripeCustomerId: string;
+    } as IPlaidTokenInputModel;
+
+    const customerCreateFn = this.firebase.fns.httpsCallable('customerCreate');
     return customerCreateFn(req).toPromise();
   }
 }

@@ -8,7 +8,7 @@ import produce from 'immer';
 import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
-import { AuthStateModel, User, UserLogin } from './auth.models';
+import { AuthStateModel, IUserMetadata, User, UserLogin } from './auth.models';
 
 
 export const LoginErrorCodes = {
@@ -67,6 +67,8 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
     try {
       const userCredential = await this.firebaseService.auth.signInWithEmailAndPassword(userLogin.userName, userLogin.password);
       await this.setUserCredential(userCredential);
+
+
 
       return userCredential.user;
     } catch (error) {

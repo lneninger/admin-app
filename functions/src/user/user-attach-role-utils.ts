@@ -23,13 +23,14 @@ export async function attachRoleCore(data: IAttachRole): Promise<admin.firestore
     console.log('Attach role response:', relationship);
 
     // add claims
-    const userRecord = await admin.auth().getUser(data.uid);
+    const auth = admin.auth();
+    const userRecord = await auth.getUser(data.uid);
     let claims = userRecord.customClaims || {};
     const roles = (claims.roles || []) as string[];
     if (roles.indexOf(roleName) === -1) {
       roles.push(roleName);
       claims = { ...claims, roles };
-      await admin.auth().setCustomUserClaims(data.uid, claims);
+      await auth.setCustomUserClaims(data.uid, claims);
     }
 
     return relationship;

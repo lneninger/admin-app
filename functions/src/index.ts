@@ -11,6 +11,7 @@ firebase.initializeApp({
 admin.initializeApp();
 
 
+export * from './functions.models';
 export * from './_mocker/mocker';
 
 export * from './site/index';

@@ -1,13 +1,13 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import {Stripe} from 'stripe';
+import { Stripe } from 'stripe';
 import * as Cors from 'cors';
 import { ICustomerInputModel } from './payment.models';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 const cors = Cors({ origin: true });
 
-const stripe = new Stripe(functions.config().stripe.token, {apiVersion: '2020-08-27'});
+const stripe = new Stripe(functions.config().stripe.secretKey, { apiVersion: '2020-08-27' });
 // const currency = functions.config().stripe.currency || 'USD';
 
 export const customerCreate = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
@@ -27,18 +27,18 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
     const response = await stripe.customers.create(customer);
     console.log('Customer Create Response:', response);
 
-    const entityUpdate: any = {paymentId: response.id};
 
-    await new Observable(observer => {
-      admin.database().ref(`/entities/${data.entityId}`).update(entityUpdate).then(() => {
-          console.info('DB saved successfully');
-        observer.next();
-        observer.complete();
-      },
-        error => {
-          console.error(error);
-        });
-    })
+    // add payment id claim
+    const auth = admin.auth();
+    const userRecord = await auth.getUser(data.entityId);
+    let claims = userRecord.customClaims || {};
+    claims = { ...claims, paymentId: response.id };
+    await auth.setCustomUserClaims(data.entityId, claims);
+
+
+    // add payment id to entity metadata
+    const entityUpdate = { paymentId: response.id };
+    await admin.database().ref(`/entities/${data.entityId}`).update(entityUpdate);
 
     res.status(200).jsonp({ data: response });
 

@@ -59,13 +59,12 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       } as IUserSecuredModule);
 
       //#endregion
-      res.status(202);
+      res.status(202).end();
 
     } catch (error) {
       res.status(500).json(error);
     }
 
-    return Promise.resolve();
 
   });
 

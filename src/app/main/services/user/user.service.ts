@@ -7,6 +7,7 @@ import { IAttachRole, ISetCurrentRole, IUserMetadata } from 'functions/src/user/
 import produce from 'immer';
 import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
+import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 
 import { AppStateModel } from './../../../app.state';
 import { AuthStateModel, Role, UserModel } from './auth.models';
@@ -46,7 +47,8 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
   constructor(
     private firebaseService: FirebaseService,
     private router: Router,
-    private store: Store
+    private store: Store,
+    private paymentService: PaymentService
   ) {
     super();
   }
@@ -54,6 +56,21 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
   async ngxsAfterBootstrap() {
     super.ngxsAfterBootstrap();
     await this.getRoles();
+
+    this.firebaseService.auth.authState.subscribe(user => {
+      if (user) {
+        this.getMetadata();
+      }
+    });
+  }
+
+  async getMetadata() {
+    const user = await this.firebaseService.auth.currentUser;
+    const extraData = (await this.firebaseService.firestore.doc(`/entities/${user.uid}`).get().pipe(first()).toPromise()).data() as IUserMetadata;
+    this.ctx.setState(produce(this.ctx.getState(), (draft: UserStateModel) => {
+      draft.userMetadata = extraData;
+    }));
+
   }
 
   async createUser(email: string, password: string, phoneNumber: string, photoURL: string, metadata: Partial<IUserMetadata>) {
@@ -74,12 +91,19 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
         await userCreateResponse.user.updateProfile({ displayName: JSON.stringify(metadata), photoURL: photoURL });
 
         await userCreateResponse.user.sendEmailVerification() //Send email verification
+
+
+        // create customer in stripe. payment api
+        await this.paymentService.setCurrentUserAsCustomer();
+
+
         await this.firebaseService.auth.signOut() //Logout is triggered --> line 16 in app.js
 
         return userCreateResponse;
 
       } catch (error) {
-        window.alert(error.message)
+        window.alert(error.message);
+        throw error;
       }
 
     } catch (error) {

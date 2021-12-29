@@ -4,7 +4,11 @@
     (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">Link Your Bank
     Account</button>
 
-  <dl fxFlex fxLayout="row wrap" style="">
+    <section *ngIf="this.accountData">
+      {{this.accountData | json}}
+    </section>
+
+  <dl *ngIf="!this.environment.production" fxFlex fxLayout="row wrap">
     <dt fxFlex="30%" fxLayout="row" class="mx-0">User:</dt>
     <dd fxFlex="calc(70%-40px)" fxLayout="row">user_good</dd>
 

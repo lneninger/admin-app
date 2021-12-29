@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { PlaidEvent, PlaidSuccess } from '../+models/plaid';
 
 @Component({
@@ -8,6 +9,9 @@ import { PlaidEvent, PlaidSuccess } from '../+models/plaid';
 })
 export class BankAccountComponent implements OnInit {
 
+  environment = environment;
+  accountData: PlaidSuccess;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -16,6 +20,7 @@ export class BankAccountComponent implements OnInit {
 
 
   onPlaidSuccess($event: PlaidSuccess) {
+    this.accountData = $event;
 
   }
 
