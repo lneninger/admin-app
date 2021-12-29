@@ -4,6 +4,7 @@ export interface IConfig{
     email: string;
   },
   stripe:{
+    apiVersion: '2020-08-27',
     publicKey: string;
     secretKey: string;
   },
