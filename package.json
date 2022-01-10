@@ -24,7 +24,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "global-packages": "npm list -g --depth 0",
-    "publish": "npm run build-prod && firebase deploy --only hosting"
+    "publish": "npm run build-prod && firebase deploy --only hosting",
+    "port-process": "netstat -a -n -o | find 'port'",
+    "kill-process": "taskkill /F /PID pid_number"
   },
   "private": true,
   "dependencies": {

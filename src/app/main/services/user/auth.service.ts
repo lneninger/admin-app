@@ -68,8 +68,6 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
       const userCredential = await this.firebaseService.auth.signInWithEmailAndPassword(userLogin.userName, userLogin.password);
       await this.setUserCredential(userCredential);
 
-
-
       return userCredential.user;
     } catch (error) {
       throw error;

@@ -35,7 +35,7 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       if (user) {
         userId = user.uid;
       } else {
-        createUserResult = await auth.createUser({ uid: mockedSignUp.email, email: mockedSignUp.email, password: mockedSignUp.password, phoneNumber: mockedSignUp.phoneNumber, photoURL: mockedSignUp.photoUrl, metadata: null } as CreateRequest);
+        createUserResult = await auth.createUser({ /*uid: mockedSignUp.email, */email: mockedSignUp.email, password: mockedSignUp.password, phoneNumber: mockedSignUp.phoneNumber, photoURL: mockedSignUp.photoUrl, metadata: null } as CreateRequest);
         userId = createUserResult.uid;
       }
 

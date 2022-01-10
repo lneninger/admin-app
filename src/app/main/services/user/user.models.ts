@@ -2,7 +2,7 @@
 export interface UserStateModel {
   currentRole?: string;
   roles: string[];
-  userMetadata?: IUserMetadata;
+  paymentMetadata?: IUserPaymentMetadata;
 }
 
 
@@ -17,7 +17,7 @@ export class UserModel {
   roles: any[];
 }
 
-export interface IUserMetadata{
+export interface IUserPaymentMetadata{
   paymentId: string;
 }
 

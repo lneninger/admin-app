@@ -1,54 +1,49 @@
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-import {Stripe} from 'stripe';
 import * as Cors from 'cors';
+import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
+import { Stripe } from 'stripe';
+
+import { logHttp } from '../site/log-wrapper-function';
 import { IPaymentInputModel } from './payment.models';
-import { Observable } from 'rxjs';
 
 const cors = Cors({ origin: true });
 
-const stripe = new Stripe(functions.config().stripe.token, {apiVersion: '2020-08-27'});
+const stripe = new Stripe(functions.config().stripe.token, { apiVersion: '2020-08-27' });
 const currency = functions.config().stripe.currency || 'USD';
 
 export const anonymousPayment = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 
   return cors(req, res, async () => {
+    return logHttp(req, res, 'anonymousPayment', async () => {
 
-    const data = <IPaymentInputModel>req.body.data;
+      const data = <IPaymentInputModel>req.body.data;
 
-    console.log(`Mapped to model`, data, `original body`, req.body);
-
-    //const token = data.source;
-
-    const intent: Stripe.PaymentIntentCreateParams = {
-      //source: data.source, // paymentintent token
-      amount: data.amount,
-      currency: currency,
-      payment_method_types: ['card'],
-    };
+      console.log(`Mapped to model`, data, `original body`, req.body);
 
 
-    console.log('Sending donation:', intent);
+      const intent: Stripe.PaymentIntentCreateParams = {
+        amount: data.amount,
+        currency: currency,
+        payment_method_types: ['card'],
+      };
 
-    const response = await stripe.paymentIntents.create(intent);
-    console.log('Donation Response:', response);
 
-    await new Observable(observer => {
-      admin.database().ref('/payment-log').push(intent).then(() => {
-          console.info('transaction saved successfully');
-        observer.next();
-        observer.complete();
-      },
-        error => {
-          console.error(error);
-        });
-    })
+      console.log('Sending donation:', intent);
 
-    res.status(200).jsonp({ data: response });
+      const response = await stripe.paymentIntents.create(intent);
+      console.log('Donation Response:', response);
 
+      await admin.database().ref('/payment-log').push(intent);
+      console.info('transaction saved successfully');
+
+
+      const result = response;
+      res.status(200).jsonp({ data: result });
+      return result;
+
+    });
 
   });
-
 
 
 });

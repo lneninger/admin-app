@@ -2,22 +2,21 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
 
-export async function logHttp(req: functions.https.Request, res: functions.Response, category: string, func: () => Promise<void>): Promise<void> {
-  const data = req.body.data;
+export async function logHttp(req: functions.https.Request, res: functions.Response, category: string, func: () => Promise<any>): Promise<void> {
+  const reqBody = req.body.data;
+  let resBody: { [key: string]: any } = {};
   try {
-
-    return func();
+    resBody = await func();
   } finally {
-    const response = res.json
 
     const document = {
       category,
       url: req.url,
-      body: data,
-      response
+      reqBody,
+      resBody
     };
 
-    admin.database().ref('/functions-log').push(document);
+    admin.firestore().collection('/functions-log').add(document);
 
   }
 }

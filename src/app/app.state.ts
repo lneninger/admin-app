@@ -1,3 +1,4 @@
+import { UserStateModel } from './main/services/user/user.models';
 import {  TelephonyStateModel } from './main/services/telephony/states/telephony.models';
 import { TenantStateModel } from './main/services/tenant/tenant.models';
 import { CurrentRoleStateModel, AuthStateModel } from './main/services/user/auth.models';
@@ -8,7 +9,7 @@ export interface AppStateModel {
   authState: AuthStateModel;
   appConfigState: AppConfigStateModel;
   tenantState: TenantStateModel;
-  userState: AuthStateModel;
+  userState: UserStateModel;
   currentRoleState: CurrentRoleStateModel;
   telephonyState: TelephonyStateModel;
 

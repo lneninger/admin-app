@@ -14,7 +14,7 @@ export class EndpointFactory {
 
 
     private get token() {
-       return this.store.selectSnapshot<string>((selector: AppStateModel) => selector.userState.token);
+       return this.store.selectSnapshot<string>((selector: AppStateModel) => selector.authState.token);
     }
 
     constructor(protected http: HttpClient, private store: Store) { }

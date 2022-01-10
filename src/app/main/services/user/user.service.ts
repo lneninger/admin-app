@@ -1,17 +1,17 @@
-import { DataAction, Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
+import { DataAction, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store, State, Selector } from '@ngxs/store';
-import { IAttachRole, ISetCurrentRole, IUserMetadata } from 'functions/src/user/user.models';
+import { Selector, State, Store } from '@ngxs/store';
+import { IAttachRole, ISetCurrentRole } from 'functions/src/user/user.models';
 import produce from 'immer';
 import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 
 import { AppStateModel } from './../../../app.state';
-import { AuthStateModel, Role, UserModel } from './auth.models';
-import { UserStateModel } from './user.models';
+import { IUserMetadata, UserModel } from './auth.models';
+import { IUserPaymentMetadata, UserStateModel } from './user.models';
 
 
 @StateRepository()
@@ -21,7 +21,6 @@ import { UserStateModel } from './user.models';
     roles: []
   }
 })
-@Injectable()
 @Injectable()
 export class UserService extends NgxsDataRepository<UserStateModel>{
 
@@ -35,13 +34,26 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
     return state.currentRole;
   }
 
+  @Selector()
+  static paymentMetadata(state: UserStateModel) {
+    return state.paymentMetadata;
+  }
+
   get isAuthenticated() {
     return true;
     // return this.adalSvc.isAuthenticated;
   }
 
   get user() {
-    return this.store.selectSnapshot<UserModel>((selector: AppStateModel) => selector.userState.user);
+    return this.store.selectSnapshot<UserModel>((selector: AppStateModel) => selector.authState.user);
+  }
+
+  get paymentMetadata() {
+    return this.store.selectSnapshot<IUserPaymentMetadata>(UserService.paymentMetadata);
+  }
+
+  get paymentMetadata$() {
+    return this.store.select<IUserPaymentMetadata>(UserService.paymentMetadata);
   }
 
   constructor(
@@ -64,11 +76,12 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
     });
   }
 
+  @DataAction()
   async getMetadata() {
     const user = await this.firebaseService.auth.currentUser;
-    const extraData = (await this.firebaseService.firestore.doc(`/entities/${user.uid}`).get().pipe(first()).toPromise()).data() as IUserMetadata;
+    const extraData = (await this.firebaseService.firestore.doc(`/entities/${user.uid}`).get().pipe(first()).toPromise()).data() as IUserPaymentMetadata;
     this.ctx.setState(produce(this.ctx.getState(), (draft: UserStateModel) => {
-      draft.userMetadata = extraData;
+      draft.paymentMetadata = extraData;
     }));
 
   }
@@ -93,8 +106,6 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
         await userCreateResponse.user.sendEmailVerification() //Send email verification
 
 
-        // create customer in stripe. payment api
-        await this.paymentService.setCurrentUserAsCustomer();
 
 
         await this.firebaseService.auth.signOut() //Logout is triggered --> line 16 in app.js

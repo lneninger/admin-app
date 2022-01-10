@@ -1,14 +1,15 @@
-import { environment } from 'src/environments/environment';
-import { UserService } from 'src/app/main/services/user/user.service';
-import { FirebaseService } from '../../firebase/firebase.service';
-import { Injectable } from '@angular/core';
-import { State, Store } from '@ngxs/store';
-import { IPaymentStateModel } from './paymernt.state.models';
 import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
-import { ICustomerInputModel } from '../+models/customer-create';
+import { Injectable } from '@angular/core';
+import { State, Store } from '@ngxs/store';
+import { AppStateModel } from 'src/app/app.state';
 import { AuthService } from 'src/app/main/services/user/auth.service';
+import { environment } from 'src/environments/environment';
+
+import { ICustomerInputModel } from '../+models/customer-create';
 import { IPlaidTokenInputModel } from '../+models/plaid';
+import { FirebaseService } from '../../firebase/firebase.service';
+import { IPaymentStateModel } from './paymernt.state.models';
 
 
 @Persistence({
@@ -36,9 +37,25 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
   constructor(
     private firebase: FirebaseService,
     private authService: AuthService,
+    private store: Store,
+    private firebaseService: FirebaseService
   ) {
     super();
   }
+
+  async ngxsAfterBootstrap() {
+    super.ngxsAfterBootstrap();
+
+
+    this.firebaseService.auth.authState.subscribe(async user => {
+      if (user) {
+        // create customer in stripe. payment api
+        await this.setCurrentUserAsCustomer();
+      }
+    });
+  }
+
+
 
   async setCurrentUserAsCustomer() {
     const req = {
@@ -55,10 +72,10 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
   async createPlaidToken() {
     const req = {
       appName: environment.appTitle,
-      stripeCustomerId: string;
+      stripeCustomerId: this.store.selectSnapshot<string>((store: AppStateModel) => store.userState.paymentMetadata.paymentId),
     } as IPlaidTokenInputModel;
 
-    const customerCreateFn = this.firebase.fns.httpsCallable('customerCreate');
+    const customerCreateFn = this.firebase.fns.httpsCallable('plaidToken');
     return customerCreateFn(req).toPromise();
   }
 }

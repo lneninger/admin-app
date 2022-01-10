@@ -83,7 +83,7 @@ export class SecurityHttpIOnterceptor implements HttpInterceptor {
     // return req;
     const token = this.store.selectSnapshot<string>((store: AppStateModel) => {
       // debugger;
-      return store.userState.token;
+      return store.authState.token;
     });
     const defaultAuthorizationHeaders = {
 
@@ -104,7 +104,7 @@ export class SecurityHttpIOnterceptor implements HttpInterceptor {
       headers = headers.delete(KeepOriginalHeadersKey);
       if (!req.headers.get(NoAuthorizationHeaderKey)) {
         headers = req.headers.delete(NoAuthorizationHeaderKey);
-        headers = headers.set('Authorization', req.headers.has('Authorization') ? req.headers.get('Authorization') : ('Bearer ' + this.store.selectSnapshot<string>((store: AppStateModel) => store.userState.token)));
+        headers = headers.set('Authorization', req.headers.has('Authorization') ? req.headers.get('Authorization') : ('Bearer ' + this.store.selectSnapshot<string>((store: AppStateModel) => store.authState.token)));
       }
       result = req.clone({
         headers

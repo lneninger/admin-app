@@ -16,8 +16,8 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
 
     return logHttp(req, res, 'customerCreate', async () => {
 
-    const data = <ICustomerInputModel>req.body.data;
-    console.log('Mapped to model', data, 'original body', req.body);
+      const data = <ICustomerInputModel>req.body.data;
+      console.log('Mapped to model', data, 'original body', req.body);
 
 
       const customer: Stripe.CustomerCreateParams = {
@@ -39,14 +39,20 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
 
       // add payment id to entity metadata
       const entityUpdate = { paymentId: response.id };
-      await admin.database().ref(`/entities/${data.entityId}`).update(entityUpdate);
+      try {
+        await admin.firestore().collection('/entities').doc(data.entityId).update(entityUpdate);
+      } catch (error) {
+        await admin.firestore().collection('/entities').doc(data.entityId).set(entityUpdate);
+      }
 
-      res.status(200).jsonp({ data: response });
+      functions.logger.log('entity metadata created', entityUpdate);
 
+      const result = { customer: response.id };
+      res.status(200).json();
+
+      return result;
     });
 
   });
-
-
 
 });

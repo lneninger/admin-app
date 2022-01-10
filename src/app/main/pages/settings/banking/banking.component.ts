@@ -65,7 +65,7 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
 
 
   async ngOnInit() {
-    const stripe = (await this.stripeService.getStripeReference().pipe(filter(_ => !!_), first()).toPromise())(environment.stripeKey);
+    const stripe = (await this.stripeService.getStripeReference().pipe(filter(_ => !!_), first()).toPromise())(environment.stripe.publicKey);
     // const instance = Stripe(environment.stripeKey);
     // stripe.accounts.create({ type: 'standard' });
   }

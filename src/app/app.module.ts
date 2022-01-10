@@ -76,7 +76,7 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
     //   ]
     // }),
     NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
-    NgxStripeModule.forRoot(environment.stripeKey),
+    NgxStripeModule.forRoot(environment.stripe.publicKey),
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: initializerFactory, deps: [AppInitializerService], multi: true },
