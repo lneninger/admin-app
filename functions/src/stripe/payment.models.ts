@@ -25,3 +25,21 @@ export interface IPlaidTokenInputModel{
   appName: string;
   stripeCustomerId: string;
 }
+
+
+export interface IProduct{
+  name: string;
+  active: boolean;
+  description: string;
+  metadata: string;
+  shippable?: boolean;
+  subscribable?: boolean;
+}
+
+export interface IProductInputModel{
+  id?: string;
+  name: string;
+  active: string;
+  description: string;
+  metadata: string;
+}

@@ -8,6 +8,7 @@ import produce from 'immer';
 import { State } from '@ngxs/store';
 import { DataRetrieverInput } from 'src/app/shared/grid/grid-config';
 import { map } from 'rxjs/operators';
+import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
 @StateRepository()
 @State<ProductStateModel>({
@@ -20,47 +21,50 @@ import { map } from 'rxjs/operators';
 export class ProductService extends NgxsBaseDataRepository<ProductStateModel>{
   productTags = ['HARDGOOD', 'FOOD', 'FLOWER', 'COMPOSITION'];
 
-  constructor(private endpoint: ProductCategoryEndpoint) {
+  constructor(private firebaseService: FirebaseService) {
     super();
   }
 
   search(input: DataRetrieverInput) {
-    return this.endpoint.search(input);
+    return this.firebaseService.firestore.collection('app-products').get().pipe(map($set => ($set.docs).map(doc => doc.data() as IProductItem)));
   }
 
-  formatTreeData(items: IProductItem[], parent: IProductItem = null) {
+    // Leonardo
 
-    // debugger
-    const children = items.filter(item => item.parentId == (parent && parent.id));
-    if (parent) {
-      parent.children = children;
-    }
+  // formatTreeData(items: IProductItem[], parent: IProductItem = null) {
 
-    children.forEach(child => {
-      child.treeLevel = (parent && parent.treeLevel || 0) + 1;
-      this.formatTreeData(items, child);
-    });
+  //   // debugger
+  //   // Leonardo
+  //   const children = items.filter(item => item.parentId == (parent && parent.id));
+  //   if (parent) {
+  //     parent.children = children;
+  //   }
 
-    if (parent) {
-      children.forEach(child => {
-        items.splice(items.findIndex(item => item == child), 1);
-      });
+  //   children.forEach(child => {
+  //     child.treeLevel = (parent && parent.treeLevel || 0) + 1;
+  //     this.formatTreeData(items, child);
+  //   });
 
-    }
+  //   if (parent) {
+  //     children.forEach(child => {
+  //       items.splice(items.findIndex(item => item == child), 1);
+  //     });
 
-    return items;
+  //   }
+
+  //   return items;
+  // }
+
+  get(id: string) {
+    // return this.endpoint.get(id);
   }
 
-  get(id: string): Observable<IProduct> {
-    return this.endpoint.get(id);
+  async add(request: AddProductRequest) {
+    return this.firebaseService.firestore.collection('app-products').add(request);
   }
 
-  add(request: AddProductRequest): Observable<AddProductResponse> {
-    return this.endpoint.add(request);
-  }
-
-  delete(id: number): Observable<any> {
-    return this.endpoint.delete(id);
+  async delete(id: string) {
+    return this.firebaseService.firestore.collection('app-products').doc(id).delete();
   }
 
 

@@ -7,6 +7,7 @@ export enum NavigationItemIds {
 
   ADMIN = 'ADMIN',
   ADMIN_DASHBOARD = 'ADMIN_DASHBOARD',
+  ADMIN_SUBSCRIPTIONS = 'ADMIN_SUBSCRIPTIONS',
 
   SETTINGS = 'SETTINGS',
   SETTINGS_DASHBOARD = 'SETTINGS_DASHBOARD',
@@ -69,7 +70,7 @@ export const navigationItems: NavigationItem[] = [
   {
     id: NavigationItemIds.ADMIN,
     label: 'Admin',
-    routerLink: ['/app/admin'],
+    routerLink: ['/app/ws/admin'],
     bottom: true,
     icon: 'admin_panel_settings'
   },
@@ -77,19 +78,25 @@ export const navigationItems: NavigationItem[] = [
   {
     id: NavigationItemIds.ADMIN_DASHBOARD,
     label: 'Dashboard',
-    routerLink: ['/app/admin/dashboard'],
+    routerLink: ['/app/ws/admin/ws/dashboard'],
     icon: 'dashboard'
+  },
+  {
+    id: NavigationItemIds.ADMIN_SUBSCRIPTIONS,
+    label: 'Subscriptions',
+    routerLink: ['/app/ws/admin/ws/subscriptions'],
+    icon: 'card_membership'
   },
   {
     id: NavigationItemIds.ADMIN_USERS,
     label: 'Users',
-    routerLink: ['/app/admin/users'],
+    routerLink: ['/app/ws/admin/ws/users'],
     icon: 'manage_accounts'
   },
   {
     id: NavigationItemIds.ADMIN_ROLES,
     label: 'Roles',
-    routerLink: ['/app/admin/roles'],
+    routerLink: ['/app/ws/admin/ws/roles'],
     icon: 'lock'
   },
   // {
@@ -143,7 +150,7 @@ export const navigationItems: NavigationItem[] = [
   {
     id: NavigationItemIds.PRODUCTS,
     label: 'Products',
-    routerLink: ['/app/products'],
+    routerLink: ['/app/ws/products'],
     // icon: 'fa-object-group',
     // fontSet: 'fas'
   },

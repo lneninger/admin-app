@@ -95,7 +95,7 @@ export class ProductComponent implements OnInit {
     if (this.form.valid) {
       const request = this.form.getRawValue() as AddProductRequest;
       try {
-        const response = await this.service.add(request).toPromise();
+        await this.service.add(request);
       } catch (error) {
 
       }
@@ -109,8 +109,8 @@ export class ProductComponent implements OnInit {
     if (match) {
       let current = match;
       while (current) {
-        this.categoryTreeControl.expand(current);
-        this.currentCategory = this.categoryDataResponse.find(item => item.children.some(child => child == current));
+        // Leonardo: this.categoryTreeControl.expand(current);
+        // Leonardo: this.currentCategory = this.categoryDataResponse.find(item => item.children.some(child => child == current));
       }
     }
   }
@@ -127,7 +127,7 @@ export class ProductComponent implements OnInit {
   }
 
   async deleteCurrentProduct() {
-    await this.service.delete(this.currentProduct.id).toPromise();
+    await this.service.delete(this.currentProduct.id);
     // await this.retrieveData().toPromise();
 
   }//#endregion

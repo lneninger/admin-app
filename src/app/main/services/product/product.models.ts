@@ -8,7 +8,7 @@ export interface IProduct {
 }
 
 export interface IProductItem {
-  id: number;
+  id: string;
   parentId: number;
   name: string;
   description: string;

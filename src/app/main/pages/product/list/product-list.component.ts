@@ -11,13 +11,16 @@ import { IProductItem } from 'src/app/main/services/product/product.models';
 import { ProductService } from 'src/app/main/services/product/product.service';
 import { DataRetrieverInput, GridConfig } from 'src/app/shared/grid/grid-config';
 import { ProductComponent } from '../item/product.component';
+import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { NavigationItemIds } from 'src/app/main/main.navigation';
+import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnInit, AfterViewInit {
+export class ProductListComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -33,9 +36,13 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   dataResponse: IProductItem[];
 
   constructor(
+    breadcrumbService: BreadcrumbService,
     private service: ProductService,
     private dialog: MatDialog
   ) {
+    super();
+
+    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.ADMIN, NavigationItemIds.PRODUCTS);
 
   }
 
@@ -44,36 +51,37 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // debugger;
-    this.gridConfig = new GridConfig<IProductItem>(this.retrieveData.bind(this));
+    // Leonardo this.gridConfig = new GridConfig<IProductItem>(this.retrieveData.bind(this));
 
     this.gridConfig.initialize(this.paginator, this.sort);
   }
 
 
-  retrieveData(input?: DataRetrieverInput) {
-    // debugger;
-    const result = this.service.search(input).pipe(tap(response => {
-      // debugger;
-      this.dataResponse = response.items;
-      this.treeDataSource.data = this.service.formatTreeData([...response.items], null);
-      this.treeControl.dataNodes = this.treeDataSource.data
+  // retrieveData(input?: DataRetrieverInput) {
+  //   // debugger;
+  //   const result = this.service.search(input).pipe(tap(response => {
+  //     // debugger;
+  //     this.dataResponse = response;
+  //     this.treeDataSource.data = this.service.formatTreeData([...response], null);
+  //     this.treeControl.dataNodes = this.treeDataSource.data
 
-    }));
+  //   }));
 
-    return result;
-  }
+  //   return result;
+  // }
 
   newProduct($event?: Event, parent?: IProductItem) {
     const dialogRef = this.dialog.open(ProductComponent, {
       data: {
         parent
-      }
+      },
+      height: '400px'
     } as MatDialogConfig<IProductDialogData>);
 
     dialogRef.afterClosed().pipe(first()).subscribe(async result => {
-      await this.retrieveData().toPromise();
-      const match = this.dataResponse.find(item => item.id == (this.current && this.current.id));
-      this.expandNode(match);
+      // Leonardo await this.retrieveData().toPromise();
+      // Leonardo const match = this.dataResponse.find(item => item.id == (this.current && this.current.id));
+      // Leonardo this.expandNode(match);
 
       console.log(`Dialog result: ${result}`);
     });
@@ -101,8 +109,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
   async deleteCurrent() {
-    await this.service.delete(this.current.id).toPromise();
-    // await this.retrieveData().toPromise();
+    await this.service.delete(this.current.id);
     this.gridConfig.refresh();
 
   }//#endregion

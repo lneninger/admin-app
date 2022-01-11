@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AdminDashboardComponent } from './dashboard.component';
+import { AdminSubscriptionsComponent } from './subscriptions.component';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
 
   {
     path: 'ws',
-    component: AdminDashboardComponent,
+    component: AdminSubscriptionsComponent,
     data: {
       menu: 'ADMIN'
     }
@@ -28,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { }
+export class SubscriptionsRoutingModule { }

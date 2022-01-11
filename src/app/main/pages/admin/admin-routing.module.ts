@@ -4,9 +4,13 @@ import { AdminComponent } from './admin.component';
 
 
 const routes: Routes = [
-
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'ws'
+  },
+  {
+    path: 'ws',
     component: AdminComponent,
     data: { menu: 'admin' },
     children: [
@@ -20,9 +24,13 @@ const routes: Routes = [
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.AdminDashboardModule)
       },
       {
+        path: 'subscriptions',
+        loadChildren: () => import('./subscriptions/subscriptions.module').then(m => m.AdminSubscriptionsModule)
+      },
+      {
         path: '**',
         pathMatch: 'full',
-        redirectTo: ''
+        redirectTo: 'dashboard'
       }
     ]
   },

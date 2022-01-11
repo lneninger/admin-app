@@ -3,7 +3,21 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ProductListComponent } from './product-list.component';
 
-const routes: Routes = [{ path: '', component: ProductListComponent }];
+const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'ws'
+  },
+  {
+    path: 'ws', component: ProductListComponent
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: 'ws'
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

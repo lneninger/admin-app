@@ -185,6 +185,7 @@ export class AppMenuService {
       NavigationItemIds.ADMIN_DASHBOARD,
       NavigationItemIds.DIVIDER,
 
+      NavigationItemIds.ADMIN_SUBSCRIPTIONS,
       NavigationItemIds.ADMIN_USERS,
       NavigationItemIds.ADMIN_ROLES,
       NavigationItemIds.DIVIDER,
