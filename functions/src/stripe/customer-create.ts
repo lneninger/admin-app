@@ -19,35 +19,42 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
       const data = <ICustomerInputModel>req.body.data;
       console.log('Mapped to model', data, 'original body', req.body);
 
-      const customer: Stripe.CustomerCreateParams = {
-        email: data.email,
-        name: data.fullName
-      };
+      const userData = (await admin.firestore().collection('/entities').doc(data.entityId).get()).data();
+      if (!userData || !userData.paymentId) {
 
-      const response = await stripe.customers.create(customer);
-      console.log('Customer Create Response:', response);
+        const customer: Stripe.CustomerCreateParams = {
+          email: data.email,
+          name: data.fullName
+        };
 
-      // add payment id claim
-      const auth = admin.auth();
-      const userRecord = await auth.getUser(data.entityId);
-      let claims = userRecord.customClaims || {};
-      claims = { ...claims, paymentId: response.id };
-      await auth.setCustomUserClaims(data.entityId, claims);
+        const response = await stripe.customers.create(customer);
+        console.log('Customer Create Response:', response);
 
-      // add payment id to entity metadata
-      const entityUpdate = { paymentId: response.id };
-      try {
-        await admin.firestore().collection('/entities').doc(data.entityId).update(entityUpdate);
-      } catch (error) {
-        await admin.firestore().collection('/entities').doc(data.entityId).set(entityUpdate);
+        // add payment id claim
+        const auth = admin.auth();
+        const userRecord = await auth.getUser(data.entityId);
+        let claims = userRecord.customClaims || {};
+        claims = { ...claims, paymentId: response.id };
+        await auth.setCustomUserClaims(data.entityId, claims);
+
+        // add payment id to entity metadata
+        const entityUpdate = { paymentId: response.id };
+        try {
+          await admin.firestore().collection('/entities').doc(data.entityId).update(entityUpdate);
+        } catch (error) {
+          await admin.firestore().collection('/entities').doc(data.entityId).set(entityUpdate);
+        }
+
+        functions.logger.log('entity metadata created', entityUpdate);
+
+        const result = { customer: response.id };
+        res.status(200).json();
+
+        return result;
+      } else {
+        res.status(204).send();
+
       }
-
-      functions.logger.log('entity metadata created', entityUpdate);
-
-      const result = { customer: response.id };
-      res.status(200).json();
-
-      return result;
     });
 
   });
