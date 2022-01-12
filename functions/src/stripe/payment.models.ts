@@ -34,6 +34,7 @@ export interface IProduct{
   metadata: string;
   shippable?: boolean;
   subscribable?: boolean;
+  price?: number;
 }
 
 export interface IProductInputModel{

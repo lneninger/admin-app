@@ -25,7 +25,7 @@ export const productTrack = functions.firestore.document('app-products/{productI
     const response = await stripe.products.create(stripeProduct);
 
     const price = await stripe.prices.create({
-      unit_amount: 2000,
+      unit_amount: (dbProduct.price && dbProduct.price*100) || 2000,
       currency: 'usd',
       recurring: {interval: 'month'},
       product: productId,
@@ -47,7 +47,7 @@ export const productTrack = functions.firestore.document('app-products/{productI
     const response = await stripe.products.update(productId, stripeProductUpdate)
 
     const price = await stripe.prices.create({
-      unit_amount: 2000,
+      unit_amount: (dbProduct.price && dbProduct.price*100) || 2000,
       currency: 'usd',
       recurring: {interval: 'month'},
       product: productId,
