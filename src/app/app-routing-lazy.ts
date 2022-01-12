@@ -3,6 +3,10 @@ import { NgModuleFactory, Type } from '@angular/core';
 export const LazyLoadedWidgets = {
     APP_SETTIGNS: 'settings',
 
+    //#region Tasks
+    TASK_SURVEY: 'tasks-survey'
+    //#endregion
+
 };
 
 // This will create a dedicated JS bundle for lazy module

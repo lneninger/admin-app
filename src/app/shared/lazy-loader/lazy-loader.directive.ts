@@ -1,7 +1,7 @@
 import { Directive, ViewContainerRef, Input, OnDestroy } from '@angular/core';
 
 @Directive({
-    selector: '[appLazy]'
+    selector: '[appLazy],[app-lazy]'
 })
 export class LazyLoaderDirective implements OnDestroy {
 
@@ -10,6 +10,11 @@ export class LazyLoaderDirective implements OnDestroy {
 
     @Input('appLazyData')
     metadata: any;
+
+    @Input('appLazyDefault')
+    default: string;
+
+    loading: boolean;
 
     constructor(public viewContainerRef: ViewContainerRef) {
 
