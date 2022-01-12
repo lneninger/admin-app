@@ -27,7 +27,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
 
-        <mat-paginator [length]="gridConfig?.resultsLength" [pageSize]="10"></mat-paginator>
+        <mat-paginator [length]="this.gridConfig?.resultsLength" [showFirstLastButtons]="false" [pageSize]="1"></mat-paginator>
 
       </mat-tab>
       <mat-tab label="Tree">

@@ -5,11 +5,11 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource } from '@angular/material/tree';
-import { of } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { first, tap, map } from 'rxjs/operators';
 import { IProductItem } from 'src/app/main/services/product/product.models';
 import { ProductService } from 'src/app/main/services/product/product.service';
-import { DataRetrieverInput, GridConfig } from 'src/app/shared/grid/grid-config';
+import { DataRetrieverInput, GridConfig, GridData } from 'src/app/shared/grid/grid-config';
 import { ProductComponent } from '../item/product.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
@@ -51,24 +51,24 @@ export class ProductListComponent extends BaseComponent implements OnInit, After
 
   ngAfterViewInit(): void {
     // debugger;
-    // Leonardo this.gridConfig = new GridConfig<IProductItem>(this.retrieveData.bind(this));
+    this.gridConfig = new GridConfig<IProductItem>(this.retrieveData.bind(this));
 
     this.gridConfig.initialize(this.paginator, this.sort);
   }
 
 
-  // retrieveData(input?: DataRetrieverInput) {
-  //   // debugger;
-  //   const result = this.service.search(input).pipe(tap(response => {
-  //     // debugger;
-  //     this.dataResponse = response;
-  //     this.treeDataSource.data = this.service.formatTreeData([...response], null);
-  //     this.treeControl.dataNodes = this.treeDataSource.data
+  retrieveData(input?: DataRetrieverInput) {
+    // debugger;
+    const result = from(this.service.search(input)).pipe(map(response => {
+      // debugger;
+      return { items: response.result.docs.map(_ => _.data()), totalCount: response.total } as GridData<IProductItem>;
+      // this.treeDataSource.data = this.service.formatTreeData([...response], null);
+      // this.treeControl.dataNodes = this.treeDataSource.data
 
-  //   }));
+    }));
 
-  //   return result;
-  // }
+    return result;
+  }
 
   newProduct($event?: Event, parent?: IProductItem) {
     const dialogRef = this.dialog.open(ProductComponent, {

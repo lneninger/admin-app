@@ -52,8 +52,7 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
 
         return result;
       } else {
-        res.status(204).send();
-
+        return res.status(204).send();
       }
     });
 

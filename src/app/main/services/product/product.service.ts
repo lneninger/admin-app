@@ -7,8 +7,9 @@ import { DataAction, Payload, StateRepository } from '@angular-ru/ngxs/decorator
 import produce from 'immer';
 import { State } from '@ngxs/store';
 import { DataRetrieverInput } from 'src/app/shared/grid/grid-config';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
+import { CollectionReference, Query } from '@angular/fire/firestore';
 
 @StateRepository()
 @State<ProductStateModel>({
@@ -25,11 +26,27 @@ export class ProductService extends NgxsBaseDataRepository<ProductStateModel>{
     super();
   }
 
-  search(input: DataRetrieverInput) {
-    return this.firebaseService.firestore.collection('app-products').get().pipe(map($set => ($set.docs).map(doc => doc.data() as IProductItem)));
+  async search(input: DataRetrieverInput) {
+    let ref: CollectionReference<IProductItem> | Query<IProductItem> = this.firebaseService.firestore.collection<IProductItem>('app-products').ref;
+    if (input.sort) {
+      ref = ref.orderBy(input.sort.field)
+    }
+
+    /*Where clause*/
+
+    let total: number;
+    if (input.retrieveTotalAmount) {
+      total = (await ref.get()).size;
+    }
+
+    ref = ref.limit(input.pageSize);
+    ref = input.lastRetrieved ? ref.startAfter(input.lastRetrieved) : ref;
+    const result = await ref.get();
+
+    return { total, result };
   }
 
-    // Leonardo
+  // Leonardo
 
   // formatTreeData(items: IProductItem[], parent: IProductItem = null) {
 
@@ -55,8 +72,12 @@ export class ProductService extends NgxsBaseDataRepository<ProductStateModel>{
   //   return items;
   // }
 
-  get(id: string) {
-    // return this.endpoint.get(id);
+  list() {
+    return this.firebaseService.firestore.collection<IProductItem>('app-products').snapshotChanges();
+  }
+
+  async get(id: string) {
+    return this.firebaseService.firestore.collection('app-products').doc(id).get().pipe(first()).toPromise();
   }
 
   async add(request: AddProductRequest) {

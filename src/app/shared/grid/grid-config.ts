@@ -14,7 +14,7 @@ export class GridConfig<T> {
   private force$ = new EventEmitter<any>();
   sort: MatSort;
   paginator: MatPaginator;
-
+  lastRetrieved: T;
   constructor(
     private dataRetriever: (input: DataRetrieverInput) => Observable<GridData<T>>,
     ) {
@@ -25,6 +25,7 @@ export class GridConfig<T> {
     this.paginator = paginator;
     const internalSortChange = this.sort ? this.sort.sortChange : new EventEmitter<Sort>();
     const internalPaginatorPage = this.paginator ? this.paginator.page : new EventEmitter<PageEvent>();
+
     combineLatest([internalSortChange.pipe(startWith(null as Sort)), internalPaginatorPage.pipe(startWith(null as Sort)), this.force$.pipe(startWith(false))])
       .pipe(
         debounceTime(250),
@@ -43,6 +44,8 @@ export class GridConfig<T> {
             // sort: { field: this.sort && this.sort.active, direction: this.sort && this.sort.direction },
             pageIndex: this.paginator && this.paginator.pageIndex,
             pageSize: this.paginator && this.paginator.pageSize,
+            lastRetrieved: this.lastRetrieved,
+            retrieveTotalAmount: true
           };
 
           return this.dataRetriever(input);
@@ -61,8 +64,10 @@ export class GridConfig<T> {
         // debugger
         this.isLoadingResults = false;
         this.isRateLimitReached = false;
+        this.lastRetrieved = data && data.items && data.items.length > 0 && data.items[data.items.length - 1];
         this.resultsLength = data.totalCount || (data as unknown as T[]).length;
         this.data = data.items || (data as unknown as T[]);
+        this.paginator.length = (data && data.items && data.items.length === this.paginator.pageSize) ? this.paginator.pageIndex*this.paginator.pageSize+1 : this.paginator.pageIndex*this.paginator.pageSize;
       });
   }
 
@@ -82,6 +87,8 @@ export interface DataRetrieverInput {
   sort?: PageDataSort;
   pageIndex: number;
   pageSize: number;
+  lastRetrieved: any;
+  retrieveTotalAmount: boolean
 }
 
 export interface GridData<T> {
