@@ -13,6 +13,12 @@
         <input formControlName="description" matInput type="text">
       </mat-form-field>
 
+      <mat-form-field fxFlex="100%">
+        <mat-label>Price</mat-label>
+        <input formControlName="price" matInput type="text">
+        <mat-icon matSuffix>attach_money</mat-icon>
+      </mat-form-field>
+
 
 
       <mat-tree [dataSource]="categoryTreeDataSource" [treeControl]="categoryTreeControl" class="custom-tree max-h-0.5">

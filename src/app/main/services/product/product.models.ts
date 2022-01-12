@@ -12,6 +12,7 @@ export interface IProductItem {
   parentId: number;
   name: string;
   description: string;
+  price: number;
   categoryId: string;
 
   treeLevel: number;

@@ -73,6 +73,7 @@ export class ProductComponent implements OnInit {
     return this.fmBuilder.group({
       name: [this.item && this.item.name, [Validators.required]],
       description: [this.item && this.item.description],
+      price: [this.item && this.item.price],
       parentId: [(this.parent && this.parent.id)],
       tags: [(this.item && this.parent.tags)]
     });
