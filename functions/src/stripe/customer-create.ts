@@ -8,7 +8,7 @@ import { logHttp } from '../site/log-wrapper-function';
 
 const cors = Cors({ origin: true });
 
-const stripe = new Stripe(functions.config().stripe.secretKey, { apiVersion: (functions.config() as IConfig).stripe.apiVersion });
+const stripe = new Stripe(functions.config().stripe.secretKey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
 
 export const customerCreate = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 

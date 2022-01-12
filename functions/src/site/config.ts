@@ -21,7 +21,7 @@ export const appConfiguration = functions.https.onRequest((req: functions.https.
         userRoleIds = userRolesRel.map(item => (item.data() as IUserRole).roleId);
       }
       else {
-        console.log(`No authenticated user`);
+        console.log('No authenticated user');
       }
 
       let userRoles: string[] = [];

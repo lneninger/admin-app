@@ -4,12 +4,12 @@ export interface IConfig{
     email: string;
   },
   stripe:{
-    apiVersion: '2020-08-27',
-    publicKey: string;
-    secretKey: string;
+    apiversion: '2020-08-27',
+    publickey: string;
+    secretkey: string;
   },
   plaid: {
-    clientId: string;
+    clientid: string;
     secret: string;
   }
 }

@@ -18,7 +18,7 @@ export const anonymousPayment = functions.https.onRequest((req: functions.https.
 
       const data = <IPaymentInputModel>req.body.data;
 
-      console.log(`Mapped to model`, data, `original body`, req.body);
+      console.log('Mapped to model', data, 'original body', req.body);
 
 
       const intent: Stripe.PaymentIntentCreateParams = {

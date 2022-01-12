@@ -4,7 +4,7 @@ import { Stripe } from 'stripe';
 import { IProduct } from './payment.models';
 
 
-const stripe = new Stripe(functions.config().stripe.secretKey, { apiVersion: (functions.config() as IConfig).stripe.apiVersion });
+const stripe = new Stripe(functions.config().stripe.secretKey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
 
 export const productTrack = functions.firestore.document('app-products/{productId}').onWrite(async (change, context) => {
   const productId = context.params.productId;

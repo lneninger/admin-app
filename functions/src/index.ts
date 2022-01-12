@@ -6,7 +6,7 @@ import * as admin from 'firebase-admin';
 
 firebase.initializeApp({
   name: 'firebase-adminsys-20210823',
-  apiKey: "AIzaSyBVX_mxqJJZO6gDvUJDER1jA8BL5xr6qcc",
+  apiKey: 'AIzaSyBVX_mxqJJZO6gDvUJDER1jA8BL5xr6qcc',
 });
 admin.initializeApp();
 

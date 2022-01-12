@@ -4,21 +4,20 @@ import { IAttachRole, IUserRole } from './user.models';
 
 
 export async function attachRoleCore(data: IAttachRole): Promise<admin.firestore.DocumentSnapshot<admin.firestore.DocumentData> | { roleId: string; }> {
-  console.log(`Mapped to model`, data, `original body`, data);
+  console.log('Mapped to model', data, 'original body', data);
 
-  //const token = data.source;
   const roleName = data.role.toUpperCase();
-  const role = (await admin.firestore().collection(`auth-roles`).where('name', '==', roleName).limit(1).get()).docs[0];
+  const role = (await admin.firestore().collection('auth-roles').where('name', '==', roleName).limit(1).get()).docs[0];
   let roleId: string;
   if (role) {
     roleId = role.id;
   } else {
-    const newRole = (await admin.firestore().collection(`auth-roles`).add({ name: roleName }));
+    const newRole = (await admin.firestore().collection('auth-roles').add({ name: roleName }));
     roleId = newRole.id;
   }
 
   if (data.uid) {
-    const relationshipRef = (await admin.firestore().collection(`auth-users-roles`).add({ userId: data.uid, roleId } as IUserRole));
+    const relationshipRef = (await admin.firestore().collection('auth-users-roles').add({ userId: data.uid, roleId } as IUserRole));
     const relationship = await (await relationshipRef.get()).data() as IUserRole;
     console.log('Attach role response:', relationship);
 

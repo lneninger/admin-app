@@ -16,14 +16,14 @@ export const plaidToken = functions.https.onRequest((req: functions.https.Reques
 
       const data = <IPlaidTokenInputModel>req.body.data;
 
-      console.log(`Mapped to model`, data, `original body`, req.body);
+      console.log('Mapped to model', data, 'original body', req.body);
 
 
       const configuration = new Configuration({
         basePath: PlaidEnvironments.sandbox,
         baseOptions: {
           headers: {
-            'PLAID-CLIENT-ID': (functions.config() as IConfig).plaid.clientId,
+            'PLAID-CLIENT-ID': (functions.config() as IConfig).plaid.clientid,
             'PLAID-SECRET': (functions.config() as IConfig).plaid.secret,
           },
         },

@@ -7,7 +7,7 @@ import { UserRecord } from 'firebase-admin/lib/auth/user-record';
 import * as functions from 'firebase-functions';
 
 import { ISecuredModule, IUserSecuredModule } from '../site/site.models';
-import { attachRoleCore } from "../user/user-attach-role-utils";
+import { attachRoleCore } from '../user/user-attach-role-utils';
 import { mockedSignUp } from './mocker.models';
 
 

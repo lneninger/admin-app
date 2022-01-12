@@ -12,9 +12,7 @@ export const userExists = functions.https.onRequest((req: functions.https.Reques
 
     const data = <IUserExists>req.body.data;
 
-    console.log(`Mapped to model`, data, `original body`, req.body);
-
-    //const token = data.source;
+    console.log('Mapped to model', data, 'original body', req.body);
 
     let user = await admin.auth().getUserByEmail(data.email);
     if (!user) {
@@ -27,7 +25,5 @@ export const userExists = functions.https.onRequest((req: functions.https.Reques
 
 
   });
-
-
 
 });

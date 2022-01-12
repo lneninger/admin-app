@@ -14,7 +14,7 @@ export const setCurrentRole = functions.https.onRequest((req: functions.https.Re
 
     const data = <ISetCurrentRole>req.body.data;
 
-    console.log(`Mapped to model`, data, `original body`, req.body);
+    console.log('Mapped to model', data, 'original body', req.body);
 
     //const token = data.source;
 
