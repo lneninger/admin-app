@@ -1,3 +1,4 @@
+import { BankAccountComponent } from './../../../../../shared/payment/bank-account/bank-account.component';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -22,6 +23,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
 
+  @ViewChild(BankAccountComponent, {static: false}) bankAccountComponent: BankAccountComponent;
 
 
   stripeTest: FormGroup;
@@ -95,6 +97,12 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   }
 
 
+  async save(){
+    if(this.bankAccountComponent){
+      await this.bankAccountComponent.createBankAccount(true);
+    }
+  }
+
   createToken(): void {
     const name = this.stripeTest.get('name').value;
     this.stripeService
@@ -143,5 +151,6 @@ super(
 
   ngAfterViewInit() {
   }
+
 }
 

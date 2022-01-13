@@ -27,6 +27,10 @@ export const environment = {
   },
   stripe: {
     publicKey: 'pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O'
+  },
+  plaid: {
+    environment: 'development',
+    publicKey: 'f2697b9b441211ed4ee92df3850108'
   }
 
 };

@@ -10,10 +10,10 @@ import { delay, filter, switchMap, tap } from 'rxjs/operators';
 import { AppConfigState } from '../states/appconfig.state';
 import { Router } from '@angular/router';
 import { LazyLoaderDirective } from '../../lazy-loader/lazy-loader.module';
-import { DynamicConfig, DYNAMIC_DATA } from '../../lazy-loader/lazy-loader.service';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { BaseComponent } from '../../base.component';
 import { MenuService } from './navigation/menu/menu.service';
+import { LazyLoaderBaseComponent } from '../../lazy-loader/lazy-loader.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -23,7 +23,7 @@ import { MenuService } from './navigation/menu/menu.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   // : { '[class]': 'app-wrapper' }
 })
-export class LayoutMainComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class LayoutMainComponent extends LazyLoaderBaseComponent implements OnInit, AfterViewInit {
   elem: HTMLElement;
 
   lazyLoaderSubscription: Subscription;
@@ -65,9 +65,9 @@ export class LayoutMainComponent extends BaseComponent implements OnInit, AfterV
     private mediaService: MediaService,
     private mediaObserver: MediaObserver,
     private router: Router,
-    private lazyLoaderService: LazyLoaderService
+    lazyLoaderService: LazyLoaderService
   ) {
-    super();
+    super(lazyLoaderService);
     this.initializeMedia();
   }
 
@@ -80,7 +80,6 @@ export class LayoutMainComponent extends BaseComponent implements OnInit, AfterV
       this.elem = document.documentElement;
       this.initializeMenuListener();
       this.initializeOptionsListener();
-      this.initializeLazyLoadListener();
   }
 
   initializeMenuListener() {
@@ -109,25 +108,6 @@ export class LayoutMainComponent extends BaseComponent implements OnInit, AfterV
     })).subscribe();
   }
 
-  initializeLazyLoadListener() {
-
-    this.lazyLoaderSubscription = combineLatest([this.lazyLoaderDirectivesInternal$])
-      .pipe(filter(([lazyDirectives]) => !!lazyDirectives && lazyDirectives.length > 0), delay(0), tap(x => {
-        console.log(`custom directive triggered passed filter`, x);
-      }))
-      .subscribe(([lazyDirectives]) => {
-        lazyDirectives.forEach(async (directive: LazyLoaderDirective) => {
-
-          // Logic to deside to show the product tile
-          if (directive) {
-            const metadata = { data: directive.metadata } as DynamicConfig<any>;
-            await this.lazyLoaderService.load(directive.appLazy, directive.viewContainerRef, DYNAMIC_DATA, metadata);
-          } else {
-            // console.log();
-          }
-        });
-      });
-  }
 
   initializeMedia() {
     // debugger;

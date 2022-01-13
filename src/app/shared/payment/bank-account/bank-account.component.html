@@ -1,5 +1,5 @@
 <section fxFlex fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-  <button ngxPlaidLink env="sandbox" publicKey="f2697b9b441211ed4ee92df3850108" institution=""
+  <button ngxPlaidLink [env]="this.plaidEnvironment" [publicKey]="this.plaidPublicKey" institution=""
     [countryCodes]="['US', 'CA', 'GB']" (Success)="onPlaidSuccess($event)" (Exit)="onPlaidExit($event)"
     (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">Link Your Bank
     Account</button>

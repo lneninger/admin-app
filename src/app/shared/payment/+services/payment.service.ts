@@ -7,7 +7,12 @@ import { AuthService } from 'src/app/main/services/user/auth.service';
 import { environment } from 'src/environments/environment';
 
 import { ICustomerInputModel } from '../+models/customer-create';
-import { IPlaidTokenInputModel } from '../+models/plaid';
+import {
+  IPlaidLinkTokenRequestModel,
+  IPlaidLinkTokenResponseModel,
+  IPlaidStripeRequestModel as ICreateBankAccountRequestModel,
+  IPlaidStripeResponseModel as ICreateBankAccountResponseModel,
+} from '../+models/plaid';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { IPaymentStateModel } from './paymernt.state.models';
 
@@ -69,13 +74,19 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
   }
 
 
-  async createPlaidToken() {
+  async createPlaidToken(): Promise<IPlaidLinkTokenResponseModel> {
     const req = {
       appName: environment.appTitle,
       stripeCustomerId: this.store.selectSnapshot<string>((store: AppStateModel) => store.userState.paymentMetadata.paymentId),
-    } as IPlaidTokenInputModel;
+    } as IPlaidLinkTokenRequestModel;
 
-    const customerCreateFn = this.firebase.fns.httpsCallable('plaidToken');
+    const customerCreateFn = this.firebase.fns.httpsCallable<IPlaidLinkTokenRequestModel, IPlaidLinkTokenResponseModel>('plaidToken');
     return customerCreateFn(req).toPromise();
   }
+
+  async createBankAccount(req: ICreateBankAccountRequestModel): Promise<ICreateBankAccountResponseModel>{
+    const createBankAccountFn = this.firebase.fns.httpsCallable<ICreateBankAccountRequestModel, ICreateBankAccountResponseModel>('attackBankAccount');
+    return createBankAccountFn(req).toPromise();
+  }
+
 }

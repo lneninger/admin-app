@@ -42,7 +42,7 @@ export const plaidToken = functions.https.onRequest((req: functions.https.Reques
             client_user_id: data.stripeCustomerId
           }
         });
-        res.status(200).jsonp({ link_token: tokenResponse.data.link_token });
+        res.status(200).jsonp({ linkToken: tokenResponse.data.link_token });
       } catch (error) {
         res.status(500).jsonp(error);
       }

@@ -45,7 +45,22 @@ export interface IPlaidBankAccount {
   subtype: string
 }
 
-export interface IPlaidTokenInputModel{
+
+//#region Requests
+export interface IPlaidLinkTokenRequestModel{
   appName: string;
   stripeCustomerId: string;
 }
+export interface IPlaidLinkTokenResponseModel{
+  linkToken: string;
+}
+export interface IPlaidStripeRequestModel{
+  accountId: string;
+  publicToken: string;
+  customerId?: string;
+}
+
+export interface IPlaidStripeResponseModel{
+  bankAccountToken: string;
+}
+//#endregion

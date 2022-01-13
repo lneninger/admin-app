@@ -24,6 +24,12 @@ export const environment = {
     messagingSenderId: "1030745001822",
     appId: "1:1030745001822:web:08f10b9fbd6d084d10c9cf"
   },
-  stripeKey: 'pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O'
+  stripe: {
+    publicKey: 'pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O'
+  },
+  plaid: {
+    environment: 'production',
+    publicKey: 'f2697b9b441211ed4ee92df3850108'
+  }
 
 };

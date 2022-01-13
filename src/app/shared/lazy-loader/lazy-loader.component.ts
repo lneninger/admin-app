@@ -1,7 +1,7 @@
 import { AfterViewInit, Directive, QueryList, ViewChildren } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { LazyLoadedWidgets } from 'src/app/app-routing-lazy';
-import { BaseComponent } from 'src/app/pages/member/base.member.component';
+import { BaseComponent } from '../base.component';
 
 import { LazyLoaderDirective } from './lazy-loader.directive';
 import { LazyLoaderService } from './lazy-loader.service';

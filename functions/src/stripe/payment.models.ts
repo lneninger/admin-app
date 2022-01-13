@@ -26,6 +26,13 @@ export interface IPlaidTokenInputModel{
   stripeCustomerId: string;
 }
 
+export interface IPlaidStripeInputModel{
+  accountId: string;
+  publicToken: string;
+  customerId?: string;
+
+}
+
 
 export interface IProduct{
   name: string;
