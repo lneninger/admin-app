@@ -29,7 +29,7 @@ export const environment = {
     publicKey: 'pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O'
   },
   plaid: {
-    environment: 'development',
+    environment: 'sandbox',
     publicKey: 'f2697b9b441211ed4ee92df3850108'
   }
 

@@ -1,8 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
 
-@Component({
-  template: ''
-})
+@Directive()
 export abstract class BaseComponent implements OnDestroy {
 
   ngOnDestroy(): void {
