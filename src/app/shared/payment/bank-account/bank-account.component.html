@@ -4,8 +4,9 @@
     (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">Link Your Bank
     Account</button>
 
-  <section *ngIf="this.accountData" fxLayout="column" fxFlexAlign="stretch">
-    <mat-checkbox class="example-margin" *ngFor="let account of this.accountData.metadata.accounts"
+  <section *ngIf="this.accounts?.length > 0 && !this.selectedAccount" fxLayout="column" fxFlexAlign="stretch">
+    {{this.selectedAccount | json}}
+    <mat-checkbox [(ngModel)]="this.selectedAccount" [value]="account" *ngFor="let account of this.accountData.metadata.accounts"
     color="primary">
       {{account.name}}
     </mat-checkbox>

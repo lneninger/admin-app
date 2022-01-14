@@ -1,9 +1,11 @@
+import { AccessToken } from './../../../main/services/user/access-token.model';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { environment } from 'src/environments/environment';
+import { threadId } from 'worker_threads';
 
-import { IPlaidStripeRequestModel, PlaidEvent, PlaidSuccess } from '../+models/plaid';
+import { IPlaidBankAccount, IPlaidStripeRequestModel, PlaidEvent, PlaidSuccess } from '../+models/plaid';
 
 @Component({
   selector: 'app-bank-account',
@@ -16,11 +18,16 @@ export class BankAccountComponent implements OnInit {
   accountData: PlaidSuccess;
   plaidEnvironment: string;
   plaidPublicKey: string;
+  selectedAccount: IPlaidBankAccount;
+
+  get accounts() {
+    return this.accountData && this.accountData.metadata.accounts;
+  }
 
   constructor(
     private paymentService: PaymentService,
     private authService: AuthService
-    ) {
+  ) {
 
     this.plaidEnvironment = environment.plaid.environment;
     this.plaidPublicKey = environment.plaid.publicKey;
@@ -33,7 +40,9 @@ export class BankAccountComponent implements OnInit {
 
   onPlaidSuccess($event: PlaidSuccess) {
     this.accountData = $event;
-
+    if (this.accountData.metadata.account.id) {
+      this.selectedAccount = this.accountData.metadata.account;
+    }
   }
 
   onPlaidExit($event: any) {
@@ -55,7 +64,7 @@ export class BankAccountComponent implements OnInit {
 
   async createBankAccount(attackToMe: boolean) {
     const req: IPlaidStripeRequestModel = {
-      accountId: this.accountData.metadata.account_id,
+      accountId: this.selectedAccount.id,
       publicToken: this.accountData.metadata.public_token,
       customerId: attackToMe ? this.authService.credentials.user.uid : undefined
     };

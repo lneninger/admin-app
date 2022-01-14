@@ -23,13 +23,7 @@ export interface PlaidSuccess {
       name: string,
       institution_id: string
     },
-    account: {
-      id: string,
-      name: string,
-      type: string,
-      subtype: string,
-      mask: string
-    },
+    account: IPlaidBankAccount,
     account_id: string,
     accounts: IPlaidBankAccount[],
     link_session_id: string,
