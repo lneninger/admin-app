@@ -19,7 +19,7 @@ export async function logHttp(req: functions.https.Request, res: functions.Respo
       url: req.url,
       reqBody,
       resBody,
-      date: admin.database.ServerValue.TIMESTAMP
+      date: new Date()
     };
 
     admin.firestore().collection('/functions-log').add(document);

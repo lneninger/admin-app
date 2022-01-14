@@ -33,7 +33,7 @@ export const anonymousPayment = functions.https.onRequest((req: functions.https.
       const response = await stripe.paymentIntents.create(intent);
       console.log('Donation Response:', response);
 
-      await admin.database().ref('/payment-log').push(intent);
+      await admin.firestore().collection('/payment-log').add(intent);
       console.info('transaction saved successfully');
 
 

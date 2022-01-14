@@ -16,7 +16,7 @@ export const customerAddPaymentMethod = functions.https.onRequest((req: function
 
     console.log('Mapped to model', data, 'original body', req.body);
 
-    const paymentConfig = (await admin.database().ref(`/user-payment-configs/${data.userId}`).get()).val() as IUserPaymentConfig;
+    const paymentConfig = (await admin.firestore().doc(`/user-payment-configs/${data.userId}`).get()).data() as IUserPaymentConfig;
 
     const input: Stripe.SetupIntentCreateParams = {
       confirm: false,
@@ -30,7 +30,7 @@ export const customerAddPaymentMethod = functions.https.onRequest((req: function
     console.log('SetupIntent Create Response:', response);
 
     try {
-      await admin.database().ref(`/user-payment-configs/${data.userId}/setup-intents`).push(response);
+      await admin.firestore().collection(`/user-payment-configs/${data.userId}/setup-intents`).add(response);
       res.status(200).jsonp({ data: response });
 
     } catch (error) {
