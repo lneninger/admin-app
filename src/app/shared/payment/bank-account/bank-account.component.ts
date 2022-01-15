@@ -1,9 +1,7 @@
-import { AccessToken } from './../../../main/services/user/access-token.model';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { environment } from 'src/environments/environment';
-import { threadId } from 'worker_threads';
 
 import { IPlaidBankAccount, IPlaidStripeRequestModel, PlaidEvent, PlaidSuccess } from '../+models/plaid';
 

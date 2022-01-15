@@ -1,3 +1,4 @@
+import * as admin from 'firebase-admin';
 import * as Cors from 'cors';
 import * as functions from 'firebase-functions';
 import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid';
@@ -8,10 +9,10 @@ import { logHttp } from '../site/log-wrapper-function';
 import { IPlaidStripeInputModel } from './payment.models';
 
 const cors = Cors({ origin: true });
-const stripe = new Stripe(functions.config().stripe.secretKey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
+const stripe = new Stripe(functions.config().stripe.secretkey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
 
 
-export const attackBankAccount = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
+export const attachBankAccount = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 
   return cors(req, res, async () => {
 
@@ -31,25 +32,36 @@ export const attackBankAccount = functions.https.onRequest((req: functions.https
           },
         },
       });
+      console.log('Plaid configured and ready to create the client');
 
       const client = new PlaidApi(configuration);
+      console.log('Plaid client created');
 
       try {
         // create public token
         const accessTokenResponse = await client.itemPublicTokenExchange({
           public_token: data.publicToken
         });
+        console.log('accessTokenResponse', accessTokenResponse);
 
         // create stripe bank account token
         const stripeBankAccountTokenResponse = await client.processorStripeBankAccountTokenCreate({
           access_token: accessTokenResponse.data.access_token,
           account_id: data.accountId
         });
+        console.log('stripeBankAccountTokenResponse', stripeBankAccountTokenResponse);
 
-        // attack token to customer
+        // attach token to customer
         if (data.customerId) {
-          const response = await stripe.customers.createSource(data.customerId, { source: stripeBankAccountTokenResponse.data.stripe_bank_account_token });
-          res.status(200).jsonp(response);
+          const entityData = (await admin.firestore().collection('/entities').doc(data.customerId).get()).data();
+          if (entityData) {
+            const response = await stripe.customers.createSource(entityData.paymentId, { source: stripeBankAccountTokenResponse.data.stripe_bank_account_token });
+            res.status(200).jsonp({status: 'success'});
+            console.log(response, response);
+          } else {
+            res.status(200).jsonp({ message: 'Source created but cannot attach it to any customer. Customer has not associated stripe record' });
+
+          }
         }
         res.status(200).jsonp({ bankAccountToken: stripeBankAccountTokenResponse.data.stripe_bank_account_token });
       } catch (error) {

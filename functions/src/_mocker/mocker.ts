@@ -29,7 +29,7 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       try {
         user = await auth.getUserByEmail(mockedSignUp.email);
       } catch (error) {
-        console.log('auth.getUserByEmail: ', error);
+        // console.log('auth.getUserByEmail: ', error);
       }
 
       if (user) {

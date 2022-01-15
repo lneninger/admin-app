@@ -66,7 +66,7 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
     const req = {
       entityId: this.authService.credentials.user.uid,
       email: this.authService.credentials.user.email,
-      name: this.authService.credentials.user.displayName,
+      fullName: this.authService.credentials.user.displayName || this.authService.credentials.user.email,
     } as ICustomerInputModel;
 
     const customerCreateFn = this.firebase.fns.httpsCallable('customerCreate');
@@ -85,7 +85,7 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
   }
 
   async createBankAccount(req: ICreateBankAccountRequestModel): Promise<ICreateBankAccountResponseModel>{
-    const createBankAccountFn = this.firebase.fns.httpsCallable<ICreateBankAccountRequestModel, ICreateBankAccountResponseModel>('attackBankAccount');
+    const createBankAccountFn = this.firebase.fns.httpsCallable<ICreateBankAccountRequestModel, ICreateBankAccountResponseModel>('attachBankAccount');
     return createBankAccountFn(req).toPromise();
   }
 

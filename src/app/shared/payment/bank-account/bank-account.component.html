@@ -4,13 +4,17 @@
     (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">Link Your Bank
     Account</button>
 
-  <section *ngIf="this.accounts?.length > 0 && !this.selectedAccount" fxLayout="column" fxFlexAlign="stretch">
+  <section *ngIf="this.accounts?.length > 0" fxLayout="column" fxFlexAlign="stretch">
     {{this.selectedAccount | json}}
-    <mat-checkbox [(ngModel)]="this.selectedAccount" [value]="account" *ngFor="let account of this.accountData.metadata.accounts"
-    color="primary">
-      {{account.name}}
-    </mat-checkbox>
-    <!-- {{this.accountData | json}} -->
+
+    <ng-container *ngFor="let account of this.accountData.metadata.accounts">
+      <mat-card (click)="this.selectedAccount = account">
+        {{account.name}}
+      </mat-card>
+      <!-- <mat-checkbox [(ngModel)]="this.selectedAccountId" [name]="account.id" [value]="account.id" color="primary">
+        {{account.name}}
+      </mat-checkbox> -->
+    </ng-container>
   </section>
 
   <dl *ngIf="!this.environment.production && !this.accountData" fxFlex fxLayout="row wrap">
