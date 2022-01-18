@@ -1,10 +1,13 @@
 <section fxFlex fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-  <button ngxPlaidLink [env]="this.plaidEnvironment" [publicKey]="this.plaidPublicKey" institution=""
+
+
+  <ng-container *ngIf="this.mode === 'Auto'; else manual">
+
+    <button ngxPlaidLink [env]="this.plaidEnvironment" [publicKey]="this.plaidPublicKey" institution=""
     [countryCodes]="['US', 'CA', 'GB']" (Success)="onPlaidSuccess($event)" (Exit)="onPlaidExit($event)"
     (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">Link Your Bank
     Account</button>
 
-  <ng-container *ngIf="this.mode === 'Auto'; else manual">
     <section *ngIf="this.accounts?.length > 0" fxLayout="column" fxFlexAlign="stretch" fxLayoutGap="20px">
       <!-- {{this.selectedAccount | json}} -->
 

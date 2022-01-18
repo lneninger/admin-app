@@ -29,7 +29,7 @@ export class BankAccountComponent implements OnInit {
   accountData: PlaidSuccess;
 
   @Input()
-  mode: 'Manual' | 'Auto';
+  mode: 'Manual' | 'Auto' = 'Auto';
 
 
   //#region Plaid Token
