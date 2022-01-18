@@ -32,7 +32,7 @@ export class BankAccountComponent implements OnInit {
   mode: 'Manual' | 'Auto' = 'Auto';
 
 
-  //#region Plaid Token
+  //#region Auto
   plaidEnvironment: string;
   plaidPublicKey: string;
   selectedAccount: IPlaidBankAccount;
@@ -66,6 +66,7 @@ export class BankAccountComponent implements OnInit {
 
 
 
+  //#region Auto
   onPlaidSuccess($event: PlaidSuccess) {
     this.accountData = $event;
     if (this.accountData.metadata.account.id) {
@@ -88,7 +89,7 @@ export class BankAccountComponent implements OnInit {
   onPlaidClick($event: any) {
 
   }
-
+//#endregion
 
   //#region Manual
   createForm() {
@@ -113,7 +114,7 @@ export class BankAccountComponent implements OnInit {
     await this.paymentService.createBankAccountToken(req);
   }
 
-  async createBankAccountToken(attackToMe: boolean) {
+  async createBankAccount(attackToMe: boolean) {
     if (this.mode === 'Manual') {
       this.createBankAccountManualToken(attackToMe);
     } else if (this.mode === 'Auto') {
