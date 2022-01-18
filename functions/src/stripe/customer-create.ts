@@ -23,7 +23,7 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
 
       let userData: DocumentMetadata | undefined;
       try {
-        userData = (await admin.firestore().collection('/entities').doc(data.entityId).get());
+        userData = (await admin.firestore().collection('/entities').doc(data.userId).get());
       } catch (eror) {
         userData = undefined;
       }
@@ -40,17 +40,17 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
 
         // add payment id claim
         const auth = admin.auth();
-        const userRecord = await auth.getUser(data.entityId);
+        const userRecord = await auth.getUser(data.userId);
         let claims = userRecord.customClaims || {};
         claims = { ...claims, paymentId: response.id };
-        await auth.setCustomUserClaims(data.entityId, claims);
+        await auth.setCustomUserClaims(data.userId, claims);
 
         // add payment id to entity metadata
         const entityUpdate = { paymentId: response.id };
         try {
-          await admin.firestore().collection('/entities').doc(data.entityId).update(entityUpdate);
+          await admin.firestore().collection('/entities').doc(data.userId).update(entityUpdate);
         } catch (error) {
-          await admin.firestore().collection('/entities').doc(data.entityId).set(entityUpdate);
+          await admin.firestore().collection('/entities').doc(data.userId).set(entityUpdate);
         }
 
         functions.logger.log('entity metadata created', entityUpdate);

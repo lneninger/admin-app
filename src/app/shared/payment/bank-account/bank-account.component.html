@@ -4,28 +4,73 @@
     (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">Link Your Bank
     Account</button>
 
-  <section *ngIf="this.accounts?.length > 0" fxLayout="column" fxFlexAlign="stretch">
-    {{this.selectedAccount | json}}
+  <ng-container *ngIf="this.mode === 'Auto'; else manual">
+    <section *ngIf="this.accounts?.length > 0" fxLayout="column" fxFlexAlign="stretch" fxLayoutGap="20px">
+      <!-- {{this.selectedAccount | json}} -->
 
-    <ng-container *ngFor="let account of this.accountData.metadata.accounts">
-      <mat-card (click)="this.selectedAccount = account">
-        {{account.name}}
-      </mat-card>
-      <!-- <mat-checkbox [(ngModel)]="this.selectedAccountId" [name]="account.id" [value]="account.id" color="primary">
-        {{account.name}}
-      </mat-checkbox> -->
-    </ng-container>
-  </section>
+      <ng-container *ngFor="let account of this.accountData.metadata.accounts">
+        <mat-card (click)="this.selectedAccount = account">
+          {{account.name}}
+        </mat-card>
 
-  <dl *ngIf="!this.environment.production && !this.accountData" fxFlex fxLayout="row wrap">
-    <dt fxFlex="30%" fxLayout="row" class="mx-0">User:</dt>
-    <dd fxFlex="calc(70%-40px)" fxLayout="row">user_good</dd>
+      </ng-container>
+    </section>
 
-    <dt fxFlex="30%" fxLayout="row">Password:</dt>
-    <dd fxFlex="calc(70%-40px)" fxLayout="row">pass_good</dd>
+    <dl *ngIf="!this.environment.production && !this.accountData" fxFlex fxLayout="row wrap">
+      <dt fxFlex="30%" fxLayout="row" class="mx-0">User:</dt>
+      <dd fxFlex="calc(70%-40px)" fxLayout="row">user_good</dd>
 
-    <dt fxFlex="30%" fxLayout="row">Code:</dt>
-    <dd fxFlex="calc(70%-40px)" fxLayout="row">1234</dd>
-  </dl>
+      <dt fxFlex="30%" fxLayout="row">Password:</dt>
+      <dd fxFlex="calc(70%-40px)" fxLayout="row">pass_good</dd>
+
+      <dt fxFlex="30%" fxLayout="row">Code:</dt>
+      <dd fxFlex="calc(70%-40px)" fxLayout="row">1234</dd>
+    </dl>
+
+  </ng-container>
+
+<ng-template #manual>
+<form [formGroup]="form" fxFlex>
+  <mat-form-field appearance="fill">
+    <mat-label>Institution</mat-label>
+    <input type="text" matInput formControlName="institution" [errorStateMatcher]="matcher"
+           placeholder="Chase, Bank of America">
+    <mat-hint>Errors appear instantly!</mat-hint>
+    <mat-error *ngIf="this.institutionFormControl.hasError('required')">
+      Please enter a valid institution
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Holder name</mat-label>
+    <input type="text" matInput formControlName="holderName" [errorStateMatcher]="matcher"
+           placeholder="John Smith">
+    <mat-hint>Errors appear instantly!</mat-hint>
+    <mat-error *ngIf="this.holderNameFormControl.hasError('required')">
+      Please enter a valid account holder name
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Routing number</mat-label>
+    <input type="text" matInput formControlName="routingNumber" [errorStateMatcher]="matcher">
+    <mat-hint>Errors appear instantly!</mat-hint>
+    <mat-error *ngIf="this.routingNumberFormControl.hasError('required')">
+      Please enter a valid routing number
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Account number</mat-label>
+    <input type="text" matInput formControlName="accountNumber" [errorStateMatcher]="matcher">
+    <mat-hint>Errors appear instantly!</mat-hint>
+    <mat-error *ngIf="this.accountNumberFormControl.hasError('required')">
+      Please enter a valid account number
+    </mat-error>
+  </mat-form-field>
+
+
+</form>
+</ng-template>
 
 </section>

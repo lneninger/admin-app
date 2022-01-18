@@ -1,139 +1,96 @@
-[debug] [2022-01-15T03:16:02.314Z] ----------------------------------------------------------------------
-[debug] [2022-01-15T03:16:02.316Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\lneni\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --only firestore,functions,auth
-[debug] [2022-01-15T03:16:02.316Z] CLI Version:   9.16.5
-[debug] [2022-01-15T03:16:02.317Z] Platform:      win32
-[debug] [2022-01-15T03:16:02.317Z] Node Version:  v12.14.0
-[debug] [2022-01-15T03:16:02.318Z] Time:          Fri Jan 14 2022 22:16:02 GMT-0500 (Eastern Standard Time)
-[debug] [2022-01-15T03:16:02.318Z] ----------------------------------------------------------------------
+[debug] [2022-01-18T14:41:05.596Z] ----------------------------------------------------------------------
+[debug] [2022-01-18T14:41:05.598Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\lneni\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --only firestore,functions,auth
+[debug] [2022-01-18T14:41:05.598Z] CLI Version:   9.16.5
+[debug] [2022-01-18T14:41:05.598Z] Platform:      win32
+[debug] [2022-01-18T14:41:05.598Z] Node Version:  v12.14.0
+[debug] [2022-01-18T14:41:05.599Z] Time:          Tue Jan 18 2022 09:41:05 GMT-0500 (Eastern Standard Time)
+[debug] [2022-01-18T14:41:05.599Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2022-01-15T03:16:02.397Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-01-15T03:16:02.398Z] > authorizing via signed-in user (lneninger@hipalanet.com)
+[debug] [2022-01-18T14:41:05.652Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-01-18T14:41:05.652Z] > authorizing via signed-in user (lneninger@hipalanet.com)
 [info] i  emulators: Starting emulators: auth, functions, firestore {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore"}}
-[debug] [2022-01-15T03:16:04.451Z] [hub] writing locator at C:\Users\lneni\AppData\Local\Temp\hub-firebase-adminsys-20210823.json
+[debug] [2022-01-18T14:41:07.698Z] [hub] writing locator at C:\Users\lneni\AppData\Local\Temp\hub-firebase-adminsys-20210823.json
 [warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mdatabase, hosting, pubsub, storage\u001b[22m"}}
 [warn] !  Your requested "node" version "14" doesn't match your global version "12" {"metadata":{"emulator":{"name":"functions"},"message":"Your requested \"node\" version \"14\" doesn't match your global version \"12\""}}
-[debug] [2022-01-15T03:16:06.531Z] defaultcredentials: writing to file C:\Users\lneni\AppData\Roaming\firebase\lneninger_hipalanet_com_application_default_credentials.json
-[debug] [2022-01-15T03:16:06.534Z] Setting GAC to C:\Users\lneni\AppData\Roaming\firebase\lneninger_hipalanet_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\lneni\\AppData\\Roaming\\firebase\\lneninger_hipalanet_com_application_default_credentials.json"}}
-[debug] [2022-01-15T03:16:06.537Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/firebase-adminsys-20210823/adminSdkConfig [none]
-[debug] [2022-01-15T03:16:06.864Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/firebase-adminsys-20210823/adminSdkConfig 200
-[debug] [2022-01-15T03:16:06.865Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/firebase-adminsys-20210823/adminSdkConfig {"projectId":"firebase-adminsys-20210823","databaseURL":"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com","storageBucket":"firebase-adminsys-20210823.appspot.com","locationId":"us-east1"}
-[debug] [2022-01-15T03:16:08.902Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
-[debug] [2022-01-15T03:16:08.902Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-01-15T03:16:08.903Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\lneni\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.13.1.jar","--host","localhost","--port",7099,"--rules","D:\\Dev\\HIPALANET\\admin-app\\firestore.rules","--functions_emulator","localhost:6099"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\lneni\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"localhost\",\"--port\",7099,\"--rules\",\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\firestore.rules\",\"--functions_emulator\",\"localhost:6099\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[debug] [2022-01-18T14:41:09.782Z] defaultcredentials: writing to file C:\Users\lneni\AppData\Roaming\firebase\lneninger_hipalanet_com_application_default_credentials.json
+[debug] [2022-01-18T14:41:09.785Z] Setting GAC to C:\Users\lneni\AppData\Roaming\firebase\lneninger_hipalanet_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\lneni\\AppData\\Roaming\\firebase\\lneninger_hipalanet_com_application_default_credentials.json"}}
+[debug] [2022-01-18T14:41:09.788Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/firebase-adminsys-20210823/adminSdkConfig [none]
+[debug] [2022-01-18T14:41:10.212Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/firebase-adminsys-20210823/adminSdkConfig 200
+[debug] [2022-01-18T14:41:10.212Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/firebase-adminsys-20210823/adminSdkConfig {"projectId":"firebase-adminsys-20210823","databaseURL":"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com","storageBucket":"firebase-adminsys-20210823.appspot.com","locationId":"us-east1"}
+[debug] [2022-01-18T14:41:12.247Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2022-01-18T14:41:12.247Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-01-18T14:41:12.247Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\lneni\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.13.1.jar","--host","localhost","--port",7099,"--rules","D:\\Dev\\HIPALANET\\admin-app\\firestore.rules","--functions_emulator","localhost:6099"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\lneni\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"localhost\",\"--port\",7099,\"--rules\",\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\firestore.rules\",\"--functions_emulator\",\"localhost:6099\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
 [info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
-[debug] [2022-01-15T03:16:10.867Z] Jan 14, 2022 10:16:10 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
-INFO: Started WebSocket server on ws://localhost:52871
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:10 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\r\nINFO: Started WebSocket server on ws://localhost:52871\r\n"}}
-[debug] [2022-01-15T03:16:10.902Z] API endpoint: http://localhost:7099
- {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://localhost:7099\n"}}
-[debug] [2022-01-15T03:16:10.902Z] If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+[debug] [2022-01-18T14:41:14.152Z] Jan 18, 2022 9:41:14 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://localhost:50363
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:14 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\r\nINFO: Started WebSocket server on ws://localhost:50363\r\n"}}
+[debug] [2022-01-18T14:41:14.184Z] API endpoint: http://localhost:7099
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run: {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://localhost:7099\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:"}}
+[debug] [2022-01-18T14:41:14.184Z] 
 
    export FIRESTORE_EMULATOR_HOST=localhost:7099
 
 Dev App Server is now running.
 
- {"metadata":{"emulator":{"name":"firestore"},"message":"If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\r\n\n   export FIRESTORE_EMULATOR_HOST=localhost:7099\n\nDev App Server is now running.\n\r\n"}}
-[debug] [2022-01-15T03:16:11.076Z] Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:11.088Z] Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:11.120Z] Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:11.186Z] Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:11.339Z] Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:11.798Z] Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:15.077Z] Jan 14, 2022 10:16:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[warn] !  ui: Emulator UI unable to start on port 4000, starting on 4002 instead. {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI unable to start on port 4000, starting on 4002 instead."}}
-[debug] [2022-01-15T03:16:17.160Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-01-15T03:16:17.161Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-01-15T03:16:17.161Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\lneni\\.cache\\firebase\\emulators\\ui-v1.6.2\\server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\lneni\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.6.2\\\\server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\r\n\n   export FIRESTORE_EMULATOR_HOST=localhost:7099\n\nDev App Server is now running.\n\r\n"}}
+[debug] [2022-01-18T14:41:22.441Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-01-18T14:41:22.441Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-01-18T14:41:22.441Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\lneni\\.cache\\firebase\\emulators\\ui-v1.6.2\\server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\lneni\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.6.2\\\\server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
 [info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2022-01-15T03:16:17.271Z] Web / API server started at localhost:4002
- {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4002\n"}}
-[debug] [2022-01-15T03:16:17.535Z] Jan 14, 2022 10:16:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:17.547Z] Jan 14, 2022 10:16:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:22.547Z] Web / API server started at localhost:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4000\n"}}
 [info] i  functions: Watching "D:\Dev\HIPALANET\admin-app\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"D:\\Dev\\HIPALANET\\admin-app\\functions\" for Cloud Functions..."}}
-[debug] [2022-01-15T03:16:17.702Z] [worker-pool] addWorker(~diagnostic~) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(~diagnostic~)"}}
-[debug] [2022-01-15T03:16:17.702Z] [worker-pool] Adding worker with key ~diagnostic~, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key ~diagnostic~, total=1"}}
-[debug] [2022-01-15T03:16:17.702Z] [worker-pool] submitWork(triggerId=) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitWork(triggerId=)"}}
-[debug] [2022-01-15T03:16:17.703Z] [worker-~diagnostic~-d3c0a349-db7e-494c-8de0-5fb5337ff948]: Assigning socketPath: \\?\pipe\D:\Dev\HIPALANET\admin-app\functions\21336 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-d3c0a349-db7e-494c-8de0-5fb5337ff948]: Assigning socketPath: \\\\?\\pipe\\D:\\Dev\\HIPALANET\\admin-app\\functions\\21336"}}
-[debug] [2022-01-15T03:16:17.703Z] [worker-~diagnostic~-d3c0a349-db7e-494c-8de0-5fb5337ff948]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-d3c0a349-db7e-494c-8de0-5fb5337ff948]: BUSY"}}
-[debug] [2022-01-15T03:16:17.868Z] Jan 14, 2022 10:16:17 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
-INFO: Connected to new websocket client
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:17 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\r\nINFO: Connected to new websocket client\r\n"}}
-[debug] [2022-01-15T03:16:17.891Z] Jan 14, 2022 10:16:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:17.898Z] Jan 14, 2022 10:16:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:17.909Z] Jan 14, 2022 10:16:17 PM com.google.cloud.datastore.emulator.firestore.webchannel.FirestoreV1WebChannelAdapter$FirestoreListenHandler onClose
-INFO: channel closed
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:17 PM com.google.cloud.datastore.emulator.firestore.webchannel.FirestoreV1WebChannelAdapter$FirestoreListenHandler onClose\r\nINFO: channel closed\r\n"}}
-[debug] [2022-01-15T03:16:18.160Z] Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:18.218Z] Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:18.222Z] [runtime-status] [21336] Functions runtime initialized. {"cwd":"D:\\Dev\\HIPALANET\\admin-app\\functions","node_version":"12.14.0"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Functions runtime initialized. {\"cwd\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\",\"node_version\":\"12.14.0\"}"}}
-[debug] [2022-01-15T03:16:18.223Z] [runtime-status] [21336] Disabled runtime features: undefined {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Disabled runtime features: undefined"}}
-[debug] [2022-01-15T03:16:18.228Z] [runtime-status] [21336] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2022-01-15T03:16:18.231Z] [runtime-status] [21336] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-01-15T03:16:18.232Z] [runtime-status] [21336] Found local functions config: D:\Dev\HIPALANET\admin-app\functions/.runtimeconfig.json {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Found local functions config: D:\\Dev\\HIPALANET\\admin-app\\functions/.runtimeconfig.json"}}
-[debug] [2022-01-15T03:16:18.232Z] [runtime-status] [21336] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-01-15T03:16:18.234Z] [runtime-status] [21336] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
-[debug] [2022-01-15T03:16:18.235Z] [runtime-status] [21336] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-01-15T03:16:18.281Z] [runtime-status] [21336] Checked functions.config() {"config":{"gmail":{"password":"hiphop-usa2015","email":"lneninger@hipalanet.com"},"stripe":{"apiversion":"2020-08-27","publickey":"pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O","secretkey":"sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6"},"plaid":{"clientid":"5cdf1d3cd4530d0013fb9740","secret":"2a2136eb3f664f56e10f8417e45d42"}}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Checked functions.config() {\"config\":{\"gmail\":{\"password\":\"hiphop-usa2015\",\"email\":\"lneninger@hipalanet.com\"},\"stripe\":{\"apiversion\":\"2020-08-27\",\"publickey\":\"pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O\",\"secretkey\":\"sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6\"},\"plaid\":{\"clientid\":\"5cdf1d3cd4530d0013fb9740\",\"secret\":\"2a2136eb3f664f56e10f8417e45d42\"}}}"}}
-[debug] [2022-01-15T03:16:18.281Z] [runtime-status] [21336] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
-[debug] [2022-01-15T03:16:18.285Z] [runtime-status] [21336] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-01-15T03:16:18.286Z] [runtime-status] [21336] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2022-01-15T03:16:18.286Z] [runtime-status] [21336] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-01-15T03:16:18.286Z] [runtime-status] [21336] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
-[debug] [2022-01-15T03:16:18.311Z] [runtime-status] [21336] initializeApp(DEFAULT) {"storageBucket":"firebase-adminsys-20210823.appspot.com","databaseURL":"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com","projectId":"firebase-adminsys-20210823"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [21336] initializeApp(DEFAULT) {\"storageBucket\":\"firebase-adminsys-20210823.appspot.com\",\"databaseURL\":\"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com\",\"projectId\":\"firebase-adminsys-20210823\"}"}}
+[debug] [2022-01-18T14:41:22.976Z] [worker-pool] addWorker(~diagnostic~) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(~diagnostic~)"}}
+[debug] [2022-01-18T14:41:22.976Z] [worker-pool] Adding worker with key ~diagnostic~, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key ~diagnostic~, total=1"}}
+[debug] [2022-01-18T14:41:22.976Z] [worker-pool] submitWork(triggerId=) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitWork(triggerId=)"}}
+[debug] [2022-01-18T14:41:22.976Z] [worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: Assigning socketPath: \\?\pipe\D:\Dev\HIPALANET\admin-app\functions\4648 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: Assigning socketPath: \\\\?\\pipe\\D:\\Dev\\HIPALANET\\admin-app\\functions\\4648"}}
+[debug] [2022-01-18T14:41:22.977Z] [worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: BUSY"}}
+[debug] [2022-01-18T14:41:23.338Z] [runtime-status] [4648] Functions runtime initialized. {"cwd":"D:\\Dev\\HIPALANET\\admin-app\\functions","node_version":"12.14.0"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Functions runtime initialized. {\"cwd\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\",\"node_version\":\"12.14.0\"}"}}
+[debug] [2022-01-18T14:41:23.338Z] [runtime-status] [4648] Disabled runtime features: undefined {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Disabled runtime features: undefined"}}
+[debug] [2022-01-18T14:41:23.341Z] [runtime-status] [4648] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:41:23.342Z] [runtime-status] [4648] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:41:23.343Z] [runtime-status] [4648] Found local functions config: D:\Dev\HIPALANET\admin-app\functions/.runtimeconfig.json {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Found local functions config: D:\\Dev\\HIPALANET\\admin-app\\functions/.runtimeconfig.json"}}
+[debug] [2022-01-18T14:41:23.343Z] [runtime-status] [4648] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:41:23.344Z] [runtime-status] [4648] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2022-01-18T14:41:23.345Z] [runtime-status] [4648] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:41:23.380Z] [runtime-status] [4648] Checked functions.config() {"config":{"gmail":{"password":"hiphop-usa2015","email":"lneninger@hipalanet.com"},"stripe":{"apiversion":"2020-08-27","publickey":"pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O","secretkey":"sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6"},"plaid":{"clientid":"5cdf1d3cd4530d0013fb9740","secret":"2a2136eb3f664f56e10f8417e45d42"}}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Checked functions.config() {\"config\":{\"gmail\":{\"password\":\"hiphop-usa2015\",\"email\":\"lneninger@hipalanet.com\"},\"stripe\":{\"apiversion\":\"2020-08-27\",\"publickey\":\"pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O\",\"secretkey\":\"sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6\"},\"plaid\":{\"clientid\":\"5cdf1d3cd4530d0013fb9740\",\"secret\":\"2a2136eb3f664f56e10f8417e45d42\"}}}"}}
+[debug] [2022-01-18T14:41:23.381Z] [runtime-status] [4648] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-01-18T14:41:23.382Z] [runtime-status] [4648] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:41:23.383Z] [runtime-status] [4648] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:41:23.383Z] [runtime-status] [4648] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:41:23.384Z] [runtime-status] [4648] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-01-18T14:41:23.398Z] [runtime-status] [4648] initializeApp(DEFAULT) {"storageBucket":"firebase-adminsys-20210823.appspot.com","databaseURL":"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com","projectId":"firebase-adminsys-20210823"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [4648] initializeApp(DEFAULT) {\"storageBucket\":\"firebase-adminsys-20210823.appspot.com\",\"databaseURL\":\"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com\",\"projectId\":\"firebase-adminsys-20210823\"}"}}
 [info] +  functions[us-central1-dataMocker]: http function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/dataMocker). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/dataMocker)."}}
 [info] +  functions[us-central1-appConfiguration]: http function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/appConfiguration). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/appConfiguration)."}}
-[debug] [2022-01-15T03:16:18.673Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/firebase-adminsys-20210823/databases/(default)/documents/contactus/{contactId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.create\",\"service\":\"firestore.googleapis.com\"}}"
-[debug] [2022-01-15T03:16:18.674Z] >>> HTTP REQUEST PUT http://localhost:7099/emulator/v1/projects/firebase-adminsys-20210823/triggers/us-central1-onContactus-0  
+[debug] [2022-01-18T14:41:23.687Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/firebase-adminsys-20210823/databases/(default)/documents/contactus/{contactId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.create\",\"service\":\"firestore.googleapis.com\"}}"
+[debug] [2022-01-18T14:41:23.687Z] >>> HTTP REQUEST PUT http://localhost:7099/emulator/v1/projects/firebase-adminsys-20210823/triggers/us-central1-onContactus-0  
  {"eventTrigger":{"resource":"projects/firebase-adminsys-20210823/databases/(default)/documents/contactus/{contactId}","eventType":"providers/cloud.firestore/eventTypes/document.create","service":"firestore.googleapis.com"}}
-[debug] [2022-01-15T03:16:18.675Z] [worker-~diagnostic~-d3c0a349-db7e-494c-8de0-5fb5337ff948]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-d3c0a349-db7e-494c-8de0-5fb5337ff948]: IDLE"}}
-[debug] [2022-01-15T03:16:18.678Z] Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+[debug] [2022-01-18T14:41:23.689Z] [worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: IDLE"}}
+[debug] [2022-01-18T14:41:23.693Z] Jan 18, 2022 9:41:23 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:18.692Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:23 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:23.825Z] Jan 18, 2022 9:41:23 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:23 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:24.331Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
 [info] +  functions[us-central1-onContactus]: firestore function initialized. {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mfirestore\u001b[22m function initialized."}}
-[debug] [2022-01-15T03:16:18.693Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/firebase-adminsys-20210823/databases/(default)/documents/newsletters_subscriptions/{subscriptionId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.create\",\"service\":\"firestore.googleapis.com\"}}"
-[debug] [2022-01-15T03:16:18.693Z] >>> HTTP REQUEST PUT http://localhost:7099/emulator/v1/projects/firebase-adminsys-20210823/triggers/us-central1-onNewslettersSubscriptions-0  
+[debug] [2022-01-18T14:41:24.333Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/firebase-adminsys-20210823/databases/(default)/documents/newsletters_subscriptions/{subscriptionId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.create\",\"service\":\"firestore.googleapis.com\"}}"
+[debug] [2022-01-18T14:41:24.333Z] >>> HTTP REQUEST PUT http://localhost:7099/emulator/v1/projects/firebase-adminsys-20210823/triggers/us-central1-onNewslettersSubscriptions-0  
  {"eventTrigger":{"resource":"projects/firebase-adminsys-20210823/databases/(default)/documents/newsletters_subscriptions/{subscriptionId}","eventType":"providers/cloud.firestore/eventTypes/document.create","service":"firestore.googleapis.com"}}
-[debug] [2022-01-15T03:16:18.696Z] Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+[debug] [2022-01-18T14:41:24.337Z] Jan 18, 2022 9:41:24 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:18.709Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:24 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:24.345Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
 [info] +  functions[us-central1-onNewslettersSubscriptions]: firestore function initialized. {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mfirestore\u001b[22m function initialized."}}
 [info] +  functions[us-central1-anonymousPayment]: http function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/anonymousPayment). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/anonymousPayment)."}}
 [info] +  functions[us-central1-customerCreate]: http function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/customerCreate). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/customerCreate)."}}
-[debug] [2022-01-15T03:16:18.712Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/firebase-adminsys-20210823/databases/(default)/documents/app-products/{productId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.write\",\"service\":\"firestore.googleapis.com\"}}"
-[debug] [2022-01-15T03:16:18.712Z] >>> HTTP REQUEST PUT http://localhost:7099/emulator/v1/projects/firebase-adminsys-20210823/triggers/us-central1-productTrack-0  
+[debug] [2022-01-18T14:41:24.348Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/firebase-adminsys-20210823/databases/(default)/documents/app-products/{productId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.write\",\"service\":\"firestore.googleapis.com\"}}"
+[debug] [2022-01-18T14:41:24.348Z] >>> HTTP REQUEST PUT http://localhost:7099/emulator/v1/projects/firebase-adminsys-20210823/triggers/us-central1-productTrack-0  
  {"eventTrigger":{"resource":"projects/firebase-adminsys-20210823/databases/(default)/documents/app-products/{productId}","eventType":"providers/cloud.firestore/eventTypes/document.write","service":"firestore.googleapis.com"}}
-[debug] [2022-01-15T03:16:18.716Z] Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+[debug] [2022-01-18T14:41:24.352Z] Jan 18, 2022 9:41:24 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:18 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2022-01-15T03:16:18.722Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:24 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:24.361Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
 [info] +  functions[us-central1-productTrack]: firestore function initialized. {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mfirestore\u001b[22m function initialized."}}
 [info] +  functions[us-central1-attachBankAccount]: http function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/attachBankAccount). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/attachBankAccount)."}}
 [info] +  functions[us-central1-attachRole]: http function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/attachRole). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:6099/firebase-adminsys-20210823/us-central1/attachRole)."}}
@@ -143,23 +100,292 @@ INFO: Detected non-HTTP/2 connection.
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
 │ ✔  All emulators ready! It is now safe to connect your app. │
-│ i  View Emulator UI at http://localhost:4002                │
+│ i  View Emulator UI at http://localhost:4000                │
 └─────────────────────────────────────────────────────────────┘
 
 ┌────────────────┬────────────────┬─────────────────────────────────┐
 │ Emulator       │ Host:Port      │ View in Emulator UI             │
 ├────────────────┼────────────────┼─────────────────────────────────┤
-│ Authentication │ localhost:9099 │ http://localhost:4002/auth      │
+│ Authentication │ localhost:9099 │ http://localhost:4000/auth      │
 ├────────────────┼────────────────┼─────────────────────────────────┤
-│ Functions      │ localhost:6099 │ http://localhost:4002/functions │
+│ Functions      │ localhost:6099 │ http://localhost:4000/functions │
 ├────────────────┼────────────────┼─────────────────────────────────┤
-│ Firestore      │ localhost:7099 │ http://localhost:4002/firestore │
+│ Firestore      │ localhost:7099 │ http://localhost:4000/firestore │
 └────────────────┴────────────────┴─────────────────────────────────┘
   Emulator Hub running at localhost:4400
   Other reserved ports: 4500
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
-[debug] [2022-01-15T03:16:19.571Z] Jan 14, 2022 10:16:19 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+[debug] [2022-01-18T14:41:29.325Z] Jan 18, 2022 9:41:29 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 14, 2022 10:16:19 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:29 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:29.744Z] Jan 18, 2022 9:41:29 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:29 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\r\nINFO: Connected to new websocket client\r\n"}}
+[debug] [2022-01-18T14:41:33.322Z] Jan 18, 2022 9:41:33 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:33 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:35.346Z] Jan 18, 2022 9:41:35 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:35 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:37.372Z] Jan 18, 2022 9:41:37 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:37 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:39.401Z] Jan 18, 2022 9:41:39 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:39 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:41.418Z] Jan 18, 2022 9:41:41 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:41 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:43.447Z] Jan 18, 2022 9:41:43 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:43 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:45.471Z] Jan 18, 2022 9:41:45 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:45 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:47.495Z] Jan 18, 2022 9:41:47 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:47 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:49.510Z] Jan 18, 2022 9:41:49 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:49 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:51.539Z] Jan 18, 2022 9:41:51 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:51 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:53.568Z] Jan 18, 2022 9:41:53 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:53 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:55.587Z] Jan 18, 2022 9:41:55 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:55 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:57.603Z] Jan 18, 2022 9:41:57 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:57 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:41:59.616Z] Jan 18, 2022 9:41:59 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:41:59 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:01.631Z] Jan 18, 2022 9:42:01 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:01 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:03.645Z] Jan 18, 2022 9:42:03 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:03 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:05.659Z] Jan 18, 2022 9:42:05 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:05 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:07.687Z] Jan 18, 2022 9:42:07 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:07 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:09.707Z] Jan 18, 2022 9:42:09 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:09 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:11.720Z] Jan 18, 2022 9:42:11 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:11 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:13.734Z] Jan 18, 2022 9:42:13 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:13 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:15.746Z] Jan 18, 2022 9:42:15 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:15 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:17.759Z] Jan 18, 2022 9:42:17 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:17 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:19.777Z] Jan 18, 2022 9:42:19 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:19 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:21.791Z] Jan 18, 2022 9:42:21 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:21 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:23.807Z] Jan 18, 2022 9:42:23 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:23 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:25.823Z] Jan 18, 2022 9:42:25 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:25 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:27.840Z] Jan 18, 2022 9:42:27 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:27 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:29.861Z] Jan 18, 2022 9:42:29 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:29 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:31.878Z] Jan 18, 2022 9:42:31 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:31 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:33.903Z] Jan 18, 2022 9:42:33 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:33 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:35.927Z] Jan 18, 2022 9:42:35 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:35 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:37.943Z] Jan 18, 2022 9:42:37 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:37 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:39.959Z] Jan 18, 2022 9:42:39 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:39 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:41.978Z] Jan 18, 2022 9:42:41 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:41 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:44.002Z] Jan 18, 2022 9:42:44 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:44 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:46.018Z] Jan 18, 2022 9:42:46 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:46 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:48.029Z] Jan 18, 2022 9:42:48 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:48 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:50.043Z] Jan 18, 2022 9:42:50 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:50 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:52.055Z] Jan 18, 2022 9:42:52 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:52 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:54.068Z] Jan 18, 2022 9:42:54 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:54 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:56.082Z] Jan 18, 2022 9:42:56 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:56 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:42:58.102Z] Jan 18, 2022 9:42:58 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:42:58 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:00.120Z] Jan 18, 2022 9:43:00 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:00 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:02.133Z] Jan 18, 2022 9:43:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:04.147Z] Jan 18, 2022 9:43:04 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:04 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:06.170Z] Jan 18, 2022 9:43:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:08.192Z] Jan 18, 2022 9:43:08 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:08 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:10.216Z] Jan 18, 2022 9:43:10 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:10 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:12.236Z] Jan 18, 2022 9:43:12 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:12 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:14.247Z] Jan 18, 2022 9:43:14 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:14 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:16.268Z] Jan 18, 2022 9:43:16 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:16 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:18.293Z] Jan 18, 2022 9:43:18 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:18 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:20.309Z] Jan 18, 2022 9:43:20 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:20 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:22.339Z] Jan 18, 2022 9:43:22 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:22 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:24.360Z] Jan 18, 2022 9:43:24 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:24 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:26.373Z] Jan 18, 2022 9:43:26 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:26 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:28.389Z] Jan 18, 2022 9:43:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:30.416Z] Jan 18, 2022 9:43:30 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:30 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:31.577Z] File D:\Dev\HIPALANET\admin-app\functions\src\site\site.models.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\src\\site\\site.models.ts changed, reloading triggers"}}
+[debug] [2022-01-18T14:43:32.095Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\site\site.models.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\site\\site.models.js.map changed, reloading triggers"}}
+[debug] [2022-01-18T14:43:32.097Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\site\site.models.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\site\\site.models.js changed, reloading triggers"}}
+[debug] [2022-01-18T14:43:32.105Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\site\config.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\site\\config.js.map changed, reloading triggers"}}
+[debug] [2022-01-18T14:43:32.107Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\site\config.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\site\\config.js changed, reloading triggers"}}
+[debug] [2022-01-18T14:43:32.112Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\_mocker\mocker.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\_mocker\\mocker.js.map changed, reloading triggers"}}
+[debug] [2022-01-18T14:43:32.114Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\_mocker\mocker.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\_mocker\\mocker.js changed, reloading triggers"}}
+[debug] [2022-01-18T14:43:32.435Z] Jan 18, 2022 9:43:32 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:32 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:33.123Z] [worker-pool] Shutting down IDLE worker (~diagnostic~) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Shutting down IDLE worker (~diagnostic~)"}}
+[debug] [2022-01-18T14:43:33.123Z] [worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: FINISHING {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: FINISHING"}}
+[debug] [2022-01-18T14:43:33.133Z] [worker-pool] addWorker(~diagnostic~) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(~diagnostic~)"}}
+[debug] [2022-01-18T14:43:33.133Z] [worker-pool] Adding worker with key ~diagnostic~, total=2 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key ~diagnostic~, total=2"}}
+[debug] [2022-01-18T14:43:33.133Z] [worker-pool] submitWork(triggerId=) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitWork(triggerId=)"}}
+[debug] [2022-01-18T14:43:33.133Z] [worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: Assigning socketPath: \\?\pipe\D:\Dev\HIPALANET\admin-app\functions\12796 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: Assigning socketPath: \\\\?\\pipe\\D:\\Dev\\HIPALANET\\admin-app\\functions\\12796"}}
+[debug] [2022-01-18T14:43:33.133Z] [worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: BUSY"}}
+[debug] [2022-01-18T14:43:33.134Z] [worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: exited {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: exited"}}
+[debug] [2022-01-18T14:43:33.134Z] [worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: FINISHED {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-997887c8-7156-4393-8204-1b681836cb80]: FINISHED"}}
+[debug] [2022-01-18T14:43:33.591Z] [runtime-status] [12796] Functions runtime initialized. {"cwd":"D:\\Dev\\HIPALANET\\admin-app\\functions","node_version":"12.14.0"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Functions runtime initialized. {\"cwd\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\",\"node_version\":\"12.14.0\"}"}}
+[debug] [2022-01-18T14:43:33.593Z] [runtime-status] [12796] Disabled runtime features: undefined {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Disabled runtime features: undefined"}}
+[debug] [2022-01-18T14:43:33.595Z] [runtime-status] [12796] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:43:33.597Z] [runtime-status] [12796] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:43:33.597Z] [runtime-status] [12796] Found local functions config: D:\Dev\HIPALANET\admin-app\functions/.runtimeconfig.json {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Found local functions config: D:\\Dev\\HIPALANET\\admin-app\\functions/.runtimeconfig.json"}}
+[debug] [2022-01-18T14:43:33.598Z] [runtime-status] [12796] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:43:33.599Z] [runtime-status] [12796] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2022-01-18T14:43:33.599Z] [runtime-status] [12796] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:43:33.643Z] [runtime-status] [12796] Checked functions.config() {"config":{"gmail":{"password":"hiphop-usa2015","email":"lneninger@hipalanet.com"},"stripe":{"apiversion":"2020-08-27","publickey":"pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O","secretkey":"sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6"},"plaid":{"clientid":"5cdf1d3cd4530d0013fb9740","secret":"2a2136eb3f664f56e10f8417e45d42"}}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Checked functions.config() {\"config\":{\"gmail\":{\"password\":\"hiphop-usa2015\",\"email\":\"lneninger@hipalanet.com\"},\"stripe\":{\"apiversion\":\"2020-08-27\",\"publickey\":\"pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O\",\"secretkey\":\"sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6\"},\"plaid\":{\"clientid\":\"5cdf1d3cd4530d0013fb9740\",\"secret\":\"2a2136eb3f664f56e10f8417e45d42\"}}}"}}
+[debug] [2022-01-18T14:43:33.644Z] [runtime-status] [12796] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-01-18T14:43:33.644Z] [runtime-status] [12796] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:43:33.645Z] [runtime-status] [12796] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:43:33.646Z] [runtime-status] [12796] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:43:33.646Z] [runtime-status] [12796] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-01-18T14:43:33.667Z] [runtime-status] [12796] initializeApp(DEFAULT) {"storageBucket":"firebase-adminsys-20210823.appspot.com","databaseURL":"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com","projectId":"firebase-adminsys-20210823"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [12796] initializeApp(DEFAULT) {\"storageBucket\":\"firebase-adminsys-20210823.appspot.com\",\"databaseURL\":\"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com\",\"projectId\":\"firebase-adminsys-20210823\"}"}}
+[debug] [2022-01-18T14:43:33.985Z] [worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: IDLE"}}
+[debug] [2022-01-18T14:43:34.457Z] Jan 18, 2022 9:43:34 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:34 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:36.483Z] Jan 18, 2022 9:43:36 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:36 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:38.499Z] Jan 18, 2022 9:43:38 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:38 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:40.513Z] Jan 18, 2022 9:43:40 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:40 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:42.524Z] Jan 18, 2022 9:43:42 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:42 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:44.537Z] Jan 18, 2022 9:43:44 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:44 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:43:46.565Z] Jan 18, 2022 9:43:46 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2022 9:43:46 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-01-18T14:44:09.988Z] File D:\Dev\HIPALANET\admin-app\functions\src\site\site.models.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\src\\site\\site.models.ts changed, reloading triggers"}}
+[debug] [2022-01-18T14:44:10.550Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\site\site.models.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\site\\site.models.js.map changed, reloading triggers"}}
+[debug] [2022-01-18T14:44:10.551Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\site\site.models.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\site\\site.models.js changed, reloading triggers"}}
+[debug] [2022-01-18T14:44:10.558Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\site\config.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\site\\config.js.map changed, reloading triggers"}}
+[debug] [2022-01-18T14:44:10.562Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\site\config.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\site\\config.js changed, reloading triggers"}}
+[debug] [2022-01-18T14:44:10.566Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\_mocker\mocker.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\_mocker\\mocker.js.map changed, reloading triggers"}}
+[debug] [2022-01-18T14:44:10.568Z] File D:\Dev\HIPALANET\admin-app\functions\lib\functions\src\_mocker\mocker.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\Dev\\HIPALANET\\admin-app\\functions\\lib\\functions\\src\\_mocker\\mocker.js changed, reloading triggers"}}
+[debug] [2022-01-18T14:44:11.579Z] [worker-pool] Shutting down IDLE worker (~diagnostic~) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Shutting down IDLE worker (~diagnostic~)"}}
+[debug] [2022-01-18T14:44:11.580Z] [worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: FINISHING {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: FINISHING"}}
+[debug] [2022-01-18T14:44:11.580Z] [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1"}}
+[debug] [2022-01-18T14:44:11.590Z] [worker-pool] addWorker(~diagnostic~) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(~diagnostic~)"}}
+[debug] [2022-01-18T14:44:11.590Z] [worker-pool] Adding worker with key ~diagnostic~, total=2 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key ~diagnostic~, total=2"}}
+[debug] [2022-01-18T14:44:11.590Z] [worker-pool] submitWork(triggerId=) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitWork(triggerId=)"}}
+[debug] [2022-01-18T14:44:11.591Z] [worker-~diagnostic~-c8afb924-4bd8-4008-a8ff-0cee2dcb4843]: Assigning socketPath: \\?\pipe\D:\Dev\HIPALANET\admin-app\functions\20368 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-c8afb924-4bd8-4008-a8ff-0cee2dcb4843]: Assigning socketPath: \\\\?\\pipe\\D:\\Dev\\HIPALANET\\admin-app\\functions\\20368"}}
+[debug] [2022-01-18T14:44:11.591Z] [worker-~diagnostic~-c8afb924-4bd8-4008-a8ff-0cee2dcb4843]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-c8afb924-4bd8-4008-a8ff-0cee2dcb4843]: BUSY"}}
+[debug] [2022-01-18T14:44:11.591Z] [worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: exited {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: exited"}}
+[debug] [2022-01-18T14:44:11.592Z] [worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: FINISHED {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-7e96359d-ee65-4cfb-89af-5b099803e68e]: FINISHED"}}
+[debug] [2022-01-18T14:44:12.028Z] [runtime-status] [20368] Functions runtime initialized. {"cwd":"D:\\Dev\\HIPALANET\\admin-app\\functions","node_version":"12.14.0"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Functions runtime initialized. {\"cwd\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\",\"node_version\":\"12.14.0\"}"}}
+[debug] [2022-01-18T14:44:12.029Z] [runtime-status] [20368] Disabled runtime features: undefined {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Disabled runtime features: undefined"}}
+[debug] [2022-01-18T14:44:12.032Z] [runtime-status] [20368] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:44:12.033Z] [runtime-status] [20368] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:44:12.034Z] [runtime-status] [20368] Found local functions config: D:\Dev\HIPALANET\admin-app\functions/.runtimeconfig.json {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Found local functions config: D:\\Dev\\HIPALANET\\admin-app\\functions/.runtimeconfig.json"}}
+[debug] [2022-01-18T14:44:12.034Z] [runtime-status] [20368] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:44:12.036Z] [runtime-status] [20368] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2022-01-18T14:44:12.036Z] [runtime-status] [20368] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:44:12.075Z] [runtime-status] [20368] Checked functions.config() {"config":{"gmail":{"password":"hiphop-usa2015","email":"lneninger@hipalanet.com"},"stripe":{"apiversion":"2020-08-27","publickey":"pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O","secretkey":"sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6"},"plaid":{"clientid":"5cdf1d3cd4530d0013fb9740","secret":"2a2136eb3f664f56e10f8417e45d42"}}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Checked functions.config() {\"config\":{\"gmail\":{\"password\":\"hiphop-usa2015\",\"email\":\"lneninger@hipalanet.com\"},\"stripe\":{\"apiversion\":\"2020-08-27\",\"publickey\":\"pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O\",\"secretkey\":\"sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6\"},\"plaid\":{\"clientid\":\"5cdf1d3cd4530d0013fb9740\",\"secret\":\"2a2136eb3f664f56e10f8417e45d42\"}}}"}}
+[debug] [2022-01-18T14:44:12.075Z] [runtime-status] [20368] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-01-18T14:44:12.076Z] [runtime-status] [20368] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:44:12.077Z] [runtime-status] [20368] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:44:12.077Z] [runtime-status] [20368] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-01-18T14:44:12.077Z] [runtime-status] [20368] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.0.0","resolution":"D:\\Dev\\HIPALANET\\admin-app\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.0.0\",\"resolution\":\"D:\\\\Dev\\\\HIPALANET\\\\admin-app\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-01-18T14:44:12.098Z] [runtime-status] [20368] initializeApp(DEFAULT) {"storageBucket":"firebase-adminsys-20210823.appspot.com","databaseURL":"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com","projectId":"firebase-adminsys-20210823"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [20368] initializeApp(DEFAULT) {\"storageBucket\":\"firebase-adminsys-20210823.appspot.com\",\"databaseURL\":\"https://firebase-adminsys-20210823-default-rtdb.firebaseio.com\",\"projectId\":\"firebase-adminsys-20210823\"}"}}
+[debug] [2022-01-18T14:44:12.437Z] [worker-~diagnostic~-c8afb924-4bd8-4008-a8ff-0cee2dcb4843]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-c8afb924-4bd8-4008-a8ff-0cee2dcb4843]: IDLE"}}

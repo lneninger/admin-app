@@ -6,7 +6,7 @@ export interface UserStateModel {
 }
 
 
-export class UserModel {
+export interface IUserModel {
   id: number;
   name: string;
   userName: any;
@@ -53,7 +53,6 @@ export class Role {
   }
 
   private internalInRole(args: string[]) {
-      const array = args as string[];
       return this.name.toUpperCase() === 'ADMIN' || args.some(roleItem => roleItem.toUpperCase() === this.name.toUpperCase());
   }
 }

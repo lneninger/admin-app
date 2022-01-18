@@ -8,13 +8,14 @@ import { environment } from 'src/environments/environment';
 
 import { ICustomerInputModel } from '../+models/customer-create';
 import {
+  ICreateSourceResponseModel,
   IPlaidLinkTokenRequestModel,
   IPlaidLinkTokenResponseModel,
   IPlaidStripeRequestModel as ICreateBankAccountRequestModel,
   IPlaidStripeResponseModel as ICreateBankAccountResponseModel,
 } from '../+models/plaid';
 import { FirebaseService } from '../../firebase/firebase.service';
-import { IPaymentStateModel } from './paymernt.state.models';
+import { ICreateSourceRequestModel, IPaymentMethodRequestModel, IPaymentMethodResponseModel, IPaymentStateModel } from './payment.state.models';
 
 
 @Persistence({
@@ -64,7 +65,7 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
 
   async setCurrentUserAsCustomer() {
     const req = {
-      entityId: this.authService.credentials.user.uid,
+      userId: this.authService.credentials.user.uid,
       email: this.authService.credentials.user.email,
       fullName: this.authService.credentials.user.displayName || this.authService.credentials.user.email,
     } as ICustomerInputModel;
@@ -84,9 +85,19 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
     return customerCreateFn(req).toPromise();
   }
 
-  async createBankAccount(req: ICreateBankAccountRequestModel): Promise<ICreateBankAccountResponseModel>{
+  async createPaymentMethod(req: IPaymentMethodRequestModel): Promise<IPaymentMethodResponseModel>{
+    const paymentMethodCreateFn = this.firebase.fns.httpsCallable<IPaymentMethodRequestModel, IPaymentMethodResponseModel>('paymentMethodCreate');
+    return paymentMethodCreateFn(req).toPromise();
+  }
+
+  async createBankAccountToken(req: ICreateBankAccountRequestModel): Promise<ICreateBankAccountResponseModel>{
     const createBankAccountFn = this.firebase.fns.httpsCallable<ICreateBankAccountRequestModel, ICreateBankAccountResponseModel>('attachBankAccount');
     return createBankAccountFn(req).toPromise();
+  }
+
+  async createSource(req: ICreateSourceRequestModel): Promise<ICreateSourceResponseModel>{
+    const createSourceFn = this.firebase.fns.httpsCallable<ICreateSourceRequestModel, ICreateSourceResponseModel>('createSource');
+    return createSourceFn(req).toPromise();
   }
 
 }

@@ -26,7 +26,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   @ViewChild(BankAccountComponent, {static: false}) bankAccountComponent: BankAccountComponent;
 
 
-  stripeTest: FormGroup;
+  stripeTest = this.createForm();
 
   cardOptions: StripeCardElementOptions = {
     style: {
@@ -53,7 +53,8 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
     protected router: Router,
     protected route: ActivatedRoute,
     protected stripeService: StripeService,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    private paymentService: PaymentService
   ) {
     super();
 
@@ -86,6 +87,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
 
   createForm() {
     return this.fmBuilder.group({
+      name: [[Validators.required]],
       description: [],
       activateDate: [new Date(), [Validators.required]]
     });
@@ -100,6 +102,8 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   async save(){
     if(this.bankAccountComponent){
       await this.bankAccountComponent.createBankAccount(true);
+    } else {
+      this.stripeService.createToken(this.card.element)
     }
   }
 
@@ -107,9 +111,13 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
     const name = this.stripeTest.get('name').value;
     this.stripeService
       .createToken(this.card.element, { name })
-      .subscribe((result) => {
+      .subscribe(async (result) => {
         if (result.token) {
           // Use the token
+const source: ICreateSource
+
+    await this.paymentService.createSource();
+
           console.log(result.token.id);
         } else if (result.error) {
           // Error creating the token

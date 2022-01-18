@@ -1,4 +1,4 @@
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -16,7 +16,8 @@ import { BankAccountComponent } from './bank-account.component';
     NgxPlaidLinkModule,
     FlexLayoutModule,
     LayoutMainCommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     BankAccountComponent

@@ -1,12 +1,12 @@
 import { IRole } from '../user/user.models';
 
-export interface IAppExternalConfiguration{
+export interface IAppExternalConfiguration {
   roles: IRole[];
   userRoles: string[];
-  modules : ISecuredModule[];
+  modules: ISecuredModule[];
 }
 
-export interface ISecuredModule{
+export interface ISecuredModule {
   name: string;
   displayName: string;
   path: string;
@@ -15,7 +15,8 @@ export interface ISecuredModule{
 }
 
 
-export interface IUserSecuredModule{
+export interface IUserSecuredModule {
   userId: string;
   moduleId: string;
 }
+

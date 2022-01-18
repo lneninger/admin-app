@@ -5,7 +5,7 @@ export interface IPaymentInputModel {
 }
 
 export interface ICustomerInputModel{
-  entityId: string;
+  userId: string;
   email: string;
   fullName: string;
 }
@@ -29,7 +29,7 @@ export interface IPlaidTokenInputModel{
 export interface IPlaidStripeInputModel{
   accountId: string;
   publicToken: string;
-  customerId?: string;
+  userId?: string;
 
 }
 
@@ -50,4 +50,9 @@ export interface IProductInputModel{
   active: string;
   description: string;
   metadata: string;
+}
+
+
+export interface IPaymentMethodListInputModel{
+  userId: string;
 }

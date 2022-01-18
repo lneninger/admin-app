@@ -1,5 +1,5 @@
 export interface ICustomerInputModel{
-  entityId: string;
+  userId: string;
   email: string;
   fullName: string;
 }

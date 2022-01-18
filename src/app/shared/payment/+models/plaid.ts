@@ -57,4 +57,8 @@ export interface IPlaidStripeRequestModel{
 export interface IPlaidStripeResponseModel{
   bankAccountToken: string;
 }
+
+export interface ICreateSourceResponseModel{
+
+}
 //#endregion

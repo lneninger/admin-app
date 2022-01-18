@@ -7,6 +7,7 @@ import { Stripe } from 'stripe';
 import { IConfig } from '../functions.models';
 import { logHttp } from '../site/log-wrapper-function';
 import { IPlaidStripeInputModel } from './payment.models';
+import { response } from 'express';
 
 const cors = Cors({ origin: true });
 const stripe = new Stripe(functions.config().stripe.secretkey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
@@ -51,23 +52,33 @@ export const attachBankAccount = functions.https.onRequest((req: functions.https
         });
         console.log('stripeBankAccountTokenResponse', stripeBankAccountTokenResponse);
 
+        let response: any;
         // attach token to customer
-        if (data.customerId) {
-          const entityData = (await admin.firestore().collection('/entities').doc(data.customerId).get()).data();
+        if (data.userId) {
+          const entityData = (await admin.firestore().collection('/entities').doc(data.userId).get()).data();
           if (entityData) {
-            const response = await stripe.customers.createSource(entityData.paymentId, { source: stripeBankAccountTokenResponse.data.stripe_bank_account_token });
-            res.status(200).jsonp({status: 'success'});
+            const createSourceRsponse = await stripe.customers.createSource(entityData.paymentId, { source: stripeBankAccountTokenResponse.data.stripe_bank_account_token });
+            response = { status: 'success', bankAccount: createSourceRsponse.lastResponse };
+            res.status(200).jsonp(response);
             console.log(response, response);
           } else {
-            res.status(200).jsonp({ message: 'Source created but cannot attach it to any customer. Customer has not associated stripe record' });
-
+            response = { message: 'Source created but cannot attach it to any customer. Customer has not associated stripe record' };
+            res.status(200).jsonp(response);
           }
+        } else {
+          response = { bankAccountToken: stripeBankAccountTokenResponse.data.stripe_bank_account_token };
+          res.status(200).jsonp(response);
         }
-        res.status(200).jsonp({ bankAccountToken: stripeBankAccountTokenResponse.data.stripe_bank_account_token });
       } catch (error) {
         res.status(500).jsonp(error);
+        throw error;
       }
+
+
+      return response;
+
     });
+
   });
 
 });
