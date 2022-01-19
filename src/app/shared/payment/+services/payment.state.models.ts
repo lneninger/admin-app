@@ -6,7 +6,9 @@ export interface IPaymentStateModel {
 
 
 export interface IPaymentMethodRequestModel {
-
+  data: IPaymentMethodPlaidTokenModel | IPaymentMethodBankAccountFormModel,
+  type: 'BankAccountPlaidToken' | 'BankAccountManual';
+  uid: string;
 }
 
 export interface IPaymentMethodResponseModel {

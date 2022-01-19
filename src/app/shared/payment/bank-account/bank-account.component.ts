@@ -129,7 +129,7 @@ export class BankAccountComponent implements OnInit {
     const req: IPaymentMethodRequestModel = {
       data: this.form.getRawValue() as IPaymentMethodBankAccountFormModel,
       type: 'BankAccountManual',
-      customerId: attackToMe ? this.authService.credentials.user.uid : undefined
+      uid: attackToMe ? this.authService.credentials.user.uid : undefined
     };
 
     await this.paymentService.createPaymentMethod(req);
@@ -141,8 +141,8 @@ export class BankAccountComponent implements OnInit {
         accountId: this.selectedAccount.id,
         publicToken: this.accountData.metadata.public_token,
       } as IPaymentMethodPlaidTokenModel,
-      type: 'PlaidToken',
-      customerId: attackToMe ? this.authService.credentials.user.uid : undefined
+      type: 'BankAccountPlaidToken',
+      uid: attackToMe ? this.authService.credentials.user.uid : undefined
     };
 
     await this.paymentService.createPaymentMethod(req);
