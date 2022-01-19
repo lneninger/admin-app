@@ -123,8 +123,6 @@ export class BankAccountComponent implements OnInit {
     }
   }
 
-
-
   private async createBankAccountManualToken(attackToMe: boolean) {
     const req: IPaymentMethodRequestModel = {
       data: this.form.getRawValue() as IPaymentMethodBankAccountFormModel,
