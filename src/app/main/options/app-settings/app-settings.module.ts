@@ -10,21 +10,15 @@ import { LogoutModule } from '../../shared/security/logout/logout.module';
 
 
 @NgModule({
-  declarations: [AppSettingsComponent],
-  imports: [
-    CommonModule,
-    AppSettingsRoutingModule,
-    LayoutMainCommonModule,
-
-    FormsModule,
-
-    OptionsWrapperModule,
-
-    LogoutModule
-  ]
-  , entryComponents: [
-    AppSettingsComponent
-  ]
+    declarations: [AppSettingsComponent],
+    imports: [
+        CommonModule,
+        AppSettingsRoutingModule,
+        LayoutMainCommonModule,
+        FormsModule,
+        OptionsWrapperModule,
+        LogoutModule
+    ]
 })
 export class AppSettingsModule {
 
