@@ -1,15 +1,13 @@
-import { LayoutMainModule } from './../shared/layout/layout-main/layout-main.module';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import { LayoutMainCommonModule } from '../shared/layout/layout-main/layout-main-common/layout-main-common.module';
+import { MenuModule } from '../shared/layout/layout-main/navigation/menu/menu.module';
+import { LayoutMainModule } from './../shared/layout/layout-main/layout-main.module';
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
-import { LayoutMainCommonModule } from '../shared/layout/layout-main/layout-main-common/layout-main-common.module';
-import { ToolbarModule } from '../shared/layout/layout-main/toolbar/toolbar.module';
-import { AuthenticationGuard } from 'microsoft-adal-angular6';
-import { ToolbarUserModule } from './options/toolbar-user/toolbar-user.module';
-import { MenuModule } from '../shared/layout/layout-main/navigation/menu/menu.module';
 import { ToolbarAddModule } from './options/toolbar-add/toolbar-user.module';
+import { ToolbarUserModule } from './options/toolbar-user/toolbar-user.module';
 
 
 @NgModule({
@@ -22,7 +20,6 @@ import { ToolbarAddModule } from './options/toolbar-add/toolbar-user.module';
     LayoutMainCommonModule,
     ToolbarUserModule,
     ToolbarAddModule
-  ],
-  providers: [AuthenticationGuard]
+  ]
 })
 export class MainModule { }

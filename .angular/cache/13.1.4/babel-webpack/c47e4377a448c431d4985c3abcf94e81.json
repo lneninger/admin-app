@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';\nexport class NgxsBaseDataRepository extends NgxsDataRepository {}","map":null,"metadata":{},"sourceType":"module"}

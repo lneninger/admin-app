@@ -1,9 +1,8 @@
-import { LayoutEmptyModule } from './shared/layout/layout-empty/layout-empty.module';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './main/pages/auth/login/login.component';
+import { AngularFireAuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
+import { RouterModule, Routes } from '@angular/router';
+
 import { LayoutEmptyComponent } from './shared/layout/layout-empty/layout-empty.component';
-import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo, redirectLoggedInTo } from '@angular/fire/auth-guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToApp = () => redirectLoggedInTo(['app']);
@@ -11,7 +10,6 @@ const redirectLoggedInToApp = () => redirectLoggedInTo(['app']);
 const routes: Routes = [
   {
     path: 'app',
-    canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () => import('./main/main.module').then(m => m.MainModule)
   },

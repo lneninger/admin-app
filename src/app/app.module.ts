@@ -2,11 +2,22 @@ import { NgxsDataPluginModule } from '@angular-ru/ngxs';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@angular-ru/ngxs/storage';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
-import { PERSISTENCE, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
-import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
-import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
+
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+
+// import { AngularFireModule } from '@angular/fire';
+// import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+// import { PERSISTENCE, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
+// import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
+// import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
+
+
+import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
+// import { USE_EMULATOR as USE_DATABASE_EMULATOR } from '@angular/fire/compat/database';
+import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
+import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/compat/functions';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
@@ -43,9 +54,13 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
     BrowserAnimationsModule,
     AppRoutingModule,
     AppCommonModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAnalyticsModule,
-    AngularFirestoreModule,
+
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+
+    // AngularFireModule.initializeApp(environment.firebase),
+    // AngularFireAnalyticsModule,
+    // AngularFirestoreModule,
 
 
     NgxsModule.forRoot([
@@ -81,7 +96,7 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
   providers: [
     { provide: APP_INITIALIZER, useFactory: initializerFactory, deps: [AppInitializerService], multi: true },
     { provide: LAZY_WIDGETS, useFactory: lazyArrayToObj },
-    { provide: PERSISTENCE, useValue: 'session' },
+    // { provide: PERSISTENCE, useValue: 'session' },
 
     { provide: USE_AUTH_EMULATOR, useValue: environment.useEmulators ? ['localhost', 9099] : undefined },
     // { provide: USE_DATABASE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 9000] : undefined },

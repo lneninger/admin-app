@@ -1,3 +1,4 @@
+import { ICreateSourceRequestModel, IPaymentSource } from './../../../../../shared/payment/+models/source-create';
 import { BankAccountComponent } from './../../../../../shared/payment/bank-account/bank-account.component';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,6 +12,7 @@ import { ComponentDisplayMode } from 'src/app/shared/general.models';
 import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
+import { AuthService } from 'src/app/main/services/user/auth.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -23,7 +25,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
 
-  @ViewChild(BankAccountComponent, {static: false}) bankAccountComponent: BankAccountComponent;
+  @ViewChild(BankAccountComponent, { static: false }) bankAccountComponent: BankAccountComponent;
 
 
   stripeTest = this.createForm();
@@ -54,7 +56,8 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
     protected route: ActivatedRoute,
     protected stripeService: StripeService,
     protected dialog: MatDialog,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private authService: AuthService
   ) {
     super();
 
@@ -99,8 +102,8 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   }
 
 
-  async save(){
-    if(this.bankAccountComponent){
+  async save() {
+    if (this.bankAccountComponent) {
       await this.bankAccountComponent.createBankAccount(true);
     } else {
       this.stripeService.createToken(this.card.element)
@@ -114,9 +117,12 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
       .subscribe(async (result) => {
         if (result.token) {
           // Use the token
-const source: ICreateSource
+          const req: ICreateSourceRequestModel = {
+            userId: this.authService.credentials.user.uid,
+            source: {} as IPaymentSource
+          }
 
-    await this.paymentService.createSource();
+          await this.paymentService.createSource(req);
 
           console.log(result.token.id);
         } else if (result.error) {
@@ -133,7 +139,7 @@ const source: ICreateSource
   templateUrl: './payment-method-new.component.html',
   styleUrls: ['./payment-method-new.component.scss']
 })
-export class BankingPaymentMethodDialog extends PaymentMethodNewComponent{
+export class BankingPaymentMethodDialog extends PaymentMethodNewComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: { displayMode: ComponentDisplayMode },
     breadcrumbService: BreadcrumbService,
@@ -142,16 +148,20 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent{
     router: Router,
     route: ActivatedRoute,
     stripeService: StripeService,
-    dialog: MatDialog
-    ) {
-super(
-  breadcrumbService,
-  fmBuilder,
-  service,
-  router,
-  route,
-  stripeService,
-  dialog);
+    dialog: MatDialog,
+    paymentService: PaymentService,
+    authService: AuthService
+  ) {
+    super(
+      breadcrumbService,
+      fmBuilder,
+      service,
+      router,
+      route,
+      stripeService,
+      dialog,
+      paymentService,
+      authService);
     this.displayMode = data.displayMode;
     this.isDialog = true;
 

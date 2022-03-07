@@ -1,14 +1,12 @@
-import { UserService } from 'src/app/main/services/user/user.service';
-
-import { identifierModuleUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Tenant } from 'src/app/main/services/tenant/tenant.models';
-import { Role } from '../../services/user/auth.models';
-import { AppStateModel } from 'src/app/app.state';
-import { TenantService } from '../../services/tenant/tenant.service';
+import { UserService } from 'src/app/main/services/user/user.service';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
+
+import { TenantService } from '../../services/tenant/tenant.service';
+import { Role } from '../../services/user/auth.models';
 
 
 

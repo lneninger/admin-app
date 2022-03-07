@@ -2,14 +2,15 @@ import { DataAction, Payload, Persistence, StateRepository } from '@angular-ru/n
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Selector, State, Store } from '@ngxs/store';
-import firebase from 'firebase/app';
+import { UserCredential, User as FirebaseUser, AuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { IUserClaims } from 'functions/src/user/user.models';
 import produce from 'immer';
 import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
-import { AuthStateModel, IUserMetadata, User, UserLogin } from './auth.models';
+import { AuthStateModel, User, UserLogin } from './auth.models';
 
+// import firebase from 'firebase/app';
 
 export const LoginErrorCodes = {
   TOKEN_EXPIRED: `The user's credential is no longer valid. The user must sign in again.`,
@@ -35,7 +36,7 @@ API key not valid. Please pass a valid API key. (invalid API key provided)`,
 @Injectable()
 export class AuthService extends NgxsDataRepository<AuthStateModel> {
 
-  user$ = this.firebaseService.auth.authState;
+  user$ = this.firebaseService.authNew.authState;
   // claims: IUserClaims;
 
   @Selector()
@@ -53,7 +54,7 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   }
 
   get credentials(){
-    return this.store.selectSnapshot<firebase.auth.UserCredential>(AuthService.credentials);
+    return this.store.selectSnapshot<UserCredential>(AuthService.credentials);
   }
 
   constructor(
@@ -63,20 +64,19 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
     super();
   }
 
-  async login(userLogin: UserLogin): Promise<firebase.User> {
+  async login(userLogin: UserLogin): Promise<FirebaseUser> {
     try {
-      const userCredential = await this.firebaseService.auth.signInWithEmailAndPassword(userLogin.userName, userLogin.password);
-      await this.setUserCredential(userCredential);
-
+      const userCredential = await this.firebaseService.authNew.signInWithEmailAndPassword(userLogin.userName, userLogin.password);
+      await this.setUserCredential(userCredential as unknown as UserCredential);
       return userCredential.user;
     } catch (error) {
       throw error;
     }
   }
 
-  async loginForProvider(provider: firebase.auth.AuthProvider): Promise<firebase.User> {
+  async loginForProvider(provider: AuthProvider): Promise<FirebaseUser> {
     try {
-      const userCredential = await this.firebaseService.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      const userCredential = await this.firebaseService.authNew.signInWithPopup(new GoogleAuthProvider());
       return userCredential.user;
     } catch (error) {
       throw error;
@@ -84,7 +84,7 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   }
 
   async isLoggedIn() {
-    return this.firebaseService.auth.authState.pipe(first()).toPromise();
+    return this.firebaseService.authNew.authState.pipe(first()).toPromise();
   }
 
   async logout(): Promise<void> {
@@ -96,10 +96,10 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   }
 
   @DataAction()
-  async setUserCredential(@Payload('userCredential') userCredential: firebase.auth.UserCredential) {
+  async setUserCredential(@Payload('userCredential') userCredential: UserCredential) {
 
     const tokenResult = await userCredential.user.getIdTokenResult();
-    const claims = tokenResult.claims as IUserClaims;
+    const claims = tokenResult.claims as unknown as IUserClaims;
 
     this.ctx.setState(produce(this.ctx.getState(), (draft: AuthStateModel) => {
       draft.userCredential = userCredential;

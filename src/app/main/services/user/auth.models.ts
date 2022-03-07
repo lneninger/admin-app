@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { UserCredential } from 'firebase/auth';
 
 export interface IUserClaims{
   roles: string[];
@@ -15,7 +15,7 @@ export interface IUserMetadata extends ICurrentRole{
 
 
 export interface AuthStateModel {
-  userCredential?: firebase.auth.UserCredential;
+  userCredential?: UserCredential;
   claims?: IUserClaims;
   rememberMe?: boolean;
   token?: string;

@@ -1,20 +1,18 @@
-import { UserService } from 'src/app/main/services/user/user.service';
-import { AuthService } from 'src/app/main/services/user/auth.service';
-import { TenantService } from './../../services/tenant/tenant.service';
-import { BaseComponent } from 'src/app/shared/base.component';
-import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { animate, state, style, transition, trigger, useAnimation, AnimationEvent } from '@angular/animations';
-import { bounce, bounceInLeft, fadeInLeft, fadeInRight, fadeOutLeft, fadeOutRight } from 'ng-animate';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { combineLatest, fromEvent, merge, Observable, of, Subscription } from 'rxjs';
-import { debounceTime, filter, startWith, switchMap } from 'rxjs/operators';
-import { NONE_TYPE } from '@angular/compiler';
-import { Role, UserModel } from 'src/app/main/services/user/auth.models';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { Tenant } from 'src/app/main/services/tenant/tenant.models';
+import { User as FirebaseUser } from 'firebase/auth';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { Observable, Subscription } from 'rxjs';
+import { Tenant } from 'src/app/main/services/tenant/tenant.models';
+import { Role } from 'src/app/main/services/user/auth.models';
+import { AuthService } from 'src/app/main/services/user/auth.service';
+import { UserService } from 'src/app/main/services/user/user.service';
+import { BaseComponent } from 'src/app/shared/base.component';
 import { AppOptionsService } from 'src/app/shared/layout/layout-main/options/app-options.service';
-import firebase from 'firebase/app';
+
+import { TenantService } from './../../services/tenant/tenant.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -52,7 +50,7 @@ export class ToolbarUserComponent extends BaseComponent implements OnInit, After
 
   clickInside: boolean;
 
-  user$: Observable<firebase.User>;
+  user$: Observable<FirebaseUser>;
 
   @Select(UserService.userRoles)
   userRoles$: Observable<Role[]>;

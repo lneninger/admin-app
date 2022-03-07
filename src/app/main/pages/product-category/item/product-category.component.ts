@@ -6,6 +6,7 @@ import { ProductCategoryService } from 'src/app/main/services/product-category/p
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-product-category',
@@ -101,12 +102,12 @@ export class ProductCategoryComponent implements OnInit {
     if (this.form.valid) {
       const request = this.form.getRawValue() as AddProductCategoryRequest;
       try {
-        const response = await this.service.add(request).toPromise();
+        const response = await firstValueFrom(this.service.add(request));
       } catch (error) {
 
       }
 
-      this.service.reload$.next();
+      this.service.reload$.next(null);
       this.dialogRef.close();
     }
   }

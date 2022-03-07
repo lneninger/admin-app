@@ -14,8 +14,9 @@ import {
   IPlaidStripeRequestModel as ICreateBankAccountRequestModel,
   IPlaidStripeResponseModel as ICreateBankAccountResponseModel,
 } from '../+models/plaid';
+import { ICreateSourceRequestModel } from '../+models/source-create';
 import { FirebaseService } from '../../firebase/firebase.service';
-import { ICreateSourceRequestModel, IPaymentMethodRequestModel, IPaymentMethodResponseModel, IPaymentStateModel } from './payment.state.models';
+import { IPaymentMethodRequestModel, IPaymentMethodResponseModel, IPaymentStateModel } from './payment.state.models';
 
 
 @Persistence({
@@ -53,7 +54,7 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
     super.ngxsAfterBootstrap();
 
 
-    this.firebaseService.auth.authState.subscribe(async user => {
+    this.firebaseService.authNew.authState.subscribe(async user => {
       if (user) {
         // create customer in stripe. payment api
         await this.setCurrentUserAsCustomer();
@@ -70,7 +71,7 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
       fullName: this.authService.credentials.user.displayName || this.authService.credentials.user.email,
     } as ICustomerInputModel;
 
-    const customerCreateFn = this.firebase.fns.httpsCallable('customerCreate');
+    const customerCreateFn = this.firebase.fnsNew.httpsCallable('customerCreate');
     return customerCreateFn(req).toPromise();
   }
 
@@ -81,22 +82,22 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
       stripeCustomerId: this.store.selectSnapshot<string>((store: AppStateModel) => store.userState.paymentMetadata.paymentId),
     } as IPlaidLinkTokenRequestModel;
 
-    const customerCreateFn = this.firebase.fns.httpsCallable<IPlaidLinkTokenRequestModel, IPlaidLinkTokenResponseModel>('plaidToken');
+    const customerCreateFn = this.firebase.fnsNew.httpsCallable<IPlaidLinkTokenRequestModel, IPlaidLinkTokenResponseModel>('plaidToken');
     return customerCreateFn(req).toPromise();
   }
 
   async createPaymentMethod(req: IPaymentMethodRequestModel): Promise<IPaymentMethodResponseModel>{
-    const paymentMethodCreateFn = this.firebase.fns.httpsCallable<IPaymentMethodRequestModel, IPaymentMethodResponseModel>('paymentMethodCreate');
+    const paymentMethodCreateFn = this.firebase.fnsNew.httpsCallable<IPaymentMethodRequestModel, IPaymentMethodResponseModel>('paymentMethodCreate');
     return paymentMethodCreateFn(req).toPromise();
   }
 
   async createBankAccountToken(req: ICreateBankAccountRequestModel): Promise<ICreateBankAccountResponseModel>{
-    const createBankAccountFn = this.firebase.fns.httpsCallable<ICreateBankAccountRequestModel, ICreateBankAccountResponseModel>('attachBankAccount');
+    const createBankAccountFn = this.firebase.fnsNew.httpsCallable<ICreateBankAccountRequestModel, ICreateBankAccountResponseModel>('attachBankAccount');
     return createBankAccountFn(req).toPromise();
   }
 
   async createSource(req: ICreateSourceRequestModel): Promise<ICreateSourceResponseModel>{
-    const createSourceFn = this.firebase.fns.httpsCallable<ICreateSourceRequestModel, ICreateSourceResponseModel>('createSource');
+    const createSourceFn = this.firebase.fnsNew.httpsCallable<ICreateSourceRequestModel, ICreateSourceResponseModel>('createSource');
     return createSourceFn(req).toPromise();
   }
 

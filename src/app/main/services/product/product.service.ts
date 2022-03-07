@@ -1,15 +1,15 @@
-import { ProductCategoryEndpoint } from './product-endpoint.service.';
-import { NgxsBaseDataRepository } from '../+redux/base-redux.service';
-import { Injectable } from '@angular/core';
-import { AddProductRequest, AddProductResponse, IProduct, IProductItem, ProductStateModel } from './product.models';
-import { Observable } from 'rxjs';
 import { DataAction, Payload, StateRepository } from '@angular-ru/ngxs/decorators';
-import produce from 'immer';
+import { Injectable } from '@angular/core';
+import { limit, orderBy, query, startAfter } from '@angular/fire/firestore';
 import { State } from '@ngxs/store';
-import { DataRetrieverInput } from 'src/app/shared/grid/grid-config';
-import { first, map } from 'rxjs/operators';
+import produce from 'immer';
+import { firstValueFrom } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
-import { CollectionReference, Query } from '@angular/fire/firestore';
+import { DataRetrieverInput } from 'src/app/shared/grid/grid-config';
+
+import { NgxsBaseDataRepository } from '../+redux/base-redux.service';
+import { AddProductRequest, IProduct, IProductItem, ProductStateModel } from './product.models';
 
 @StateRepository()
 @State<ProductStateModel>({
@@ -27,9 +27,11 @@ export class ProductService extends NgxsBaseDataRepository<ProductStateModel>{
   }
 
   async search(input: DataRetrieverInput) {
-    let ref: CollectionReference<IProductItem> | Query<IProductItem> = this.firebaseService.firestore.collection<IProductItem>('app-products').ref;
+    const collection= this.firebaseService.firestoreNew.collection<IProductItem>('app-products');
+    let ref = collection.ref;
+    let queryObj = query<IProductItem>(ref);
     if (input.sort) {
-      ref = ref.orderBy(input.sort.field)
+      queryObj = query<IProductItem>(ref, orderBy(input.sort.field));
     }
 
     /*Where clause*/
@@ -39,9 +41,9 @@ export class ProductService extends NgxsBaseDataRepository<ProductStateModel>{
       total = (await ref.get()).size;
     }
 
-    ref = ref.limit(input.pageSize);
-    ref = input.lastRetrieved ? ref.startAfter(input.lastRetrieved) : ref;
-    const result = await ref.get();
+    queryObj = query(queryObj, limit(input.pageSize));
+    queryObj = input.lastRetrieved ? query(queryObj, startAfter(input.lastRetrieved)) : queryObj;
+    const result = await firstValueFrom(collection.get());
 
     return { total, result };
   }
@@ -73,19 +75,19 @@ export class ProductService extends NgxsBaseDataRepository<ProductStateModel>{
   // }
 
   list() {
-    return this.firebaseService.firestore.collection<IProductItem>('app-products').snapshotChanges();
+    return this.firebaseService.firestoreNew.collection<IProductItem>('app-products').snapshotChanges();
   }
 
   async get(id: string) {
-    return this.firebaseService.firestore.collection('app-products').doc(id).get().pipe(first()).toPromise();
+    return this.firebaseService.firestoreNew.collection<IProductItem>('app-products').doc(id).get().pipe(first()).toPromise();
   }
 
   async add(request: AddProductRequest) {
-    return this.firebaseService.firestore.collection('app-products').add(request);
+    return this.firebaseService.firestoreNew.collection('app-products').add(request);
   }
 
   async delete(id: string) {
-    return this.firebaseService.firestore.collection('app-products').doc(id).delete();
+    return this.firebaseService.firestoreNew.collection('app-products').doc(id).delete();
   }
 
 

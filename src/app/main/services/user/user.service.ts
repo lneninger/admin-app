@@ -69,7 +69,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
     super.ngxsAfterBootstrap();
     await this.getRoles();
 
-    this.firebaseService.auth.authState.subscribe(user => {
+    this.firebaseService.authNew.authState.subscribe(user => {
       if (user) {
         this.getMetadata();
       }
@@ -79,7 +79,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
   @DataAction()
   async getMetadata() {
     const user = await this.firebaseService.auth.currentUser;
-    const extraData = (await this.firebaseService.firestore.doc(`/entities/${user.uid}`).get().pipe(first()).toPromise()).data() as IUserPaymentMetadata;
+    const extraData = (await this.firebaseService.firestoreNew.doc(`/entities/${user.uid}`).get().pipe(first()).toPromise()).data() as IUserPaymentMetadata;
     this.ctx.setState(produce(this.ctx.getState(), (draft: UserStateModel) => {
       draft.paymentMetadata = extraData;
     }));
@@ -90,7 +90,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
     // return this.fns.httpsCallable('userCreate')(user);
     let error;
     try {
-      const userCreateResponse = await this.firebaseService.auth.createUserWithEmailAndPassword(email, password);
+      const userCreateResponse = await this.firebaseService.authNew.createUserWithEmailAndPassword(email, password);
       console.log("You have been successfully registered!");
       console.log(userCreateResponse);
       // if(user.phoneNumber){
@@ -125,7 +125,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
 
   @DataAction()
   async getRoles() {
-    const roles = await (await this.firebaseService.firestore.collection('auth-roles').get());
+    const roles = await (await this.firebaseService.firestoreNew.collection('auth-roles').get());
     this.ctx.setState(produce(this.ctx.getState(), (draft: UserStateModel) => {
 
       // draft.roles = roles as string[];
@@ -135,12 +135,12 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
   }
 
   async attachRole(userId: string, roleName: string) {
-    const attachRole = this.firebaseService.fns.httpsCallable('attachRole');
+    const attachRole = this.firebaseService.fnsNew.httpsCallable('attachRole');
     return await attachRole({ uid: userId, role: roleName } as IAttachRole).pipe(first()).toPromise();
   }
 
   async setCurentRole(value: string) {
-    const setCurrentRole = this.firebaseService.fns.httpsCallable('setCurrentRole');
+    const setCurrentRole = this.firebaseService.fnsNew.httpsCallable('setCurrentRole');
     return await setCurrentRole({ name: value } as ISetCurrentRole).pipe(first()).toPromise();
   }
 
