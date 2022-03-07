@@ -1,10 +1,11 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import firebase from 'firebase/app';
+// import firebase from 'firebase/app';
 import 'firebase/auth';
 import * as Cors from 'cors';
 import { IRole, IUserRole } from '../user/user.models';
 import { IAppExternalConfiguration, ISecuredModule } from './site.models';
+import { getAuth } from 'firebase/auth';
 
 const cors = Cors({ origin: true });
 
@@ -14,7 +15,8 @@ export const appConfiguration = functions.https.onRequest((req: functions.https.
     try {
       let userRoleIds: string[] = [];
 
-      const user = firebase.auth().currentUser;
+      const user = getAuth().currentUser;
+      // const user = firebase.auth().currentUser;
       if (user) {
         console.log(`Authenticated user: ${user.displayName}`);
         const userRolesRel = (await admin.firestore().collection('auth-users-roles').where('userId', '==', user?.uid).get()).docs;

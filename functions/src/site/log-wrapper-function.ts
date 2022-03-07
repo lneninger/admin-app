@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import firebase from 'firebase/app';
+// import firebase from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 
 
 export async function logHttp(req: functions.https.Request, res: functions.Response, category: string, func: () => Promise<any>): Promise<void> {
@@ -13,7 +14,7 @@ export async function logHttp(req: functions.https.Request, res: functions.Respo
     errorResponse = error;
   } finally {
 
-    const user = firebase.auth().currentUser;
+    const user = getAuth().currentUser;
 
     const document = {
       userId: user?.uid || 'N/A',
