@@ -13,8 +13,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
-    "start-tailwind": "ng serve --open & ngtw",
-    "start-fake": "ng serve -c serverfake --open & ngtw",
+    "start-tailwind": "ng serve --open & ngtw watch",
+    "start-fake": "ng serve -c serverfake --open & ngtw watch",
     "server-fake": "json-server --watch server-fake/db.json",
     "serve": "ng serve",
     "ngtw": "ngtw watch",

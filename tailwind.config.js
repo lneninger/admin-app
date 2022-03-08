@@ -2,13 +2,8 @@ module.exports = {
   content: [
     "./src/**/*.{html,ts}",
   ],
-  future: {
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
-    // defaultLineHeights: true,
-    // standardFontWeights: true
-  },
-  purge: [],
+
+  mode: 'jit',
   theme: {
     extend: {},
     flex: {
@@ -17,6 +12,5 @@ module.exports = {
       '25per': '1 1 25%'
     }
   },
-  variants: {},
   plugins: []
 }
