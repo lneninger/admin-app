@@ -16,19 +16,19 @@ export class SpecialistEndpointService extends BaseEndpointService {
   }
 
   async search(input: DataRetrieverInput) {
-    const ref = this.firebase.firestoreNew.collection(this.relativeName).ref;
+    const ref = this.firebase.firestore.collection(this.relativeName).ref;
     return ref.limit(input.pageSize).get();
   }
 
   async add(request: AddSpecialistRequest) {
-    return await this.firebase.firestoreNew.collection(this.relativeName).add(request);
+    return await this.firebase.firestore.collection(this.relativeName).add(request);
   }
 
   async update(id:string, request: UpdateSpecialistRequest) {
-    return await this.firebase.firestoreNew.collection(this.relativeName).doc(id).update(request);
+    return await this.firebase.firestore.collection(this.relativeName).doc(id).update(request);
   }
 
   async get(id: string) {
-    return await this.firebase.firestoreNew.collection(this.relativeName).doc(id).get().toPromise();
+    return await this.firebase.firestore.collection(this.relativeName).doc(id).get().toPromise();
   }
 }

@@ -36,7 +36,7 @@ API key not valid. Please pass a valid API key. (invalid API key provided)`,
 @Injectable()
 export class AuthService extends NgxsDataRepository<AuthStateModel> {
 
-  user$ = this.firebaseService.authNew.authState;
+  user$ = this.firebaseService.auth.authState;
   // claims: IUserClaims;
 
   @Selector()
@@ -66,7 +66,7 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
 
   async login(userLogin: UserLogin): Promise<FirebaseUser> {
     try {
-      const userCredential = await this.firebaseService.authNew.signInWithEmailAndPassword(userLogin.userName, userLogin.password);
+      const userCredential = await this.firebaseService.auth.signInWithEmailAndPassword(userLogin.userName, userLogin.password);
       await this.setUserCredential(userCredential as unknown as UserCredential);
       return userCredential.user;
     } catch (error) {
@@ -76,7 +76,7 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
 
   async loginForProvider(provider: AuthProvider): Promise<FirebaseUser> {
     try {
-      const userCredential = await this.firebaseService.authNew.signInWithPopup(new GoogleAuthProvider());
+      const userCredential = await this.firebaseService.auth.signInWithPopup(new GoogleAuthProvider());
       return userCredential.user;
     } catch (error) {
       throw error;
@@ -84,7 +84,7 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   }
 
   async isLoggedIn() {
-    return this.firebaseService.authNew.authState.pipe(first()).toPromise();
+    return this.firebaseService.auth.authState.pipe(first()).toPromise();
   }
 
   async logout(): Promise<void> {

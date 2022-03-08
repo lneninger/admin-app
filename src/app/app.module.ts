@@ -13,10 +13,10 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 // import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
 
 
-import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
+import { AngularFireAuthModule, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
 // import { USE_EMULATOR as USE_DATABASE_EMULATOR } from '@angular/fire/compat/database';
-import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
-import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/compat/functions';
+import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
+import { AngularFireFunctionsModule, USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/compat/functions';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -43,6 +43,8 @@ import { MockerService } from './shared/firebase/mocker.service';
 import { NoOpMockerService } from './shared/firebase/noop-mocker.service';
 import { AppConfigState } from './shared/layout/states/appconfig.state';
 import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
+import { AngularFireAuthGuardModule } from '@angular/fire/compat/auth-guard';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -55,8 +57,20 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
     AppRoutingModule,
     AppCommonModule,
 
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
+    AngularFireAuthModule,
+    AngularFireAuthGuardModule,
+    AngularFireFunctionsModule,
+    // provide modular style for AppCheck, see app.browser/server
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
+
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      // connectFirestoreEmulator(firestore, 'localhost', 8080);
+      // enableIndexedDbPersistence(firestore);
+      return firestore;
+  }),
 
     // AngularFireModule.initializeApp(environment.firebase),
     // AngularFireAnalyticsModule,
@@ -98,10 +112,10 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
     { provide: LAZY_WIDGETS, useFactory: lazyArrayToObj },
     // { provide: PERSISTENCE, useValue: 'session' },
 
-    { provide: USE_AUTH_EMULATOR, useValue: environment.useEmulators ? ['localhost', 9099] : undefined },
-    // { provide: USE_DATABASE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 9000] : undefined },
-    { provide: USE_FIRESTORE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 7099] : undefined },
-    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 6099] : undefined },
+    { provide: USE_AUTH_EMULATOR, useValue: environment.useEmulators ? ['http://localhost:9099'] : undefined },
+    // { provide: USE_DATABASE_EMULATOR, useValue: environment.useEmulators ? ['localhost', '9000'] : undefined },
+    { provide: USE_FIRESTORE_EMULATOR, useValue: environment.useEmulators ? ['localhost', '7099'] : undefined },
+    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', '6099'] : undefined },
 
     { provide: MockerService, useClass: environment.production ? NoOpMockerService : MockerService },
 

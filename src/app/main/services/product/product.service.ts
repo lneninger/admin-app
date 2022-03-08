@@ -27,7 +27,7 @@ export class ProductService extends NgxsBaseDataRepository<ProductStateModel>{
   }
 
   async search(input: DataRetrieverInput) {
-    const collection= this.firebaseService.firestoreNew.collection<IProductItem>('app-products');
+    const collection= this.firebaseService.firestore.collection<IProductItem>('app-products');
     let ref = collection.ref;
     let queryObj = query<IProductItem>(ref);
     if (input.sort) {
@@ -75,19 +75,19 @@ export class ProductService extends NgxsBaseDataRepository<ProductStateModel>{
   // }
 
   list() {
-    return this.firebaseService.firestoreNew.collection<IProductItem>('app-products').snapshotChanges();
+    return this.firebaseService.firestore.collection<IProductItem>('app-products').snapshotChanges();
   }
 
   async get(id: string) {
-    return this.firebaseService.firestoreNew.collection<IProductItem>('app-products').doc(id).get().pipe(first()).toPromise();
+    return this.firebaseService.firestore.collection<IProductItem>('app-products').doc(id).get().pipe(first()).toPromise();
   }
 
   async add(request: AddProductRequest) {
-    return this.firebaseService.firestoreNew.collection('app-products').add(request);
+    return this.firebaseService.firestore.collection('app-products').add(request);
   }
 
   async delete(id: string) {
-    return this.firebaseService.firestoreNew.collection('app-products').doc(id).delete();
+    return this.firebaseService.firestore.collection('app-products').doc(id).delete();
   }
 
 

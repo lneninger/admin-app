@@ -1,4 +1,7 @@
 module.exports = {
+  content: [
+    "./src/**/*.{html,ts}",
+  ],
   future: {
     // removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,

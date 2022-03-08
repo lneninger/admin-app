@@ -24,7 +24,7 @@ export class MockerService {
    */
   async initialize() {
     //#region Auth
-    const dataMockerFn = this.service.fnsNew.httpsCallable('dataMocker');
+    const dataMockerFn = this.service.fns.httpsCallable('dataMocker');
     await dataMockerFn({}).toPromise();
   }
 }

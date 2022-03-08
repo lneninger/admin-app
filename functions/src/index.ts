@@ -1,13 +1,15 @@
 // import { environment } from '../../src/environments/environment';
 // run
 // firebase functions:config:get > .runtimeconfig.json
-import { initializeApp } from 'firebase/app';
-// import * as admin from 'firebase-admin';
+import * as firebase from 'firebase/app';
+import * as admin from 'firebase-admin';
 
-initializeApp({
+firebase.initializeApp({
   // name: 'firebase-adminsys-20210823',
   apiKey: 'AIzaSyBVX_mxqJJZO6gDvUJDER1jA8BL5xr6qcc',
 });
+
+admin.initializeApp();
 // admin.initializeApp();
 
 
