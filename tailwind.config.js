@@ -3,7 +3,6 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
 
-  mode: 'jit',
   theme: {
     extend: {},
     flex: {

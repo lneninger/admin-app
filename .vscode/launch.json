@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Chrome with ng serve",
+      "name": "[Admin]Launch Chrome",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:4200",
@@ -15,8 +15,15 @@
         "webpack:/*": "${workspaceRoot}/*"
       }
     },
+    {
+      "name": "[Admin]Firebase Functions Emulator",
+      "port": 5001,
+      "request": "attach",
+      "type": "node",
+      "webRoot": "${workspaceFolder}/functions"
+    },
   {
-    "name": "Attach to Chrome",
+    "name": "[Benelynk]Attach to Chrome",
     "port": 9222,
     "request": "attach",
     "type": "pwa-chrome",
@@ -25,7 +32,7 @@
     {
       "type": "pwa-chrome",
       "request": "attach",
-      "name": "Attach to Karma",
+      "name": "[Benelynk]Attach to Karma",
       "address": "localhost",
       "port": 9222,
       "timeout": 600000,
@@ -34,13 +41,6 @@
       "pathMapping": {
         "/_karma_webpack_": "${workspaceFolder}"
       }
-    },
-    {
-      "name": "Firebase Functions Emulator",
-      "port": 5001,
-      "request": "attach",
-      "type": "node",
-      "webRoot": "${workspaceFolder}/functions"
     }
   ]
 }
