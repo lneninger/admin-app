@@ -1,4 +1,5 @@
-import { Directive, ViewContainerRef, Input, OnDestroy, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
+
 import { LazyLoaderDirective } from './lazy-loader.directive';
 
 export { LazyLoaderDirective } from './lazy-loader.directive';

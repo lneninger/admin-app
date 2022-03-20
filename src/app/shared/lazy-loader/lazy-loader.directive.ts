@@ -1,4 +1,4 @@
-import { Directive, ViewContainerRef, Input, OnDestroy, InjectionToken, EventEmitter, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, OnDestroy, Output, ViewContainerRef } from '@angular/core';
 
 @Directive({
   selector: '[appLazy],[app-lazy]'
