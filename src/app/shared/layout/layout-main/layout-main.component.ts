@@ -77,6 +77,7 @@ export class LayoutMainComponent extends LazyLoaderBaseComponent implements OnIn
   }
 
   async ngAfterViewInit() {
+      super.ngAfterViewInit();
       this.elem = document.documentElement;
       this.initializeMenuListener();
       this.initializeOptionsListener();

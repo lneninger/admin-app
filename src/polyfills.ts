@@ -61,3 +61,6 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+//debugin error: https://stackoverflow.com/questions/50356408/upgrading-to-angular-6-x-gives-uncaught-referenceerror-global-is-not-defined
+ (window as any).global = window;

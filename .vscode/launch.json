@@ -6,14 +6,14 @@
   "configurations": [
     {
       "name": "[Admin]Launch Chrome",
-      "type": "chrome",
+      "type": "pwa-chrome",
       "request": "launch",
       "url": "http://localhost:4200",
-      "webRoot": "${workspaceRoot}",
-      "sourceMapPathOverrides": {
-        "webRoot": "${workspaceRoot}",
-        "webpack:/*": "${workspaceRoot}/*"
-      }
+      "webRoot": "${workspaceFolder}",
+      // "sourceMapPathOverrides": {
+      //   "webRoot": "${workspaceRoot}",
+      //   "webpack:/*": "${workspaceRoot}/*"
+      // }
     },
     {
       "name": "[Admin]Firebase Functions Emulator",
