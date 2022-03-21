@@ -3,20 +3,24 @@
 
   <ng-container *ngIf="this.mode === 'Auto'; else manual">
 
-    <button ngxPlaidLink [env]="this.plaidEnvironment" [publicKey]="this.plaidPublicKey" institution=""
-    [countryCodes]="['US', 'CA', 'GB']" (Success)="onPlaidSuccess($event)" (Exit)="onPlaidExit($event)"
-    (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">Link Your Bank
-    Account</button>
+      <button mat-mini-fab color="warn" aria-label="Link Your Bank Account" ngxPlaidLink [env]="this.plaidEnvironment" [publicKey]="this.plaidPublicKey" institution=""
+        [countryCodes]="['US', 'CA', 'GB']" (Success)="onPlaidSuccess($event)" (Exit)="onPlaidExit($event)"
+        (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">
+        <mat-icon>account_balance</mat-icon>
+      </button>
 
     <section *ngIf="this.accounts?.length > 0" fxLayout="column" fxFlexAlign="stretch" fxLayoutGap="20px">
       <!-- {{this.selectedAccount | json}} -->
 
-      <ng-container *ngFor="let account of this.accountData.metadata.accounts">
-        <mat-card (click)="this.selectedAccount = account">
-          {{account.name}}
-        </mat-card>
+      <mat-list>
+        <ng-container *ngFor="let account of this.accountData.metadata.accounts">
+          <mat-list-item>
+            <mat-icon mat-list-icon>account_balance</mat-icon>
+            <div mat-line>{{account.name}}</div>
+          </mat-list-item>
+        </ng-container>
+      </mat-list>
 
-      </ng-container>
     </section>
 
     <dl *ngIf="!this.environment.production && !this.accountData" fxFlex fxLayout="row wrap">
@@ -32,48 +36,47 @@
 
   </ng-container>
 
-<ng-template #manual>
-<form [formGroup]="form" fxFlex>
-  <mat-form-field appearance="fill">
-    <mat-label>Institution</mat-label>
-    <input type="text" matInput formControlName="institution" [errorStateMatcher]="matcher"
-           placeholder="Chase, Bank of America">
-    <mat-hint>Errors appear instantly!</mat-hint>
-    <mat-error *ngIf="this.institutionFormControl.hasError('required')">
-      Please enter a valid institution
-    </mat-error>
-  </mat-form-field>
+  <ng-template #manual>
+    <form [formGroup]="form" fxFlex>
+      <mat-form-field appearance="fill">
+        <mat-label>Institution</mat-label>
+        <input type="text" matInput formControlName="institution" [errorStateMatcher]="matcher"
+          placeholder="Chase, Bank of America">
+        <mat-hint>Errors appear instantly!</mat-hint>
+        <mat-error *ngIf="this.institutionFormControl.hasError('required')">
+          Please enter a valid institution
+        </mat-error>
+      </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Holder name</mat-label>
-    <input type="text" matInput formControlName="holderName" [errorStateMatcher]="matcher"
-           placeholder="John Smith">
-    <mat-hint>Errors appear instantly!</mat-hint>
-    <mat-error *ngIf="this.holderNameFormControl.hasError('required')">
-      Please enter a valid account holder name
-    </mat-error>
-  </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Holder name</mat-label>
+        <input type="text" matInput formControlName="holderName" [errorStateMatcher]="matcher" placeholder="John Smith">
+        <mat-hint>Errors appear instantly!</mat-hint>
+        <mat-error *ngIf="this.holderNameFormControl.hasError('required')">
+          Please enter a valid account holder name
+        </mat-error>
+      </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Routing number</mat-label>
-    <input type="text" matInput formControlName="routingNumber" [errorStateMatcher]="matcher">
-    <mat-hint>Errors appear instantly!</mat-hint>
-    <mat-error *ngIf="this.routingNumberFormControl.hasError('required')">
-      Please enter a valid routing number
-    </mat-error>
-  </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Routing number</mat-label>
+        <input type="text" matInput formControlName="routingNumber" [errorStateMatcher]="matcher">
+        <mat-hint>Errors appear instantly!</mat-hint>
+        <mat-error *ngIf="this.routingNumberFormControl.hasError('required')">
+          Please enter a valid routing number
+        </mat-error>
+      </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Account number</mat-label>
-    <input type="text" matInput formControlName="accountNumber" [errorStateMatcher]="matcher">
-    <mat-hint>Errors appear instantly!</mat-hint>
-    <mat-error *ngIf="this.accountNumberFormControl.hasError('required')">
-      Please enter a valid account number
-    </mat-error>
-  </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Account number</mat-label>
+        <input type="text" matInput formControlName="accountNumber" [errorStateMatcher]="matcher">
+        <mat-hint>Errors appear instantly!</mat-hint>
+        <mat-error *ngIf="this.accountNumberFormControl.hasError('required')">
+          Please enter a valid account number
+        </mat-error>
+      </mat-form-field>
 
 
-</form>
-</ng-template>
+    </form>
+  </ng-template>
 
 </section>

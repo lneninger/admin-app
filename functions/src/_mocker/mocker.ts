@@ -45,14 +45,12 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
 
       //#region Modules
       const userModuleCollection = firestore.collection('app-users-secured-modules');
-      let moduleCollection: admin.firestore.CollectionReference<admin.firestore.DocumentData>;
       let add: boolean;
-      moduleCollection = firestore.collection('app-secured-modules');
+      const moduleCollection = firestore.collection('app-secured-modules');
       try {
-        add = !!moduleCollection.doc('AXIE-INFINITY');
+        add = ! (await moduleCollection.doc('AXIE-INFINITY').get()).data();
       } catch {
         add = true;
-        moduleCollection = firestore.collection('app-secured-modules');
       }
       if (add) {
         await moduleCollection.doc('AXIE-INFINITY').set({

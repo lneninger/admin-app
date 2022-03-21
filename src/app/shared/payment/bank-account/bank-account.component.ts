@@ -1,12 +1,16 @@
-import { FormControl, FormGroup, FormGroupDirective, NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { environment } from 'src/environments/environment';
 
 import { IPlaidBankAccount, IPlaidStripeRequestModel, PlaidEvent, PlaidSuccess } from '../+models/plaid';
-import { IPaymentMethodBankAccountFormModel, IPaymentMethodPlaidTokenModel, IPaymentMethodRequestModel } from '../+services/payment.state.models';
-import { ErrorStateMatcher, MatNativeDateModule } from '@angular/material/core';
+import {
+  IPaymentMethodBankAccountFormModel,
+  IPaymentMethodPlaidTokenModel,
+  IPaymentMethodRequestModel,
+} from '../+services/payment.state.models';
 
 
 //#region Manual
