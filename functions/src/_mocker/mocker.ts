@@ -45,18 +45,28 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
 
       //#region Modules
       const userModuleCollection = firestore.collection('app-users-secured-modules');
-      const moduleCollection = firestore.collection('app-secured-modules');
-      const axieInfinitySecured = await moduleCollection.add({
-        name: 'AXIE-INFINITY',
-        displayName: 'Axie Infinity',
-        path: 'axie-infinity',
-        icon: 'pets',
-      } as ISecuredModule);
+      let moduleCollection: admin.firestore.CollectionReference<admin.firestore.DocumentData>;
+      let add: boolean;
+      moduleCollection = firestore.collection('app-secured-modules');
+      try {
+        add = !!moduleCollection.doc('AXIE-INFINITY');
+      } catch {
+        add = true;
+        moduleCollection = firestore.collection('app-secured-modules');
+      }
+      if (add) {
+        await moduleCollection.doc('AXIE-INFINITY').set({
+          name: 'AXIE-INFINITY',
+          displayName: 'Axie Infinity',
+          path: 'axie-infinity',
+          icon: 'pets',
+        } as ISecuredModule);
 
-      await userModuleCollection.add({
-        userId,
-        moduleId: axieInfinitySecured.id,
-      } as IUserSecuredModule);
+        await userModuleCollection.add({
+          userId,
+          moduleId: 'AXIE-INFINITY'//axieInfinitySecured.id,
+        } as IUserSecuredModule);
+      }
 
       //#endregion
       res.status(202).end();
