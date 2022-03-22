@@ -7,10 +7,10 @@
 </app-page>
 
 <ng-template #componentView>
-  {{displayMode}}
-    {{this.paymentMethods | json}}
+  <!-- {{displayMode}}
+    {{this.paymentMethods | json}} -->
     <ng-container *ngIf="this.displayMode == 'Component'">
-    {{this.paymentMethods | json}}
+    <!-- {{this.paymentMethods | json}} -->
     <ng-container [ngTemplateOutlet]="content"></ng-container>
   </ng-container>
 </ng-template>
@@ -21,7 +21,19 @@
     <ng-container *ngFor="let item of this.paymentMethods">
       <mat-card>
         <mat-card-title>{{item.bank_name}}</mat-card-title>
-        <mat-card-footer></mat-card-footer>
+        <mat-card-actions>
+          <button mat-button>
+        <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-button>
+        <mat-icon>delete</mat-icon>
+
+          </button>
+          <button mat-button>
+            <mat-icon>star</mat-icon>
+
+              </button>
+        </mat-card-actions>
       </mat-card>
     </ng-container>
   </section>
