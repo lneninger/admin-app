@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatSelectionListChange } from '@angular/material/list';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { environment } from 'src/environments/environment';
@@ -73,7 +74,7 @@ export class BankAccountComponent implements OnInit {
   //#region Auto
   onPlaidSuccess($event: PlaidSuccess) {
     this.accountData = $event;
-    if (this.accountData.metadata.account.id) {
+    if (this.accountData.metadata.account) {
       this.selectedAccount = this.accountData.metadata.account;
     }
   }
@@ -106,6 +107,10 @@ export class BankAccountComponent implements OnInit {
   }
   //#endregion
 
+  selectAccount($event: MatSelectionListChange){
+    const account = $event.options.find(opt => opt.selected)?.value as IPlaidBankAccount;
+    this.selectedAccount = account;
+  }
 
 
   async attachSource(attackToMe: boolean) {
@@ -118,11 +123,11 @@ export class BankAccountComponent implements OnInit {
     await this.paymentService.createBankAccountToken(req);
   }
 
-  async createBankAccount(attackToMe: boolean) {
+  async createBankAccount(attachToMe: boolean) {
     if (this.mode === 'Manual') {
-      this.createBankAccountManualToken(attackToMe);
+      this.createBankAccountManualToken(attachToMe);
     } else if (this.mode === 'Auto') {
-      this.createBankAccountPlaidToken(attackToMe);
+      this.createBankAccountPlaidToken(attachToMe);
 
     }
   }
@@ -134,7 +139,7 @@ export class BankAccountComponent implements OnInit {
       uid: attackToMe ? this.authService.credentials.user.uid : undefined
     };
 
-    await this.paymentService.createPaymentMethod(req);
+    await this.paymentService.attachBankAccount(req);
   }
 
   private async createBankAccountPlaidToken(attackToMe: boolean) {
@@ -147,6 +152,6 @@ export class BankAccountComponent implements OnInit {
       uid: attackToMe ? this.authService.credentials.user.uid : undefined
     };
 
-    await this.paymentService.createPaymentMethod(req);
+    await this.paymentService.attachBankAccount(req);
   }
 }

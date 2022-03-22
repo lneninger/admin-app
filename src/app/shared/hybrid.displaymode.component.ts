@@ -1,10 +1,9 @@
-import { Component, Input, OnDestroy, AfterViewInit, HostBinding } from '@angular/core';
+import { AfterViewInit, Directive, HostBinding, Input, OnDestroy } from '@angular/core';
+
 import { BaseComponent } from './base.component';
 import { ComponentDisplayMode } from './general.models';
 
-@Component({
-  template: ''
-})
+@Directive()
 export abstract class HybridDisplayModeComponent extends BaseComponent implements AfterViewInit, OnDestroy {
 
   @Input() displayMode: ComponentDisplayMode = ComponentDisplayMode.Component;

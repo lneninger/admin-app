@@ -12,15 +12,15 @@
     <section *ngIf="this.accounts?.length > 0" fxLayout="column" fxFlexAlign="stretch" fxLayoutGap="20px">
       <!-- {{this.selectedAccount | json}} -->
 
-      <mat-list>
-        <ng-container *ngFor="let account of this.accountData.metadata.accounts">
+      <mat-selection-list #accountComp #shoes checkboxPosition="before" [multiple]="false" (selectionChange)="this.selectAccount($event)">
+        <mat-list-option *ngFor="let account of this.accountData.metadata.accounts" [value]="account">
           <mat-list-item>
             <mat-icon mat-list-icon>account_balance</mat-icon>
             <div mat-line>{{account.name}}</div>
+            <div mat-line>{{account.subtype}}</div>
           </mat-list-item>
-        </ng-container>
-      </mat-list>
-
+        </mat-list-option>
+      </mat-selection-list>
     </section>
 
     <dl *ngIf="!this.environment.production && !this.accountData" fxFlex fxLayout="row wrap">

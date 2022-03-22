@@ -7,6 +7,7 @@ import { IUserClaims } from 'functions/src/user/user.models';
 import produce from 'immer';
 import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
+import { UtilitiesService } from 'src/app/shared/utilities.service';
 
 import { AuthStateModel, User, UserLogin } from './auth.models';
 
@@ -99,12 +100,15 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   async setUserCredential(@Payload('userCredential') userCredential: UserCredential) {
 
     const tokenResult = await userCredential.user.getIdTokenResult();
-    const claims = tokenResult.claims as unknown as IUserClaims;
+    const claims = UtilitiesService.cloneHard(tokenResult.claims) as unknown as IUserClaims;
 
     this.ctx.setState(produce(this.ctx.getState(), (draft: AuthStateModel) => {
       draft.userCredential = userCredential;
+      draft.user = userCredential.user;
       draft.claims = claims;
     }));
+
+    return claims;
   }
 
 }

@@ -2,11 +2,15 @@
 
   <ng-container [ngTemplateOutlet]="content"></ng-container>
 
+  example
 
 </app-page>
 
 <ng-template #componentView>
-  <ng-container *ngIf="this.displayMode == 'Component'">
+  {{displayMode}}
+    {{this.paymentMethods | json}}
+    <ng-container *ngIf="this.displayMode == 'Component'">
+    {{this.paymentMethods | json}}
     <ng-container [ngTemplateOutlet]="content"></ng-container>
   </ng-container>
 </ng-template>
@@ -14,9 +18,9 @@
 
 <ng-template #content>
   <section fxFlex="100%" fxLayout="row wrap">
-    <ng-container *ngFor="let item of paymentMethods$ | async">
+    <ng-container *ngFor="let item of this.paymentMethods">
       <mat-card>
-        <mat-card-title>Payment Method</mat-card-title>
+        <mat-card-title>{{item.bank_name}}</mat-card-title>
         <mat-card-footer></mat-card-footer>
       </mat-card>
     </ng-container>
