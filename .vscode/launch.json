@@ -14,13 +14,15 @@
       //   "webRoot": "${workspaceRoot}",
       //   "webpack:/*": "${workspaceRoot}/*"
       // }
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**/*.js"]
     },
     {
       "name": "[Admin]Firebase Functions Emulator",
       "port": 5001,
       "request": "attach",
       "type": "node",
-      "webRoot": "${workspaceFolder}/functions"
+      "webRoot": "${workspaceFolder}/functions",
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**/*.js"]
     },
   {
     "name": "[Benelynk]Attach to Chrome",

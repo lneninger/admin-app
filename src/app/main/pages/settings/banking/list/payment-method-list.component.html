@@ -9,7 +9,7 @@
 <ng-template #componentView>
   <!-- {{displayMode}}
     {{this.paymentMethods | json}} -->
-    <ng-container *ngIf="this.displayMode == 'Component'">
+  <ng-container *ngIf="this.displayMode == 'Component'">
     <!-- {{this.paymentMethods | json}} -->
     <ng-container [ngTemplateOutlet]="content"></ng-container>
   </ng-container>
@@ -20,21 +20,48 @@
   <section fxFlex="100%" fxLayout="row wrap">
     <ng-container *ngFor="let item of this.paymentMethods">
       <mat-card>
-        <mat-card-title>{{item.bank_name}}</mat-card-title>
+        <mat-card-header class="flex">
+          <ng-container *ngTemplateOutlet="sourceIcon; context:{$implicit: item}">
+          </ng-container>
+
+
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card-title class="flex order-2">{{item.bank_name}}</mat-card-title>
+          <mat-card-subtitle>
+            <ng-container *ngTemplateOutlet="sourceSubtitle; context:{$implicit: item}">
+            </ng-container>
+          </mat-card-subtitle>
+
+        </mat-card-header>
+
         <mat-card-actions>
           <button mat-button>
-        <mat-icon>edit</mat-icon>
+            <mat-icon>edit</mat-icon>
           </button>
           <button mat-button>
-        <mat-icon>delete</mat-icon>
+            <mat-icon>delete</mat-icon>
 
           </button>
           <button mat-button>
             <mat-icon>star</mat-icon>
 
-              </button>
+          </button>
         </mat-card-actions>
       </mat-card>
     </ng-container>
   </section>
+</ng-template>
+
+
+<ng-template #sourceSubtitle let-item>
+  <ng-container [ngSwitch]="item.object">
+    <ng-template [ngSwitchCase]="'bank_account'">xxxxxx{{item.last4}}</ng-template>
+  </ng-container>
+</ng-template>
+
+<ng-template #sourceIcon let-item>
+  <ng-container [ngSwitch]="item.object">
+    <mat-icon *ngSwitchCase="'bank_account'" mat-card-avatar class="flex order-1 header-icon">account_balance</mat-icon>
+    <mat-icon *ngSwitchCase="'credit_card'" mat-card-avatar class="flex order-1 header-icon">credit_card</mat-icon>
+  </ng-container>
 </ng-template>

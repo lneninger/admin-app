@@ -1,6 +1,6 @@
 import { ICreateSourceRequestModel, IPaymentSource } from './../../../../../shared/payment/+models/source-create';
 import { BankAccountComponent } from './../../../../../shared/payment/bank-account/bank-account.component';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.co
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { AuthService } from 'src/app/main/services/user/auth.service';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @AutoUnsubscribe()
 @Component({
@@ -22,8 +23,8 @@ import { AuthService } from 'src/app/main/services/user/auth.service';
 })
 export class PaymentMethodNewComponent extends HybridDisplayModeComponent implements OnInit {
 
-  @ViewChild(StripeCardComponent) card: StripeCardComponent;
-  @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
+  @ViewChild(StripeCardComponent) cardComponent: StripeCardComponent;
+  // @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
 
   @ViewChild(BankAccountComponent, { static: false }) bankAccountComponent: BankAccountComponent;
 
@@ -90,10 +91,27 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
 
   createForm() {
     return this.fmBuilder.group({
-      name: [[Validators.required]],
+      name: ['', [Validators.required]],
       description: [],
       activateDate: [new Date(), [Validators.required]]
     });
+  }
+
+  tabSelected($event: MatTabChangeEvent) {
+    switch ($event.tab.textLabel) {
+      case 'Credit card':
+        // clear bank account selection
+        if (this.bankAccountComponent) {
+          this.bankAccountComponent.selectAccount = null;
+        }
+        break;
+      case '':
+        // clear bank account selection
+        if (this.cardComponent) {
+          this.stripeTest.reset();
+        }
+        break;
+    }
   }
 
 
@@ -103,17 +121,18 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
 
 
   async save() {
-    if (this.bankAccountComponent) {
+    if (this.bankAccountComponent.selectedAccount) {
       await this.bankAccountComponent.createBankAccount(true);
     } else {
-      this.stripeService.createToken(this.card.element)
+      // this.stripeService.createToken(this.cardComponent.element)
+      this.createToken();
     }
   }
 
   createToken(): void {
     const name = this.stripeTest.get('name').value;
     this.stripeService
-      .createToken(this.card.element, { name })
+      .createToken(this.cardComponent.element, { name })
       .subscribe(async (result) => {
         if (result.token) {
           // Use the token
@@ -134,12 +153,13 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
 }
 
 
+@AutoUnsubscribe()
 @Component({
   selector: 'app-banking-paymentmethod-dialog',
   templateUrl: './payment-method-new.component.html',
   styleUrls: ['./payment-method-new.component.scss']
 })
-export class BankingPaymentMethodDialog extends PaymentMethodNewComponent {
+export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implements OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: { displayMode: ComponentDisplayMode },
     breadcrumbService: BreadcrumbService,
@@ -168,6 +188,10 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent {
   }
 
   ngAfterViewInit() {
+  }
+
+  async ngOnDestroy() {
+    await this.router.navigate([{ outlets: { action: null } }]);
   }
 
 }

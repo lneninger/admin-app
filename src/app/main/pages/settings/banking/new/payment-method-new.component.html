@@ -20,7 +20,7 @@
 
     <mat-dialog-actions align="end">
       <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
-      <button mat-button [mat-dialog-close]="true" (click)="this.save()" [disabled]="!this.bankAccountComponent?.selectedAccount">Ok</button>
+      <button mat-button [mat-dialog-close]="true" (click)="this.save()" [disabled]="!this.cardComponent?.ready && !this.bankAccountComponent?.selectedAccount">Ok</button>
     </mat-dialog-actions>
   </ng-template>
 </ng-container>
@@ -30,7 +30,7 @@
 <ng-template #htmlContent>
   <section fxFlex fxFlexFill>
 
-    <mat-tab-group class="custom-tab-group fill" fxFlexFill fxFlex fxLayout="column" fxLayoutAlign="stretch stretch">
+    <mat-tab-group (selectedTabChange)="this.tabSelected($event)" class="custom-tab-group fill" fxFlexFill fxFlex fxLayout="column" fxLayoutAlign="stretch stretch">
       <mat-tab label="Credit card">
         <section fxFlex fxFlexFill>
           <form class="checkout" novalidate (ngSubmit)="createToken()" [formGroup]="stripeTest">
