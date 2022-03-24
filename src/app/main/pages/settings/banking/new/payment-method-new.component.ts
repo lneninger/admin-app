@@ -1,3 +1,4 @@
+import { firstValueFrom } from 'rxjs';
 import { ICreateSourceRequestModel, IPaymentSource } from './../../../../../shared/payment/+models/source-create';
 import { BankAccountComponent } from './../../../../../shared/payment/bank-account/bank-account.component';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
@@ -116,7 +117,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
     }
   }
 
-  refresh(){
+  refresh() {
     this.bankAccountComponent.refresh();
 
   }
@@ -132,34 +133,51 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
       await this.bankAccountComponent.createBankAccount(true);
     } else {
       // this.stripeService.createToken(this.cardComponent.element)
-      this.createToken();
+      await this.createToken();
     }
   }
 
-  createToken(): void {
+  async createToken(): Promise<void> {
     const name = this.stripeTest.get('name').value;
-    this.stripeService
-      // .createSource(this.cardComponent.element, {customer: this.userService.paymentId})
-      .createToken(this.cardComponent.element, { name })
-      .subscribe(async (result) => {
-        if (result.token) {
-          // Use the token
-          const req: ICreateSourceRequestModel = {
-            uid: this.authService.credentials.user.uid,
-            type: 'card',
-            source: {token: result.token.id} as IPaymentSource
-          }
+    const result = await firstValueFrom(this.stripeService.createPaymentMethod({
+      type: 'card',
+      card: this.cardComponent.element,
+      billing_details: {
+        name
+      }
+    }));
 
-          await this.paymentService.createSource(req);
 
-          console.log(result.token.id);
-        }
-        else
-        if (result.error) {
-          // Error creating the token
-          console.log(result.error.message);
-        }
-      });
+    const req = {
+      uid: this.authService.credentials.user.uid,
+      paymentMethodId: result.paymentMethod.id
+    };
+    await this.paymentService.paymentMethodAttach(req);
+
+    console.log(`card added`, result);
+
+    //   this.stripeService
+    //     // .createSource(this.cardComponent.element, {customer: this.userService.paymentId})
+    //     .createToken(this.cardComponent.element, { name })
+    //     .subscribe(async (result) => {
+    //       if (result.token) {
+    //         // Use the token
+    //         const req: ICreateSourceRequestModel = {
+    //           uid: this.authService.credentials.user.uid,
+    //           type: 'card',
+    //           source: {token: result.token.id} as IPaymentSource
+    //         }
+
+    //         await this.paymentService.createSource(req);
+
+    //         console.log(result.token.id);
+    //       }
+    //       else
+    //       if (result.error) {
+    //         // Error creating the token
+    //         console.log(result.error.message);
+    //       }
+    //     });
   }
 }
 

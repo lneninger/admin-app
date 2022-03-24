@@ -15,7 +15,7 @@ import {
   IPlaidStripeRequestModel as ICreateBankAccountRequestModel,
   IPlaidStripeResponseModel as ICreateBankAccountResponseModel,
 } from '../+models/plaid';
-import { ICreateSourceRequestModel, IGetPaymentMethodsRequestModel, IGetPaymentMethodsResponseItemModel, IGetPaymentMethodsResponseModel } from '../+models/source-create';
+import { ICreateSourceRequestModel, IGetPaymentMethodsRequestModel, IGetPaymentMethodsResponseItemModel, IGetPaymentMethodsResponseModel, IPaymentMethodAttachRequestModel, IPaymentMethodAttachResponseModel } from '../+models/source-create';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { IPaymentMethodRequestModel, IPaymentMethodResponseModel, IPaymentStateModel } from './payment.state.models';
 
@@ -107,5 +107,12 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
     const result = await paymentMethodsFn(req).toPromise();
     return result ;
   }
+
+  async paymentMethodAttach(req: IPaymentMethodAttachRequestModel) {
+    const paymentMethodAttachFn = this.firebase.fns.httpsCallable<IPaymentMethodAttachRequestModel, IPaymentMethodAttachResponseModel[]>('paymentMethodAttach');
+    const result = await paymentMethodAttachFn(req).toPromise();
+    return result ;
+  }
+
 
 }

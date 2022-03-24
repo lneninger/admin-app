@@ -100,3 +100,18 @@ export type IStripeSource = ICardPaymentSource;
 export interface ICardPaymentSource {
   token: string;
 }
+
+
+
+/************************************************************************** */
+//Payment method
+export interface IPaymentMethodAttachRequestModel {
+  uid: string;
+  paymentMethodId: string;
+}
+
+export interface IPaymentMethodAttachResponseModel {
+  error: any;
+}
+
+

@@ -39,3 +39,15 @@ export interface IGetPaymentMethodsResponseItemModel{
   routing_number: string;
   status: string;
 }
+
+
+/************************************************************************** */
+//Payment method
+export interface IPaymentMethodAttachRequestModel {
+  uid: string;
+  paymentMethodId: string;
+}
+
+export interface IPaymentMethodAttachResponseModel {
+  error: any;
+}

@@ -1,3 +1,4 @@
+import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
 import { SecuredModuleGuardService } from './../shared/secured-modules/secured-module-guard.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -5,6 +6,8 @@ import { ISecuredModuleReferece } from '../shared/secured-modules/secured-module
 
 import { MainComponent } from './main.component';
 import { MainResolveService } from './main.resolve.service';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
 const routes: Routes = [
   {
@@ -16,8 +19,9 @@ const routes: Routes = [
     path: 'ws',
     component: MainComponent,
     resolve: [MainResolveService],
-    canActivate: [],
+    canActivate: [AngularFireAuthGuard],
     canActivateChild: [],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
     children: [
       {
         path: '',

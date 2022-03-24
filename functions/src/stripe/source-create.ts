@@ -44,7 +44,8 @@ async function processAttachCard(req: functions.https.Request, res: functions.Re
   const params: Stripe.SourceCreateParams = {
     customer: userData?.paymentId,
     type: 'card',
-    token: cardData.token
+    token: cardData.token,
+    usage: 'reusable'
   };
 
   // create stripe bank account token
