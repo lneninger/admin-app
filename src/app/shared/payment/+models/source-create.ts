@@ -1,6 +1,7 @@
 
 export interface ICreateSourceRequestModel {
-  userId: string;
+  uid: string;
+  type: 'card' | 'bank_account';
   source: IStripeSource;
 }
 

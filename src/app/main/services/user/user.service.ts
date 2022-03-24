@@ -1,8 +1,9 @@
+import { AuthService } from 'src/app/main/services/user/auth.service';
 import { DataAction, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Selector, State, Store } from '@ngxs/store';
+import { Selector, SelectorOptions, State, Store } from '@ngxs/store';
 import { IAttachRole, ISetCurrentRole } from 'functions/src/user/user.models';
 import produce from 'immer';
 import { first } from 'rxjs/operators';
@@ -10,7 +11,7 @@ import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 
 import { AppStateModel } from './../../../app.state';
-import { IUserMetadata, UserModel } from './auth.models';
+import { AuthStateModel, IUserMetadata, UserModel } from './auth.models';
 import { IUserPaymentMetadata, UserStateModel } from './user.models';
 
 
@@ -28,6 +29,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
   static userRoles(state: UserStateModel) {
     return state.roles;
   }
+
 
   @Selector()
   static currentRole(state: UserStateModel) {
@@ -54,6 +56,10 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
 
   get paymentMetadata$() {
     return this.store.select<IUserPaymentMetadata>(UserService.paymentMetadata);
+  }
+
+  get paymentId(){
+    return this.store.selectSnapshot<string>((state: AppStateModel) => state.authState.claims?.paymentId);
   }
 
   constructor(

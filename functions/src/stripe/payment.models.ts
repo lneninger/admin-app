@@ -85,3 +85,18 @@ export interface IPaymentMethodBankAccountFormModel {
   acountNumber: string;
 
 }
+
+
+/************************************************************************** */
+//Source
+export interface ICreateSourceRequestModel {
+  uid: string;
+  type: 'card' | 'bank_account';
+  source: IStripeSource;
+}
+
+export type IStripeSource = ICardPaymentSource;
+
+export interface ICardPaymentSource {
+  token: string;
+}

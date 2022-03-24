@@ -14,6 +14,7 @@ import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { UserService } from 'src/app/main/services/user/user.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -58,7 +59,8 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
     protected stripeService: StripeService,
     protected dialog: MatDialog,
     private paymentService: PaymentService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {
     super();
 
@@ -79,7 +81,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   private initialize() {
     if ([ComponentDisplayMode.Dialog, undefined].findIndex(dialogMode => dialogMode === this.displayMode) >= 0) {
       const dialogRef = this.dialog.open(BankingPaymentMethodDialog, {
-        width: '450px', height: '350px',
+        width: '550px', height: '450px',
         data: { displayMode: this.displayMode },
       });
 
@@ -114,6 +116,11 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
     }
   }
 
+  refresh(){
+    this.bankAccountComponent.refresh();
+
+  }
+
 
   async onSubmit(event: Event) {
     this.createToken();
@@ -132,19 +139,23 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   createToken(): void {
     const name = this.stripeTest.get('name').value;
     this.stripeService
+      // .createSource(this.cardComponent.element, {customer: this.userService.paymentId})
       .createToken(this.cardComponent.element, { name })
       .subscribe(async (result) => {
         if (result.token) {
           // Use the token
           const req: ICreateSourceRequestModel = {
-            userId: this.authService.credentials.user.uid,
-            source: {} as IPaymentSource
+            uid: this.authService.credentials.user.uid,
+            type: 'card',
+            source: {token: result.token.id} as IPaymentSource
           }
 
           await this.paymentService.createSource(req);
 
           console.log(result.token.id);
-        } else if (result.error) {
+        }
+        else
+        if (result.error) {
           // Error creating the token
           console.log(result.error.message);
         }
@@ -170,7 +181,8 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implem
     stripeService: StripeService,
     dialog: MatDialog,
     paymentService: PaymentService,
-    authService: AuthService
+    authService: AuthService,
+    userService: UserService
   ) {
     super(
       breadcrumbService,
@@ -181,7 +193,8 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implem
       stripeService,
       dialog,
       paymentService,
-      authService);
+      authService,
+      userService);
     this.displayMode = data.displayMode;
     this.isDialog = true;
 
@@ -191,7 +204,7 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implem
   }
 
   async ngOnDestroy() {
-    await this.router.navigate([{ outlets: { action: null } }]);
+    await this.router.navigate(['', { outlets: { action: null } }]);
   }
 
 }

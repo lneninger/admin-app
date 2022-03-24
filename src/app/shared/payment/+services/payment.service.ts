@@ -98,7 +98,7 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
   }
 
   async createSource(req: ICreateSourceRequestModel): Promise<ICreateSourceResponseModel>{
-    const createSourceFn = this.firebase.fns.httpsCallable<ICreateSourceRequestModel, ICreateSourceResponseModel>('createSource');
+    const createSourceFn = this.firebase.fns.httpsCallable<ICreateSourceRequestModel, ICreateSourceResponseModel>('sourceCreate');
     return firstValueFrom(createSourceFn(req));
   }
 

@@ -2,6 +2,7 @@ import { UserCredential } from 'firebase/auth';
 
 export interface IUserClaims{
   roles: string[];
+  paymentId?: string;
 }
 
 export interface ICurrentRole{

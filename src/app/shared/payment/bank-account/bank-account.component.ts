@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSelectionListChange } from '@angular/material/list';
@@ -26,7 +26,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-bank-account',
   templateUrl: './bank-account.component.html',
-  styleUrls: ['./bank-account.component.scss']
+  styleUrls: ['./bank-account.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BankAccountComponent implements OnInit {
 
@@ -153,5 +154,10 @@ export class BankAccountComponent implements OnInit {
     };
 
     await this.paymentService.attachBankAccount(req);
+  }
+
+
+  refresh() {
+    this.selectedAccount = null;
   }
 }

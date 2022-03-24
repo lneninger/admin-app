@@ -1,18 +1,22 @@
-<section fxFlex fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+<section fxFlex fxLayout="column" fxLayoutAlign="center center">
 
 
   <ng-container *ngIf="this.mode === 'Auto'; else manual">
 
-      <button mat-mini-fab color="warn" aria-label="Link Your Bank Account" ngxPlaidLink [env]="this.plaidEnvironment" [publicKey]="this.plaidPublicKey" institution=""
-        [countryCodes]="['US', 'CA', 'GB']" (Success)="onPlaidSuccess($event)" (Exit)="onPlaidExit($event)"
-        (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">
+    <section fxFlexAlign="stretch end">
+      <button mat-mini-fab color="warn" aria-label="Link Your Bank Account" ngxPlaidLink [env]="this.plaidEnvironment"
+        [publicKey]="this.plaidPublicKey" institution="" [countryCodes]="['US', 'CA', 'GB']"
+        (Success)="onPlaidSuccess($event)" (Exit)="onPlaidExit($event)" (Load)="onPlaidLoad($event)"
+        (Event)="onPlaidEvent($event)" (Click)="onPlaidClick($event)">
         <mat-icon>account_balance</mat-icon>
       </button>
+    </section>
 
-    <section *ngIf="this.accounts?.length > 0" fxLayout="column" fxFlexAlign="stretch" fxLayoutGap="20px">
+
+    <section *ngIf="this.accounts?.length > 0" fxFlex fxFlexAlign="stretch">
       <!-- {{this.selectedAccount | json}} -->
 
-      <mat-selection-list #accountComp #shoes checkboxPosition="before" [multiple]="false" (selectionChange)="this.selectAccount($event)">
+      <mat-selection-list checkboxPosition="before" [multiple]="false" (selectionChange)="this.selectAccount($event)">
         <mat-list-option *ngFor="let account of this.accountData.metadata.accounts" [value]="account">
           <mat-list-item>
             <mat-icon mat-list-icon>account_balance</mat-icon>
