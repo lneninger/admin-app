@@ -1,3 +1,4 @@
+import { LazyLoadingStatus } from './lazy-loader.models';
 import { Directive, EventEmitter, Input, OnDestroy, Output, ViewContainerRef } from '@angular/core';
 
 @Directive({
@@ -22,13 +23,13 @@ export class LazyLoaderDirective implements OnDestroy {
   default: string;
 
   @Output('appLazyLoading')
-  loading = new EventEmitter<boolean>();
+  loading = new EventEmitter<LazyLoadingStatus>();
 
   constructor(public viewContainerRef: ViewContainerRef) {
 
   }
 
-  internalSetLoading(loading: boolean) {
+  internalSetLoading(loading: LazyLoadingStatus) {
     this.loading.next(loading);
   }
 

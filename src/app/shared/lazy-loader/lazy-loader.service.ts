@@ -1,5 +1,5 @@
 import { Compiler, Inject, Injectable, InjectFlags, InjectionToken, Injector, NgModuleFactory, Type, ViewContainerRef } from '@angular/core';
-import { LoadChildrenType } from './lazy-loader.models';
+import { LazyLoadingStatus, LoadChildrenType } from './lazy-loader.models';
 import { LazyLoaderDirective } from './lazy-loader.module';
 import { LAZY_WIDGETS } from './tokens';
 
@@ -49,7 +49,7 @@ export class LazyLoaderService {
     return await this.load(directive.appLazy, directive.viewContainerRef, directive.metadata, directive.default);
   }
 
-  async load(name: string, container: ViewContainerRef, data?: any, dataToken: any = LAZY_COMPONENT_METADATA, defaultName: string = null, loading?: (loading: boolean) => void) {
+  async load(name: string, container: ViewContainerRef, data?: any, dataToken: any = LAZY_COMPONENT_METADATA, defaultName: string = null, loading?: (loading: LazyLoadingStatus) => void) {
 
 
     if (container.length === 0) {
@@ -83,13 +83,13 @@ export class LazyLoaderService {
 
   }
 
-  private async downloadResource(name: string, defaultName: string, loading?: (loading: boolean) => void) {
+  private async downloadResource(name: string, defaultName: string, loading?: (loading: LazyLoadingStatus) => void) {
     let result: NgModuleFactory<any> | Type<any>;
     let loadTarget: LoadChildrenType;
     try {
       loadTarget = this.lazyWidgets[name];
       if (loadTarget != null) {
-        loading && loading(true);
+        loading && loading(LazyLoadingStatus.loading);
         result = await loadTarget();
       } else {
         throw { error: `${name} is not defined as loading path. Please review in lazyWidgets configuration` };
@@ -103,7 +103,7 @@ export class LazyLoaderService {
         throw ex;
       }
     } finally{
-      loading && loading(false);
+      loading && loading(LazyLoadingStatus.loaded);
     }
 
     return result;
