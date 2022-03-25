@@ -65,7 +65,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   ) {
     super();
 
-    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.QUOTES, NavigationItemIds.QUOTE_NEW);
+    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SETTINGS, NavigationItemIds.SETTINGS_BANKING);
     this.displayMode = ComponentDisplayMode.Dialog;
 
   }
