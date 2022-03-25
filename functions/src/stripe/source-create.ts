@@ -1,13 +1,11 @@
 import * as Cors from 'cors';
-import { response } from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid';
 import { Stripe } from 'stripe';
 
 import { IConfig } from '../functions.models';
 import { logHttp } from '../site/log-wrapper-function';
-import { ICardPaymentSource, ICreateSourceRequestModel, IPaymentMethodPlaidTokenModel, IPaymentMethodRequestModel } from './payment.models';
+import { ICardPaymentSource, ICreateSourceRequestModel } from './payment.models';
 
 const cors = Cors({ origin: true });
 const stripe = new Stripe(functions.config().stripe.secretkey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
@@ -26,6 +24,9 @@ export const sourceCreate = functions.https.onRequest((req: functions.https.Requ
           return await processAttachCard(req, res, data);
       }
 
+
+      res.status(204).send();
+      return null;
     });
 
   });

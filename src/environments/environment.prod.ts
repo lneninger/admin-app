@@ -7,8 +7,8 @@ export const environment = {
   mockedBaseUrl: 'http://localhost:3000/',
   apiUrlNoSlash: 'https://localhost:44350',
   apiUrl: 'https://localhost:44350/',
-  apiAccountUrl: 'https://localhost:44350/api/account/',
-  apiBaseUrl: 'https://localhost:44350/api/',
+  apiAccountUrl: 'https://us-central1-firebase-adminsys-20210823.cloudfunctions.net/account/',
+  apiBaseUrl: 'https://us-central1-firebase-adminsys-20210823.cloudfunctions.net/',
 
   uploadUrl: 'https://localhost:44350/api/upload/write',
 

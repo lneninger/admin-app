@@ -35,11 +35,11 @@ export const paymentMethodList = functions.https.onRequest((req: functions.https
         //   type: 'card'
         // };
 
-        const params: Stripe.CustomerSourceListParams = {
-          expand: [],
-          object: 'bank_account',
-          limit: 3
-        };
+        // const params: Stripe.CustomerSourceListParams = {
+        //   expand: [],
+        //   object: 'bank_account',
+        //   limit: 3
+        // };
 
         const options: Stripe.RequestOptions = {
         };

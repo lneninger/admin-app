@@ -1,1 +1,1 @@
-export * from './appConfiguration'
+export * from './appInitializer'

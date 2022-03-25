@@ -1,5 +1,4 @@
 import * as Cors from 'cors';
-import { response } from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid';
@@ -25,6 +24,9 @@ export const attachBankAccount = functions.https.onRequest((req: functions.https
         case 'BankAccountPlaidToken':
           return await processAttachBankAccount(req, res, data);
       }
+
+      res.status(204).send();
+      return null;
 
     });
 
@@ -98,7 +100,5 @@ async function processAttachBankAccount(req: functions.https.Request, res: funct
     throw error;
   }
 
-
-  return response;
 }
 

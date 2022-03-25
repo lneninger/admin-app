@@ -68,10 +68,6 @@ export interface IPaymentMethodRequestModel {
   uid: string;
 }
 
-// export interface IPaymentMethodResponseModel {
-
-// }
-
 
 export interface IPaymentMethodPlaidTokenModel {
   accountId: string,

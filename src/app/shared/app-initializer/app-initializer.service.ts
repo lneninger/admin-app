@@ -29,7 +29,7 @@ export class AppInitializerService {
 
 
     async getConfiguration(baseUrl: string) {
-        const url = `${baseUrl}appConfiguration`;
+        const url = `${baseUrl}appInitializer`;
         AppInitializerService.configuration = await this.http.get<IAppExternalConfiguration>(url).toPromise();
     }
 
