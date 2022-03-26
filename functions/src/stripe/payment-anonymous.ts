@@ -2,11 +2,12 @@ import * as Cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { Stripe } from 'stripe';
+import { accessDomains } from '../config/access-domains';
 
 import { logHttp } from '../site/log-wrapper-function';
 import { IPaymentInputModel } from './payment.models';
 
-const cors = Cors({ origin: true });
+const cors = Cors({ origin: accessDomains });
 
 const stripe = new Stripe(functions.config().stripe.token, { apiVersion: '2020-08-27' });
 const currency = functions.config().stripe.currency || 'USD';

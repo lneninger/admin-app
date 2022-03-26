@@ -1,11 +1,12 @@
 import * as Cors from 'cors';
 import * as functions from 'firebase-functions';
 import { Configuration, CountryCode, PlaidApi, PlaidEnvironments, Products } from 'plaid';
+import { accessDomains } from '../config/access-domains';
 import { IConfig } from '../functions.models';
 import { logHttp } from '../site/log-wrapper-function';
 import { IPlaidTokenInputModel } from './payment.models';
 
-const cors = Cors({ origin: true });
+const cors = Cors({ origin: accessDomains });
 
 
 export const plaidToken = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
