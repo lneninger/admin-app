@@ -1,9 +1,13 @@
-export interface IConfig{
+export interface IConfig {
+  environment: {
+    production: boolean;
+    referer: string | string[];
+  },
   gmail: {
     password: string;
     email: string;
   },
-  stripe:{
+  stripe: {
     apiversion: '2020-08-27',
     publickey: string;
     secretkey: string;
@@ -11,5 +15,7 @@ export interface IConfig{
   plaid: {
     clientid: string;
     secret: string;
+    publickey: string;
+    environment: string;
   }
 }

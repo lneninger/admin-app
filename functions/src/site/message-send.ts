@@ -6,9 +6,9 @@ export const onNewslettersSubscriptions = functions.firestore.document('/newslet
 
   console.log('Executing onNewslettersSubscriptions cloud function');
   console.log(functions.config());
-  const gmailEmail = encodeURIComponent(functions.config().gmail.email);
-  const gmailPassword = encodeURIComponent(functions.config().gmail.password);
-  const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+  const emailUser = encodeURIComponent(functions.config().email.user);
+  const emailPassword = encodeURIComponent(functions.config().email.password);
+  const mailTransport = nodemailer.createTransport(`smtps://${emailUser}:${emailPassword}@smtp.gmail.com`);
 
 
   const subscription = snapshot.data();

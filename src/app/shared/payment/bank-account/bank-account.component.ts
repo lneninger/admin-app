@@ -1,3 +1,4 @@
+import { AppInitializerService } from './../../app-initializer/app-initializer.service';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -63,8 +64,8 @@ export class BankAccountComponent implements OnInit {
     private fmBuilder: FormBuilder
   ) {
 
-    this.plaidEnvironment = environment.plaid.environment;
-    this.plaidPublicKey = environment.plaid.publicKey;
+    this.plaidEnvironment = AppInitializerService.configuration.plaid.environment;
+    this.plaidPublicKey = AppInitializerService.configuration.plaid.publicKey;
   }
 
   ngOnInit(): void {

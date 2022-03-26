@@ -4,6 +4,19 @@ export interface IAppExternalConfiguration {
   roles: IRole[];
   userRoles: string[];
   modules: ISecuredModule[];
+  stripe: IAppPlaidConfig;
+  plaid: IAppStripeConfig;
+}
+
+
+export interface IAppPlaidConfig {
+  publicKey: string;
+  apiVersion: string;
+}
+
+export interface IAppStripeConfig {
+  publicKey: string;
+  environment: string;
 }
 
 export interface ISecuredModule {
