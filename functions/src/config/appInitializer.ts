@@ -1,7 +1,8 @@
 import * as functions from 'firebase-functions';
 import * as Cors from 'cors';
+import { accessDomains } from './access-domains';
 
-const cors = Cors({ origin: ['https://fir-adminsys-20210823.firebaseapp.com'] });
+const cors = Cors({ origin: accessDomains });
 
 export const appInitializer = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 

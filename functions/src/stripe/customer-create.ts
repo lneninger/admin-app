@@ -6,8 +6,9 @@ import * as Cors from 'cors';
 import { ICustomerInputModel } from './payment.models';
 import { logHttp } from '../site/log-wrapper-function';
 import { DocumentMetadata } from 'plaid';
+import { accessDomains } from '../config/access-domains';
 
-const cors = Cors({ origin: true });
+const cors = Cors({ origin: accessDomains });
 
 const stripe = new Stripe(functions.config().stripe.secretkey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
 

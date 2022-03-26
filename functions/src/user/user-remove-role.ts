@@ -1,10 +1,11 @@
 import * as Cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { accessDomains } from '../config/access-domains';
 
 import { IUserRemoveRole } from './user.models';
 
-const cors = Cors({ origin: true });
+const cors = Cors({ origin: accessDomains });
 
 
 export const userRemoveRole = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {

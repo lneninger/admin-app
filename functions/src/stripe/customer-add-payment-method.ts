@@ -3,8 +3,9 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { Stripe } from 'stripe';
 import * as Cors from 'cors';
+import { accessDomains } from '../config/access-domains';
 
-const cors = Cors({ origin: true });
+const cors = Cors({ origin: accessDomains });
 
 const stripe = new Stripe(functions.config().stripe.token, { apiVersion: '2020-08-27' });
 

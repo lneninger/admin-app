@@ -5,8 +5,9 @@ import * as admin from 'firebase-admin';
 import * as Cors from 'cors';
 import { ISetCurrentRole, ICurrentRole } from './user.models';
 import { getAuth } from 'firebase/auth';
+import { accessDomains } from '../config/access-domains';
 
-const cors = Cors({ origin: true });
+const cors = Cors({ origin: accessDomains });
 
 
 export const setCurrentRole = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {

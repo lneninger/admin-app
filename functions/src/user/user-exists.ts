@@ -2,8 +2,9 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as Cors from 'cors';
 import { IUserExists } from './user.models';
+import { accessDomains } from '../config/access-domains';
 
-const cors = Cors({ origin: true });
+const cors = Cors({ origin: accessDomains });
 
 
 export const userExists = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
