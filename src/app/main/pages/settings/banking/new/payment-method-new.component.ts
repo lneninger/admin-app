@@ -84,7 +84,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   private initialize() {
     if ([ComponentDisplayMode.Dialog, undefined].findIndex(dialogMode => dialogMode === this.displayMode) >= 0) {
       const dialogRef = this.dialog.open(BankingPaymentMethodDialog, {
-        panelClass: 'w-4/5 lt-sm:w-3/5',
+        panelClass: ['w-4/5', 'sm:3/5', 'gt-sm:w-2/5'],
         data: { displayMode: this.displayMode },
         hasBackdrop: true,
         closeOnNavigation: true
