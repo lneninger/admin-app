@@ -11,6 +11,9 @@ export const appInitializer = functions.https.onRequest((req: functions.https.Re
 
 
     const result = {
+      environment:{
+        appTitle: (functions.config() as IConfig).environment.apptitle
+      },
       stripe: {
         publicKey: (functions.config() as IConfig).stripe.publickey,
         apiVersion: (functions.config() as IConfig).stripe.apiversion,

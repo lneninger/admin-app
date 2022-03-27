@@ -1,11 +1,11 @@
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Select } from '@ngxs/store';
 import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeCardComponent, StripeIdealBankComponent, StripeService } from 'ngx-stripe';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, first } from 'rxjs/operators';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggregators.state';
@@ -14,6 +14,7 @@ import { UserStateModel } from 'src/app/main/services/user/user.models';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { environment } from 'src/environments/environment';
+import { PaymentUIService } from 'src/app/shared/payment/ui/payment-ui.service';
 
 
 
@@ -23,7 +24,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './banking.component.html',
   styleUrls: ['./banking.component.scss']
 })
-export class SettingsBankingComponent extends BaseComponent implements OnInit {
+export class SettingsBankingComponent extends BaseComponent implements OnInit, AfterViewInit {
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
 
@@ -50,12 +51,14 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
   elementsOptions: StripeElementsOptions = {
     locale: 'en'
   };
+  uiAction$$: Subscription;
 
   constructor(
     breadcrumbService: BreadcrumbService,
     private stripeService: StripeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private paymentUIService: PaymentUIService
   ) {
 
     super();
@@ -68,6 +71,12 @@ export class SettingsBankingComponent extends BaseComponent implements OnInit {
     const stripe = (await this.stripeService.getStripeReference().pipe(filter(_ => !!_), first()).toPromise())(environment.stripe.publicKey);
     // const instance = Stripe(environment.stripeKey);
     // stripe.accounts.create({ type: 'standard' });
+  }
+
+  async ngAfterViewInit() {
+      this.uiAction$$ = this.paymentUIService.broadcast$.subscribe(action => {
+this.router.navigate([{outlets: {action: null}}])
+      });
   }
 
 

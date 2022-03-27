@@ -1,5 +1,6 @@
 {
   "environment": {
+    "apptitle": "I don't know yet",
     "referer": "http://localhost:4200",
     "production": "false"
   },
@@ -14,8 +15,8 @@
   },
   "stripe": {
     "apiversion": "2020-08-27",
-    "secretkey": "sk_live_Aqo0en4ATWQz2uc8WuWoKwee00ITiQP5h5",
-    "publickey": "pk_live_7Pde4wH8lXywoGlRl7IM7Vc2009QhlbkHU",
+    "secretkey": "sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6",
+    "publickey": "pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O",
     "secret": "e307ccb34265035d22d1639a7415d5"
   },
   "email": {

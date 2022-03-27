@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { SettingsBankingRoutingModule } from './banking-routing.module';
 import { SettingsBankingComponent } from './banking.component';
 import { PaymentMethodListModule } from './list/payment-method-list.module';
+import { PaymentUIModule } from 'src/app/shared/payment/ui/payment-ui.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { PaymentMethodListModule } from './list/payment-method-list.module';
     PaymentMethodListModule,
     PaymentMethodNewModule,
     BankAccountModule,
-    RouterOutletModule
+    RouterOutletModule,
+    PaymentUIModule
   ]
 })
 export class SettingsBankingModule { }

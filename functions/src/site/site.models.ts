@@ -6,9 +6,12 @@ export interface IAppExternalConfiguration {
   modules: ISecuredModule[];
   stripe: IAppPlaidConfig;
   plaid: IAppStripeConfig;
+  environment: IAppEnvironmentConfig;
 }
 
-
+export interface IAppEnvironmentConfig{
+  appTitle: string;
+}
 export interface IAppPlaidConfig {
   publicKey: string;
   apiVersion: string;

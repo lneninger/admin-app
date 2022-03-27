@@ -1,5 +1,6 @@
 export interface IConfig {
   environment: {
+    apptitle: string;
     production: boolean;
     referer: string | string[];
   },
