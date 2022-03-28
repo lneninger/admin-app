@@ -1,15 +1,26 @@
 {
-  "gmail": {
-    "password": "hiphop-usa2015",
-    "email": "lneninger@hipalanet.com"
+  "environment": {
+    "apptitle": "I don't know yet",
+    "referer": "http://localhost:4200",
+    "production": "false"
   },
-  "stripe":{
-    "apiversion": "2020-08-27",
-    "publickey": "pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O",
-    "secretkey": "sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6"
+  "gmail": {
+    "email": "lneninger@hipalanet.com",
+    "password": "hiphop-usa2015"
   },
   "plaid": {
+    "publickey": "f2697b9b441211ed4ee92df3850108",
     "clientid": "5cdf1d3cd4530d0013fb9740",
-    "secret": "2a2136eb3f664f56e10f8417e45d42"
+    "environment": "sandbox",
+    "secret":"2a2136eb3f664f56e10f8417e45d42"
+  },
+  "stripe": {
+    "apiversion": "2020-08-27",
+    "secretkey": "sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6",
+    "publickey": "pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O"
+  },
+  "email": {
+    "password": "hiphop-usa2015",
+    "user": "lneninger@hipalanet.com"
   }
 }

@@ -21,11 +21,11 @@ import { PaymentUIEvent } from 'src/app/shared/payment/ui/payment-ui.models';
 
 @AutoUnsubscribe()
 @Component({
-  selector: 'app-settings-banking',
-  templateUrl: './banking.component.html',
-  styleUrls: ['./banking.component.scss']
+  selector: 'app-settings-subscription',
+  templateUrl: './subscription.component.html',
+  styleUrls: ['./subscription.component.scss']
 })
-export class SettingsBankingComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class SettingsSubscriptionComponent extends BaseComponent implements OnInit, AfterViewInit {
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
 

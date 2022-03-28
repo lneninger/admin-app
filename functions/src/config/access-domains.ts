@@ -1,2 +1,5 @@
+import * as functions from 'firebase-functions';
 
-export const accessDomains = ['https://fir-adminsys-20210823.firebaseapp.com'];
+import { IConfig } from '../functions.models';
+
+export const accessDomains = (functions.config() as IConfig).environment.referer;

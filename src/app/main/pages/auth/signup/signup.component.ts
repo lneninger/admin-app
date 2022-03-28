@@ -1,3 +1,4 @@
+import { BaseComponent } from 'src/app/shared/base.component';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,7 +14,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent extends BaseComponent implements OnInit {
 
   @ViewChild('signUpForm') public signUpForm: NgForm;
   signUp: IUserCreateForm = environment.production ? {} as IUserCreateForm : mockedSignUp;
@@ -33,7 +34,9 @@ export class SignupComponent implements OnInit {
     private alertService: AlertService,
     private userService: UserService,
     private router: Router
-  ) { }
+  ) {
+    super();
+  }
 
   async ngOnInit() {
   }

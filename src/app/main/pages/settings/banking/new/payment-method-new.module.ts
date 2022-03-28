@@ -7,6 +7,7 @@ import { LayoutMainCommonModule } from 'src/app/shared/layout/layout-main/layout
 import { BankingPaymentMethodDialog, PaymentMethodNewComponent } from './payment-method-new.component';
 import { PaymentMethodNewRoutingModule } from './payment-method-new-routing.module';
 import { NgxStripeModule } from 'ngx-stripe';
+import { PaymentUIModule } from 'src/app/shared/payment/ui/payment-ui.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { NgxStripeModule } from 'ngx-stripe';
     FormsModule,
     ReactiveFormsModule,
     NgxStripeModule,
-    BankAccountModule
+    BankAccountModule,
+    PaymentUIModule
   ],
   exports: [
     PaymentMethodNewComponent

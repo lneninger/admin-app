@@ -1,8 +1,9 @@
-import * as functions from 'firebase-functions';
 import * as Cors from 'cors';
-import { accessDomains } from './access-domains';
+import * as functions from 'firebase-functions';
 
-const cors = Cors({ origin: accessDomains });
+import { IConfig } from '../functions.models';
+
+const cors = Cors({ origin: true });
 
 export const appInitializer = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 
@@ -10,7 +11,17 @@ export const appInitializer = functions.https.onRequest((req: functions.https.Re
 
 
     const result = {
-
+      environment:{
+        appTitle: (functions.config() as IConfig).environment.apptitle
+      },
+      stripe: {
+        publicKey: (functions.config() as IConfig).stripe.publickey,
+        apiVersion: (functions.config() as IConfig).stripe.apiversion,
+      },
+      plaid: {
+        publicKey: (functions.config() as IConfig).plaid.publickey,
+        environment: (functions.config() as IConfig).plaid.environment,
+      },
     };
 
     res.status(200).json(result);
