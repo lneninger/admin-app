@@ -56,13 +56,10 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
     breadcrumbService: BreadcrumbService,
     protected fmBuilder: FormBuilder,
     protected service: PaymentService,
-    protected router: Router,
-    protected route: ActivatedRoute,
     protected stripeService: StripeService,
     protected dialog: MatDialog,
     private paymentService: PaymentService,
     private authService: AuthService,
-    private userService: UserService,
     protected paymentUIService: PaymentUIService
   ) {
     super();
@@ -91,7 +88,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log(`Dialog result: ${result}`);
+        this.paymentUIService.closeAction('new');
       });
     }
   }
@@ -123,12 +120,11 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
 
   refresh() {
     this.bankAccountComponent.refresh();
-
   }
 
 
   async onSubmit(event: Event) {
-    this.createToken();
+    this.save();
   }
 
 
@@ -137,11 +133,13 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
       await this.bankAccountComponent.createBankAccount(true);
     } else {
       // this.stripeService.createToken(this.cardComponent.element)
-      await this.createToken();
+      await this.createCreditCard();
     }
+
+    this.dialog.closeAll();
   }
 
-  async createToken(): Promise<void> {
+  async createCreditCard(): Promise<void> {
     const name = this.stripeTest.get('name').value;
     const result = await firstValueFrom(this.stripeService.createPaymentMethod({
       type: 'card',
@@ -198,26 +196,21 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implem
     breadcrumbService: BreadcrumbService,
     fmBuilder: FormBuilder,
     service: PaymentService,
-    router: Router,
-    route: ActivatedRoute,
     stripeService: StripeService,
     dialog: MatDialog,
     paymentService: PaymentService,
     authService: AuthService,
-    userService: UserService,
     paymentUIService: PaymentUIService
   ) {
     super(
       breadcrumbService,
       fmBuilder,
       service,
-      router,
-      route,
+
       stripeService,
       dialog,
       paymentService,
       authService,
-      userService,
       paymentUIService);
     this.displayMode = data.displayMode;
     this.isDialog = true;
@@ -228,7 +221,6 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implem
   }
 
   async ngOnDestroy() {
-    this.paymentUIService.closeAction('new');
   }
 
 }

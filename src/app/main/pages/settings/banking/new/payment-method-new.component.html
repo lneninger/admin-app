@@ -42,7 +42,7 @@
       fxLayout="column" fxLayoutAlign="stretch stretch">
       <mat-tab label="Credit card">
         <section fxFlex fxFlexFill>
-          <form class="checkout" novalidate (ngSubmit)="createToken()" [formGroup]="stripeTest">
+          <form class="checkout" novalidate (ngSubmit)="this.onSubmit($event)" [formGroup]="stripeTest">
             <input type="text" formControlName="name" placeholder="Jane Doe">
             <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
           </form>

@@ -3,7 +3,7 @@ import { PaymentUIEvent, PaymentUIEventType } from './payment-ui.models';
 import { PaymentUIModule } from './payment-ui.module';
 
 @Injectable({
-  providedIn: PaymentUIModule
+  providedIn: 'root'
 })
 export class PaymentUIService {
   broadcast$ = new EventEmitter<PaymentUIEvent>();

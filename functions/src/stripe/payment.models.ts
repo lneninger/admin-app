@@ -61,6 +61,11 @@ export interface IPaymentMethodListInputModel{
 
 
 // -- Attach payment method
+export const PlaidEnvironments = {
+  production: 'https://production.plaid.com',
+  sandbox: 'https://sandbox.plaid.com',
+  development: 'https://development.plaid.com',
+  };
 
 export interface IPaymentMethodRequestModel {
   data: IPaymentMethodPlaidTokenModel | IPaymentMethodBankAccountFormModel,

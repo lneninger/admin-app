@@ -1,4 +1,4 @@
-import { firstValueFrom } from 'rxjs';
+import { filter, firstValueFrom } from 'rxjs';
 import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
@@ -66,6 +66,7 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
 
 
   async setCurrentUserAsCustomer() {
+    await firstValueFrom(this.authService.credentials$.pipe(filter(_ => !!_)));
     const req = {
       userId: this.authService.credentials.user.uid,
       email: this.authService.credentials.user.email,
