@@ -26,32 +26,7 @@ import { PaymentUIEvent } from 'src/app/shared/payment/ui/payment-ui.models';
   styleUrls: ['./subscription.component.scss']
 })
 export class SettingsSubscriptionComponent extends BaseComponent implements OnInit, AfterViewInit {
-  @ViewChild(StripeCardComponent) card: StripeCardComponent;
-  @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
 
-  stripeTest: FormGroup;
-
-  @Select(AggregatorsState.aggregatorMemberTenant)
-  aggregatorMemberTenant$: Observable<{ userState: UserStateModel, tenant: TenantStateModel }>;
-
-  cardOptions: StripeCardElementOptions = {
-    style: {
-      base: {
-        iconColor: '#666EE8',
-        color: '#31325F',
-        fontWeight: '300',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSize: '18px',
-        '::placeholder': {
-          color: '#CFD7E0'
-        }
-      }
-    }
-  };
-
-  elementsOptions: StripeElementsOptions = {
-    locale: 'en'
-  };
   uiAction$$: Subscription;
 
   constructor(
@@ -63,7 +38,7 @@ export class SettingsSubscriptionComponent extends BaseComponent implements OnIn
 
     super();
 
-    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SETTINGS, NavigationItemIds.SETTINGS_BANKING);
+    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SETTINGS, NavigationItemIds.SETTINGS_SUBSCRIPTION);
   }
 
   async ngOnInit() {
