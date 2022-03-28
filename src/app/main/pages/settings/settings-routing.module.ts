@@ -29,6 +29,10 @@ const routes: Routes = [
         loadChildren: () => import('./banking/banking.module').then(m => m.SettingsBankingModule)
       },
       {
+        path: 'subscription',
+        loadChildren: () => import('./subscription/subscription.module').then(m => m.SettingsSubscriptionModule)
+      },
+      {
         path: '**',
         pathMatch: 'full',
         redirectTo: ''

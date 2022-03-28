@@ -6,9 +6,9 @@ export const onContactus = functions.firestore.document('/contactus/{contactId}'
 
   console.log('Executing onNContactus cloud function');
   console.log(functions.config());
-  const gmailEmail = encodeURIComponent(functions.config().gmail.email);
-  const gmailPassword = encodeURIComponent(functions.config().gmail.password);
-  const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+  const emailUser = encodeURIComponent(functions.config().email.user);
+  const emailPassword = encodeURIComponent(functions.config().email.password);
+  const mailTransport = nodemailer.createTransport(`smtps://${emailUser}:${emailPassword}@smtp.gmail.com`);
 
 
   const data = snapshot.data();
@@ -23,7 +23,7 @@ export const onContactus = functions.firestore.document('/contactus/{contactId}'
 
 
   const toUsEmailOptions = {
-    to: gmailEmail,
+    to: emailUser,
     subject: 'Contact us received',
     html: `<ol>
             <dt>Email: </dt>

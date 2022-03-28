@@ -1,5 +1,4 @@
 import { RouterOutletModule } from './../../../../shared/layout/layout-main/router-outlet/router-outlet.module';
-import { PaymentMethodNewModule } from './new/payment-method-new.module';
 import { BankAccountModule } from './../../../../shared/payment/bank-account/bank-account.module';
 import { NgxStripeModule } from 'ngx-stripe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,27 +6,24 @@ import { LayoutMainCommonModule } from '../../../../shared/layout/layout-main/la
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SettingsBankingRoutingModule } from './banking-routing.module';
-import { SettingsBankingComponent } from './banking.component';
-import { PaymentMethodListModule } from './list/payment-method-list.module';
+import { SettingsSubscriptionRoutingModule } from './subscription-routing.module';
+import { SettingsSubscriptionComponent } from './subscription.component';
 import { PaymentUIModule } from 'src/app/shared/payment/ui/payment-ui.module';
 
 
 @NgModule({
-  declarations: [SettingsBankingComponent],
+  declarations: [SettingsSubscriptionComponent],
   imports: [
     CommonModule,
-    SettingsBankingRoutingModule,
+    SettingsSubscriptionRoutingModule,
     LayoutMainCommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgxStripeModule,
     BankAccountModule,
-    PaymentMethodListModule,
-    PaymentMethodNewModule,
     BankAccountModule,
     RouterOutletModule,
     PaymentUIModule
   ]
 })
-export class SettingsBankingModule { }
+export class SettingsSubscriptionModule { }

@@ -1,13 +1,13 @@
 import * as Cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid';
+import { Configuration, PlaidApi } from 'plaid';
 import { Stripe } from 'stripe';
 import { accessDomains } from '../config/access-domains';
 
 import { IConfig } from '../functions.models';
 import { logHttp } from '../site/log-wrapper-function';
-import { IPaymentMethodPlaidTokenModel, IPaymentMethodRequestModel } from './payment.models';
+import { IPaymentMethodPlaidTokenModel, IPaymentMethodRequestModel, PlaidEnvironments } from './payment.models';
 
 const cors = Cors({ origin: accessDomains });
 

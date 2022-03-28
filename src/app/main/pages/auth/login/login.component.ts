@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserLogin } from 'src/app/main/services/user/auth.models';
 import { AuthService } from 'src/app/main/services/user/auth.service';
+import { AppInitializerService } from 'src/app/shared/app-initializer/app-initializer.service';
+import { BaseComponent } from 'src/app/shared/base.component';
 import { AlertService, MessageSeverity } from 'src/app/shared/common/alert.service';
 import { environment } from 'src/environments/environment';
 
@@ -11,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends BaseComponent implements OnInit {
 
   @ViewChild('loginForm') public loginForm: NgForm;
   userLogin = new UserLogin(!environment.production ? 'lneninger@hotmail.com' : undefined, !environment.production ? '123123' : undefined);
@@ -30,7 +32,9 @@ export class LoginComponent implements OnInit {
     private alertService: AlertService,
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {
+    super();
+  }
 
   async ngOnInit() {
     if (await this.authService.isLoggedIn()) {

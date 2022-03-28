@@ -53,6 +53,9 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   get claims(){
     return this.store.selectSnapshot<IUserClaims>(AuthService.claims);
   }
+  get credentials$(){
+    return this.store.select<UserCredential>(AuthService.credentials);
+  }
 
   get credentials(){
     return this.store.selectSnapshot<UserCredential>(AuthService.credentials);

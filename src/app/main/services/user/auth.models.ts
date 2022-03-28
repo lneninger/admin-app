@@ -1,15 +1,15 @@
 import { UserCredential } from 'firebase/auth';
 
-export interface IUserClaims{
+export interface IUserClaims {
   roles: string[];
   paymentId?: string;
 }
 
-export interface ICurrentRole{
+export interface ICurrentRole {
   currentRole?: string;
 }
 
-export interface IUserMetadata extends ICurrentRole{
+export interface IUserMetadata extends ICurrentRole {
   displayName: string | null | undefined;
   phoneNumber: string | null | undefined;
 }
@@ -40,7 +40,8 @@ export class UserLogin {
 
 export class UserModel {
   uid: string;
-
+  email: string;
+  displayName: string;
   constructor(input: Partial<UserModel>) {
     Object.assign(this, input);
   }

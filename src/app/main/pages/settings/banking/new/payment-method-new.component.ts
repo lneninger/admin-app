@@ -1,21 +1,22 @@
-import { firstValueFrom } from 'rxjs';
-import { ICreateSourceRequestModel, IPaymentSource } from './../../../../../shared/payment/+models/source-create';
-import { BankAccountComponent } from './../../../../../shared/payment/bank-account/bank-account.component';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { StripeCardComponent, StripeIdealBankComponent, StripeService } from 'ngx-stripe';
+import { StripeCardComponent, StripeService } from 'ngx-stripe';
+import { firstValueFrom } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
+import { AuthService } from 'src/app/main/services/user/auth.service';
+import { UserService } from 'src/app/main/services/user/user.service';
 import { ComponentDisplayMode } from 'src/app/shared/general.models';
 import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
-import { AuthService } from 'src/app/main/services/user/auth.service';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { UserService } from 'src/app/main/services/user/user.service';
+
+import { BankAccountComponent } from './../../../../../shared/payment/bank-account/bank-account.component';
+import { PaymentUIService } from './../../../../../shared/payment/ui/payment-ui.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -55,13 +56,11 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
     breadcrumbService: BreadcrumbService,
     protected fmBuilder: FormBuilder,
     protected service: PaymentService,
-    protected router: Router,
-    protected route: ActivatedRoute,
     protected stripeService: StripeService,
     protected dialog: MatDialog,
     private paymentService: PaymentService,
     private authService: AuthService,
-    private userService: UserService
+    protected paymentUIService: PaymentUIService
   ) {
     super();
 
@@ -82,12 +81,14 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
   private initialize() {
     if ([ComponentDisplayMode.Dialog, undefined].findIndex(dialogMode => dialogMode === this.displayMode) >= 0) {
       const dialogRef = this.dialog.open(BankingPaymentMethodDialog, {
-        width: '550px', height: '450px',
+        panelClass: ['w-4/5', 'sm:3/5', 'gt-sm:w-2/5'],
         data: { displayMode: this.displayMode },
+        hasBackdrop: true,
+        closeOnNavigation: true
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log(`Dialog result: ${result}`);
+        this.paymentUIService.closeAction('new');
       });
     }
   }
@@ -119,12 +120,11 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
 
   refresh() {
     this.bankAccountComponent.refresh();
-
   }
 
 
   async onSubmit(event: Event) {
-    this.createToken();
+    this.save();
   }
 
 
@@ -133,11 +133,13 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
       await this.bankAccountComponent.createBankAccount(true);
     } else {
       // this.stripeService.createToken(this.cardComponent.element)
-      await this.createToken();
+      await this.createCreditCard();
     }
+
+    this.dialog.closeAll();
   }
 
-  async createToken(): Promise<void> {
+  async createCreditCard(): Promise<void> {
     const name = this.stripeTest.get('name').value;
     const result = await firstValueFrom(this.stripeService.createPaymentMethod({
       type: 'card',
@@ -194,25 +196,22 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implem
     breadcrumbService: BreadcrumbService,
     fmBuilder: FormBuilder,
     service: PaymentService,
-    router: Router,
-    route: ActivatedRoute,
     stripeService: StripeService,
     dialog: MatDialog,
     paymentService: PaymentService,
     authService: AuthService,
-    userService: UserService
+    paymentUIService: PaymentUIService
   ) {
     super(
       breadcrumbService,
       fmBuilder,
       service,
-      router,
-      route,
+
       stripeService,
       dialog,
       paymentService,
       authService,
-      userService);
+      paymentUIService);
     this.displayMode = data.displayMode;
     this.isDialog = true;
 
@@ -222,7 +221,6 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implem
   }
 
   async ngOnDestroy() {
-    await this.router.navigate(['', { outlets: { action: null } }]);
   }
 
 }
