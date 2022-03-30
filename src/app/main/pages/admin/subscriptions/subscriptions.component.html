@@ -3,10 +3,10 @@
   <section class="flex flex-col">
 
     <section class="mb-5">
-        <mat-form-field class="example-full-width">
-          <mat-label>Search</mat-label>
-          <input type="text" matInput placeholder="Search Criteria">
-        </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Search</mat-label>
+        <input type="text" matInput placeholder="Search Criteria">
+      </mat-form-field>
     </section>
 
     <section class="mb-5">
@@ -40,7 +40,8 @@
       </ng-container> -->
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="select-none cursor-pointer hover:bg-gray-300" (click)="this.edit(row)"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="select-none cursor-pointer hover:bg-gray-300"
+        (click)="this.edit(row)"></tr>
     </table>
 
     <mat-paginator [length]="gridConfig?.resultsLength" [pageSize]="10"></mat-paginator>
@@ -48,9 +49,10 @@
   </section>
 
   <ng-template #optionsContent>
-    <button mat-mini-fab aria-label="New quote" (click)="newQuote($event)">
+    <button mat-mini-fab aria-label="New quote" (click)="newSubscription($event)">
       <mat-icon>add</mat-icon>
     </button>
   </ng-template>
-  </app-page>
+</app-page>
 
+<router-outlet name="action"></router-outlet>

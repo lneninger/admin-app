@@ -1,4 +1,3 @@
-import { RouterOutletModule } from './../../../../shared/layout/layout-main/router-outlet/router-outlet.module';
 import { BankAccountModule } from './../../../../shared/payment/bank-account/bank-account.module';
 import { NgxStripeModule } from 'ngx-stripe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,7 +21,6 @@ import { PaymentUIModule } from 'src/app/shared/payment/ui/payment-ui.module';
     NgxStripeModule,
     BankAccountModule,
     BankAccountModule,
-    RouterOutletModule,
     PaymentUIModule
   ]
 })

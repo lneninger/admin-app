@@ -90,11 +90,7 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
     return result;
   }
 
-  async newQuote($event?: Event) {
-    await this.router.navigate(['/app/specialists/new']);
-  }
-
-  async addNew() {
+  async newSubscription($event) {
     await this.router.navigate([{ outlets: { action: 'new' } }], { relativeTo: this.route });
 
   }

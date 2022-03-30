@@ -8,7 +8,9 @@ import { DataRetrieverInput } from 'src/app/shared/grid/grid-config';
 import { ISubscriptionItem } from './subscription.models';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SubscriptionService{
 
   constructor(
