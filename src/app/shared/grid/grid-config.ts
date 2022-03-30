@@ -16,7 +16,7 @@ export class GridConfig<T> {
   paginator: MatPaginator;
   lastRetrieved: T;
   constructor(
-    private dataRetriever: (input: DataRetrieverInput) => Observable<GridData<T>>,
+    private dataRetriever: (input: DataRetrieverInput) => Promise<GridData<T>>,
     ) {
   }
 
