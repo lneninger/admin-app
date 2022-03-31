@@ -71,10 +71,12 @@ export class LayoutMainComponent extends LazyLoaderBaseComponent implements OnIn
     this.initializeMedia();
   }
 
+  side = 'side';
 
   async ngOnInit() {
 
   }
+
 
   async ngAfterViewInit() {
       super.ngAfterViewInit();
@@ -85,13 +87,13 @@ export class LayoutMainComponent extends LazyLoaderBaseComponent implements OnIn
 
   initializeMenuListener() {
     this.menu$$ = this.menu$.subscribe(menu => {
-      // debugger;
       if (menu.show) {
         this.drawer.open();
       } else {
         this.drawer.close();
       }
 
+      this.drawer.mode = menu.mode;
     });
   }
 

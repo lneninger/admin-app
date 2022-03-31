@@ -1,8 +1,15 @@
-import { Injectable } from '@angular/core';
-import { State, Selector, Action, Store, StateContext } from '@ngxs/store';
-import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
+import { DataAction, Payload, Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
+import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import produce from 'immer';
+
+
+export enum MenuMode {
+  Over = 'over',
+  Push = 'push',
+  Side = 'side'
+}
 
 export class MenuToggleAction {
   static readonly type = `[Menu] ToggleAction`;
@@ -36,7 +43,8 @@ export class OptionsExpandedToggleAction {
   defaults: {
     menu: {
       show: true,
-      expanded: true
+      expanded: true,
+      mode: MenuMode.Side
     },
     options: {
       expanded: false,
@@ -70,6 +78,13 @@ export class AppConfigState extends NgxsDataRepository<AppConfigStateModel> {
     }));
   }
 
+  @DataAction()
+  setMenuMode(@Payload('mode') payload: MenuMode) {
+    this.ctx.setState(produce(this.ctx.getState(), (draft: AppConfigStateModel) => {
+      draft.menu.mode = payload;
+    }));
+  }
+
 
   @Action(OptionsExpandedToggleAction)
   optionsExpandedToggle(ctx: StateContext<AppConfigStateModel>, action: OptionsExpandedToggleAction) {
@@ -89,9 +104,11 @@ export interface AppConfigStateModel {
 }
 
 export interface AppConfigStateMenuModel {
+  mode: MenuMode;
   show: boolean;
   expanded: boolean;
 }
+
 
 export interface AppConfigOptionsModel {
   expanded: boolean;
