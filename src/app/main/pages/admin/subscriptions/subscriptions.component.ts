@@ -1,3 +1,4 @@
+import { SubscriptionUIService } from './../../../services/subscription/ui/subscription-ui.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -11,6 +12,8 @@ import { BaseComponent } from 'src/app/shared/base.component';
 import { DataRetrieverInput, GridConfig } from 'src/app/shared/grid/grid-config';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { ISelectorConfig } from 'src/app/shared/selectors/selectors.models';
+import { SubscriptionUIEvent } from 'src/app/main/services/subscription/ui/subscription-ui.models';
+import { Subscription } from 'rxjs';
 
 
 
@@ -63,12 +66,14 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
   @ViewChild(MatTable) table: MatTable<ISubscriptionItem>;
 
+  uiAction$$: Subscription;
 
   constructor(
     breadcrumbService: BreadcrumbService,
     private service: SubscriptionService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private subscriptionUIService: SubscriptionUIService,
   ) {
     super();
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.ADMIN, NavigationItemIds.ADMIN_SUBSCRIPTIONS);
@@ -80,6 +85,7 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
   }
 
   async ngAfterViewInit() {
+    this.uiAction$$ = this.subscriptionUIService.broadcast$.subscribe(async action => this.closeAction(action));
     this.gridConfig.initialize(this.paginator, this.sort);
     this.gridConfig.refresh();
   }
@@ -97,7 +103,11 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
   async edit(row: ISubscriptionItem) {
     await this.router.navigate([{ outlets: { action: 'edit' } }], { state: row, relativeTo: this.route });
-
   }
+
+  async closeAction($event?: SubscriptionUIEvent) {
+    await this.router.navigate([{ outlets: { action: null } }],
+    {relativeTo: this.route})
+}
 
 }

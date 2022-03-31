@@ -4,14 +4,13 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeService } from 'ngx-stripe';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
+import { SubscriptionUIService } from 'src/app/main/services/subscription/ui/subscription-ui.service';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { ComponentDisplayMode } from 'src/app/shared/general.models';
 import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
-
-import { PaymentUIService } from './../../../../../shared/payment/ui/payment-ui.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -32,7 +31,7 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
     protected dialog: MatDialog,
     private paymentService: PaymentService,
     private authService: AuthService,
-    protected paymentUIService: PaymentUIService,
+    protected subscriptionUIService: SubscriptionUIService,
     private firebaseService: FirebaseService
   ) {
     super();
@@ -61,7 +60,7 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        this.paymentUIService.closeAction('new');
+        this.subscriptionUIService.closeAction('new');
       });
     }
   }
@@ -69,7 +68,7 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
   createForm() {
     return this.fmBuilder.group({
       name: ['', [Validators.required]],
-      description: [],
+      price: [1.5, [Validators.required]],
       activateDate: [new Date(), [Validators.required]]
     });
   }
@@ -112,7 +111,7 @@ export class SubscriptionNewDialog extends SubscriptionNewComponent implements O
     dialog: MatDialog,
     paymentService: PaymentService,
     authService: AuthService,
-    paymentUIService: PaymentUIService,
+    subscriptionUIService: SubscriptionUIService,
     firebaseService: FirebaseService
   ) {
     super(
@@ -124,7 +123,7 @@ export class SubscriptionNewDialog extends SubscriptionNewComponent implements O
       dialog,
       paymentService,
       authService,
-      paymentUIService,
+      subscriptionUIService,
       firebaseService);
     this.displayMode = data.displayMode;
     this.isDialog = true;

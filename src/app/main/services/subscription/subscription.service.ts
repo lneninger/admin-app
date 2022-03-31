@@ -19,7 +19,7 @@ export class SubscriptionService{
   }
 
   async search(input: DataRetrieverInput) {
-    const collection= this.firebaseService.firestore.collection<ISubscriptionItem>('app-subscription-items');
+    const collection= this.firebaseService.firestore.collection<ISubscriptionItem>('app-subscriptions');
     let ref = collection.ref;
     let queryObj = query<ISubscriptionItem>(ref);
     if (input.sort) {
