@@ -12,6 +12,7 @@ export enum NavigationItemIds {
   SETTINGS = 'SETTINGS',
   SETTINGS_DASHBOARD = 'SETTINGS_DASHBOARD',
   SETTINGS_BANKING = 'SETTINGS_BANKING',
+  SETTINGS_SUBSCRIPTION = 'SETTINGS_SUBSCRIPTION',
 
   PAYMENTMETHOD_NEW = 'PAYMENTMETHOD_NEW',
   PAYMENTMETHOD_EDIT = 'PAYMENTMETHOD_EDIT',
@@ -125,6 +126,13 @@ export const navigationItems: NavigationItem[] = [
     routerLink: ['/app/ws/settings/banking'],
     icon: 'account_balance'
   },
+  {
+    id: NavigationItemIds.SETTINGS_SUBSCRIPTION,
+    label: 'Subscription',
+    routerLink: ['/app/ws/settings/subscription'],
+    icon: 'card_membership'
+  },
+
 
   {
     id: NavigationItemIds.PAYMENTMETHOD_NEW,

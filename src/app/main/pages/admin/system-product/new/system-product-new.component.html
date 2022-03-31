@@ -1,0 +1,60 @@
+<!-- this.displayMode = {{this.displayMode}} -->
+<!-- <em class="h-max h-full"></em> -->
+<ng-container [ngSwitch]="true">
+  <ng-template [ngSwitchCase]="this.displayMode == 'Page'">
+    <app-page title="New payment method">
+      <ng-container [ngTemplateOutlet]="htmlContent"></ng-container>
+    </app-page>
+  </ng-template>
+
+  <ng-template [ngSwitchCase]="this.displayMode == 'Component'">
+    <ng-container [ngTemplateOutlet]="htmlContent"></ng-container>
+  </ng-template>
+
+  <ng-template [ngSwitchCase]="this.displayMode == 'Dialog' && this.isDialog">
+    <h2 mat-dialog-title>New payment method</h2>
+
+    <mat-dialog-content>
+      <ng-container [ngTemplateOutlet]="htmlContent"></ng-container>
+    </mat-dialog-content>
+
+    <mat-dialog-actions fxLayoutAlign="stretch stretch">
+      <section fxFlex fxLayoutAlign="space-between stretch">
+        <section class="flex">
+          <button mat-button (click)="this.refresh()">Refresh</button>
+        </section>
+        <section class="flex">
+          <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+          <button mat-button (click)="this.save()"
+            [disabled]="!this.cardComponent?.ready && !this.bankAccountComponent?.selectedAccount">Ok</button>
+        </section>
+      </section>
+    </mat-dialog-actions>
+  </ng-template>
+</ng-container>
+
+
+
+<ng-template #htmlContent>
+  <section fxFlex fxFlexFill>
+
+    <mat-tab-group (selectedTabChange)="this.tabSelected($event)" class="custom-tab-group fill" fxFlexFill fxFlex
+      fxLayout="column" fxLayoutAlign="stretch stretch">
+      <mat-tab label="Credit card">
+        <section fxFlex fxFlexFill>
+          <form class="checkout" novalidate (ngSubmit)="createToken()" [formGroup]="stripeTest">
+            <input type="text" formControlName="name" placeholder="Jane Doe">
+            <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+          </form>
+        </section>
+      </mat-tab>
+      <mat-tab label="Bank account">
+        <section fxFlex fxFlexFill fxLayoutAlign="stretch stretch">
+          <app-bank-account class="flex w-full"></app-bank-account>
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+
+
+  </section>
+</ng-template>

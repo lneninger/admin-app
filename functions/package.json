@@ -9,7 +9,7 @@
     "serve-all": "npm run build:watch && firebase emulators:start",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
-    "deploy": "firebase functions:config:set gmail.password=\"hiphop-usa2015\" gmail.email=\"lneninger@hipalanet.com\" stripe.apiversion=\"2020-08-27\" stripe.publickey=\"pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O\" stripe.secretkey=\"sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6\" plaid.clientid=\"5cdf1d3cd4530d0013fb9740\" stripe.secret=\"e307ccb34265035d22d1639a7415d5\" && firebase deploy --only functions",
+    "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
 
     "set-configuration-dev": "firebase functions:config:get > .runtimeconfig.json",

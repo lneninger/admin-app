@@ -49,3 +49,8 @@ testem.log
 Thumbs.db
 .angular/**/*
 .cache/**/*
+.cache
+/.cache
+.cache/
+functions/firebase-debug.log
+functions/firestore-debug.log

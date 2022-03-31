@@ -1,3 +1,4 @@
+import { RouterOutletModule } from './../../../../shared/layout/layout-main/router-outlet/router-outlet.module';
 import { PaymentMethodNewModule } from './new/payment-method-new.module';
 import { BankAccountModule } from './../../../../shared/payment/bank-account/bank-account.module';
 import { NgxStripeModule } from 'ngx-stripe';
@@ -9,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import { SettingsBankingRoutingModule } from './banking-routing.module';
 import { SettingsBankingComponent } from './banking.component';
 import { PaymentMethodListModule } from './list/payment-method-list.module';
-import { PaymentUIModule } from 'src/app/shared/payment/ui/payment-ui.module';
 
 
 @NgModule({
@@ -25,7 +25,7 @@ import { PaymentUIModule } from 'src/app/shared/payment/ui/payment-ui.module';
     PaymentMethodListModule,
     PaymentMethodNewModule,
     BankAccountModule,
-    PaymentUIModule
+    RouterOutletModule
   ]
 })
 export class SettingsBankingModule { }

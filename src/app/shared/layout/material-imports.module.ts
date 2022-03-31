@@ -28,6 +28,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatRadioModule} from '@angular/material/radio';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {MatSliderModule} from '@angular/material/slider';
+
+
 @NgModule({
   declarations: [],
   imports: [
@@ -60,7 +63,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     MatMenuModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
-    ScrollingModule
+    ScrollingModule,
+    MatSliderModule
   ],
   exports: [
     FlexLayoutModule,
@@ -92,7 +96,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     MatMenuModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
-    ScrollingModule
+    ScrollingModule,
+    MatSliderModule
   ],
   providers: [
       {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {panelClass: 'mat-dialog-override'}}
