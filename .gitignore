@@ -52,3 +52,5 @@ Thumbs.db
 .cache
 /.cache
 .cache/
+functions/firebase-debug.log
+functions/firestore-debug.log
