@@ -1,10 +1,11 @@
+import { AppConfigState, MenuMode } from 'src/app/shared/layout/states/appconfig.state';
 import { Injectable } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MediaService {
+export class MediaService  {
 
   activeMedia: MediaChange;
   get activeMediaQuery(): string{
@@ -12,7 +13,7 @@ export class MediaService {
   }
   mediaObserver: MediaObserver;
 
-  constructor(/*public mediaObserver: MediaObserver*/) {
+  constructor(private appConfigState: AppConfigState/*public mediaObserver: MediaObserver*/) {
     // this.initialize();
   }
 
@@ -21,10 +22,24 @@ export class MediaService {
       this.mediaObserver = mediaObserver;
 
       this.mediaObserver.asObservable().subscribe(medias => {
-        // debugger;
         this.activeMedia = medias.find(media => this.mediaObserver.isActive(media.mqAlias));
+        this.processMedia();
       });
     }
+  }
+  processMedia() {
+    switch(this.activeMedia.mqAlias.toLocaleUpperCase()){
+      case 'XS':
+      case 'SM':
+        this.appConfigState.setMenuMode(MenuMode.Over);
+        break;
+      case 'MD':
+      case 'LG':
+      case 'XL':
+        this.appConfigState.setMenuMode(MenuMode.Side);
+        break;
+    }
+    console.log(`this.activeMedia => `, this.activeMedia);
   }
 
 }
