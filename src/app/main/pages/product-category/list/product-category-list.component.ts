@@ -45,7 +45,7 @@ export class ProductCategoryListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // debugger;
     setTimeout(() => {
-      this.gridConfig = new GridConfig<IProductCategoryItem>(this.retrieveData.bind(this));
+      this.gridConfig = new GridConfig<IProductCategoryItem>(this.retrieveData.bind(this), 'name');
       this.gridConfig.initialize(this.paginator, this.sort);
     });
 

@@ -1,15 +1,15 @@
-import { DataRetrieverInput, GridConfig, GridData } from '../../../../shared/grid/grid-config';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { of } from 'rxjs';
-import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
-import { NavigationItemIds } from '../../../main.navigation';
+import { MatSort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 import { IQuoteItem } from 'src/app/main/services/quote/quote.models';
 import { QuoteService } from 'src/app/main/services/quote/quote.service';
-import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { MatTable } from '@angular/material/table';
+import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+
+import { DataRetrieverInput, GridConfig } from '../../../../shared/grid/grid-config';
+import { NavigationItemIds } from '../../../main.navigation';
 
 
 export interface PeriodicElement {
@@ -73,7 +73,7 @@ export class QuoteListComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.gridConfig = new GridConfig<IQuoteItem>(this.retrieveData.bind(this));
+    this.gridConfig = new GridConfig<IQuoteItem>(this.retrieveData.bind(this), 'description');
   }
 
   async ngAfterViewInit() {

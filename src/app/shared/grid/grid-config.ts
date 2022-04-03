@@ -2,7 +2,8 @@ import { NumberFormatStyle } from '@angular/common';
 import { APP_INITIALIZER, EventEmitter } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { combineLatest, merge, Observable, of } from 'rxjs';
+import { DocumentSnapshot } from 'firebase/firestore';
+import { combineLatest, from, merge, Observable, of } from 'rxjs';
 import { catchError, debounceTime, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 
 export class GridConfig<T> {
@@ -14,9 +15,10 @@ export class GridConfig<T> {
   private force$ = new EventEmitter<any>();
   sort: MatSort;
   paginator: MatPaginator;
-  lastRetrieved: T;
+  lastRetrieved: DocumentSnapshot;
   constructor(
-    private dataRetriever: (input: DataRetrieverInput) => Promise<GridData<T>>,
+    private dataRetriever: (input: DataRetrieverInput) => Promise<GridData<DocumentSnapshot>>,
+    private defaultSortField: string
     ) {
   }
 
@@ -42,31 +44,33 @@ export class GridConfig<T> {
 
           const input: DataRetrieverInput = {
             // sort: { field: this.sort && this.sort.active, direction: this.sort && this.sort.direction },
+            defaultSortField: this.defaultSortField,
             pageIndex: this.paginator && this.paginator.pageIndex,
             pageSize: this.paginator && this.paginator.pageSize,
             lastRetrieved: this.lastRetrieved,
             retrieveTotalAmount: true
           };
 
-          return this.dataRetriever(input);
+          return from(this.dataRetriever(input));
         }),
-        catchError(() => {
+        catchError((error) => {
           this.isLoadingResults = false;
           // Catch if the GitHub API has reached its rate limit. Return empty data.
           this.isRateLimitReached = true;
           const result = {
             items: [],
             totalCount: 0
-          } as GridData<T>;
+          } as GridDataDoc;
           return of(result);
         })
       ).subscribe(data => {
         // debugger
+        const itemsCast = (data.items && data.items.map(_ => _.data() as unknown as T));
         this.isLoadingResults = false;
         this.isRateLimitReached = false;
-        this.lastRetrieved = data && data.items && data.items.length > 0 && data.items[data.items.length - 1];
+        this.lastRetrieved = data.items && data.items.length > 0 && data.items[data.items.length - 1];
         this.resultsLength = data.totalCount || (data as unknown as T[]).length;
-        this.data = data.items || (data as unknown as T[]);
+        this.data = itemsCast || (itemsCast as unknown as T[]);
         this.paginator.length = (data && data.items && data.items.length === this.paginator.pageSize) ? this.paginator.pageIndex*this.paginator.pageSize+1 : this.paginator.pageIndex*this.paginator.pageSize;
       });
   }
@@ -85,14 +89,20 @@ export interface PageDataSort {
 
 export interface DataRetrieverInput {
   sort?: PageDataSort;
+  defaultSortField: string;
   pageIndex: number;
   pageSize: number;
-  lastRetrieved: any;
+  lastRetrieved: DocumentSnapshot;
   retrieveTotalAmount: boolean
 }
 
 export interface GridData<T> {
   items: T[];
+  totalCount: number;
+}
+
+export interface GridDataDoc {
+  items:DocumentSnapshot[];
   totalCount: number;
 }
 

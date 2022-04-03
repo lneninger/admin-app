@@ -3,23 +3,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LayoutMainCommonModule } from 'src/app/shared/layout/layout-main/layout-main-common/layout-main-common.module';
-import { PaymentMethodListComponent } from './payment-method-list.component';
-import { PaymentMethodListRoutingModule } from './payment-method-list-routing.module';
+import { SystemProductListRoutingModule } from './system-product-list-routing.module';
 import { NgxStripeModule } from 'ngx-stripe';
+import { SystemProductListComponent } from './system-product-list.component';
 
 
 @NgModule({
-  declarations: [PaymentMethodListComponent],
+  declarations: [SystemProductListComponent],
   imports: [
     CommonModule,
-    PaymentMethodListRoutingModule,
+    SystemProductListRoutingModule,
     LayoutMainCommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgxStripeModule
   ],
   exports: [
-    PaymentMethodListComponent
+    SystemProductListComponent
   ]
 })
 export class PaymentMethodListModule { }

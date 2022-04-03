@@ -102,7 +102,7 @@ export class SpecialistListComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.gridConfig = new GridConfig<ISpecialistItem>(this.retrieveData.bind(this));
+    this.gridConfig = new GridConfig<ISpecialistItem>(this.retrieveData.bind(this), 'description');
   }
 
   async ngAfterViewInit() {

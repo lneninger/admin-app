@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { limit, orderBy, query, startAfter } from 'firebase/firestore';
+import { query } from 'firebase/firestore';
 import { firstValueFrom } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { DataRetrieverInput } from 'src/app/shared/grid/grid-config';
@@ -11,7 +11,7 @@ import { ISubscriptionItem } from './subscription.models';
 @Injectable({
   providedIn: 'root'
 })
-export class SubscriptionService{
+export class SubscriptionService {
 
   constructor(
     private firebaseService: FirebaseService,
@@ -19,25 +19,23 @@ export class SubscriptionService{
   }
 
   async search(input: DataRetrieverInput) {
-    const collection= this.firebaseService.firestore.collection<ISubscriptionItem>('app-subscriptions');
-    let ref = collection.ref;
-    let queryObj = query<ISubscriptionItem>(ref);
-    if (input.sort) {
-      queryObj = query<ISubscriptionItem>(ref, orderBy(input.sort.field));
-    }
+    const collection = this.firebaseService.firestore.collection<ISubscriptionItem>('app-subscriptions', query => {
+      query.limit(input.pageSize);
+      if (input.sort) {
+        query.orderBy(input.sort.field);
+      } else {
+        query.orderBy(input.defaultSortField);
+      }
+      if (input.lastRetrieved) {
+        query.startAt(input.lastRetrieved);
+      }
 
-    /*Where clause*/
+      return query;
+    });
 
-    let total: number;
-    if (input.retrieveTotalAmount) {
-      total = (await ref.get()).size;
-    }
+    const items = (await firstValueFrom(collection.get())).docs;
 
-    queryObj = query(queryObj, limit(input.pageSize));
-    queryObj = input.lastRetrieved ? query(queryObj, startAfter(input.lastRetrieved)) : queryObj;
-    const items = await firstValueFrom(collection.get());
-
-    return { total, items };
+    return { /*total, */items };
   }
 
 
