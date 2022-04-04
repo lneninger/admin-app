@@ -57,7 +57,7 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['description'];
+  displayedColumns: string[] = ['name', 'activateDate', 'price', 'options'];
 
 
   gridConfig: GridConfig<ISubscriptionItem>;
@@ -81,19 +81,20 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
 
   ngOnInit(): void {
-    this.gridConfig = new GridConfig<ISubscriptionItem>(this.retrieveData.bind(this));
+    this.gridConfig = new GridConfig<ISubscriptionItem>(this.retrieveData.bind(this), 'name');
   }
 
   async ngAfterViewInit() {
-    this.uiAction$$ = this.subscriptionUIService.broadcast$.subscribe(async action => this.closeAction(action));
-    this.gridConfig.initialize(this.paginator, this.sort);
-    this.gridConfig.refresh();
+    setTimeout(() => {
+      this.uiAction$$ = this.subscriptionUIService.broadcast$.subscribe(async action => this.closeAction(action));
+      this.gridConfig.initialize(this.paginator, this.sort);
+      this.gridConfig.refresh();
+    })
   }
 
 
   async retrieveData(input?: DataRetrieverInput) {
-    const result = await this.service.search(input);
-    return result;
+    return await this.service.search(input);
   }
 
   async newSubscription($event) {
@@ -107,7 +108,9 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
   async closeAction($event?: SubscriptionUIEvent) {
     await this.router.navigate([{ outlets: { action: null } }],
-    {relativeTo: this.route})
+    {relativeTo: this.route});
+
+    this.gridConfig.refresh();
 }
 
 }

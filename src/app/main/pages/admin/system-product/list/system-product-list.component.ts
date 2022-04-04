@@ -1,29 +1,26 @@
-import { UserCredential } from 'firebase/auth';
-import { UserService } from './../../../../services/user/user.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Select } from '@ngxs/store';
+import { UserCredential } from 'firebase/auth';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeService } from 'ngx-stripe';
-import { Observable } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
-import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
-import { BaseComponent } from 'src/app/shared/base.component';
-import { ComponentDisplayMode } from 'src/app/shared/general.models';
-import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
-import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.component';
-import { PaymentMethod } from '@stripe/stripe-js';
-import { IGetPaymentMethodsResponseItemModel } from 'src/app/shared/payment/+models/source-create';
-import { Select } from '@ngxs/store';
 import { AuthService } from 'src/app/main/services/user/auth.service';
+import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.component';
+import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { IGetPaymentMethodsResponseItemModel } from 'src/app/shared/payment/+models/source-create';
+import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
+
+import { UserService } from './../../../../services/user/user.service';
 
 @AutoUnsubscribe()
 @Component({
   selector: 'app-payment-method-list',
-  templateUrl: './payment-method-list.component.html',
-  styleUrls: ['./payment-method-list.component.scss']
+  templateUrl: './system-product-list.component.html',
+  styleUrls: ['./system-product-list.component.scss']
 })
-export class PaymentMethodListComponent extends HybridDisplayModeComponent implements OnInit {
+export class SystemProductListComponent extends HybridDisplayModeComponent implements OnInit {
 
   @Select(AuthService.credentials)
   userCredentials: UserCredential;

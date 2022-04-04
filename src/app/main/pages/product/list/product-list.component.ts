@@ -51,7 +51,7 @@ export class ProductListComponent extends BaseComponent implements OnInit, After
 
   ngAfterViewInit(): void {
     // debugger;
-    this.gridConfig = new GridConfig<IProductItem>(this.retrieveData.bind(this));
+    this.gridConfig = new GridConfig<IProductItem>(this.retrieveData.bind(this), 'name');
 
     this.gridConfig.initialize(this.paginator, this.sort);
   }
