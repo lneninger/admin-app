@@ -17,7 +17,7 @@ export class GridConfig<T> {
   lastRetrieved: T;
   constructor(
     private dataRetriever: (input: DataRetrieverInput) => Promise<GridData<T>>,
-    ) {
+  ) {
   }
 
   initialize(paginator: MatPaginator, sort: MatSort) {
@@ -40,17 +40,21 @@ export class GridConfig<T> {
           // debugger;
           this.isLoadingResults = true;
 
+const formattedSort = sort == null ?
+{ field: this.defa, direction: this.sort && this.sort.direction }
+: { field: this.sort && this.sort.active, direction: this.sort && this.sort.direction }
+
           const input: DataRetrieverInput = {
             // sort: { field: this.sort && this.sort.active, direction: this.sort && this.sort.direction },
-            pageIndex: this.paginator && this.paginator.pageIndex,
-            pageSize: this.paginator && this.paginator.pageSize,
+            pageIndex: this.paginator?.pageIndex,
+            pageSize: (this.paginator?.pageSize || 10) + 2,
             lastRetrieved: this.lastRetrieved,
             retrieveTotalAmount: true
           };
 
           return this.dataRetriever(input);
         }),
-        catchError(() => {
+        catchError((error) => {
           this.isLoadingResults = false;
           // Catch if the GitHub API has reached its rate limit. Return empty data.
           this.isRateLimitReached = true;
@@ -63,11 +67,14 @@ export class GridConfig<T> {
       ).subscribe(data => {
         // debugger
         this.isLoadingResults = false;
-        this.isRateLimitReached = false;
+        this.isRateLimitReached = data.items.length < (this.paginator?.pageSize || 10) + 2;
         this.lastRetrieved = data && data.items && data.items.length > 0 && data.items[data.items.length - 1];
+
+        const firstIndex = this.lastRetrieved && data?.items.length > 0 ? 1 : 0;
+
         this.resultsLength = data.totalCount || (data as unknown as T[]).length;
-        this.data = data.items || (data as unknown as T[]);
-        this.paginator.length = (data && data.items && data.items.length === this.paginator.pageSize) ? this.paginator.pageIndex*this.paginator.pageSize+1 : this.paginator.pageIndex*this.paginator.pageSize;
+        this.data = data?.items.slice(firstIndex, -1) || (data as unknown as T[]);
+        this.paginator.length = (data && data.items && data.items.length === this.paginator.pageSize) ? this.paginator.pageIndex * this.paginator.pageSize + 1 : this.paginator.pageIndex * this.paginator.pageSize;
       });
   }
 
