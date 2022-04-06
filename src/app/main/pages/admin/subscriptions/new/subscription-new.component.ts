@@ -14,7 +14,7 @@ import { PaymentService } from 'src/app/shared/payment/+services/payment.service
 
 @AutoUnsubscribe()
 @Component({
-  selector: 'app-payment-method-new',
+  selector: 'app-subscription-new',
   templateUrl: './subscription-new.component.html',
   styleUrls: ['./subscription-new.component.scss']
 })

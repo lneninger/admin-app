@@ -19,23 +19,49 @@ export class SubscriptionService {
   }
 
   async search(input: DataRetrieverInput) {
+
     const collection = this.firebaseService.firestore.collection<ISubscriptionItem>('app-subscriptions', query => {
-      query.limit(input.pageSize);
+      let queryResult = query.limit(input.pageSize);
       if (input.sort) {
-        query.orderBy(input.sort.field);
-      } else {
-        query.orderBy(input.defaultSortField);
+        queryResult = queryResult.orderBy(input.sort.field, input.sort.direction);
       }
       if (input.lastRetrieved) {
-        query.startAt(input.lastRetrieved);
+        queryResult = queryResult.startAt(input.lastRetrieved);
       }
 
-      return query;
+      return queryResult;
     });
 
     const items = (await firstValueFrom(collection.get())).docs;
 
-    return { /*total, */items };
+    return { items };
+
+
+    // const collection = this.firebaseService.firestore.collection<ISubscriptionItem>('app-subscriptions');
+    // let ref = collection.ref;
+    // // let queryObj = query<ISubscriptionItem>(ref);
+
+    // if (input.sort) {
+    //   query<ISubscriptionItem>(ref, orderBy(input.sort.field, input.sort.direction || 'asc'));
+    // }
+
+    // /*Where clause*/
+
+    // let totalCount: number;
+    // if (input.retrieveTotalAmount) {
+    //   totalCount = (await ref.get()).size;
+    // }
+
+    // query<ISubscriptionItem>(ref, limit(input.pageSize));
+
+
+    // // if (input.lastRetrieved) {
+    // //   queryObj = query<ISubscriptionItem>(ref, startAt(input.lastRetrieved));
+    // // }
+
+    // const items = (await firstValueFrom(collection.get())).docs;
+
+    // return { totalCount, items };
   }
 
 

@@ -1,10 +1,56 @@
-import { NumberFormatStyle } from '@angular/common';
-import { APP_INITIALIZER, EventEmitter } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { DocumentSnapshot } from 'firebase/firestore';
-import { combineLatest, from, merge, Observable, of } from 'rxjs';
-import { catchError, debounceTime, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, from, of, Subscription } from 'rxjs';
+import { catchError, debounceTime, startWith, switchMap, tap } from 'rxjs/operators';
+
+
+
+export interface PageDataSort {
+  field: string;
+  direction: SortDirection;
+}
+
+
+export interface DataRetrieverInput {
+  sort?: PageDataSort;
+  pageIndex: number;
+  pageSize: number;
+  lastRetrieved: DocumentSnapshot;
+  retrieveTotalAmount: boolean
+}
+
+export interface GridData<T> {
+  items: T[];
+  totalCount: number;
+}
+
+export interface GridDataDoc {
+  items: DocumentSnapshot[];
+  totalCount: number;
+}
+
+export interface IGridOptions{
+  /**
+   * External data retrieving function
+   */
+  dataRetriever: (input: DataRetrieverInput) => Promise<GridData<DocumentSnapshot>>,
+  /**
+   * Sort is mandatory to use the pagination mechanism
+  */
+  defaultSortField: string
+
+  /**
+   * External mechanis to fill current page items
+   * @param gridConfig
+   * @param itemsCast
+   */
+  addNewItems?: <V>(gridConfig: GridConfig<V>, itemsCast: V[]) => V[];
+
+}
+
+export declare type SortDirection = 'asc' | 'desc';
 
 export class GridConfig<T> {
 
@@ -16,42 +62,42 @@ export class GridConfig<T> {
   sort: MatSort;
   paginator: MatPaginator;
   lastRetrieved: DocumentSnapshot;
-  constructor(
-    private dataRetriever: (input: DataRetrieverInput) => Promise<GridData<DocumentSnapshot>>,
-    private defaultSortField: string
-    ) {
+  lastPageSize: number;
+  searchEngine$$: Subscription;
+  constructor(private gridOptions: IGridOptions
+
+  ) {
   }
 
   initialize(paginator: MatPaginator, sort: MatSort) {
     this.sort = sort;
     this.paginator = paginator;
+
     const internalSortChange = this.sort ? this.sort.sortChange : new EventEmitter<Sort>();
+    const internalSortChange$ = internalSortChange.pipe(tap(_ => this.lastRetrieved = null));
+
     const internalPaginatorPage = this.paginator ? this.paginator.page : new EventEmitter<PageEvent>();
 
-    combineLatest([internalSortChange.pipe(startWith(null as Sort)), internalPaginatorPage.pipe(startWith(null as Sort)), this.force$.pipe(startWith(false))])
+    this.searchEngine$$ = combineLatest([internalSortChange$.pipe(startWith(null as Sort)), internalPaginatorPage.pipe(startWith(null as Sort)), this.force$.pipe(startWith(false))])
       .pipe(
-        debounceTime(250),
-        // tap(([sort, paginator, force]) => {
-        //   console.log(`hit page`)
-        // }),
-        // filter(([sort, paging, force]) => !!force && (!!sort || !!paging)),
-        // tap(([sort, paginator, force]) => {
-        //   console.log(`hit page`)
-        // }),
+        // debounceTime(250),
         switchMap(([sort, paginator, force]) => {
-          // debugger;
           this.isLoadingResults = true;
 
+          const formattedSort = sort == null ?
+            { field: this.gridOptions.defaultSortField, direction: 'asc' } as PageDataSort
+            : { field: this.sort && this.sort.active, direction: this.sort && this.sort.direction } as PageDataSort;
+
+          this.lastPageSize = (this.paginator?.pageSize || 10) + (this.lastRetrieved ? 2 : 1);
           const input: DataRetrieverInput = {
-            // sort: { field: this.sort && this.sort.active, direction: this.sort && this.sort.direction },
-            defaultSortField: this.defaultSortField,
-            pageIndex: this.paginator && this.paginator.pageIndex,
-            pageSize: this.paginator && this.paginator.pageSize,
+            sort: formattedSort,
+            pageIndex: this.paginator?.pageIndex,
+            pageSize: this.lastPageSize,
             lastRetrieved: this.lastRetrieved,
             retrieveTotalAmount: true
           };
 
-          return from(this.dataRetriever(input));
+          return from(this.gridOptions.dataRetriever(input));
         }),
         catchError((error) => {
           this.isLoadingResults = false;
@@ -67,11 +113,18 @@ export class GridConfig<T> {
         // debugger
         const itemsCast = (data.items && data.items.map(_ => _.data() as unknown as T));
         this.isLoadingResults = false;
-        this.isRateLimitReached = false;
-        this.lastRetrieved = data.items && data.items.length > 0 && data.items[data.items.length - 1];
-        this.resultsLength = data.totalCount || (data as unknown as T[]).length;
-        this.data = itemsCast || (itemsCast as unknown as T[]);
-        this.paginator.length = (data && data.items && data.items.length === this.paginator.pageSize) ? this.paginator.pageIndex*this.paginator.pageSize+1 : this.paginator.pageIndex*this.paginator.pageSize;
+        this.isRateLimitReached = data.items.length < (this.paginator?.pageSize || 10) + 2;
+
+        const firstIndex = this.lastRetrieved && data?.items.length > 0 ? 1 : 0;
+
+        const lastIndex = this.lastPageSize - (this.lastRetrieved ? -2 : -1);
+        this.data = this.gridOptions.addNewItems ? this.gridOptions.addNewItems(this, itemsCast) : itemsCast.slice(firstIndex, lastIndex) || (itemsCast as unknown as T[]);
+
+        // this.resultsLength = data.totalCount || (data as unknown as T[]).length;
+        this.paginator.length = (data && data.items && data.items.length === this.paginator.pageSize) ? this.paginator.pageIndex * this.paginator.pageSize + 1 : this.paginator.pageIndex * this.paginator.pageSize;
+
+        this.lastRetrieved = data && data.items && data.items.length > 0 && data.items[data.items.length - 1];
+
       });
   }
 
@@ -79,31 +132,8 @@ export class GridConfig<T> {
     this.force$.emit(true);
   }
 
+  dispose() {
+    this.searchEngine$$.unsubscribe();
+  }
+
 }
-
-export interface PageDataSort {
-  field: string;
-  direction: SortDirection;
-}
-
-
-export interface DataRetrieverInput {
-  sort?: PageDataSort;
-  defaultSortField: string;
-  pageIndex: number;
-  pageSize: number;
-  lastRetrieved: DocumentSnapshot;
-  retrieveTotalAmount: boolean
-}
-
-export interface GridData<T> {
-  items: T[];
-  totalCount: number;
-}
-
-export interface GridDataDoc {
-  items:DocumentSnapshot[];
-  totalCount: number;
-}
-
-export declare type SortDirection = 'asc' | 'desc' | '';
