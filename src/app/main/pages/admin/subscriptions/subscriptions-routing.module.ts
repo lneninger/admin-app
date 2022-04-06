@@ -15,6 +15,11 @@ const routes: Routes = [
         path: 'new',
         loadChildren: () => import('./new/subscription-new.module').then(m => m.SubscriptionNewModule),
         outlet: 'action'
+      },
+      {
+        path: 'edit',
+        loadChildren: () => import('./edit/subscription-edit.module').then(m => m.SubscriptionEditModule),
+        outlet: 'action'
       }
     ]
   },

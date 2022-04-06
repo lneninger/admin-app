@@ -81,7 +81,10 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
 
   ngOnInit(): void {
-    this.gridConfig = new GridConfig<ISubscriptionItem>(this.retrieveData.bind(this), 'name');
+    this.gridConfig = new GridConfig<ISubscriptionItem>({
+      dataRetriever: this.retrieveData.bind(this),
+      defaultSortField: 'name'
+    });
   }
 
   async ngAfterViewInit() {

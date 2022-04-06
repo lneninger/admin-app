@@ -51,23 +51,19 @@ export class ProductListComponent extends BaseComponent implements OnInit, After
 
   ngAfterViewInit(): void {
     // debugger;
-    this.gridConfig = new GridConfig<IProductItem>(this.retrieveData.bind(this), 'name');
+    this.gridConfig = new GridConfig<IProductItem>({
+      dataRetriever: this.retrieveData.bind(this),
+      defaultSortField: 'name'
+    });
 
     this.gridConfig.initialize(this.paginator, this.sort);
   }
 
 
   retrieveData(input?: DataRetrieverInput) {
-    // debugger;
-    const result = from(this.service.search(input)).pipe(map(response => {
-      // debugger;
+    return from(this.service.search(input)).pipe(map(response => {
       return { items: response.result.docs.map(_ => _.data()), totalCount: response.total } as GridData<IProductItem>;
-      // this.treeDataSource.data = this.service.formatTreeData([...response], null);
-      // this.treeControl.dataNodes = this.treeDataSource.data
-
     }));
-
-    return result;
   }
 
   newProduct($event?: Event, parent?: IProductItem) {

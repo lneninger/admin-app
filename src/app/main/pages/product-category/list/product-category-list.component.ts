@@ -43,9 +43,11 @@ export class ProductCategoryListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // debugger;
     setTimeout(() => {
-      this.gridConfig = new GridConfig<IProductCategoryItem>(this.retrieveData.bind(this), 'name');
+      this.gridConfig = new GridConfig<IProductCategoryItem>({
+        dataRetriever: this.retrieveData.bind(this),
+        defaultSortField: 'name'
+      });
       this.gridConfig.initialize(this.paginator, this.sort);
     });
 
@@ -57,16 +59,12 @@ export class ProductCategoryListComponent implements OnInit, AfterViewInit {
 
 
   retrieveData(input?: DataRetrieverInput) {
-    // debugger;
-    const result = this.service.search(input).pipe(tap(response => {
-      // debugger;
+    return this.service.search(input).pipe(tap(response => {
       this.dataResponse = response.items;
       this.treeDataSource.data = this.service.formatTreeData([...response.items], null);
       this.treeControl.dataNodes = this.treeDataSource.data
 
     }));
-
-    return result;
   }
 
   newProductCategory($event?: Event, parent?: IProductCategoryItem) {

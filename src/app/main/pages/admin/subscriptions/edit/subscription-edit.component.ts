@@ -14,11 +14,11 @@ import { PaymentService } from 'src/app/shared/payment/+services/payment.service
 
 @AutoUnsubscribe()
 @Component({
-  selector: 'app-subscription-new',
-  templateUrl: './subscription-new.component.html',
-  styleUrls: ['./subscription-new.component.scss']
+  selector: 'app-subscription-edit',
+  templateUrl: './subscription-edit.component.html',
+  styleUrls: ['./subscription-edit.component.scss']
 })
-export class SubscriptionNewComponent extends HybridDisplayModeComponent implements OnInit {
+export class SubscriptionEditComponent extends HybridDisplayModeComponent implements OnInit {
 
 
   form = this.createForm();
@@ -52,7 +52,7 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
   }
   private initialize() {
     if ([ComponentDisplayMode.Dialog, undefined].findIndex(dialogMode => dialogMode === this.displayMode) >= 0) {
-      const dialogRef = this.dialog.open(SubscriptionNewDialog, {
+      const dialogRef = this.dialog.open(SubscriptionEditDialog, {
         panelClass: ['w-4/5', 'sm:3/5', 'gt-sm:w-2/5'],
         data: { displayMode: this.displayMode },
         hasBackdrop: true,
@@ -72,9 +72,6 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
       activateDate: [new Date(), [Validators.required]]
     });
   }
-
-
-
 
   async onSubmit(event: Event) {
     this.save();
@@ -98,10 +95,10 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
 @AutoUnsubscribe()
 @Component({
   selector: 'app-subscription-dialog',
-  templateUrl: './subscription-new.component.html',
-  styleUrls: ['./subscription-new.component.scss']
+  templateUrl: './subscription-edit.component.html',
+  styleUrls: ['./subscription-edit.component.scss']
 })
-export class SubscriptionNewDialog extends SubscriptionNewComponent implements OnDestroy {
+export class SubscriptionEditDialog extends SubscriptionEditComponent implements OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: { displayMode: ComponentDisplayMode },
     breadcrumbService: BreadcrumbService,
