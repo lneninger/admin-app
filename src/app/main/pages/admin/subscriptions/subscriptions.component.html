@@ -21,19 +21,19 @@
       <!-- Position Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.data.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="activateDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date"> Date </th>
         <td mat-cell *matCellDef="let element">
-          {{element.activateDate?.toDate() | date: 'MMM dd, YYYY hh:mm:ss'}} </td>
+          {{element.data.activateDate?.toDate && element.data.activateDate?.toDate() | date: 'MMM dd, YYYY hh:mm:ss'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="price" sortActionDescription="Sort by price">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
         <td mat-cell *matCellDef="let element" class="">
-          {{element.price | currency}} </td>
+          {{element.data.price | currency}} </td>
       </ng-container>
 
 
@@ -73,7 +73,7 @@
         (click)="this.edit(row)"></tr>
     </table>
 
-    <mat-paginator
+    <mat-paginator class="custom-paginator content-center no-page-label no-previous-page"
     [length]="gridConfig?.resultsLength"
     [pageSize]="10"
     [hidePageSize]="true"

@@ -213,7 +213,6 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implem
       authService,
       paymentUIService);
     this.displayMode = data.displayMode;
-    this.isDialog = true;
 
   }
 

@@ -1,0 +1,19 @@
+.custom-paginator {
+  &.content-center {
+    & .mat-paginator-container {
+      justify-content: center;
+    }
+  }
+
+  &.no-page-label {
+    & .mat-paginator-range-label {
+      display: none;
+    }
+  }
+
+  &.no-previous-page {
+    & .mat-paginator-navigation-previous {
+      display: none;
+    }
+  }
+}

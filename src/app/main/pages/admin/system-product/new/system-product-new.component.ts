@@ -19,9 +19,9 @@ import { UserService } from 'src/app/main/services/user/user.service';
 
 @AutoUnsubscribe()
 @Component({
-  selector: 'app-payment-method-new',
-  templateUrl: './payment-method-new.component.html',
-  styleUrls: ['./payment-method-new.component.scss']
+  selector: 'app-system-product-new',
+  templateUrl: './system-product-new.component.html',
+  styleUrls: ['./system-product-new.component.scss']
 })
 export class PaymentMethodNewComponent extends HybridDisplayModeComponent implements OnInit {
 
@@ -185,8 +185,8 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
 @AutoUnsubscribe()
 @Component({
   selector: 'app-banking-paymentmethod-dialog',
-  templateUrl: './payment-method-new.component.html',
-  styleUrls: ['./payment-method-new.component.scss']
+  templateUrl: './system-product-new.component.html',
+  styleUrls: ['./system-product-new.component.scss']
 })
 export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implements OnDestroy {
   constructor(
@@ -214,7 +214,6 @@ export class BankingPaymentMethodDialog extends PaymentMethodNewComponent implem
       authService,
       userService);
     this.displayMode = data.displayMode;
-    this.isDialog = true;
 
   }
 

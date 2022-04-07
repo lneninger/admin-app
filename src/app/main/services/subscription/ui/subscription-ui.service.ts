@@ -9,8 +9,8 @@ export class SubscriptionUIService {
 
   constructor() { }
 
-  closeAction(action: string) {
-    this.broadcast$.next({type:SubscriptionUIEventType.closeAction});
+  closeAction($event: SubscriptionUIEvent) {
+    this.broadcast$.next($event);
   }
 
 }

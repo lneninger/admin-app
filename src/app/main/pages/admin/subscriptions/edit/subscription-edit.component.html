@@ -1,64 +1,65 @@
-<ng-container [ngSwitch]="true">
-  <ng-template [ngSwitchCase]="this.displayMode == 'Page'">
-    <app-page title="Edit subscription">
-      <ng-container [ngTemplateOutlet]="htmlContent"></ng-container>
-    </app-page>
-  </ng-template>
+  <ng-container [ngSwitch]="true">
+    <ng-template [ngSwitchCase]="this.displayMode == 'Page'">
+      <app-page title="Edit subscription">
+        <ng-container [ngTemplateOutlet]="htmlContent" [ngTemplateOutletContext]="{$implicit: this.form}">
+        </ng-container>
+      </app-page>
+    </ng-template>
 
-  <ng-template [ngSwitchCase]="this.displayMode == 'Component'">
-    <ng-container [ngTemplateOutlet]="htmlContent"></ng-container>
-  </ng-template>
+    <ng-template [ngSwitchCase]="this.displayMode == 'Component'">
+      <ng-container [ngTemplateOutlet]="htmlContent" [ngTemplateOutletContext]="{$implicit: this.form}"></ng-container>
+    </ng-template>
 
-  <ng-template [ngSwitchCase]="this.displayMode == 'Dialog' && this.isDialog">
-    <h2 mat-dialog-title>Edit subscription</h2>
+    <ng-template [ngSwitchCase]="this.dialogConfig != null">
+      <h2 mat-dialog-title>Edit subscription</h2>
 
-    <mat-dialog-content>
-      <ng-container [ngTemplateOutlet]="htmlContent"></ng-container>
-    </mat-dialog-content>
+      <mat-dialog-content>
+        <ng-container [ngTemplateOutlet]="htmlContent"
+          [ngTemplateOutletContext]="{$implicit: this.dialogConfig.host.form}"></ng-container>
+      </mat-dialog-content>
 
-    <mat-dialog-actions fxLayoutAlign="stretch stretch">
-      <section fxFlex fxLayoutAlign="space-between stretch">
-        <section class="flex">
-          <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
-          <button mat-button (click)="this.save()"
-            [disabled]="!this.form.valid">Ok</button>
+      <mat-dialog-actions fxLayoutAlign="stretch stretch">
+        <section fxFlex fxLayoutAlign="space-between stretch">
+          <section class="flex">
+            <button mat-button (click)="this.cancel()" cdkFocusInitial>Cancel</button>
+            <button mat-button (click)="this.save()" [disabled]="!this.dialogConfig.host.form.valid">Ok</button>
+          </section>
         </section>
+      </mat-dialog-actions>
+    </ng-template>
+  </ng-container>
+
+
+
+  <ng-template #htmlContent let-targetForm>
+    <section [formGroup]="targetForm" fxFlex fxFlexFill>
+      <section class="mb-8">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Placeholder" formControlName="name">
+          <mat-icon matSuffix>check</mat-icon>
+          <mat-hint>Subscription name will appear as part of the subscription title</mat-hint>
+        </mat-form-field>
       </section>
-    </mat-dialog-actions>
+
+      <section class="mb-8">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Price</mat-label>
+          <input matInput placeholder="Placeholder" formControlName="price">
+          <mat-icon matSuffix>attach_money</mat-icon>
+          <mat-slider min="1" max="15" step="0.10" formControlName="price"></mat-slider>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </section>
+
+      <section class="mb-8">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Fill form field</mat-label>
+          <input matInput placeholder="Placeholder">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </section>
+
+    </section>
   </ng-template>
-</ng-container>
-
-
-
-<ng-template #htmlContent>
-  <section [formGroup]="this.form" fxFlex fxFlexFill>
-    <section class="mb-8">
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Placeholder" formControlName="name">
-        <mat-icon matSuffix>check</mat-icon>
-        <mat-hint>Subscription name will appear as part of the subscription title</mat-hint>
-      </mat-form-field>
-    </section>
-
-    <section class="mb-8">
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Price</mat-label>
-        <input matInput placeholder="Placeholder" formControlName="price">
-        <mat-icon matSuffix>attach_money</mat-icon>
-        <mat-slider min="1" max="15" step="0.10" formControlName="price"></mat-slider>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </section>
-
-    <section class="mb-8">
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Fill form field</mat-label>
-        <input matInput placeholder="Placeholder">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </section>
-
-  </section>
-</ng-template>

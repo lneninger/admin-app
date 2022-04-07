@@ -17,7 +17,7 @@ const routes: Routes = [
         outlet: 'action'
       },
       {
-        path: 'edit',
+        path: 'edit/:id',
         loadChildren: () => import('./edit/subscription-edit.module').then(m => m.SubscriptionEditModule),
         outlet: 'action'
       }

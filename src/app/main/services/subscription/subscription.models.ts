@@ -1,12 +1,7 @@
 export interface ISubscriptionItem {
-  id: number;
-  description: string;
+  name: string;
 
-  productId: number;
-  productName: string;
+  price: number;
 
-  customerId: number;
-  customerName: string;
-
-  createdDate: Date;
+  activateDate: Date;
 }

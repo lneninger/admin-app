@@ -1,7 +1,9 @@
 export interface SubscriptionUIEvent{
-  type: SubscriptionUIEventType
+  type: SubscriptionUIEventType,
+  action: string
 }
 
 export enum SubscriptionUIEventType{
-  closeAction = 'closeAction'
+  cancelAction = 'cancelAction',
+  closeAction = 'closeAction',
 }

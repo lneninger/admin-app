@@ -1,9 +1,10 @@
+import { IFireStoreDocument } from './../../../shared/firebase/firestore.models';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { query } from 'firebase/firestore';
 import { firstValueFrom } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
-import { DataRetrieverInput } from 'src/app/shared/grid/grid-config';
+import { DataRetrieverInput, GridData } from 'src/app/shared/grid/grid-config';
 
 import { ISubscriptionItem } from './subscription.models';
 
@@ -18,7 +19,7 @@ export class SubscriptionService {
     private store: Store) {
   }
 
-  async search(input: DataRetrieverInput) {
+  async search(input: DataRetrieverInput): Promise<GridData<IFireStoreDocument<ISubscriptionItem>>> {
 
     const collection = this.firebaseService.firestore.collection<ISubscriptionItem>('app-subscriptions', query => {
       let queryResult = query.limit(input.pageSize);
@@ -26,13 +27,13 @@ export class SubscriptionService {
         queryResult = queryResult.orderBy(input.sort.field, input.sort.direction);
       }
       if (input.lastRetrieved) {
-        queryResult = queryResult.startAt(input.lastRetrieved);
+        queryResult = queryResult.startAt((input.lastRetrieved as IFireStoreDocument<ISubscriptionItem>).$original);
       }
 
       return queryResult;
     });
 
-    const items = (await firstValueFrom(collection.get())).docs;
+    const items = (await firstValueFrom(collection.get())).docs.map(_ => ({id: _.id, data: _.data(), $original: _} as IFireStoreDocument<ISubscriptionItem>));
 
     return { items };
 

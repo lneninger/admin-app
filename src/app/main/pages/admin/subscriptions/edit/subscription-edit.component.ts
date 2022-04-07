@@ -1,11 +1,14 @@
+import { firstValueFrom } from 'rxjs';
+import { ISubscriptionItem } from 'src/app/main/services/subscription/subscription.models';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeService } from 'ngx-stripe';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
+import { SubscriptionUIEvent, SubscriptionUIEventType } from 'src/app/main/services/subscription/ui/subscription-ui.models';
 import { SubscriptionUIService } from 'src/app/main/services/subscription/ui/subscription-ui.service';
-import { AuthService } from 'src/app/main/services/user/auth.service';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { ComponentDisplayMode } from 'src/app/shared/general.models';
 import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.component';
@@ -20,8 +23,14 @@ import { PaymentService } from 'src/app/shared/payment/+services/payment.service
 })
 export class SubscriptionEditComponent extends HybridDisplayModeComponent implements OnInit {
 
+  SubscriptionUIEventType = SubscriptionUIEventType;
+  form: FormGroup;
 
-  form = this.createForm();
+  //#region Dialog
+  dialogRef: MatDialogRef<SubscriptionEditDialog>;
+  dialogConfig: { host: SubscriptionEditComponent }
+  id: string;
+  //#endregion
 
   constructor(
     breadcrumbService: BreadcrumbService,
@@ -29,10 +38,9 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
     protected service: PaymentService,
     protected stripeService: StripeService,
     protected dialog: MatDialog,
-    private paymentService: PaymentService,
-    private authService: AuthService,
     protected subscriptionUIService: SubscriptionUIService,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private route: ActivatedRoute,
   ) {
     super();
 
@@ -46,30 +54,36 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
-    setTimeout(() => {
+    setTimeout(async () => {
+      this.form = await this.createForm();
       this.initialize();
     }, 0);
   }
   private initialize() {
-    if ([ComponentDisplayMode.Dialog, undefined].findIndex(dialogMode => dialogMode === this.displayMode) >= 0) {
-      const dialogRef = this.dialog.open(SubscriptionEditDialog, {
+    if (this.isDialog) {
+      this.dialogRef = this.dialog.open(SubscriptionEditDialog, {
         panelClass: ['w-4/5', 'sm:3/5', 'gt-sm:w-2/5'],
-        data: { displayMode: this.displayMode },
+        data: {
+          host: this
+        },
         hasBackdrop: true,
         closeOnNavigation: true
       });
 
-      dialogRef.afterClosed().subscribe(result => {
-        this.subscriptionUIService.closeAction('new');
+      this.dialogRef.afterClosed().subscribe((result: SubscriptionUIEvent) => {
+        this.subscriptionUIService.closeAction(result);
       });
     }
   }
 
-  createForm() {
+  async createForm() {
+    this.id = this.route.snapshot.params.id;
+    const doc = await firstValueFrom(this.firebaseService.firestore.doc<ISubscriptionItem>(`app-subscriptions/${this.id}`).get());
+    const docData = doc.data();
     return this.fmBuilder.group({
-      name: ['', [Validators.required]],
-      price: [1.5, [Validators.required]],
-      activateDate: [new Date(), [Validators.required]]
+      name: [docData.name, [Validators.required]],
+      price: [docData.price, [Validators.required]],
+      activateDate: [docData.activateDate, [Validators.required]]
     });
   }
 
@@ -79,12 +93,24 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
 
 
   async save() {
+    let form: FormGroup;
+    if (this.dialogConfig) {
+      form = this.dialogConfig.host.form;
+    }
 
-    if (this.form.valid) {
-      const data = this.form.getRawValue();
-      await this.firebaseService.firestore.collection('app-subscriptions').add(data);
+    if (form.valid) {
+      const data = form.getRawValue();
+      await this.firebaseService.firestore.doc(`app-subscriptions/${this.id}`).set(data);
 
-      this.dialog.closeAll();
+      if (this.dialogConfig) {
+        this.dialogConfig.host.dialogRef.close({ type: SubscriptionUIEventType.closeAction, action: 'edit' } as SubscriptionUIEvent);
+      }
+    }
+  }
+
+  cancel() {
+    if (this.dialogConfig) {
+      this.dialogConfig.host.dialogRef.close({ type: SubscriptionUIEventType.cancelAction, action: 'edit' } as SubscriptionUIEvent);
     }
   }
 
@@ -100,30 +126,26 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
 })
 export class SubscriptionEditDialog extends SubscriptionEditComponent implements OnDestroy {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public readonly data: { displayMode: ComponentDisplayMode },
+    @Inject(MAT_DIALOG_DATA) readonly config: { host: SubscriptionEditComponent },
     breadcrumbService: BreadcrumbService,
     fmBuilder: FormBuilder,
     service: PaymentService,
     stripeService: StripeService,
     dialog: MatDialog,
-    paymentService: PaymentService,
-    authService: AuthService,
     subscriptionUIService: SubscriptionUIService,
-    firebaseService: FirebaseService
+    firebaseService: FirebaseService,
+    route: ActivatedRoute,
   ) {
     super(
       breadcrumbService,
       fmBuilder,
       service,
-
       stripeService,
       dialog,
-      paymentService,
-      authService,
       subscriptionUIService,
-      firebaseService);
-    this.displayMode = data.displayMode;
-    this.isDialog = true;
+      firebaseService,
+      route);
+    this.dialogConfig = config;
 
   }
 
