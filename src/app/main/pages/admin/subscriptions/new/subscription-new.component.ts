@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeService } from 'ngx-stripe';
@@ -60,7 +60,9 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
     if ([ComponentDisplayMode.Dialog, undefined].findIndex(dialogMode => dialogMode === this.displayMode) >= 0) {
       this.dialogRef = this.dialog.open(SubscriptionNewDialog, {
         panelClass: ['w-4/5', 'sm:3/5', 'gt-sm:w-2/5'],
-        data: { displayMode: this.displayMode },
+        data: {
+          host: this
+         },
         hasBackdrop: true,
         closeOnNavigation: true
       });
@@ -88,9 +90,13 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
 
 
   async save() {
+    let form: FormGroup;
+    if (this.dialogConfig) {
+      form = this.dialogConfig.host.form;
+    }
 
-    if (this.form.valid) {
-      const data = this.form.getRawValue();
+    if (form.valid) {
+      const data = form.getRawValue();
       await this.firebaseService.firestore.collection('app-subscriptions').add(data);
 
       if (this.dialogConfig) {
@@ -139,7 +145,6 @@ export class SubscriptionNewDialog extends SubscriptionNewComponent implements O
       authService,
       subscriptionUIService,
       firebaseService);
-    this.displayMode = config.host.displayMode;
     this.dialogConfig = config;
   }
 

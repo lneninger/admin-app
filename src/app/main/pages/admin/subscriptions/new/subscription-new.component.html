@@ -11,7 +11,7 @@
     <ng-container [ngTemplateOutlet]="htmlContent" [ngTemplateOutletContext]="{$implicit: this.form}"></ng-container>
   </ng-template>
 
-  <ng-template [ngSwitchCase]="this.isDialog">
+  <ng-template [ngSwitchCase]="this.dialogConfig != null">
     <h2 mat-dialog-title>New subscription</h2>
 
     <mat-dialog-content>
@@ -22,8 +22,7 @@
       <section fxFlex fxLayoutAlign="space-between stretch">
         <section class="flex">
           <button mat-button (click)="this.cancel()" cdkFocusInitial>Cancel</button>
-          <button mat-button (click)="this.save()"
-            [disabled]="!this.form.valid">Ok</button>
+          <button mat-button (click)="this.save()" [disabled]="!this.dialogConfig.host.form.valid">Ok</button>
         </section>
       </section>
     </mat-dialog-actions>
@@ -32,8 +31,8 @@
 
 
 
-<ng-template #htmlContent let-form>
-  <section [formGroup]="form" fxFlex fxFlexFill>
+<ng-template #htmlContent let-targetForm>
+  <section [formGroup]="targetForm" fxFlex fxFlexFill>
     <section class="mb-8">
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Name</mat-label>
