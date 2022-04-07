@@ -29,7 +29,11 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
   //#region Dialog
   dialogRef: MatDialogRef<SubscriptionEditDialog>;
   dialogConfig: { host: SubscriptionEditComponent }
+  dialogEditStep = 0;
   id: string;
+  setDialogEditStep(index: number) {
+    this.dialogEditStep = index;
+  }
   //#endregion
 
   constructor(
