@@ -3,25 +3,25 @@
 <ng-container [ngSwitch]="true">
   <ng-template [ngSwitchCase]="this.displayMode == 'Page'">
     <app-page title="New subscription">
-      <ng-container [ngTemplateOutlet]="htmlContent"></ng-container>
+      <ng-container [ngTemplateOutlet]="htmlContent" [ngTemplateOutletContext]="{$implicit: this.form}"></ng-container>
     </app-page>
   </ng-template>
 
   <ng-template [ngSwitchCase]="this.displayMode == 'Component'">
-    <ng-container [ngTemplateOutlet]="htmlContent"></ng-container>
+    <ng-container [ngTemplateOutlet]="htmlContent" [ngTemplateOutletContext]="{$implicit: this.form}"></ng-container>
   </ng-template>
 
-  <ng-template [ngSwitchCase]="this.displayMode == 'Dialog' && this.isDialog">
+  <ng-template [ngSwitchCase]="this.isDialog">
     <h2 mat-dialog-title>New subscription</h2>
 
     <mat-dialog-content>
-      <ng-container [ngTemplateOutlet]="htmlContent"></ng-container>
+      <ng-container [ngTemplateOutlet]="htmlContent" [ngTemplateOutletContext]="{$implicit: this.dialogConfig.host.form}"></ng-container>
     </mat-dialog-content>
 
     <mat-dialog-actions fxLayoutAlign="stretch stretch">
       <section fxFlex fxLayoutAlign="space-between stretch">
         <section class="flex">
-          <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+          <button mat-button (click)="this.cancel()" cdkFocusInitial>Cancel</button>
           <button mat-button (click)="this.save()"
             [disabled]="!this.form.valid">Ok</button>
         </section>
@@ -32,8 +32,8 @@
 
 
 
-<ng-template #htmlContent>
-  <section [formGroup]="this.form" fxFlex fxFlexFill>
+<ng-template #htmlContent let-form>
+  <section [formGroup]="form" fxFlex fxFlexFill>
     <section class="mb-8">
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Name</mat-label>

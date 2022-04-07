@@ -7,10 +7,14 @@ import { ComponentDisplayMode } from './general.models';
 export abstract class HybridDisplayModeComponent extends BaseComponent implements AfterViewInit, OnDestroy {
 
   @Input() displayMode: ComponentDisplayMode = ComponentDisplayMode.Component;
+
   @HostBinding('class.h-max') get hostClasses(){
     return this.isDialog;
   }
-  isDialog: boolean;
+
+  get isDialog(): boolean{
+    return [ComponentDisplayMode.Dialog, undefined].findIndex(dialogMode => dialogMode === this.displayMode) >= 0
+  }
 
   ngAfterViewInit() {
 

@@ -9,6 +9,9 @@
 
 @import '~@angular/cdk/overlay-prebuilt.css';
 
+// custom styling
+@import './assets-app/custom.scss';
+
 
 .dashboard-tile {
   & .header-icon {

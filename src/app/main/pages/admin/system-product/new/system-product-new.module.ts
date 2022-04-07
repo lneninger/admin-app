@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LayoutMainCommonModule } from 'src/app/shared/layout/layout-main/layout-main-common/layout-main-common.module';
-import { BankingPaymentMethodDialog, PaymentMethodNewComponent } from './payment-method-new.component';
-import { PaymentMethodNewRoutingModule } from './payment-method-new-routing.module';
+import { BankingPaymentMethodDialog, PaymentMethodNewComponent } from './system-product-new.component';
+import { PaymentMethodNewRoutingModule } from './system-product-new-routing.module';
 import { NgxStripeModule } from 'ngx-stripe';
 
 
