@@ -27,6 +27,24 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
   //#region Dialog
   dialogRef: MatDialogRef<SubscriptionNewDialog>;
   dialogConfig: { host: SubscriptionNewComponent }
+
+
+  get priceControl() {
+    const form = this.dialogConfig ? this.dialogConfig.host.form : this;
+    return form.get('price');
+  }
+
+  private _priceModel: number;
+  set priceModel(value: number) {
+    this._priceModel = value;
+    if (this.priceControl.value !== this._priceModel) {
+      this.priceControl.setValue(value);
+    }
+  }
+
+  get priceModel() {
+    return this._priceModel;
+  }
   //#endregion
 
   constructor(
@@ -62,7 +80,7 @@ export class SubscriptionNewComponent extends HybridDisplayModeComponent impleme
         panelClass: ['w-4/5', 'sm:3/5', 'gt-sm:w-2/5'],
         data: {
           host: this
-         },
+        },
         hasBackdrop: true,
         closeOnNavigation: true
       });

@@ -25,11 +25,29 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
 
   SubscriptionUIEventType = SubscriptionUIEventType;
   form: FormGroup;
+  id: string;
+
 
   //#region Dialog
   dialogRef: MatDialogRef<SubscriptionEditDialog>;
   dialogConfig: { host: SubscriptionEditComponent }
-  id: string;
+
+  get priceControl() {
+    const form = this.dialogConfig ? this.dialogConfig.host.form : this;
+    return form.get('price');
+  }
+
+  private _priceModel: number;
+  set priceModel(value: number) {
+    this._priceModel = value;
+    if (this.priceControl.value !== this._priceModel) {
+      this.priceControl.setValue(value);
+    }
+  }
+
+  get priceModel() {
+    return this._priceModel;
+  }
   //#endregion
 
   constructor(
@@ -80,11 +98,19 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
     this.id = this.route.snapshot.params.id;
     const doc = await firstValueFrom(this.firebaseService.firestore.doc<ISubscriptionItem>(`app-subscriptions/${this.id}`).get());
     const docData = doc.data();
-    return this.fmBuilder.group({
+    const result = this.fmBuilder.group({
       name: [docData.name, [Validators.required]],
       price: [docData.price, [Validators.required]],
       activateDate: [docData.activateDate, [Validators.required]]
     });
+
+    result.get('price').valueChanges.subscribe(price => {
+      if (price !== this._priceModel) {
+        this._priceModel = price;
+      }
+    });
+
+    return result;
   }
 
   async onSubmit(event: Event) {

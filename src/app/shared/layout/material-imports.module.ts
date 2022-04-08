@@ -30,7 +30,6 @@ import {MatRadioModule} from '@angular/material/radio';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatSliderModule} from '@angular/material/slider';
 
-
 @NgModule({
   declarations: [],
   imports: [
