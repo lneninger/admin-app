@@ -1,6 +1,6 @@
   <ng-container [ngSwitch]="true">
     <ng-template [ngSwitchCase]="this.displayMode == 'Page'">
-      <app-page title="Edit subscription">
+      <app-page pageTitle="Edit subscription">
         <ng-container [ngTemplateOutlet]="htmlContent" [ngTemplateOutletContext]="{$implicit: this.form}">
         </ng-container>
       </app-page>

@@ -25,7 +25,7 @@ export class AppMenuService {
     public service: MenuService,
     public route: ActivatedRoute,
     private router: Router,
-    private navigationService: NavigationService
+    public navigationService: NavigationService
   ) {
 
     this.initializeListener();

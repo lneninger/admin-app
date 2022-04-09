@@ -1,21 +1,21 @@
-import { SubscriptionUIService } from './../../../services/subscription/ui/subscription-ui.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { Subscription } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { ISubscriptionItem } from 'src/app/main/services/subscription/subscription.models';
 import { SubscriptionService } from 'src/app/main/services/subscription/subscription.service';
+import { SubscriptionUIEvent, SubscriptionUIEventType } from 'src/app/main/services/subscription/ui/subscription-ui.models';
 import { BaseComponent } from 'src/app/shared/base.component';
-import { DataRetrieverInput, GridConfig, gridAppendNewItems, IGridOptions } from 'src/app/shared/grid/grid-config';
+import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
+import { DataRetrieverInput, gridAppendNewItems, GridConfig, IGridOptions } from 'src/app/shared/grid/grid-config';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { ISelectorConfig } from 'src/app/shared/selectors/selectors.models';
-import { SubscriptionUIEvent, SubscriptionUIEventType } from 'src/app/main/services/subscription/ui/subscription-ui.models';
-import { Subscription } from 'rxjs';
-import { actionMatcher } from '@ngxs/store';
-import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
+
+import { SubscriptionUIService } from './../../../services/subscription/ui/subscription-ui.service';
 
 
 
@@ -58,6 +58,7 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatTable) table: MatTable<IFireStoreDocument<ISubscriptionItem>>;
 
   displayedColumns: string[] = ['name', 'activateDate', 'price', 'options'];
 
@@ -66,7 +67,6 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
   dataResponse: ISubscriptionItem[];
 
-  @ViewChild(MatTable) table: MatTable<ISubscriptionItem>;
 
   uiAction$$: Subscription;
 
@@ -84,9 +84,11 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
   ngOnInit(): void {
     this.gridConfig = new GridConfig<IFireStoreDocument<ISubscriptionItem>>({
+      defaultData: [],
       dataRetriever: this.retrieveData.bind(this),
       defaultSortField: 'name',
-      addNewItems: gridAppendNewItems
+      addNewItems: gridAppendNewItems,
+      onDataReady: this.onGridConfigDataReady.bind(this)
     } as IGridOptions);
   }
 
@@ -98,6 +100,11 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
     })
   }
 
+  onGridConfigDataReady(){
+    setTimeout(() => {
+      this.table.renderRows();
+    }, 0);
+  }
 
   async retrieveData(input?: DataRetrieverInput) {
     return await this.service.search(input);

@@ -1,11 +1,11 @@
-<app-page title="Banking" icon="account_balance">
+<app-page pageTitle="Banking" pageIcon="account_balance">
 
 
   <section fxFlex="auto" fxLayout="column" fxLayoutGap="20px" class="max-h-full" fxLayoutAlign="flex-start baseline">
     <mat-tab-group class="custom-tab-group fill" fxFlexFill fxFlex fxLayout="column" fxLayoutAlign="stretch stretch">
       <mat-tab label="Payment Methods">
         <section class="">
-          <app-page title="" icon="account_balance">
+          <app-page pageTitle="" icon="account_balance">
 
             <ng-template #optionsContent>
               <button mat-mini-fab aria-label="New payment method" (click)="newPaymentMethod($event)">
