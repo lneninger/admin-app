@@ -2,7 +2,7 @@
 <!-- <em class="h-max h-full"></em> -->
 <ng-container [ngSwitch]="true">
   <ng-template [ngSwitchCase]="this.displayMode == 'Page'">
-    <app-page title="New subscription">
+    <app-page pageTitle="New subscription">
       <ng-container [ngTemplateOutlet]="htmlContent" [ngTemplateOutletContext]="{$implicit: this.form}"></ng-container>
     </app-page>
   </ng-template>

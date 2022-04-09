@@ -20,6 +20,10 @@ export class NavigationService {
 
   }
 
+  findItem(id: string) {
+    return this.itemsInternal.find(i => i.id === id);
+  }
+
   addItem(...addItems: NavigationItem[]) {
     addItems.forEach(addItem => {
       if (!this.itemsInternal.some(item => item.id.toUpperCase() === addItem.id.toUpperCase())) {
@@ -33,7 +37,7 @@ export class NavigationService {
   }
 
   async build(...ids: NavigationItemInput[]) {
-    const result:  NavigationItem[] = [];
+    const result: NavigationItem[] = [];
     let generatedItem: NavigationItem;
     for (let idInput of ids) {
 

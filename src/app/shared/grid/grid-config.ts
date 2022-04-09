@@ -27,10 +27,14 @@ export interface GridData<T = any> {
 }
 
 export function gridAppendNewItems<V>(gridConfig: GridConfig<V>, itemsCast: V[]): V[] {
-  return [ ...(gridConfig.data || []), ...itemsCast ];
+  gridConfig.data = gridConfig.data || [];
+  gridConfig.data.push(...itemsCast);
+  return gridConfig.data;
 }
 
 export interface IGridOptions {
+  defaultData?: any[];
+
   /**
    * External data retrieving function
    */
@@ -47,6 +51,7 @@ export interface IGridOptions {
    */
   addNewItems?: <V>(gridConfig: GridConfig<V>, itemsCast: V[]) => V[];
 
+  onDataReady?: <V>(itemsCast: V[]) => Promise<void>;
 }
 
 export declare type SortDirection = 'asc' | 'desc';
@@ -64,9 +69,11 @@ export class GridConfig<T> {
   lastPageSize: number;
   searchEngine$$: Subscription;
   private extraElements: number;
+
   constructor(private gridOptions: IGridOptions
 
   ) {
+    this.data = this.gridOptions.defaultData;
   }
 
   initialize(paginator: MatPaginator, sort: MatSort) {
@@ -86,7 +93,7 @@ export class GridConfig<T> {
         // debounceTime(250),
         switchMap(([sort, paginator, force]) => {
           this.isLoadingResults = true;
-        this.extraElements = this.lastRetrieved ? 2 : 1;
+          this.extraElements = this.lastRetrieved ? 2 : 1;
 
 
           const formattedSort = sort == null ?
@@ -126,7 +133,7 @@ export class GridConfig<T> {
         const firstIndex = this.lastRetrieved && data?.items.length > 0 ? 1 : 0;
 
         let lastIndex = this.lastPageSize - this.extraElements;
-        if(this.isRateLimitReached){
+        if (this.isRateLimitReached) {
           lastIndex = data.items.length;
         }
 
@@ -137,6 +144,9 @@ export class GridConfig<T> {
 
         this.lastRetrieved = data.items.length > 0 && data.items[data.items.length - 2];
 
+        if (this.gridOptions?.onDataReady) {
+          this.gridOptions?.onDataReady(this.data);
+        }
 
       });
   }
