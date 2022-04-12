@@ -1,10 +1,11 @@
-import { DataRetrieverInput, GridConfig, GridData } from '../../../shared/grid/grid-config';
+import { DataRetrieverInput, GridData } from '../../../shared/grid/grid-config';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { of } from 'rxjs';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { NavigationItemIds } from '../../main.navigation';
+import { FirestoreGridConfig } from 'src/app/shared/grid/firestore/firestore-grid.service';
 
 
 export interface PeriodicElement {
@@ -51,11 +52,9 @@ export class MemberSearchComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
 
-  gridConfig: GridConfig<PeriodicElement>;
+  constructor(breadcrumbService: BreadcrumbService, public gridConfig: FirestoreGridConfig<PeriodicElement>) {
 
-  constructor(breadcrumbService: BreadcrumbService) {
-
-    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SEARCH_MEMBER);
+    breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.CUSTOMER_SEARCH);
   }
 
 
@@ -63,8 +62,10 @@ export class MemberSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // debugger;
-    this.gridConfig = new GridConfig<PeriodicElement>(this.retrieveData.bind(this), this.paginator, this.sort);
+    this.gridConfig.initialize(this.paginator, this.sort, {
+      defaultSortField: 'name',
+      dataRetriever: this.retrieveData.bind(this)
+    });
   }
 
 

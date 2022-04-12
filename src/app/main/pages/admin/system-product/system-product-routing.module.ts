@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SettingsBankingComponent } from './banking.component';
+import { SystemProductComponent } from './system-product.component';
 
 const routes: Routes = [
   {
@@ -11,14 +11,14 @@ const routes: Routes = [
   },
   {
     path: 'ws',
-    component: SettingsBankingComponent,
+    component: SystemProductComponent,
     data: {
       menu: 'settings'
     },
     children:[
       {
         path: 'new',
-        loadChildren: () => import('./new/payment-method-new.module').then(m => m.PaymentMethodNewModule),
+        loadChildren: () => import('./new/system-product-new.module').then(m => m.SystemProductNewModule),
         outlet: 'action'
       }
     ]
@@ -35,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SettingsBankingRoutingModule { }
+export class SystemProductRoutingModule { }

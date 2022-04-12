@@ -1,3 +1,5 @@
+import { IGridOptions } from 'src/app/shared/grid/grid-config';
+import { FirestoreGridModule } from './../../../../shared/grid/firestore/firestore-grid.module';
 import { DataRetrieverInput, GridConfig, GridData } from '../../../../shared/grid/grid-config';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
@@ -11,6 +13,7 @@ import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatTable } from '@angular/material/table';
 import { ISelectorConfig } from 'src/app/shared/selectors/selectors.models';
+import { FirestoreGridConfig } from 'src/app/shared/grid/firestore/firestore-grid.service';
 
 
 export interface PeriodicElement {
@@ -57,7 +60,6 @@ export class SpecialistListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['description'];
 
 
-  gridConfig: GridConfig<ISpecialistItem>;
 
   dataResponse: ISpecialistItem[];
 
@@ -94,7 +96,8 @@ export class SpecialistListComponent implements OnInit, AfterViewInit {
   constructor(
     breadcrumbService: BreadcrumbService,
     private service: SpecialistService,
-    private router: Router
+    private router: Router,
+    public gridConfig: FirestoreGridConfig<ISpecialistItem>
   ) {
 
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SPECIALISTS);
@@ -102,14 +105,13 @@ export class SpecialistListComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.gridConfig = new GridConfig<ISpecialistItem>({
-      dataRetriever: this.retrieveData.bind(this),
-      defaultSortField: 'description'
-    });
   }
 
   async ngAfterViewInit() {
-    this.gridConfig.initialize(this.paginator, this.sort);
+    this.gridConfig.initialize(this.paginator, this.sort, {
+      dataRetriever: this.retrieveData.bind(this),
+      defaultSortField: 'description'
+    } as IGridOptions);
     this.gridConfig.refresh();
   }
 

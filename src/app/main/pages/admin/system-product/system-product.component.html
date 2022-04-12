@@ -1,29 +1,21 @@
-<app-page pageTitle="Banking" pageIcon="account_balance">
+<app-page navigationItem="ADMIN">
 
 
   <section fxFlex="auto" fxLayout="column" fxLayoutGap="20px" class="max-h-full" fxLayoutAlign="flex-start baseline">
-    <mat-tab-group class="custom-tab-group fill" fxFlexFill fxFlex fxLayout="column" fxLayoutAlign="stretch stretch">
-      <mat-tab label="Payment Methods">
-        <section class="">
-          <app-page pageTitle="" icon="account_balance">
 
-            <ng-template #optionsContent>
-              <button mat-mini-fab aria-label="New payment method" (click)="newPaymentMethod($event)">
-                <mat-icon>account_balance</mat-icon>
-              </button>
-            </ng-template>
+    <section class="">
+      <app-page pageTitle="" pageIcon="account_balance">
 
-
-            <app-payment-method-list></app-payment-method-list>
+        <ng-template #optionsContent>
+          <button mat-mini-fab aria-label="New payment method" (click)="newPaymentMethod($event)">
+            <mat-icon>account_balance</mat-icon>
+          </button>
+        </ng-template>
 
 
-          </app-page>
-        </section>
-      </mat-tab>
-      <mat-tab label="Transfers">
-        Transfers
-      </mat-tab>
-    </mat-tab-group>
+      </app-page>
+    </section>
+
 
   </section>
 </app-page>

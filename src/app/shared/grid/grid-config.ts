@@ -1,11 +1,11 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable, InjectionToken, NgModule } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { DocumentSnapshot } from 'firebase/firestore';
 import { combineLatest, from, of, Subscription } from 'rxjs';
 import { catchError, startWith, switchMap, tap } from 'rxjs/operators';
 
-
+export const GridDefaultOptions = new InjectionToken('grid-default-options');
 
 export interface PageDataSort {
   field: string;
@@ -50,33 +50,41 @@ export interface IGridOptions {
    * @param itemsCast
    */
   addNewItems?: <V>(gridConfig: GridConfig<V>, itemsCast: V[]) => V[];
-
-  onDataReady?: <V>(itemsCast: V[]) => Promise<void>;
 }
+
+
 
 export declare type SortDirection = 'asc' | 'desc';
 
-export class GridConfig<T> {
+export abstract class GridConfig<T> {
 
   isLoadingResults: boolean;
   isRateLimitReached: boolean;
   resultsLength: any;
-  data: T[];
+  data: T[] = [];
   private force$ = new EventEmitter<any>();
   sort: MatSort;
   paginator: MatPaginator;
   lastRetrieved: T;
-  lastPageSize: number;
-  searchEngine$$: Subscription;
-  private extraElements: number;
 
-  constructor(private gridOptions: IGridOptions
+  lastPageSize: number;
+  previousLastRetrieved: T;
+
+  searchEngine$$: Subscription;
+  public extraElements: number;
+  gridOptions: IGridOptions;
+
+  constructor(
 
   ) {
-    this.data = this.gridOptions.defaultData;
   }
 
-  initialize(paginator: MatPaginator, sort: MatSort) {
+  abstract buildRequest(sort: Sort, paginator: PageEvent): DataRetrieverInput;
+
+  initialize(paginator: MatPaginator, sort: MatSort, gridOptions?: IGridOptions) {
+    this.gridOptions = gridOptions;
+    this.data = this.gridOptions.defaultData;
+
     this.sort = sort;
     this.paginator = paginator;
     if (paginator) {
@@ -88,27 +96,11 @@ export class GridConfig<T> {
 
     const internalPaginatorPage = this.paginator ? this.paginator.page : new EventEmitter<PageEvent>();
 
-    this.searchEngine$$ = combineLatest([internalSortChange$.pipe(startWith(null as Sort)), internalPaginatorPage.pipe(startWith(null as Sort)), this.force$.pipe(startWith(false))])
+    this.searchEngine$$ = combineLatest([internalSortChange$.pipe(startWith(null as Sort)), internalPaginatorPage.pipe(startWith(null as PageEvent)), this.force$.pipe(startWith(false))])
       .pipe(
         // debounceTime(250),
-        switchMap(([sort, paginator, force]) => {
-          this.isLoadingResults = true;
-          this.extraElements = this.lastRetrieved ? 2 : 1;
-
-
-          const formattedSort = sort == null ?
-            { field: this.gridOptions.defaultSortField, direction: 'asc' } as PageDataSort
-            : { field: this.sort && this.sort.active, direction: this.sort && this.sort.direction } as PageDataSort;
-
-          this.lastPageSize = (this.paginator?.pageSize || 10) + this.extraElements;
-          const input: DataRetrieverInput = {
-            sort: formattedSort,
-            pageIndex: this.paginator?.pageIndex,
-            pageSize: this.lastPageSize,
-            lastRetrieved: this.lastRetrieved,
-            retrieveTotalAmount: true
-          };
-
+        switchMap(([sortElem, paginatorElem, force]) => {
+          const input = this.buildRequest(sortElem, paginatorElem);
           return from(this.gridOptions.dataRetriever<T>(input));
         }),
         catchError((error) => {
@@ -125,9 +117,6 @@ export class GridConfig<T> {
         // debugger
 
         // const itemsCast = (data.items && data.items.map(_ => ({id: _.id, data: _.data() as unknown as T})));
-        this.isLoadingResults = false;
-
-
         this.isRateLimitReached = data.items.length < ((this.paginator?.pageSize || 10) + this.extraElements);
 
         const firstIndex = this.lastRetrieved && data?.items.length > 0 ? 1 : 0;
@@ -142,11 +131,12 @@ export class GridConfig<T> {
         // this.resultsLength = data.totalCount || (data as unknown as T[]).length;
         // this.paginator.length = (data && data.items && data.items.length === this.paginator.pageSize) ? this.paginator.pageIndex * this.paginator.pageSize + 1 : this.paginator.pageIndex * this.paginator.pageSize;
 
+        this.previousLastRetrieved = this.lastRetrieved;
         this.lastRetrieved = data.items.length > 0 && data.items[data.items.length - 2];
 
-        if (this.gridOptions?.onDataReady) {
-          this.gridOptions?.onDataReady(this.data);
-        }
+        setTimeout(() => {
+          this.isLoadingResults = false;
+        });
 
       });
   }
@@ -160,3 +150,4 @@ export class GridConfig<T> {
   }
 
 }
+

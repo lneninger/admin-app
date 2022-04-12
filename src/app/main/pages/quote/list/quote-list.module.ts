@@ -1,3 +1,4 @@
+import { FirestoreGridModule } from './../../../../shared/grid/firestore/firestore-grid.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +14,8 @@ import { GridModule } from '../../../../shared/grid/grid.module';
     CommonModule,
     QuoteListRoutingModule,
     LayoutMainCommonModule,
-    GridModule
+    GridModule,
+    FirestoreGridModule
   ]
 })
 export class QuoteListModule { }

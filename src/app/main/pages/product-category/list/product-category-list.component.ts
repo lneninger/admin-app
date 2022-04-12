@@ -7,6 +7,7 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { first, tap } from 'rxjs/operators';
 import { IProductCategoryItem } from 'src/app/main/services/product-category/product-category.models';
 import { ProductCategoryService } from 'src/app/main/services/product-category/product-category.service';
+import { FirestoreGridConfig } from 'src/app/shared/grid/firestore/firestore-grid.service';
 import { DataRetrieverInput, GridConfig } from 'src/app/shared/grid/grid-config';
 
 import { ProductCategoryComponent } from '../item/product-category.component';
@@ -24,8 +25,6 @@ export class ProductCategoryListComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['name', 'description'];
 
-  gridConfig: GridConfig<IProductCategoryItem>;
-
   treeControl = new NestedTreeControl<IProductCategoryItem>(node => node.children);
 
   treeDataSource = new MatTreeNestedDataSource<IProductCategoryItem>()
@@ -34,7 +33,8 @@ export class ProductCategoryListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private service: ProductCategoryService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public gridConfig: FirestoreGridConfig<IProductCategoryItem>
   ) {
 
   }
@@ -44,11 +44,10 @@ export class ProductCategoryListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.gridConfig = new GridConfig<IProductCategoryItem>({
+      this.gridConfig.initialize(this.paginator, this.sort, {
         dataRetriever: this.retrieveData.bind(this),
         defaultSortField: 'name'
       });
-      this.gridConfig.initialize(this.paginator, this.sort);
     });
 
 

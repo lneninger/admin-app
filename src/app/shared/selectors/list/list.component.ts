@@ -20,7 +20,6 @@ export class SelectorListComponent implements OnInit {
 
   }
 
-  constructor() { }
 
   ngOnInit(): void {
   }
