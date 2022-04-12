@@ -1,3 +1,4 @@
+import { FirestoreGridModule } from './../../../../shared/grid/firestore/firestore-grid.module';
 import { AddProductRequest, IProductDialogData } from '../../../services/product/product.models';
 import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -14,6 +15,7 @@ import { ProductComponent } from '../item/product.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { BaseComponent } from 'src/app/shared/base.component';
+import { FirestoreGridConfig } from 'src/app/shared/grid/firestore/firestore-grid.service';
 
 @Component({
   selector: 'app-product',
@@ -27,8 +29,6 @@ export class ProductListComponent extends BaseComponent implements OnInit, After
 
   displayedColumns: string[] = ['name', 'description'];
 
-  gridConfig: GridConfig<IProductItem>;
-
   treeControl = new NestedTreeControl<IProductItem>(node => node.children);
 
   treeDataSource = new MatTreeNestedDataSource<IProductItem>();
@@ -38,7 +38,8 @@ export class ProductListComponent extends BaseComponent implements OnInit, After
   constructor(
     breadcrumbService: BreadcrumbService,
     private service: ProductService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public gridConfig: FirestoreGridConfig<IProductItem>
   ) {
     super();
 
@@ -50,13 +51,10 @@ export class ProductListComponent extends BaseComponent implements OnInit, After
   }
 
   ngAfterViewInit(): void {
-    // debugger;
-    this.gridConfig = new GridConfig<IProductItem>({
+    this.gridConfig.initialize(this.paginator, this.sort, {
       dataRetriever: this.retrieveData.bind(this),
       defaultSortField: 'name'
     });
-
-    this.gridConfig.initialize(this.paginator, this.sort);
   }
 
 

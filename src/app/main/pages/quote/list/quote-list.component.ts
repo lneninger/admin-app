@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { IQuoteItem } from 'src/app/main/services/quote/quote.models';
 import { QuoteService } from 'src/app/main/services/quote/quote.service';
+import { FirestoreGridConfig } from 'src/app/shared/grid/firestore/firestore-grid.service';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 
 import { DataRetrieverInput, GridConfig } from '../../../../shared/grid/grid-config';
@@ -56,8 +57,6 @@ export class QuoteListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['description'];
 
 
-  gridConfig: GridConfig<IQuoteItem>;
-
   dataResponse: IQuoteItem[];
 
   @ViewChild(MatTable) table: MatTable<IQuoteItem>;
@@ -65,7 +64,8 @@ export class QuoteListComponent implements OnInit, AfterViewInit {
   constructor(
     breadcrumbService: BreadcrumbService,
     private service: QuoteService,
-    private router: Router
+    private router: Router,
+    public gridConfig: FirestoreGridConfig<IQuoteItem>
   ) {
 
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.QUOTES);
@@ -73,26 +73,23 @@ export class QuoteListComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.gridConfig = new GridConfig<IQuoteItem>({
-      dataRetriever: this.retrieveData.bind(this),
-      defaultSortField: 'description'
-    });
   }
 
   async ngAfterViewInit() {
-    this.gridConfig.initialize(this.paginator, this.sort);
+    this.gridConfig.initialize(this.paginator, this.sort, {
+      dataRetriever: this.retrieveData.bind(this),
+      defaultSortField: 'description'
+    });
     this.gridConfig.refresh();
   }
 
 
   retrieveData(input?: DataRetrieverInput) {
-    const result = this.service.search(input).pipe(tap(response => {
+    return this.service.search(input).pipe(tap(response => {
       this.dataResponse = response.items;
       this.table.renderRows();
 
     }));
-
-    return result;
   }
 
   async newQuote($event?: Event) {

@@ -184,7 +184,7 @@ export class PaymentMethodNewComponent extends HybridDisplayModeComponent implem
 
 @AutoUnsubscribe()
 @Component({
-  selector: 'app-banking-paymentmethod-dialog',
+  selector: 'app-system-product-new-dialog',
   templateUrl: './system-product-new.component.html',
   styleUrls: ['./system-product-new.component.scss']
 })

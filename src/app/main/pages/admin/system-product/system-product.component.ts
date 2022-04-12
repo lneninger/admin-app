@@ -19,11 +19,11 @@ import { environment } from 'src/environments/environment';
 
 @AutoUnsubscribe()
 @Component({
-  selector: 'app-settings-banking',
-  templateUrl: './banking.component.html',
-  styleUrls: ['./banking.component.scss']
+  selector: 'app-system-product',
+  templateUrl: './system-product.component.html',
+  styleUrls: ['./system-product.component.scss']
 })
-export class SettingsBankingComponent extends BaseComponent implements OnInit {
+export class SystemProductComponent extends BaseComponent implements OnInit {
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
 

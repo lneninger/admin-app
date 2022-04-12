@@ -24,4 +24,4 @@ import { NgxStripeModule } from 'ngx-stripe';
     PaymentMethodNewComponent
   ]
 })
-export class PaymentMethodNewModule { }
+export class SystemProductNewModule { }

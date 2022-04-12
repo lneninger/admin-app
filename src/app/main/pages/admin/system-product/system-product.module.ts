@@ -1,31 +1,26 @@
-import { RouterOutletModule } from './../../../../shared/layout/layout-main/router-outlet/router-outlet.module';
-import { PaymentMethodNewModule } from './new/payment-method-new.module';
 import { BankAccountModule } from './../../../../shared/payment/bank-account/bank-account.module';
 import { NgxStripeModule } from 'ngx-stripe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutMainCommonModule } from '../../../../shared/layout/layout-main/layout-main-common/layout-main-common.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { SettingsBankingRoutingModule } from './banking-routing.module';
-import { SettingsBankingComponent } from './banking.component';
-import { PaymentMethodListModule } from './list/payment-method-list.module';
+import { SystemProductComponent } from './system-product.component';
+import { SystemProductRoutingModule } from './system-product-routing.module';
+import { SystemProductNewModule } from './new/system-product-new.module';
 
 
 @NgModule({
-  declarations: [SettingsBankingComponent],
+  declarations: [SystemProductComponent],
   imports: [
     CommonModule,
-    SettingsBankingRoutingModule,
+    SystemProductRoutingModule,
     LayoutMainCommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgxStripeModule,
     BankAccountModule,
-    PaymentMethodListModule,
-    PaymentMethodNewModule,
-    BankAccountModule,
-    RouterOutletModule
+    SystemProductNewModule,
+    BankAccountModule
   ]
 })
-export class SettingsBankingModule { }
+export class SystemProductModule { }

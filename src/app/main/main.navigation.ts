@@ -20,6 +20,7 @@ export enum NavigationItemIds {
   PAYMENTMETHOD_NEW = 'PAYMENTMETHOD_NEW',
   PAYMENTMETHOD_EDIT = 'PAYMENTMETHOD_EDIT',
 
+  CUSTOMER_SEARCH = 'CUSTOMER_SEARCH',
 
   PRODUCT_CATEGORIES = 'PRODUCT_CATEGORIES',
   PRODUCTS = 'PRODUCTS',
@@ -99,6 +100,13 @@ export const navigationItems: NavigationItem[] = [
     label: 'Roles',
     routerLink: ['/app/ws/admin/ws/roles'],
     icon: 'lock'
+  },
+
+  {
+    id: NavigationItemIds.CUSTOMER_SEARCH,
+    label: 'Customer search',
+    routerLink: ['/app/customers'],
+    icon: 'person'
   },
   // {
   //   id: 'ABOUT',

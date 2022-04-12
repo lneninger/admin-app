@@ -1,3 +1,5 @@
+import { ISubscriptionItemDetail } from './../../../../services/subscription/subscription.models';
+import { SubscriptionService } from 'src/app/main/services/subscription/subscription.service';
 import { firstValueFrom } from 'rxjs';
 import { ISubscriptionItem } from 'src/app/main/services/subscription/subscription.models';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
@@ -13,7 +15,7 @@ import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { ComponentDisplayMode } from 'src/app/shared/general.models';
 import { HybridDisplayModeComponent } from 'src/app/shared/hybrid.displaymode.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
-import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
+import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
 
 @AutoUnsubscribe()
 @Component({
@@ -31,15 +33,18 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
   dialogConfig: { host: SubscriptionEditComponent }
   dialogEditStep = 0;
   id: string;
+  details: IFireStoreDocument<ISubscriptionItemDetail>[];
   setDialogEditStep(index: number) {
     this.dialogEditStep = index;
   }
   //#endregion
 
+  detailDescription: string;
+
   constructor(
     breadcrumbService: BreadcrumbService,
     protected fmBuilder: FormBuilder,
-    protected service: PaymentService,
+    protected service: SubscriptionService,
     protected stripeService: StripeService,
     protected dialog: MatDialog,
     protected subscriptionUIService: SubscriptionUIService,
@@ -61,7 +66,13 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
     setTimeout(async () => {
       this.form = await this.createForm();
       this.initialize();
+      this.initializeListeners();
     }, 0);
+  }
+  initializeListeners() {
+    this.firebaseService.firestore.collection<ISubscriptionItemDetail>(`app-subscriptions/${this.id}/details`).get().subscribe(detailsResult => {
+      this.details = detailsResult.docs.map(detail => ({ id: detail.id, data: detail.data(), $original: detail } as IFireStoreDocument<ISubscriptionItemDetail>))
+    })
   }
   private initialize() {
     if (this.isDialog) {
@@ -87,7 +98,8 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
     return this.fmBuilder.group({
       name: [docData.name, [Validators.required]],
       price: [docData.price, [Validators.required]],
-      activateDate: [docData.activateDate, [Validators.required]]
+      activateDate: [docData.activateDate, [Validators.required]],
+      details: this.fmBuilder.array([...(docData.details || []).map(item => this.fmBuilder.control({ value: item }))])
     });
   }
 
@@ -118,6 +130,23 @@ export class SubscriptionEditComponent extends HybridDisplayModeComponent implem
     }
   }
 
+  addDetail(description: string) {
+    let id = this.id;
+    if (this.dialogConfig) {
+      id = this.dialogConfig.host.id;
+    }
+    const model = { description } as ISubscriptionItemDetail;
+    this.service.addDetail(id, model);
+  }
+
+
+  detailInputActivated($event) {
+
+  }
+
+  detailInputProcess($event) {
+    this.addDetail(this.detailDescription);
+  }
 
 }
 
@@ -133,7 +162,7 @@ export class SubscriptionEditDialog extends SubscriptionEditComponent implements
     @Inject(MAT_DIALOG_DATA) readonly config: { host: SubscriptionEditComponent },
     breadcrumbService: BreadcrumbService,
     fmBuilder: FormBuilder,
-    service: PaymentService,
+    service: SubscriptionService,
     stripeService: StripeService,
     dialog: MatDialog,
     subscriptionUIService: SubscriptionUIService,
@@ -149,6 +178,8 @@ export class SubscriptionEditDialog extends SubscriptionEditComponent implements
       subscriptionUIService,
       firebaseService,
       route);
+
+
     this.dialogConfig = config;
 
   }
@@ -158,6 +189,8 @@ export class SubscriptionEditDialog extends SubscriptionEditComponent implements
 
   async ngOnDestroy() {
   }
+
+
 
 }
 

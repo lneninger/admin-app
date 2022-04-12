@@ -6,6 +6,7 @@ import { ProductRoutingModule } from './product-list-routing.module';
 import { ProductListComponent } from './product-list.component';
 import { LayoutMainCommonModule } from 'src/app/shared/layout/layout-main/layout-main-common/layout-main-common.module';
 import { GridModule } from 'src/app/shared/grid/grid.module';
+import { FirestoreGridModule } from 'src/app/shared/grid/firestore/firestore-grid.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { GridModule } from 'src/app/shared/grid/grid.module';
     ProductRoutingModule,
     LayoutMainCommonModule,
     GridModule,
-    ProductModule
+    ProductModule,
+    FirestoreGridModule
   ]
 })
 export class ProductCategoryListModule { }

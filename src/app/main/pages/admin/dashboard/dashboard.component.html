@@ -1,10 +1,10 @@
 <app-page navigationItem="ADMIN_DASHBOARD">
   <section fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="flex-start baseline">
 
-    <mat-card>
-      <mat-card-title>Subscriptions</mat-card-title>
-      <mat-card-footer></mat-card-footer>
-    </mat-card>
-
+      <mat-card [routerLink]="this.susbscriptionNavigationItem.routerLink" class="flex-row flex-nowrap cursor-pointer">
+        <mat-icon mat-card-avatar class="scale-100">{{this.susbscriptionNavigationItem.icon}}</mat-icon>
+        <mat-card-title>{{this.susbscriptionNavigationItem.label}}</mat-card-title>
+        <mat-card-footer></mat-card-footer>
+      </mat-card>
   </section>
 </app-page>

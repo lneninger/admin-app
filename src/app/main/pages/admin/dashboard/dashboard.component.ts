@@ -1,3 +1,4 @@
+import { AppMenuService } from 'src/app/main/shared/menu/app-menu.service';
 import { Component, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
@@ -8,6 +9,7 @@ import { TenantStateModel } from 'src/app/main/services/tenant/tenant.models';
 import { UserStateModel } from 'src/app/main/services/user/user.models';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { NavigationItem } from 'src/app/shared/layout/layout-main/navigation/navigation.models';
 
 
 const productContexts = [
@@ -61,8 +63,12 @@ export class AdminDashboardComponent extends BaseComponent implements OnInit {
 
   @Select(AggregatorsState.aggregatorMemberTenant)
   aggregatorMemberTenant$: Observable<{user: UserStateModel, tenant: TenantStateModel}>;
+  susbscriptionNavigationItem: NavigationItem;
 
-  constructor(breadcrumbService: BreadcrumbService) {
+  constructor(
+    breadcrumbService: BreadcrumbService,
+    private menuService: AppMenuService
+    ) {
     super();
 
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.ADMIN, NavigationItemIds.ADMIN_DASHBOARD);
@@ -70,6 +76,7 @@ export class AdminDashboardComponent extends BaseComponent implements OnInit {
 
 
   ngOnInit() {
+    this.susbscriptionNavigationItem = this.menuService.navigationService.findItem(NavigationItemIds.ADMIN_SUBSCRIPTIONS);
   }
 
 }
