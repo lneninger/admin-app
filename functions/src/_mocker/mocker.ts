@@ -35,7 +35,7 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       if (user) {
         userId = user.uid;
       } else {
-        createUserResult = await auth.createUser({ /*uid: mockedSignUp.email, */email: mockedSignUp.email, password: mockedSignUp.password, phoneNumber: mockedSignUp.phoneNumber, photoURL: mockedSignUp.photoUrl, metadata: null } as CreateRequest);
+        createUserResult = await auth.createUser({ email: mockedSignUp.email, password: mockedSignUp.password, phoneNumber: mockedSignUp.phoneNumber, photoURL: mockedSignUp.photoUrl, metadata: null } as CreateRequest);
         userId = createUserResult.uid;
       }
 
@@ -47,26 +47,32 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       const userModuleCollection = firestore.collection('app-users-secured-modules');
       let add: boolean;
       const moduleCollection = firestore.collection('app-secured-modules');
-      try {
-        add = ! (await moduleCollection.doc('AXIE-INFINITY').get()).data();
-      } catch {
-        add = true;
-      }
-      if (add) {
-        await moduleCollection.doc('AXIE-INFINITY').set({
-          name: 'AXIE-INFINITY',
-          displayName: 'Axie Infinity',
-          path: 'axie-infinity',
-          icon: 'pets',
-        } as ISecuredModule);
+      // try {
+      //   add = !(await moduleCollection.doc('AXIE-INFINITY').get()).data();
+      // } catch {
+      //   add = true;
+      // }
+      // if (add) {
+        if (!(await moduleCollection.doc('AXIE-INFINITY').get()).exists) {
 
-        await userModuleCollection.add({
-          userId,
-          moduleId: 'AXIE-INFINITY'//axieInfinitySecured.id,
-        } as IUserSecuredModule);
-      }
+          await moduleCollection.doc('AXIE-INFINITY').set({
+            name: 'AXIE-INFINITY',
+            displayName: 'Axie Infinity',
+            path: 'axie-infinity',
+            icon: 'pets',
+          } as ISecuredModule);
+
+          await userModuleCollection.add({
+            userId,
+            moduleId: 'AXIE-INFINITY'//axieInfinitySecured.id,
+          } as IUserSecuredModule);
+        }
+      // }
+
 
       //#endregion
+
+
       res.status(202).json({});
 
     } catch (error) {

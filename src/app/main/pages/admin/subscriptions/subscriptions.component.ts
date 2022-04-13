@@ -67,8 +67,6 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
   uiAction$$: Subscription;
 
-  data: IFireStoreDocument<ISubscriptionItem>[] = [];
-
   constructor(
     breadcrumbService: BreadcrumbService,
     private service: SubscriptionService,
@@ -85,11 +83,15 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
   ngOnInit(): void {
   }
 
+  ngOnDestroy(){
+    super.ngOnDestroy();
+    this.gridConfig.dispose();
+  }
+
   async ngAfterViewInit() {
     setTimeout(() => {
       this.uiAction$$ = this.subscriptionUIService.broadcast$.subscribe(async ($event: SubscriptionUIEvent) => this.closeAction($event));
       this.gridConfig.initialize(this.paginator, this.sort, {
-        defaultData: this.data,
         dataRetriever: this.retrieveData.bind(this),
         defaultSortField: 'name',
         addNewItems: gridAppendNewItems,
