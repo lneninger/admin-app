@@ -57,12 +57,16 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
         functions.logger.log('entity metadata created', entityUpdate);
 
         const result = { customer: response.id };
+
         res.status(200).json();
 
         return result;
       } else {
         console.log('Customer already exists');
-        return res.status(204).send();
+
+        res.status(204).json({});
+
+        return null;
       }
     });
 

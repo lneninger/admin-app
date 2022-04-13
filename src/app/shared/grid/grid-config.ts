@@ -26,10 +26,15 @@ export interface GridData<T = any> {
   totalCount?: number;
 }
 
-export function gridAppendNewItems<V>(gridConfig: GridConfig<V>, itemsCast: V[]): V[] {
-  gridConfig.data = gridConfig.data || [];
+
+export function defaultGridNewItems<V>(gridConfig: GridConfig<V>, itemsCast: V[]) {
+  gridConfig.data = [];
+  gridConfig.data = itemsCast;
+}
+
+export function gridAppendNewItems<V>(gridConfig: GridConfig<V>, itemsCast: V[]) {
+  console.log(`Append items executing`, gridConfig.data, itemsCast);
   gridConfig.data.push(...itemsCast);
-  return gridConfig.data;
 }
 
 export interface IGridOptions {
@@ -75,7 +80,6 @@ export abstract class GridConfig<T> {
   gridOptions: IGridOptions;
 
   constructor(
-
   ) {
   }
 
@@ -83,7 +87,14 @@ export abstract class GridConfig<T> {
 
   initialize(paginator: MatPaginator, sort: MatSort, gridOptions?: IGridOptions) {
     this.gridOptions = gridOptions;
-    this.data = this.gridOptions.defaultData;
+    this.clearData();
+    if (this.searchEngine$$?.closed == false) {
+      this.searchEngine$$?.unsubscribe();
+    }
+
+    if (this.gridOptions.defaultData?.length > 0) {
+      this.data.push(...this.gridOptions.defaultData);
+    }
 
     this.sort = sort;
     this.paginator = paginator;
@@ -126,7 +137,10 @@ export abstract class GridConfig<T> {
           lastIndex = data.items.length;
         }
 
-        this.data = this.gridOptions.addNewItems ? this.gridOptions.addNewItems<T>(this, data.items.slice(firstIndex, lastIndex)) : data.items.slice(firstIndex, lastIndex);
+
+        this.gridOptions.addNewItems ?
+          this.gridOptions.addNewItems<T>(this, data.items.slice(firstIndex, lastIndex))
+          : defaultGridNewItems(this, data.items.slice(firstIndex, lastIndex));
 
         // this.resultsLength = data.totalCount || (data as unknown as T[]).length;
         // this.paginator.length = (data && data.items && data.items.length === this.paginator.pageSize) ? this.paginator.pageIndex * this.paginator.pageSize + 1 : this.paginator.pageIndex * this.paginator.pageSize;
@@ -142,7 +156,14 @@ export abstract class GridConfig<T> {
   }
 
   refresh() {
+    this.clearData();
     this.force$.emit(true);
+  }
+
+  private clearData() {
+    this.data.splice(0, this.data.length);
+    this.lastRetrieved = undefined;
+    this.isRateLimitReached = false;
   }
 
   dispose() {

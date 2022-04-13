@@ -9,13 +9,14 @@
       </mat-form-field>
     </section>
 
-    <section class="mb-5">
+    <!-- <section class="mb-5">
       <app-selector-list [config]="this.gridFilterConfig"></app-selector-list>
-    </section>
+    </section> -->
 
-    length = {{this.data?.length | json}}
+    length = {{gridConfig?.data?.length}}<br>
+    {{gridConfig?.data | json}}
 
-    <table mat-table #table [dataSource]="gridConfig?.data" matSort class="w-full">
+    <table mat-table #table [dataSource]="this.gridConfig?.data" matSort class="w-full">
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
