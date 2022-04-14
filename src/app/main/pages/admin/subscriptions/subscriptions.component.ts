@@ -1,10 +1,11 @@
+import { DataSource } from '@angular/cdk/table';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { Subscription } from 'rxjs';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { ISubscriptionItem } from 'src/app/main/services/subscription/subscription.models';
 import { SubscriptionService } from 'src/app/main/services/subscription/subscription.service';
@@ -27,7 +28,6 @@ import { SubscriptionUIService } from './../../../services/subscription/ui/subsc
   styleUrls: ['./subscriptions.component.scss']
 })
 export class AdminSubscriptionsComponent extends BaseComponent implements OnInit, AfterViewInit {
-
 
   gridFilterConfig: ISelectorConfig = {
     items: [
@@ -67,6 +67,9 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
 
   uiAction$$: Subscription;
 
+  dataSource = new SubscriptionsDataSource([]);
+
+
   constructor(
     breadcrumbService: BreadcrumbService,
     private service: SubscriptionService,
@@ -95,15 +98,16 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
         dataRetriever: this.retrieveData.bind(this),
         defaultSortField: 'name',
         addNewItems: gridAppendNewItems,
+        onDataReady: this.onGridConfigDataReady.bind(this)
       } as IGridOptions);
 
       this.gridConfig.refresh();
     })
   }
 
-  onGridConfigDataReady() {
+  onGridConfigDataReady(items: IFireStoreDocument<ISubscriptionItem>[]) {
     setTimeout(() => {
-      this.table.renderRows();
+      this.dataSource.setData(items);
     }, 0);
   }
 
@@ -128,4 +132,23 @@ export class AdminSubscriptionsComponent extends BaseComponent implements OnInit
     }
   }
 
+}
+
+class SubscriptionsDataSource extends DataSource<IFireStoreDocument<ISubscriptionItem>> {
+  private _dataStream = new ReplaySubject<IFireStoreDocument<ISubscriptionItem>[]>();
+
+  constructor(initialData: IFireStoreDocument<ISubscriptionItem>[]) {
+    super();
+    this.setData(initialData);
+  }
+
+  connect(): Observable<IFireStoreDocument<ISubscriptionItem>[]> {
+    return this._dataStream;
+  }
+
+  disconnect() {}
+
+  setData(data: IFireStoreDocument<ISubscriptionItem>[]) {
+    this._dataStream.next(data);
+  }
 }
