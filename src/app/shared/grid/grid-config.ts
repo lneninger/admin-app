@@ -1,3 +1,4 @@
+import { I } from '@angular/cdk/keycodes';
 import { EventEmitter, Injectable, InjectionToken, NgModule } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -55,6 +56,8 @@ export interface IGridOptions {
    * @param itemsCast
    */
   addNewItems?: <V>(gridConfig: GridConfig<V>, itemsCast: V[]) => V[];
+
+  onDataReady?: <V>(itemsCast: V[]) => Promise<void>;
 }
 
 
@@ -84,6 +87,7 @@ export abstract class GridConfig<T> {
   }
 
   abstract buildRequest(sort: Sort, paginator: PageEvent): DataRetrieverInput;
+  abstract processResponse(items: GridData<T>);
 
   initialize(paginator: MatPaginator, sort: MatSort, gridOptions?: IGridOptions) {
     this.gridOptions = gridOptions;
@@ -103,7 +107,7 @@ export abstract class GridConfig<T> {
     }
 
     const internalSortChange = this.sort ? this.sort.sortChange : new EventEmitter<Sort>();
-    const internalSortChange$ = internalSortChange.pipe(tap(_ => this.lastRetrieved = null));
+    const internalSortChange$ = internalSortChange.pipe(tap(_ => this.clearData()));
 
     const internalPaginatorPage = this.paginator ? this.paginator.page : new EventEmitter<PageEvent>();
 
@@ -128,29 +132,7 @@ export abstract class GridConfig<T> {
         // debugger
 
         // const itemsCast = (data.items && data.items.map(_ => ({id: _.id, data: _.data() as unknown as T})));
-        this.isRateLimitReached = data.items.length < ((this.paginator?.pageSize || 10) + this.extraElements);
-
-        const firstIndex = this.lastRetrieved && data?.items.length > 0 ? 1 : 0;
-
-        let lastIndex = this.lastPageSize - this.extraElements;
-        if (this.isRateLimitReached) {
-          lastIndex = data.items.length;
-        }
-
-
-        this.gridOptions.addNewItems ?
-          this.gridOptions.addNewItems<T>(this, data.items.slice(firstIndex, lastIndex))
-          : defaultGridNewItems(this, data.items.slice(firstIndex, lastIndex));
-
-        // this.resultsLength = data.totalCount || (data as unknown as T[]).length;
-        // this.paginator.length = (data && data.items && data.items.length === this.paginator.pageSize) ? this.paginator.pageIndex * this.paginator.pageSize + 1 : this.paginator.pageIndex * this.paginator.pageSize;
-
-        this.previousLastRetrieved = this.lastRetrieved;
-        this.lastRetrieved = data.items.length > 0 && data.items[data.items.length - 2];
-
-        setTimeout(() => {
-          this.isLoadingResults = false;
-        });
+        this.processResponse(data);
 
       });
   }
