@@ -84,35 +84,33 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
       stripeCustomerId: this.store.selectSnapshot<string>((store: AppStateModel) => store.userState.paymentMetadata.paymentId),
     } as IPlaidLinkTokenRequestModel;
 
-    const customerCreateFn = this.firebase.fns.httpsCallable<IPlaidLinkTokenRequestModel, IPlaidLinkTokenResponseModel>('plaidToken');
-    return firstValueFrom(customerCreateFn(req));
+    const fn = this.firebase.fns.httpsCallable<IPlaidLinkTokenRequestModel, IPlaidLinkTokenResponseModel>('plaidToken');
+    return firstValueFrom(fn(req));
   }
 
   async attachBankAccount(req: IPaymentMethodRequestModel): Promise<IPaymentMethodResponseModel>{
-    const attachBankAccountFn = this.firebase.fns.httpsCallable<IPaymentMethodRequestModel, IPaymentMethodResponseModel>('attachBankAccount');
-    return firstValueFrom(attachBankAccountFn(req));
+    const fn = this.firebase.fns.httpsCallable<IPaymentMethodRequestModel, IPaymentMethodResponseModel>('attachBankAccount');
+    return firstValueFrom(fn(req));
   }
 
   async createBankAccountToken(req: ICreateBankAccountRequestModel): Promise<ICreateBankAccountResponseModel>{
-    const createBankAccountFn = this.firebase.fns.httpsCallable<ICreateBankAccountRequestModel, ICreateBankAccountResponseModel>('attachBankAccount');
-    return firstValueFrom(createBankAccountFn(req));
+    const fn = this.firebase.fns.httpsCallable<ICreateBankAccountRequestModel, ICreateBankAccountResponseModel>('attachBankAccount');
+    return firstValueFrom(fn(req));
   }
 
   async createSource(req: ICreateSourceRequestModel): Promise<ICreateSourceResponseModel>{
-    const createSourceFn = this.firebase.fns.httpsCallable<ICreateSourceRequestModel, ICreateSourceResponseModel>('sourceCreate');
-    return firstValueFrom(createSourceFn(req));
+    const fn = this.firebase.fns.httpsCallable<ICreateSourceRequestModel, ICreateSourceResponseModel>('sourceCreate');
+    return firstValueFrom(fn(req));
   }
 
   async paymentMethods(req: IGetPaymentMethodsRequestModel): Promise<IGetPaymentMethodsResponseItemModel[]>{
-    const paymentMethodsFn = this.firebase.fns.httpsCallable<IGetPaymentMethodsRequestModel, IGetPaymentMethodsResponseItemModel[]>('paymentMethodList');
-    const result = await paymentMethodsFn(req).toPromise();
-    return result ;
+    const fn = this.firebase.fns.httpsCallable<IGetPaymentMethodsRequestModel, IGetPaymentMethodsResponseItemModel[]>('paymentMethodList');
+    return firstValueFrom(fn(req));
   }
 
   async paymentMethodAttach(req: IPaymentMethodAttachRequestModel) {
-    const paymentMethodAttachFn = this.firebase.fns.httpsCallable<IPaymentMethodAttachRequestModel, IPaymentMethodAttachResponseModel[]>('paymentMethodAttach');
-    const result = await paymentMethodAttachFn(req).toPromise();
-    return result ;
+    const fn = this.firebase.fns.httpsCallable<IPaymentMethodAttachRequestModel, IPaymentMethodAttachResponseModel[]>('paymentMethodAttach');
+    return firstValueFrom(fn(req));
   }
 
 

@@ -22,54 +22,83 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
   return cors(req, res, async () => {
     try {
 
-      let createUserResult: UserRecord;
       let userId: string;
 
-      let user: UserRecord = null as unknown as UserRecord;
       try {
-        user = await auth.getUserByEmail(mockedSignUp.email);
+        const user = await auth.getUserByEmail(mockedSignUp.email);
+        userId = user.uid;
       } catch (error) {
-        // console.log('auth.getUserByEmail: ', error);
+        userId = undefined as unknown as string;
       }
 
-      if (user) {
-        userId = user.uid;
-      } else {
-        createUserResult = await auth.createUser({ email: mockedSignUp.email, password: mockedSignUp.password, phoneNumber: mockedSignUp.phoneNumber, photoURL: mockedSignUp.photoUrl, metadata: null } as CreateRequest);
+      if (!userId) {
+        const createUserResult = await auth.createUser({ email: mockedSignUp.email, password: mockedSignUp.password, phoneNumber: mockedSignUp.phoneNumber, photoURL: mockedSignUp.photoUrl, metadata: null } as CreateRequest);
         userId = createUserResult.uid;
       }
 
       await attachRoleCore({ uid: userId, role: 'Admin' });
-
       //#endregion
 
       //#region Modules
       const userModuleCollection = firestore.collection('app-users-secured-modules');
-      let add: boolean;
       const moduleCollection = firestore.collection('app-secured-modules');
-      // try {
-      //   add = !(await moduleCollection.doc('AXIE-INFINITY').get()).data();
-      // } catch {
-      //   add = true;
-      // }
-      // if (add) {
-        if (!(await moduleCollection.doc('AXIE-INFINITY').get()).exists) {
 
-          await moduleCollection.doc('AXIE-INFINITY').set({
-            name: 'AXIE-INFINITY',
-            displayName: 'Axie Infinity',
-            path: 'axie-infinity',
-            icon: 'pets',
-          } as ISecuredModule);
+      if (!(await moduleCollection.doc('AXIE-INFINITY').get()).exists) {
 
-          await userModuleCollection.add({
-            userId,
-            moduleId: 'AXIE-INFINITY'//axieInfinitySecured.id,
-          } as IUserSecuredModule);
-        }
-      // }
+        await moduleCollection.doc('AXIE-INFINITY').set({
+          name: 'AXIE-INFINITY',
+          displayName: 'Axie Infinity',
+          path: 'axie-infinity',
+          icon: 'pets',
+        } as ISecuredModule);
+
+        await userModuleCollection.add({
+          userId,
+          moduleId: 'AXIE-INFINITY'
+        } as IUserSecuredModule);
+      }
+      //#endregion
 
 
+      //#region Subscriptions
+      if ((await firestore.collection('app-subscriptions').get()).empty) {
+
+        const subscriptions = firestore.collection('app-subscriptions');
+        // BASIC
+        let sub = await subscriptions.add({
+          name: 'BASIC',
+          icon: 'thumb_up',
+          description: 'Entry level subscription. Offers the lowest cost which allow the customer to get confortable with the platform.',
+          price: 2.3
+        });
+        let details = sub.collection('details');
+        await details.add({ description: 'Monthly payment' });
+        await details.add({ description: 'Service review' });
+        await details.add({ description: 'Automatic calendar' });
+        await details.add({ description: 'Access to the history of services' });
+
+        // PROD
+        sub = await subscriptions.add({
+          name: 'PRO',
+          icon: 'work',
+          description: 'Enhance your experience accessing to more features.',
+          price: 6.3
+        });
+        details = sub.collection('details');
+        await details.add({ description: 'All from BASIC subscription' });
+        await details.add({ description: 'First level support' });
+
+        // ADVANCED
+        sub = await subscriptions.add({
+          name: 'ADVANCED',
+          icon: 'star_border',
+          description: 'Full access to the system capabilities.',
+          price: 6.3
+        });
+        details = sub.collection('details');
+        await details.add({ description: 'All from PRO subscription' });
+        await details.add({ description: 'Third level support' });
+      }
       //#endregion
 
 

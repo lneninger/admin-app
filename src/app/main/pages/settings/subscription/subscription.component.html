@@ -1,29 +1,40 @@
 <app-page pageTitle="Subscription" pageIcon="card_membership">
 
 
-  <section fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-    <mat-card class="dashboard-tile rounded-xl lt-md:w-4/5 w-1/7 mat-elevation-z2" fxFlex *ngFor="let i of [1,2,3,4]">
-      <mat-card-header>
-        <mat-icon mat-card-avatar class="header-icon">fullscreen</mat-icon>
+  <section class="flex justify-center space-x-4">
+    <ng-container *ngIf="this.items">
+      <mat-card class="dashboard-tile rounded-xl flex flex-col flex-grow-0 lt-md:w-4/12 w-2/12 mat-elevation-z2"
+        *ngFor="let i of this.items">
+        <mat-card-header class="justify-center">
+          <mat-card-title>{{i.data.name}}</mat-card-title>
+          <mat-card-subtitle clas="flex flex-grow-0">
+            <span class="text-sm mr-2">$</span>
+            <span class="text-lg font-bold">{{i.data.price | number:'1.2'}}</span>
+          </mat-card-subtitle>
+        </mat-card-header>
 
-        <mat-card-title>Medicaid</mat-card-title>
-        <mat-card-subtitle>Eligibility</mat-card-subtitle>
-      </mat-card-header>
-      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-      <mat-card-content>
-        <p>
-          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-          bred for hunting.
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-      </mat-card-actions>
-    </mat-card>
+        <mat-card-content class="flex flex-col flex-grow">
+          <section class="flex justify-center my-10">
+            <mat-icon class="text-gray-600 scale-[5]">{{i.data.icon}}</mat-icon>
+          </section>
+          <p class="min-h-[10vh]">
+            {{i.data.description}}
+          </p>
+          <!-- i.data.details = {{i.data | json}} -->
+          <span class="mt-4 text-lg">Options</span>
+          <ul class="divide-y divide-solid divide-gray-300 ">
+            <li *ngFor="let detail of i.data.details" class="py-4">
+              <em class="fas fa-check mr-4"></em>
+              {{detail.data.description}}
+            </li>
+          </ul>
 
+        </mat-card-content>
+        <mat-card-actions class="flex justify-center">
+          <button mat-raised-button color="primary"
+          (click)="this.selectUserSubscription()">JOIN</button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
   </section>
 </app-page>
-
-
