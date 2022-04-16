@@ -1,3 +1,6 @@
+import { ISubscriptionItemDetail } from './../../../services/subscription/subscription.models';
+import { ISubscriptionItem } from 'src/app/main/services/subscription/subscription.models';
+import { FirebaseService } from './../../../../shared/firebase/firebase.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -5,8 +8,8 @@ import { Select } from '@ngxs/store';
 import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeCardComponent, StripeIdealBankComponent, StripeService } from 'ngx-stripe';
-import { Observable, Subscription } from 'rxjs';
-import { filter, first } from 'rxjs/operators';
+import { Observable, Subscription, lastValueFrom } from 'rxjs';
+import { filter, first, map } from 'rxjs/operators';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggregators.state';
 import { TenantStateModel } from 'src/app/main/services/tenant/tenant.models';
@@ -16,6 +19,8 @@ import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/
 import { environment } from 'src/environments/environment';
 import { PaymentUIService } from 'src/app/shared/payment/ui/payment-ui.service';
 import { PaymentUIEvent } from 'src/app/shared/payment/ui/payment-ui.models';
+import { SubscriptionService } from 'src/app/main/services/subscription/subscription.service';
+import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
 
 
 
@@ -25,15 +30,16 @@ import { PaymentUIEvent } from 'src/app/shared/payment/ui/payment-ui.models';
   templateUrl: './subscription.component.html',
   styleUrls: ['./subscription.component.scss']
 })
-export class SettingsSubscriptionComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class SettingsSubscriptionComponent extends BaseComponent implements OnInit {
 
   uiAction$$: Subscription;
+  items: IFireStoreDocument<ISubscriptionItem>[];
 
   constructor(
     breadcrumbService: BreadcrumbService,
     private router: Router,
-    private route: ActivatedRoute,
-    private paymentUIService: PaymentUIService
+    private firebaseService: FirebaseService,
+    private subscriptionService: SubscriptionService
   ) {
 
     super();
@@ -41,21 +47,18 @@ export class SettingsSubscriptionComponent extends BaseComponent implements OnIn
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SETTINGS, NavigationItemIds.SETTINGS_SUBSCRIPTION);
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    setTimeout(async () => {
+    this.items = await this.subscriptionService.getFull();
+    }, 0);
+
+  }
+  getSubscriptions() {
+    throw new Error('Method not implemented.');
   }
 
-  async ngAfterViewInit() {
-    this.uiAction$$ = this.paymentUIService.broadcast$.subscribe(async action => this.closeAction(action));
-  }
-
-  async newPaymentMethod($event?: Event) {
-    await this.router.navigate([{ outlets: { action: ['new'] } }],
-      { relativeTo: this.route });
-  }
-
-  async closeAction($event?: PaymentUIEvent) {
-      await this.router.navigate([{ outlets: { action: null } }],
-      {relativeTo: this.route})
+  selectUserSubscription(){
+    this.subscriptionService;
   }
 }
 

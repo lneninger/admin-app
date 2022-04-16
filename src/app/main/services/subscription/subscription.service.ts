@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom, map } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { DataRetrieverInput, GridData } from 'src/app/shared/grid/grid-config';
 
 import { IFireStoreDocument } from './../../../shared/firebase/firestore.models';
-import { ISubscriptionItem, ISubscriptionItemDetail } from './subscription.models';
+import { IAttachSubscriptionToCustomerRequest, ISubscriptionItem, ISubscriptionItemDetail } from './subscription.models';
 
 
 @Injectable({
@@ -13,11 +13,34 @@ import { ISubscriptionItem, ISubscriptionItemDetail } from './subscription.model
 })
 export class SubscriptionService {
 
+
   readonly targetCollection = 'app-subscriptions';
 
   constructor(
     private firebaseService: FirebaseService,
     private store: Store) {
+  }
+
+  async getFull() {
+    return lastValueFrom(this.firebaseService.firestore.collection<ISubscriptionItem>(`app-subscriptions`, (queryRef) => {
+      return queryRef.orderBy('order', 'asc');
+    }).get().pipe(map(details => {
+      return details.docs.map(item => {
+        const itemMap = SubscriptionService.map(item);
+
+        return itemMap;
+      });
+    }),
+      map(async subscriptions => {
+        for (const subscription of subscriptions) {
+          subscription.data.details = await lastValueFrom(this.firebaseService.firestore.collection<ISubscriptionItemDetail>(`app-subscriptions/${subscription.id}/details`, (queryRef) => {
+            return queryRef.orderBy('description', 'asc');
+          }).get().pipe(map(details => details.docs.map(detail => SubscriptionService.mapDetail(detail)))));
+        }
+
+        return subscriptions;
+      })
+    ));
   }
 
   async search(input: DataRetrieverInput): Promise<GridData<IFireStoreDocument<ISubscriptionItem>>> {
@@ -34,9 +57,17 @@ export class SubscriptionService {
       return queryResult;
     });
 
-    const items = (await firstValueFrom(collection.get())).docs.map(_ => ({ id: _.id, data: _.data(), $original: _ } as IFireStoreDocument<ISubscriptionItem>));
+    const items = (await firstValueFrom(collection.get())).docs.map(_ => SubscriptionService.map(_));
 
     return { items };
+  }
+
+  static map(doc: any){
+    return ({ id: doc.id, data: doc.data(), $original: doc } as IFireStoreDocument<ISubscriptionItem>);
+  }
+
+  static mapDetail(doc: any){
+    return ({ id: doc.id, data: doc.data(), $original: doc } as IFireStoreDocument<ISubscriptionItemDetail>);
   }
 
   async addDetail(subscriptionId: string, detail: ISubscriptionItemDetail) {
@@ -51,5 +82,9 @@ export class SubscriptionService {
     await this.firebaseService.firestore.doc(`${this.targetCollection}/${subscriptionId}/details/${detailId}`).delete();
   }
 
+  async attachSubscriptionToCustomer(req: IAttachSubscriptionToCustomerRequest) {
+    const fn = await this.firebaseService.fns.httpsCallable('attachSubscription');
+    return firstValueFrom(fn.call(req));
+  }
 
 }

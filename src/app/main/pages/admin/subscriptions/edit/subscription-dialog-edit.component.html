@@ -1,0 +1,125 @@
+<h2 mat-dialog-title>Edit subscription</h2>
+<ng-container *ngIf="this.form">
+  <mat-dialog-content class="p-2">
+    <mat-accordion>
+      <mat-expansion-panel hideToggle #formPanel [expanded]="true">
+        <mat-expansion-panel-header class="flex justify-between">
+          <mat-panel-title class="flex text-lg">
+            Form
+          </mat-panel-title>
+          <mat-panel-description class="flex-grow-0">
+            <mat-icon>edit_note</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <section [formGroup]="this.form" fxFlex fxFlexFill>
+          <section class="mb-8">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Placeholder" formControlName="name">
+              <mat-icon matSuffix>check</mat-icon>
+              <mat-hint>Subscription name will appear as part of the subscription title</mat-hint>
+            </mat-form-field>
+          </section>
+
+          <section class="mb-8">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Order</mat-label>
+              <input matInput type="number" placeholder="Subscription order" formControlName="order">
+              <mat-icon matSuffix>order</mat-icon>
+            </mat-form-field>
+          </section>
+
+          <section class="mb-8">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Description</mat-label>
+              <textarea matInput placeholder="Placeholder" formControlName="description"></textarea>
+              <mat-icon matSuffix>check</mat-icon>
+              <mat-hint>Subscription brief description</mat-hint>
+            </mat-form-field>
+          </section>
+
+          <section class="mb-8">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Icon</mat-label>
+              <input matInput placeholder="Icon" formControlName="icon">
+              <mat-icon matSuffix>{{this.form.get('icon').value}}</mat-icon>
+              <mat-hint>Subscription brief description</mat-hint>
+            </mat-form-field>
+          </section>
+
+          <section class="mb-8">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Price</mat-label>
+              <input matInput type="number" placeholder="Placeholder" [(ngModel)]="this.priceModel"
+                [ngModelOptions]="{standalone: true}">
+              <mat-icon matSuffix>attach_money</mat-icon>
+              <mat-slider min="1" max="15" step="0.10" [(ngModel)]="this.priceModel"
+                [ngModelOptions]="{standalone: true}">
+              </mat-slider>
+              <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+          </section>
+
+          <section class="mb-8">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Add detail</mat-label>
+              <input matInput placeholder="Placeholder" (focus)='this.detailInputActivated($event)'
+                [(ngModel)]="this.detailDescription" [ngModelOptions]="{standalone: true}"
+                (keydown.enter)="this.detailInputProcess($event)">
+              <mat-icon matSuffix>check</mat-icon>
+              <mat-hint>Add new subscription detail. Press enter to save</mat-hint>
+            </mat-form-field>
+
+          </section>
+
+          <ng-container *ngIf="this.details?.length">
+            <section mt-4>
+              <button mat-icon-button
+              [disabled]="!detailsList.selectedOptions.selected.length"
+              (click)="this.deleteSelectedDetails()"
+                aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </section>
+
+            <mat-divider></mat-divider>
+
+            <mat-selection-list #detailsList class="h-[20vh] overflow-auto">
+              <mat-list-option *ngFor="let item of (this.details || this.details)" [value]="item">
+                {{item.data.description}}
+              </mat-list-option>
+            </mat-selection-list>
+          </ng-container>
+
+        </section>
+
+      </mat-expansion-panel>
+      <mat-expansion-panel class="custom-expansion-panel delete-confirmation" (opened)="this.panelOpenState = 'delete'"
+        (afterCollapse)="this.formPanel.open()">
+        <mat-expansion-panel-header class="flex justify-between">
+          <mat-panel-title class="flex text-lg">
+            Delete {{this.form.get('name').value}}
+          </mat-panel-title>
+          <mat-panel-description class="flex-grow-0">
+            <mat-icon>delete</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <section [formGroup]="this.form" class="py-8">
+          <mat-checkbox class="example-margin" formGroupName="markedForDelete">Marked for delete</mat-checkbox>
+        </section>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayoutAlign="stretch stretch">
+    <section fxFlex fxLayoutAlign="space-between stretch">
+      <section class="flex">
+        <button mat-button (click)="this.cancel()" cdkFocusInitial>Cancel</button>
+        <button mat-button (click)="this.save()" [disabled]="!this.form.valid">Ok</button>
+      </section>
+    </section>
+  </mat-dialog-actions>
+</ng-container>

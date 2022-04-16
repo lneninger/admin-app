@@ -2,10 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-  .custom-expansion-panel {
-    &.delete-confirmation {
-      & .mat-expansion-panel-body {
-        @apply bg-red-400;
+.custom-expansion-panel {
+  &.delete-confirmation {
+    @apply text-gray-200;
+    & .mat-expansion-panel-header {
+      @apply bg-red-600;
+
+      & * {
+        @apply text-gray-200;
+      }
+
+      &:hover {
+        &:not([aria-disabled="true"]) {
+          @apply bg-red-700;
+        }
+        &[aria-disabled="true"] {
+          @apply bg-red-300;
+        }
       }
     }
+    & .mat-expansion-panel-body {
+      @apply bg-red-400;
+    }
   }
+}
