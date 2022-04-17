@@ -67,9 +67,11 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
         // BASIC
         let sub = await subscriptions.add({
           name: 'BASIC',
+          order: 1,
           icon: 'thumb_up',
           description: 'Entry level subscription. Offers the lowest cost which allow the customer to get confortable with the platform.',
-          price: 2.3
+          price: 1.99,
+          activateDate: new Date()
         });
         let details = sub.collection('details');
         await details.add({ description: 'Monthly payment' });
@@ -80,9 +82,11 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
         // PROD
         sub = await subscriptions.add({
           name: 'PRO',
+          order: 2,
           icon: 'work',
           description: 'Enhance your experience accessing to more features.',
-          price: 6.3
+          price: 4.99,
+          activateDate: new Date()
         });
         details = sub.collection('details');
         await details.add({ description: 'All from BASIC subscription' });
@@ -91,9 +95,11 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
         // ADVANCED
         sub = await subscriptions.add({
           name: 'ADVANCED',
+          order: 3,
           icon: 'star_border',
           description: 'Full access to the system capabilities.',
-          price: 6.3
+          price: 9.99,
+          activateDate: new Date()
         });
         details = sub.collection('details');
         await details.add({ description: 'All from PRO subscription' });

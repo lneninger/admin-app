@@ -8,21 +8,24 @@ import { ISubscriptionItem } from './customer-attach-subscription.models';
 
 const stripe = new Stripe(functions.config().stripe.secretkey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
 
-export const customerAttachSubscription = functions.firestore.document('app-subscriptions/{id}').onWrite(async (change, context) => {
+export const subscriptionOnchange = functions.firestore.document('app-subscriptions/{id}').onWrite(async (change, context) => {
 
   const id = context.params.id;
   const before = change.before.data() as ISubscriptionItem;
   const after = change.after.data() as ISubscriptionItem;
 
-  switch (context.eventType) {
-    case 'create':
+console.log('context.eventType => ', context.eventType);
+
+  switch (true) {
+    case !change.before.exists:
       {
+         // create
         const product = await createProduct(after);
         const price = await createPrice(product.id, after);
         admin.firestore().doc(`app-subscriptions/${id}`).update({ st_prodid: product.id, st_priceid: price.id });
       }
       break;
-    case 'update':
+    case change.before.exists && change.after.exists:
       {
         let product = undefined as unknown as Stripe.Product;
         let price = undefined as unknown as Stripe.Price;
@@ -49,7 +52,7 @@ export const customerAttachSubscription = functions.firestore.document('app-subs
 
       }
       break;
-    case 'delete':
+    case !change.after.exists:
       if (before.st_prodid) {
         await stripe.products.del(
           before.st_prodid
@@ -58,11 +61,13 @@ export const customerAttachSubscription = functions.firestore.document('app-subs
       break;
   }
 
+  return Promise.resolve(true);
+
 });
 
 
 async function createProduct(subscription: ISubscriptionItem) {
-  return await stripe.products.create({
+  return stripe.products.create({
     name: subscription.name,
     active: true,
     description: subscription.description
@@ -70,7 +75,7 @@ async function createProduct(subscription: ISubscriptionItem) {
 }
 
 async function updateProduct(id: string, subscription: ISubscriptionItem) {
-  return await stripe.products.update(id, {
+  return stripe.products.update(id, {
     name: subscription.name,
     active: true,
     description: subscription.description
@@ -79,8 +84,8 @@ async function updateProduct(id: string, subscription: ISubscriptionItem) {
 
 
 async function createPrice(productId: string, subscription: ISubscriptionItem) {
-  return await stripe.prices.create({
-    unit_amount: subscription.price,
+  return stripe.prices.create({
+    unit_amount: subscription.price * 100,
     currency: 'usd',
     product: productId
   });
