@@ -3,7 +3,6 @@ import 'firebase/auth';
 import * as Cors from 'cors';
 import * as admin from 'firebase-admin';
 import { CreateRequest } from 'firebase-admin/lib/auth/auth-config';
-import { UserRecord } from 'firebase-admin/lib/auth/user-record';
 import * as functions from 'firebase-functions';
 
 import { ISecuredModule, IUserSecuredModule } from '../site/site.models';

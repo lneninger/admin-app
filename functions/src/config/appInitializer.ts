@@ -9,7 +9,6 @@ import { ISecuredModule } from '../site/site.models';
 import { logHttp } from '../site/log-wrapper-function';
 
 const cors = Cors({ origin: true });
-const firestore = admin.firestore();
 
 export const appInitializer = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 
