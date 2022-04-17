@@ -6,3 +6,4 @@ export * from './payment-method-list';
 export * from './customer-retrieve';
 export * from './source-create';
 export * from './payment-method-attach';
+export * from './subscription-onchange';
