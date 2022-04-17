@@ -7,3 +7,4 @@ export * from './customer-retrieve';
 export * from './source-create';
 export * from './payment-method-attach';
 export * from './subscription-onchange';
+export * from './customer-add-payment-method';
