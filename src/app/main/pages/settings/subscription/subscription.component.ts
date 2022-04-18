@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Subscription } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
@@ -24,7 +23,6 @@ export class SettingsSubscriptionComponent extends BaseComponent implements OnIn
 
   constructor(
     breadcrumbService: BreadcrumbService,
-    private router: Router,
     private subscriptionService: SubscriptionService
   ) {
 
@@ -35,7 +33,7 @@ export class SettingsSubscriptionComponent extends BaseComponent implements OnIn
 
   ngOnInit() {
     setTimeout(async () => {
-    this.items = await this.subscriptionService.getFull();
+      this.items = await this.subscriptionService.getFull();
     }, 0);
 
   }
