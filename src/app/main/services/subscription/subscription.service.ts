@@ -22,15 +22,14 @@ export class SubscriptionService {
   }
 
   async getFull() {
-    return lastValueFrom(this.firebaseService.firestore.collection<ISubscriptionItem>(`app-subscriptions`, (queryRef) => {
+    return firstValueFrom(this.firebaseService.firestore.collection<ISubscriptionItem>(`app-subscriptions`, (queryRef) => {
       return queryRef.orderBy('order', 'asc');
     }).get().pipe(map(details => {
       return details.docs.map(item => {
-        const itemMap = SubscriptionService.map(item);
-
-        return itemMap;
+        return SubscriptionService.map(item);
       });
-    }),
+    })
+    ,
       map(async subscriptions => {
         for (const subscription of subscriptions) {
           subscription.data.details = await lastValueFrom(this.firebaseService.firestore.collection<ISubscriptionItemDetail>(`app-subscriptions/${subscription.id}/details`, (queryRef) => {

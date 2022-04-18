@@ -1,7 +1,6 @@
 <app-page navigationItem="SETTINGS_SUBSCRIPTION">
 
   <section class="flex justify-center space-x-4">
-    <ng-container *ngIf="this.items">
       <mat-card class="dashboard-tile rounded-xl flex flex-col flex-grow-0 lt-md:w-4/12 w-2/12 mat-elevation-z2"
         *ngFor="let i of this.items">
         <mat-card-header class="justify-center">
@@ -34,6 +33,5 @@
           (click)="this.selectUserSubscription()">JOIN</button>
         </mat-card-actions>
       </mat-card>
-    </ng-container>
   </section>
 </app-page>

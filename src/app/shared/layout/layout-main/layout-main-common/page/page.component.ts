@@ -8,11 +8,13 @@ import { AppMenuService } from 'src/app/main/shared/menu/app-menu.service';
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit, AfterViewInit {
-
-
   @Input() pageIcon: string;
   @Input() pageTitle: string;
-  @Input() navigationItem: string;
+  @Input() set navigationItem(value: string){
+    if(value){
+      this.loadNavigationConfiguration(value);
+    }
+  }
   pageIconFontset: string;
 
   @ContentChild('optionsContent', { static: false })
@@ -24,19 +26,22 @@ export class PageComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    return;
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      if (this.navigationItem) {
-        const navItem = this.appMenuService.navigationService.findItem(this.navigationItem);
-        if(navItem){
-          this.pageTitle = navItem.label;
-          this.pageIcon = navItem.icon;
-          this.pageIconFontset = navItem.fontSet;
-        }
+    return;
+  }
+
+  loadNavigationConfiguration(navigationItem) {
+    if (navigationItem) {
+      const navItem = this.appMenuService.navigationService.findItem(navigationItem);
+      if(navItem){
+        this.pageTitle = navItem.label;
+        this.pageIcon = navItem.icon;
+        this.pageIconFontset = navItem.fontSet;
       }
-    });
+    }
   }
 
 }

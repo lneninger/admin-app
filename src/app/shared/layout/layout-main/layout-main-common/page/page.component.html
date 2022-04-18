@@ -1,9 +1,9 @@
-<div fxFlex fxLayout="column" class="max-h-full">
+<div  class="flex flex-col w-full max-h-full">
   <mat-toolbar>
     <mat-toolbar-row class="flex justify-between">
       <section class="flex items-center text-gray-600">
-        <mat-icon class="mr-4 scale-125">{{pageIcon}}</mat-icon>
-        <span class="text-2xl font-semibold text-white-200">{{pageTitle}}</span>
+        <mat-icon class="mr-4 scale-125">{{this.pageIcon}}</mat-icon>
+        <span class="text-2xl font-semibold text-white-200">{{this.pageTitle}}</span>
       </section>
 
 
@@ -14,8 +14,8 @@
     </mat-toolbar-row>
   </mat-toolbar>
 
-  <section fxFlex class="pt-4 overflow-y-auto">
-    <section fxFlex="auto" class="column mx-4 max-h-full">
+  <section class="flex w-full pt-4 overflow-y-auto">
+    <section class="flex flex-col w-full mx-4 max-h-full">
       <ng-content></ng-content>
     </section>
   </section>
