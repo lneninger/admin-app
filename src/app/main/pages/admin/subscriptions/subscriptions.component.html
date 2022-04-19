@@ -61,9 +61,14 @@
         (click)="this.edit(row)"></tr>
     </table>
 
-    <mat-paginator class="custom-paginator content-center no-page-label no-previous-page"
+    <div class="flex flex-grow w-full justify-center h-[50px] py-2 bg-white border border-t-0 ">
+      <button mat-flat-button [disabled]="this.gridConfig.isRateLimitReached" (click)="this.gridConfig.forceNext()">Load more</button>
+    </div>
+    <!-- <mat-paginator #tempPaginator class="custom-paginator content-center no-page-label no-previous-page"
       [length]="gridConfig?.resultsLength" [pageSize]="10" [hidePageSize]="true" [showFirstLastButtons]="false">
-    </mat-paginator>
+    </mat-paginator> -->
+
+    <!-- tempPaginator.hasNextPage() = {{tempPaginator.hasNextPage()}} -->
 
   </section>
 
