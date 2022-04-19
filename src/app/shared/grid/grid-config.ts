@@ -81,6 +81,7 @@ export abstract class GridConfig<T> {
   searchEngine$$: Subscription;
   public extraElements: number;
   gridOptions: IGridOptions;
+  internalPaginatorPage$: EventEmitter<PageEvent>;
 
   constructor(
   ) {
@@ -109,9 +110,9 @@ export abstract class GridConfig<T> {
     const internalSortChange = this.sort ? this.sort.sortChange : new EventEmitter<Sort>();
     const internalSortChange$ = internalSortChange.pipe(tap(_ => this.clearData()));
 
-    const internalPaginatorPage = this.paginator ? this.paginator.page : new EventEmitter<PageEvent>();
+    this.internalPaginatorPage$ = this.paginator ? this.paginator.page : new EventEmitter<PageEvent>();
 
-    this.searchEngine$$ = combineLatest([internalSortChange$.pipe(startWith(null as Sort)), internalPaginatorPage.pipe(startWith(null as PageEvent)), this.force$.pipe(startWith(false))])
+    this.searchEngine$$ = combineLatest([internalSortChange$.pipe(startWith(null as Sort)), this.internalPaginatorPage$.pipe(startWith(null as PageEvent)), this.force$.pipe(startWith(false))])
       .pipe(
         // debounceTime(250),
         switchMap(([sortElem, paginatorElem, force]) => {
@@ -146,6 +147,10 @@ export abstract class GridConfig<T> {
     this.data.splice(0, this.data.length);
     this.lastRetrieved = undefined;
     this.isRateLimitReached = false;
+  }
+
+  forceNext(){
+    this.internalPaginatorPage$.next({pageIndex: 1, pageSize: 10, length: 1});
   }
 
   dispose() {
