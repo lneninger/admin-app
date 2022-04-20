@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { firstValueFrom } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { IProductCategoryItem } from 'src/app/main/services/product-category/product-category.models';
 import { ProductCategoryService } from 'src/app/main/services/product-category/product-category.service';
@@ -74,7 +75,7 @@ export class ProductCategoryListComponent implements OnInit, AfterViewInit {
     } as MatDialogConfig<IProductCategoryDialogData>);
 
     dialogRef.afterClosed().pipe(first()).subscribe(async result => {
-      await this.retrieveData().toPromise();
+      await firstValueFrom(this.retrieveData());
       const match = this.dataResponse.find(item => item.id == (this.currentCategory && this.currentCategory.id));
       this.expandNode(match);
 
@@ -103,7 +104,7 @@ export class ProductCategoryListComponent implements OnInit, AfterViewInit {
   }
 
   async deleteCurrentCategory() {
-    await this.service.delete(this.currentCategory.id).toPromise();
+    await firstValueFrom(this.service.delete(this.currentCategory.id));
     // await this.retrieveData().toPromise();
     this.gridConfig.refresh();
 

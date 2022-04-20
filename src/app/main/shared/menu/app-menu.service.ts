@@ -3,7 +3,7 @@ import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggre
 import { ActivatedRoute, ActivatedRouteSnapshot, Router, Event, NavigationEnd } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { MenuService } from 'src/app/shared/layout/layout-main/navigation/menu/menu.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, firstValueFrom } from 'rxjs';
 import { Select } from '@ngxs/store';
 import { filter, first } from 'rxjs/operators';
 import { AppInitializerService } from 'src/app/shared/app-initializer/app-initializer.service';
@@ -16,9 +16,6 @@ import { NavigationItem } from 'src/app/shared/layout/layout-main/navigation/nav
 })
 export class AppMenuService {
 
-  @Select(AggregatorsState.aggregatorMemberTenantUser)
-  aggregatorMemberTenantUser$: Observable<{ memberState, tenantState, userState }>;
-  aggregatorMemberTenantUser$$: Subscription;
   currentMenuName: any;
 
   constructor(
@@ -73,7 +70,6 @@ export class AppMenuService {
 
 
   async generateGlobalMenu() {
-    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     await this.service.buildCurrentMenu(
       NavigationItemIds.DASHBOARD,
       NavigationItemIds.DIVIDER,
@@ -111,7 +107,6 @@ export class AppMenuService {
   }
 
   async generateNewQuoteMenu() {
-    const agreggated = await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.DASHBOARD,
 
@@ -120,7 +115,6 @@ export class AppMenuService {
   }
 
   async generateQuoteMenu() {
-    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.HOME,
       NavigationItemIds.DIVIDER,
@@ -147,7 +141,6 @@ export class AppMenuService {
 
 
   async generateNewSpecialistMenu() {
-    const agreggated = await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.DASHBOARD,
 
@@ -156,7 +149,6 @@ export class AppMenuService {
   }
 
   async generateSpecialistMenu() {
-    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.HOME,
       NavigationItemIds.DIVIDER,
@@ -179,7 +171,6 @@ export class AppMenuService {
   }
 
   async generateAdminMenu() {
-    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.HOME,
       NavigationItemIds.ADMIN_DASHBOARD,
@@ -196,7 +187,6 @@ export class AppMenuService {
   }
 
   async generateSettingsMenu() {
-    await this.aggregatorMemberTenantUser$.pipe(first()).toPromise();
     this.service.buildCurrentMenu(
       NavigationItemIds.HOME,
       NavigationItemIds.SETTINGS_DASHBOARD,
@@ -219,7 +209,6 @@ export class AppMenuService {
   }
 
   firstChild(routeSnapshot: ActivatedRouteSnapshot) {
-    const result = (routeSnapshot && this.firstChild(routeSnapshot.firstChild)) || routeSnapshot;
-    return result;
+    return (routeSnapshot && this.firstChild(routeSnapshot.firstChild)) || routeSnapshot;
   }
 }

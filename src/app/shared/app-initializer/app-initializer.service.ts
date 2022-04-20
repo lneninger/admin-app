@@ -2,6 +2,7 @@ import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable, InjectionToken } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { IAppExternalConfiguration } from 'functions/src/site/site.models';
+import { firstValueFrom } from 'rxjs';
 
 export const baseUrl = environment.apiBaseUrl;
 export const BASE_URL_TOKEN = new InjectionToken<string>(baseUrl);
@@ -30,7 +31,7 @@ export class AppInitializerService {
 
     async getConfiguration(baseUrl: string) {
         const url = `${baseUrl}appInitializer`;
-        AppInitializerService.configuration = await this.http.get<IAppExternalConfiguration>(url).toPromise();
+        AppInitializerService.configuration = await firstValueFrom(this.http.get<IAppExternalConfiguration>(url));
     }
 
 }

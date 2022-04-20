@@ -35,7 +35,6 @@ import { ProductService } from './main/services/product/product.service';
 import { QuoteService } from './main/services/quote/quote.service';
 import { SpecialistService } from './main/services/specialist/specialist.service';
 import { TelephonySessionState, TelephonyState } from './main/services/telephony/states/telephony.state';
-import { TenantService } from './main/services/tenant/tenant.service';
 import { AuthService } from './main/services/user/auth.service';
 import { AppInitializerService, initializerFactory } from './shared/app-initializer/app-initializer.service';
 import { AppCommonModule } from './shared/common/app-common.module';
@@ -79,7 +78,6 @@ import { AngularFireModule } from '@angular/fire/compat';
 
     NgxsModule.forRoot([
       AppConfigState,
-      TenantService,
 
       ProductCategoryService,
       ProductService,

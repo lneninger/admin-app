@@ -74,7 +74,7 @@ export class PaymentService extends NgxsDataRepository<IPaymentStateModel>{
     } as ICustomerInputModel;
 
     const customerCreateFn = this.firebase.fns.httpsCallable('customerCreate');
-    return customerCreateFn(req).toPromise();
+    return firstValueFrom(customerCreateFn(req));
   }
 
 

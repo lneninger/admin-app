@@ -5,14 +5,12 @@ import { Select, Store } from '@ngxs/store';
 import { User as FirebaseUser } from 'firebase/auth';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Observable, Subscription } from 'rxjs';
-import { Tenant } from 'src/app/main/services/tenant/tenant.models';
 import { Role } from 'src/app/main/services/user/auth.models';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { UserService } from 'src/app/main/services/user/user.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AppOptionsService } from 'src/app/shared/layout/layout-main/options/app-options.service';
 
-import { TenantService } from './../../services/tenant/tenant.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -55,13 +53,9 @@ export class ToolbarUserComponent extends BaseComponent implements OnInit, After
   @Select(UserService.userRoles)
   userRoles$: Observable<Role[]>;
 
+  @Select(UserService.currentRole)
+  currentRole$: Observable<Role>;
 
-
-  @Select(TenantService.globalTenants)
-  globalTenants$: Observable<Tenant[]>;
-
-  defaultTenants: Tenant[] = [];
-  defaultTenantsSubnscriptions: Subscription;
 
   constructor(
     public store: Store,
@@ -70,9 +64,6 @@ export class ToolbarUserComponent extends BaseComponent implements OnInit, After
     private authService: AuthService
   ) {
     super();
-    this.defaultTenantsSubnscriptions = this.store.select<Tenant[]>(TenantService.defaultTenants).subscribe(defaultTenants => {
-      this.defaultTenants = defaultTenants;
-    });
   }
 
   ngOnInit(): void {
@@ -117,12 +108,6 @@ export class ToolbarUserComponent extends BaseComponent implements OnInit, After
     this.showUserDetailsDialog = false;
     // console.log(`hide User details`);
 
-  }
-
-  someDefaultTenants(tenantName: string) {
-    if (this.defaultTenants) {
-      return this.defaultTenants.some(item => item.tenantName === tenantName);
-    }
   }
 
 }

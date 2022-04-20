@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { AddQuoteRequest, UpdateQuoteRequest } from 'src/app/main/services/quote/quote.models';
 import { QuoteService } from 'src/app/main/services/quote/quote.service';
@@ -56,7 +57,7 @@ export class QuoteUpdateComponent implements OnInit {
     if (this.form.valid) {
       const request = this.form.getRawValue() as UpdateQuoteRequest;
       try {
-        const response = await this.service.update(request).toPromise();
+        const response = await firstValueFrom(this.service.update(request));
         this.router.navigate([`app/quotes/${response.id}`]);
       } catch (error) {
 

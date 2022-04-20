@@ -1,13 +1,6 @@
 <app-options-wrapper title="Settings">
 
   <p class="flex flex-col">
-    <mat-form-field appearance="fill" class="mb-4">
-      <mat-label>Default Tenants</mat-label>
-      <mat-select [(ngModel)]="defaultTenants" multiple>
-        <mat-option *ngFor="let tenant of globalTenants$ | async" [value]="tenant">{{tenant.tenantName}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
 
     <mat-form-field appearance="fill" class="mb-4">
       <mat-label>User Role</mat-label>

@@ -13,6 +13,7 @@ import { PaymentService } from 'src/app/shared/payment/+services/payment.service
 import { AppStateModel } from './../../../app.state';
 import { AuthStateModel, IUserMetadata, UserModel } from './auth.models';
 import { IUserPaymentMetadata, UserStateModel } from './user.models';
+import { firstValueFrom } from 'rxjs';
 
 
 @StateRepository()
@@ -88,7 +89,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
   @DataAction()
   async getMetadata() {
     const user = await this.firebaseService.auth.currentUser;
-    const extraData = (await this.firebaseService.firestore.doc(`/entities/${user.uid}`).get().pipe(first()).toPromise()).data() as IUserPaymentMetadata;
+    const extraData = (await firstValueFrom(this.firebaseService.firestore.doc(`/entities/${user.uid}`).get())).data() as IUserPaymentMetadata;
     this.ctx.setState(produce(this.ctx.getState(), (draft: UserStateModel) => {
       draft.paymentMetadata = extraData;
     }));
@@ -134,7 +135,7 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
 
   @DataAction()
   async getRoles() {
-    const roles = await (await this.firebaseService.firestore.collection('auth-roles').get());
+    const roles = await firstValueFrom(this.firebaseService.firestore.collection('auth-roles').get());
     this.ctx.setState(produce(this.ctx.getState(), (draft: UserStateModel) => {
 
       // draft.roles = roles as string[];
@@ -145,12 +146,12 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
 
   async attachRole(userId: string, roleName: string) {
     const attachRole = this.firebaseService.fns.httpsCallable('attachRole');
-    return await attachRole({ uid: userId, role: roleName } as IAttachRole).pipe(first()).toPromise();
+    return await firstValueFrom(attachRole({ uid: userId, role: roleName } as IAttachRole));
   }
 
   async setCurentRole(value: string) {
     const setCurrentRole = this.firebaseService.fns.httpsCallable('setCurrentRole');
-    return await setCurrentRole({ name: value } as ISetCurrentRole).pipe(first()).toPromise();
+    return await firstValueFrom(setCurrentRole({ name: value } as ISetCurrentRole));
   }
 
 

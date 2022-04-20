@@ -1,10 +1,8 @@
-import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { animate, state, style, transition, trigger, useAnimation, AnimationEvent } from '@angular/animations';
-import { bounce, bounceInLeft, fadeInLeft, fadeInRight, fadeOutLeft, fadeOutRight } from 'ng-animate';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { combineLatest, fromEvent, merge, of } from 'rxjs';
+import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { fromEvent, merge, of } from 'rxjs';
 import { debounceTime, filter, startWith, switchMap } from 'rxjs/operators';
-import { NONE_TYPE } from '@angular/compiler';
 
 @Component({
   selector: 'app-toolbar-search',

@@ -7,6 +7,7 @@ import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { AddQuoteRequest } from 'src/app/main/services/quote/quote.models';
+import { firstValueFrom } from 'rxjs';
 
 @AutoUnsubscribe()
 @Component({
@@ -46,7 +47,7 @@ export class QuoteSettingsComponent extends BaseComponent implements OnInit {
     if (this.form.valid) {
       const request = this.form.getRawValue() as AddQuoteRequest;
       try {
-        const response = await this.service.add(request).toPromise();
+        const response = await firstValueFrom(this.service.add(request));
         this.router.navigate([`app/quotes/${response.id}`]);
       } catch (error) {
 

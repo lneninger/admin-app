@@ -1,13 +1,13 @@
-import { MenuService } from 'src/app/shared/layout/layout-main/navigation/menu/menu.service';
-import { Component, ContentChild, Input, OnInit, TemplateRef, AfterViewInit } from '@angular/core';
+import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 import { AppMenuService } from 'src/app/main/shared/menu/app-menu.service';
+import { MenuService } from 'src/app/shared/layout/layout-main/navigation/menu/menu.service';
 
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']
 })
-export class PageComponent implements OnInit, AfterViewInit {
+export class PageComponent {
   @Input() pageIcon: string;
   @Input() pageTitle: string;
   @Input() set navigationItem(value: string){
@@ -25,13 +25,6 @@ export class PageComponent implements OnInit, AfterViewInit {
     public appMenuService: AppMenuService
   ) { }
 
-  ngOnInit() {
-    return;
-  }
-
-  ngAfterViewInit() {
-    return;
-  }
 
   loadNavigationConfiguration(navigationItem) {
     if (navigationItem) {

@@ -8,6 +8,7 @@ import { QuoteService } from 'src/app/main/services/quote/quote.service';
 import { IDocumentSaveRequest } from 'src/app/main/services/document/document.models';
 import { DocumentService } from 'src/app/main/services/document/document.service';
 import { first } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 @AutoUnsubscribe()
 @Component({
@@ -41,6 +42,6 @@ export class DocumentsComponent extends BaseComponent implements OnInit {
       metadata: {}
     } as IDocumentSaveRequest;
 
-    await this.service.save(request).pipe(first()).toPromise();
+    await firstValueFrom(this.service.save(request));
   }
 }

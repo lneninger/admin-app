@@ -1,7 +1,7 @@
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DataRetrieverInput, GridData } from 'src/app/shared/grid/grid-config';
 import { BaseEndpointService } from '../baseendpoint.service';
@@ -29,6 +29,6 @@ export class SpecialistEndpointService extends BaseEndpointService {
   }
 
   async get(id: string) {
-    return await this.firebase.firestore.collection(this.relativeName).doc(id).get().toPromise();
+    return await firstValueFrom(this.firebase.firestore.collection(this.relativeName).doc(id).get());
   }
 }

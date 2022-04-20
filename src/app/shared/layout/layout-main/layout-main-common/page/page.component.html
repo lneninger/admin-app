@@ -7,14 +7,14 @@
       </section>
 
 
-      <section class="flex gap-2" *ngIf="optionsContent">
-        <ng-container [ngTemplateOutlet]="optionsContent"></ng-container>
+      <section class="flex gap-2" *ngIf="this.optionsContent">
+        <ng-container [ngTemplateOutlet]="this.optionsContent"></ng-container>
       </section>
 
     </mat-toolbar-row>
   </mat-toolbar>
 
-  <section class="flex w-full pt-4 overflow-y-auto">
+  <section class="flex w-full h-full pt-4 overflow-y-auto">
     <section class="flex flex-col w-full mx-4 max-h-full">
       <ng-content></ng-content>
     </section>

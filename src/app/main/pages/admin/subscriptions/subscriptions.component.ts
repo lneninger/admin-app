@@ -13,7 +13,7 @@ import { SubscriptionUIEvent, SubscriptionUIEventType } from 'src/app/main/servi
 import { BaseComponent } from 'src/app/shared/base.component';
 import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
 import { FirestoreGridConfig } from 'src/app/shared/grid/firestore/firestore-grid.service';
-import { DataRetrieverInput, gridAppendNewItems, GridConfig, IGridOptions } from 'src/app/shared/grid/grid-config';
+import { DataRetrieverInput, gridAppendNewItems, IGridOptions } from 'src/app/shared/grid/grid-config';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { ISelectorConfig } from 'src/app/shared/selectors/selectors.models';
 

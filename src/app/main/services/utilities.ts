@@ -6,6 +6,10 @@
 import { Injectable } from '@angular/core';
 import { HttpResponseBase, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
+import { firstValueFrom, isObservable, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+declare const Zone: any;
 @Injectable()
 export class Utilities {
   public static readonly captionAndMessageSeparator = ':';
@@ -577,32 +581,32 @@ export class Utilities {
     return Utilities.testIsAbsoluteUrl(url) ? url : '//' + url;
   }
 
-  public static removeNulls(obj) {
-    const isArray = obj instanceof Array;
+  // public static removeNulls(obj) {
+  //   const isArray = obj instanceof Array;
 
-    for (const k in obj) {
-      if (obj[k] === null) {
-        isArray ? obj.splice(k, 1) : delete obj[k];
-      } else if (typeof obj[k] == 'object') {
-        Utilities.removeNulls(obj[k]);
-      }
+  //   for (const k in obj) {
+  //     if (obj[k] === null) {
+  //       isArray ? obj.splice(k, 1) : delete obj[k];
+  //     } else if (typeof obj[k] == 'object') {
+  //       Utilities.removeNulls(obj[k]);
+  //     }
 
-      if (isArray && obj.length == k) {
-        Utilities.removeNulls(obj);
-      }
-    }
+  //     if (isArray && obj.length == k) {
+  //       Utilities.removeNulls(obj);
+  //     }
+  //   }
 
-    return obj;
-  }
+  //   return obj;
+  // }
 
   public static debounce(func: (...args) => any, wait: number, immediate?: boolean) {
     let timeout;
 
-    return function() {
+    return function () {
       const context = this;
       const args_ = arguments;
 
-      const later = function() {
+      const later = function () {
         timeout = null;
         if (!immediate) {
           func.apply(context, args_);
@@ -619,4 +623,31 @@ export class Utilities {
       }
     };
   }
+
+  static cloneHard<T>(obj: T): T {
+    if (!!obj) {
+      return JSON.parse(JSON.stringify(obj)) as T;
+    }
+
+    return obj;
+  }
+}
+
+
+
+export async function waitFor<T>(prom: Promise<T> | Observable<T>): Promise<T> {
+  if (isObservable(prom)) {
+    prom = firstValueFrom(prom);
+  }
+  const macroTask = Zone.current
+    .scheduleMacroTask(
+      `WAITFOR-${Math.random()}`,
+      () => { },
+      {},
+      () => { }
+    );
+  return prom.then((p: T) => {
+    macroTask.invoke();
+    return p;
+  });
 }

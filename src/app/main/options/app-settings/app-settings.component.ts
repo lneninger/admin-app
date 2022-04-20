@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Tenant } from 'src/app/main/services/tenant/tenant.models';
 import { UserService } from 'src/app/main/services/user/user.service';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
-import { TenantService } from '../../services/tenant/tenant.service';
 import { Role } from '../../services/user/auth.models';
 
 
@@ -36,19 +34,10 @@ const globalRoles = [
 })
 export class AppSettingsComponent implements OnInit {
 
-  @Select(TenantService.globalTenants)
-  globalTenants$: Observable<Tenant[]>;
 
   @Select(UserService.userRoles)
   userRoles$: Observable<Role[]>;
 
-  get defaultTenants() {
-    return this.store.selectSnapshot<Tenant[]>(TenantService.defaultTenants);
-  }
-
-  set defaultTenants(value: Tenant[]) {
-    this.tenantService.setDefaultTenants(value);
-  }
 
   get userCurrentRole() {
     return this.store.selectSnapshot<string>(UserService.currentRole);
@@ -68,7 +57,6 @@ export class AppSettingsComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private tenantService: TenantService,
     private userService: UserService,
     private firebaseService: FirebaseService
   ) { }

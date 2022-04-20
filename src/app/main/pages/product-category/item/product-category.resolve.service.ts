@@ -2,7 +2,7 @@ import { first, switchMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Actions, ofActionCompleted, ofActionDispatched, Store } from '@ngxs/store';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, firstValueFrom } from 'rxjs';
 import { AppStateModel } from 'src/app/app.state';
 import { ProductCategoryService } from 'src/app/main/services/product-category/product-category.service';
 import { IProductCategory } from 'src/app/main/services/product-category/product-category.models';
@@ -25,7 +25,7 @@ export class QuoteResolveService implements Resolve<IProductCategory> {
     const params = route.params;
 
     const itemId = route.paramMap.get('id');
-    const obj = await this.service.get(itemId).pipe(first()).toPromise();
+    const obj = await firstValueFrom(this.service.get(itemId).pipe(first()));
 
     return this.service.setCurrent(obj);
 
