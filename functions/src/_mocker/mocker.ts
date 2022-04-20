@@ -107,10 +107,10 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       //#endregion
 
 
-      res.status(202).json({});
+      res.status(202).json({ data: { success: true } });
 
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({ data: { error } });
     }
 
 

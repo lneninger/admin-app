@@ -35,10 +35,10 @@ export class SubscriptionService {
       const detailsResponse = await this.firebaseService.firestore.collection(`app-subscriptions/${subscription.id}/details`, (queryRef) => {
         return queryRef.orderBy('description', 'asc');
       }).ref.get();
+
       subscription.data.details = detailsResponse.docs.map(detail => SubscriptionService.mapDetail(detail));
     }
 
-    alert(`subscriptions return => ${subscriptions.length}`);
     return subscriptions;
   }
 

@@ -30,6 +30,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatStepperModule} from '@angular/material/stepper';
+import { ConfirmDialogModule } from '../components/confirm-dialog/confirm-dialog.module';
 
 @NgModule({
   declarations: [],
@@ -65,7 +66,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatProgressSpinnerModule,
     ScrollingModule,
     MatSliderModule,
-    MatStepperModule
+    MatStepperModule,
+    ConfirmDialogModule
   ],
   exports: [
     FlexLayoutModule,
@@ -99,7 +101,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatProgressSpinnerModule,
     ScrollingModule,
     MatSliderModule,
-    MatStepperModule
+    MatStepperModule,
+    ConfirmDialogModule
   ],
   providers: [
       {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {panelClass: 'mat-dialog-override'}}

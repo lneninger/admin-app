@@ -14,8 +14,8 @@ import { navigationItems } from './main/main.navigation';
 export class AppComponent {
 
   constructor(
-    navigationService: NavigationService
-    // mockerService: MockerService
+    navigationService: NavigationService,
+    mockerService: MockerService
   ) {
     navigationService.addItem(...navigationItems);
 
