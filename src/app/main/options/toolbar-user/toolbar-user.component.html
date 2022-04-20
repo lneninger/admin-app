@@ -34,11 +34,11 @@
   <div class="mx-8 pb-4" fxLayout="column" fxLayoutGap="20px">
     <ng-container *ngIf="user$ | async as user">
       <section fxLayout="column">
-        <span class="text-lg font-light italic text-gray-900">{{user.fullName}}</span>
+        <!-- <span class="text-lg font-light italic text-gray-900">{{user.fullName}}</span> -->
         <span class="text-lg font-light italic text-gray-900">{{user.email}}</span>
       </section>
 
-      <!-- <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
 
       <mat-chip-list *ngIf="userRoles$ | async as userRoles" class="example-chip " cdkDropList
         cdkDropListOrientation="horizontal">
@@ -50,13 +50,7 @@
 
       <mat-divider></mat-divider>
 
-      <mat-chip-list *ngIf="globalTenants$ | async as globalTenants" class="example-chip " cdkDropList
-        cdkDropListOrientation="horizontal">
-        <mat-chip class="example-box" [color]="someDefaultTenants(tenant.tenantName) ? 'primary' : null"
-          [selected]="someDefaultTenants(tenant.tenantName)" cdkDrag *ngFor="let tenant of globalTenants">
-          {{tenant.tenantName}}
-        </mat-chip>
-      </mat-chip-list> -->
+
 
     </ng-container>
     <!-- <mat-list #shoes>

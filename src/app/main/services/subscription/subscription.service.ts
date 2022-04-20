@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { firstValueFrom, lastValueFrom, map } from 'rxjs';
+import { first, firstValueFrom, lastValueFrom, map } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { DataRetrieverInput, GridData } from 'src/app/shared/grid/grid-config';
 
@@ -22,24 +22,24 @@ export class SubscriptionService {
   }
 
   async getFull() {
-    return firstValueFrom(this.firebaseService.firestore.collection<ISubscriptionItem>(`app-subscriptions`, (queryRef) => {
+    const response = await firstValueFrom(this.firebaseService.firestore.collection(`app-subscriptions`, (queryRef) => {
       return queryRef.orderBy('order', 'asc');
-    }).get().pipe(map(details => {
-      return details.docs.map(item => {
-        return SubscriptionService.map(item);
-      });
-    })
-    ,
-      map(async subscriptions => {
-        for (const subscription of subscriptions) {
-          subscription.data.details = await lastValueFrom(this.firebaseService.firestore.collection<ISubscriptionItemDetail>(`app-subscriptions/${subscription.id}/details`, (queryRef) => {
-            return queryRef.orderBy('description', 'asc');
-          }).get().pipe(map(details => details.docs.map(detail => SubscriptionService.mapDetail(detail)))));
-        }
+    }).get());
 
-        return subscriptions;
-      })
-    ));
+
+    const subscriptions = response.docs.map(item => {
+      return SubscriptionService.map(item);
+    });
+
+    for (const subscription of subscriptions) {
+      const detailsResponse = await this.firebaseService.firestore.collection(`app-subscriptions/${subscription.id}/details`, (queryRef) => {
+        return queryRef.orderBy('description', 'asc');
+      }).ref.get();
+      subscription.data.details = detailsResponse.docs.map(detail => SubscriptionService.mapDetail(detail));
+    }
+
+    alert(`subscriptions return => ${subscriptions.length}`);
+    return subscriptions;
   }
 
   async search(input: DataRetrieverInput): Promise<GridData<IFireStoreDocument<ISubscriptionItem>>> {
@@ -61,11 +61,11 @@ export class SubscriptionService {
     return { items };
   }
 
-  static map(doc: any){
+  static map(doc: any) {
     return ({ id: doc.id, data: doc.data(), $original: doc } as IFireStoreDocument<ISubscriptionItem>);
   }
 
-  static mapDetail(doc: any){
+  static mapDetail(doc: any) {
     return ({ id: doc.id, data: doc.data(), $original: doc } as IFireStoreDocument<ISubscriptionItemDetail>);
   }
 

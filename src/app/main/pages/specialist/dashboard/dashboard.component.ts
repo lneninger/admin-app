@@ -3,7 +3,6 @@ import { Select } from '@ngxs/store';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Observable } from 'rxjs';
 import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggregators.state';
-import { TenantStateModel } from 'src/app/main/services/tenant/tenant.models';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 
@@ -56,9 +55,6 @@ export class DashboardComponent extends BaseComponent implements OnInit {
 
 
   productContexts = productContexts;
-
-  @Select(AggregatorsState.aggregatorMemberTenant)
-  aggregatorMemberTenant$: Observable<{tenant: TenantStateModel}>;
 
   constructor(breadcrumbService: BreadcrumbService) {
     super();

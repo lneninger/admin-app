@@ -4,7 +4,6 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Observable } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
 import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggregators.state';
-import { TenantStateModel } from 'src/app/main/services/tenant/tenant.models';
 import { UserStateModel } from 'src/app/main/services/user/user.models';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
@@ -58,9 +57,6 @@ export class SettingsDashboardComponent extends BaseComponent implements OnInit 
 
 
   productContexts = productContexts;
-
-  @Select(AggregatorsState.aggregatorMemberTenant)
-  aggregatorMemberTenant$: Observable<{userState: UserStateModel, tenant: TenantStateModel}>;
 
   constructor(breadcrumbService: BreadcrumbService) {
     super();

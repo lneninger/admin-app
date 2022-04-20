@@ -18,6 +18,8 @@ import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/
 })
 export class SettingsSubscriptionComponent extends BaseComponent implements OnInit {
 
+  step: 'SELECT' | 'PAYMENT' | 'REVIEW' = 'SELECT';
+
   uiAction$$: Subscription;
   items: IFireStoreDocument<ISubscriptionItem>[];
 
@@ -31,17 +33,13 @@ export class SettingsSubscriptionComponent extends BaseComponent implements OnIn
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SETTINGS, NavigationItemIds.SETTINGS_SUBSCRIPTION);
   }
 
-  ngOnInit() {
-    setTimeout(async () => {
-      this.items = await this.subscriptionService.getFull();
-    }, 0);
+  async ngOnInit() {
+    this.items = await this.subscriptionService.getFull();
+    // alert(`After set items: ${this.items.length}`);
 
   }
-  getSubscriptions() {
-    throw new Error('Method not implemented.');
-  }
 
-  selectUserSubscription(){
+  selectUserSubscription(subscription: IFireStoreDocument<ISubscriptionItem>) {
     this.subscriptionService;
   }
 }

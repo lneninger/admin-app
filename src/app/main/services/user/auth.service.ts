@@ -5,6 +5,7 @@ import { Selector, State, Store } from '@ngxs/store';
 import { UserCredential, User as FirebaseUser, AuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { IUserClaims } from 'functions/src/user/user.models';
 import produce from 'immer';
+import { firstValueFrom } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { UtilitiesService } from 'src/app/shared/utilities.service';
@@ -88,7 +89,7 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   }
 
   async isLoggedIn() {
-    return this.firebaseService.auth.authState.pipe(first()).toPromise();
+    return firstValueFrom(this.firebaseService.auth.authState);
   }
 
   async logout(): Promise<void> {

@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 
 import { SettingsSubscriptionRoutingModule } from './subscription-routing.module';
 import { SettingsSubscriptionComponent } from './subscription.component';
-import { PaymentUIModule } from 'src/app/shared/payment/ui/payment-ui.module';
 
 
 @NgModule({
@@ -21,7 +20,6 @@ import { PaymentUIModule } from 'src/app/shared/payment/ui/payment-ui.module';
     NgxStripeModule,
     BankAccountModule,
     BankAccountModule,
-    PaymentUIModule
   ]
 })
 export class SettingsSubscriptionModule { }

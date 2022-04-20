@@ -79,7 +79,7 @@ export class ProductService extends NgxsBaseDataRepository<ProductStateModel>{
   }
 
   async get(id: string) {
-    return this.firebaseService.firestore.collection<IProductItem>('app-products').doc(id).get().pipe(first()).toPromise();
+    return firstValueFrom(this.firebaseService.firestore.collection<IProductItem>('app-products').doc(id).get());
   }
 
   async add(request: AddProductRequest) {

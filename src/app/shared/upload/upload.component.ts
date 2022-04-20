@@ -1,6 +1,7 @@
 import { UploadService } from './upload.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAppUploadResponse } from './upload.models';
+import { FilePreviewModel } from 'ngx-awesome-uploader';
 
 
 export const adapterDefault = {
@@ -25,7 +26,12 @@ export class UploadComponent implements OnInit {
   }
 
 
-  onUploadSucess($event: IAppUploadResponse) {
-    this.uploadSuccess.next($event);
+  onUploadSucess($event: FilePreviewModel) {
+    const output = {
+      originalFileName: $event.fileName,
+      storageFilePath: $event.fileName,
+      contentType: undefined
+    } as IAppUploadResponse;
+    this.uploadSuccess.next(output);
   }
 }

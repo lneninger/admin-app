@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { Quote } from '../../services/quote/quote.models';
@@ -23,7 +24,7 @@ export class QuoteResolveService implements Resolve<Quote> {
     const params = route.params;
 
     const itemId = route.paramMap.get('id');
-    const quote = await this.service.get(itemId).pipe(first()).toPromise();
+    const quote = await firstValueFrom(this.service.get(itemId));
 
     return this.service.setCurrentQuote(quote);
 
