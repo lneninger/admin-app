@@ -13,11 +13,7 @@ import { PageComponent } from './page/page.component';
     AppCommonModule,
     MaterialImportsModule,
 
-
     CustomOverlayModule
-
-
-
   ],
   exports: [
     CommonModule,

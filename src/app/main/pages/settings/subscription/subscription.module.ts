@@ -1,3 +1,4 @@
+import { PaymentCheckoutModule as PaymentCheckoutModule } from './../../../../shared/payment/checkout/checkout.module';
 import { BankAccountModule } from './../../../../shared/payment/bank-account/bank-account.module';
 import { NgxStripeModule } from 'ngx-stripe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +21,7 @@ import { SettingsSubscriptionComponent } from './subscription.component';
     NgxStripeModule,
     BankAccountModule,
     BankAccountModule,
+    PaymentCheckoutModule
   ]
 })
 export class SettingsSubscriptionModule { }
