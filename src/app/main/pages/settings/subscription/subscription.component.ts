@@ -8,6 +8,7 @@ import { SubscriptionService } from 'src/app/main/services/subscription/subscrip
 import { BaseComponent } from 'src/app/shared/base.component';
 import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+import { IPaymentCheckoutData, PaymentCheckoutDialogComponent } from 'src/app/shared/payment/checkout/checkout.component';
 
 import { ConfirmDialogComponent, IConfirmDialogData } from './../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
@@ -28,6 +29,8 @@ export class SettingsSubscriptionComponent extends BaseComponent implements Afte
   test: string;
   confirmDialog: MatDialogRef<ConfirmDialogComponent>;
   confirmDialog$$: Subscription;
+  selectedSubscription: IFireStoreDocument<ISubscriptionItem>;
+  paymentCheckoutDialog: MatDialogRef<PaymentCheckoutDialogComponent, any>;
 
   constructor(
     breadcrumbService: BreadcrumbService,
@@ -59,8 +62,18 @@ export class SettingsSubscriptionComponent extends BaseComponent implements Afte
 
     this.confirmDialog$$ = this.confirmDialog.afterClosed().subscribe(result => {
       if (result) {
-        alert('Selected');
+        this.selectedSubscription = subscription;
+
+        this.runPaymentCheckout();
       }
+    });
+  }
+  runPaymentCheckout() {
+    this.paymentCheckoutDialog = this.dialog.open(PaymentCheckoutDialogComponent, {
+      panelClass: ['w-full', 'gt-md:10/12'],
+      data: {
+      } as IPaymentCheckoutData
+
     });
   }
 }
