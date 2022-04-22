@@ -12,10 +12,6 @@ const cors = Cors({ origin: accessDomains });
 
 const stripe = new Stripe(functions.config().stripe.secretkey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
 
-// export const tt = functions.auth.user().onCreate((user) => {
-//   // ...
-// });
-
 export const customerCreate = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 
   return cors(req, res, async () => {

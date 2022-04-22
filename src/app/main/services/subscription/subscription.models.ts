@@ -9,6 +9,7 @@ export interface ISubscriptionItem {
   activateDate: Date;
   details: IFireStoreDocument<ISubscriptionItemDetail>[];
   markedForDelete: boolean;
+  st_priceid: string;
 }
 
 export interface ISubscriptionItemDetail {
@@ -23,4 +24,17 @@ export interface IAttachSubscriptionToCustomerRequest{
 
 export interface IAttachSubscriptionToCustomerResponse{
 
+}
+
+export interface ICheckoutSessionCreateRequest {
+  userId: string;
+  successUrl: string;
+  cancelUrl: string;
+  lineItems: [
+    { priceId: string, quantity: number }
+  ],
+}
+
+export interface ICheckoutSessionCreateResponse {
+  sessionId: string;
 }
