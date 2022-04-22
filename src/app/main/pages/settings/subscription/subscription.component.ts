@@ -1,24 +1,31 @@
+import { AuthService } from 'src/app/main/services/user/auth.service';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AfterViewInit, Component, NgZone } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { Subscription } from 'rxjs';
+import { StripeService } from 'ngx-stripe';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
-import { ISubscriptionItem } from 'src/app/main/services/subscription/subscription.models';
+import { ICheckoutSessionCreateRequest, ICheckoutSessionCreateResponse, ISubscriptionItem } from 'src/app/main/services/subscription/subscription.models';
 import { SubscriptionService } from 'src/app/main/services/subscription/subscription.service';
+import { UserService } from 'src/app/main/services/user/user.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
-import { IPaymentCheckoutData, PaymentCheckoutDialogComponent } from 'src/app/shared/payment/checkout/checkout.component';
+import { PaymentCheckoutDialogComponent } from 'src/app/shared/payment/checkout/checkout.component';
 
-import { ConfirmDialogComponent, IConfirmDialogData } from './../../../../shared/components/confirm-dialog/confirm-dialog.component';
-
+import {
+  ConfirmDialogComponent,
+  IConfirmDialogData,
+} from './../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 
 @AutoUnsubscribe()
 @Component({
   selector: 'app-settings-subscription',
   templateUrl: './subscription.component.html',
-  styleUrls: ['./subscription.component.scss']
+  styleUrls: ['./subscription.component.scss'],
+  providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
 })
 export class SettingsSubscriptionComponent extends BaseComponent implements AfterViewInit {
 
@@ -35,8 +42,9 @@ export class SettingsSubscriptionComponent extends BaseComponent implements Afte
   constructor(
     breadcrumbService: BreadcrumbService,
     private subscriptionService: SubscriptionService,
-    private ngZone: NgZone,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private stripeService: StripeService,
+    private authService: AuthService
   ) {
     super();
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SETTINGS, NavigationItemIds.SETTINGS_SUBSCRIPTION);
@@ -45,7 +53,7 @@ export class SettingsSubscriptionComponent extends BaseComponent implements Afte
   ngAfterViewInit() {
     setTimeout(async () => {
       this.items = await this.subscriptionService.getFull();
-      this.ngZone.run(() => { return; });
+      // this.ngZone.run(() => { return; });
       // alert(`After set items: ${this.items.length}`);
     }, 0);
 
@@ -60,21 +68,42 @@ export class SettingsSubscriptionComponent extends BaseComponent implements Afte
       } as IConfirmDialogData
     });
 
-    this.confirmDialog$$ = this.confirmDialog.afterClosed().subscribe(result => {
+    this.confirmDialog$$ = this.confirmDialog.afterClosed().subscribe(async result => {
       if (result) {
         this.selectedSubscription = subscription;
 
-        this.runPaymentCheckout();
+        await this.runPaymentCheckoutIntoServer();
       }
     });
   }
-  runPaymentCheckout() {
-    this.paymentCheckoutDialog = this.dialog.open(PaymentCheckoutDialogComponent, {
-      panelClass: ['w-full', 'gt-md:10/12'],
-      data: {
-      } as IPaymentCheckoutData
 
-    });
+  /**
+   * Works but nee to active it in stripe and led to security product visualization treat
+   */
+  async runPaymentCheckout() {
+
+    await firstValueFrom(this.stripeService.redirectToCheckout({
+      successUrl: window.location.href,
+      cancelUrl: window.location.href,
+      lineItems: [{ price: this.selectedSubscription.data.st_priceid, quantity: 1 }],
+      mode: 'subscription'
+    }));
+  }
+
+  async runPaymentCheckoutIntoServer() {
+    const req: ICheckoutSessionCreateRequest = {
+      userId: this.authService.credentials?.user.uid,
+      successUrl: window.location.href,
+      cancelUrl: window.location.href,
+      lineItems: [{ priceId: this.selectedSubscription.data.st_priceid, quantity: 1 }]
+    };
+    const sessionResponse = (await this.subscriptionService.createCheckoutSession(req)) as ICheckoutSessionCreateResponse;
+
+    await firstValueFrom(this.stripeService.redirectToCheckout({
+      sessionId: sessionResponse.sessionId
+    }));
+
   }
 }
+
 

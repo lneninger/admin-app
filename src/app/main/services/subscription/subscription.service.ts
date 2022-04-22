@@ -5,7 +5,7 @@ import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { DataRetrieverInput, GridData } from 'src/app/shared/grid/grid-config';
 
 import { IFireStoreDocument } from './../../../shared/firebase/firestore.models';
-import { IAttachSubscriptionToCustomerRequest, ISubscriptionItem, ISubscriptionItemDetail } from './subscription.models';
+import { IAttachSubscriptionToCustomerRequest, ICheckoutSessionCreateRequest, ICheckoutSessionCreateResponse, ISubscriptionItem, ISubscriptionItemDetail } from './subscription.models';
 
 
 @Injectable({
@@ -82,8 +82,13 @@ export class SubscriptionService {
   }
 
   async attachSubscriptionToCustomer(req: IAttachSubscriptionToCustomerRequest) {
-    const fn = await this.firebaseService.fns.httpsCallable('attachSubscription');
+    const fn = this.firebaseService.fns.httpsCallable('attachSubscription');
     return firstValueFrom(fn.call(req));
+  }
+
+  async createCheckoutSession(req: ICheckoutSessionCreateRequest) {
+    const fn = this.firebaseService.fns.httpsCallable('checkoutSessionCreate');
+    return firstValueFrom(fn(req));
   }
 
 }

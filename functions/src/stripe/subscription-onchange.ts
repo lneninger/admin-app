@@ -87,6 +87,10 @@ async function createPrice(productId: string, subscription: ISubscriptionItem) {
   return stripe.prices.create({
     unit_amount: subscription.price * 100,
     currency: 'usd',
-    product: productId
+    product: productId,
+    billing_scheme: 'per_unit',
+    recurring: {
+      interval: 'month'
+    }
   });
 }
