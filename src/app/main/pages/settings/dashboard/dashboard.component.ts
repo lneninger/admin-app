@@ -59,7 +59,7 @@ export class SettingsDashboardComponent extends BaseComponent implements OnInit 
 
 
   productContexts = productContexts;
-  susbscriptionNavigationItem: NavigationItem;
+  navigationItems: NavigationItem[];
 
   constructor(
     breadcrumbService: BreadcrumbService,
@@ -72,7 +72,11 @@ export class SettingsDashboardComponent extends BaseComponent implements OnInit 
 
 
   ngOnInit() {
-    this.susbscriptionNavigationItem = this.menuService.navigationService.findItem(NavigationItemIds.SETTINGS_SUBSCRIPTION);
+    this.navigationItems = [
+      this.menuService.navigationService.findItem(NavigationItemIds.SETTINGS_BANKING),
+      this.menuService.navigationService.findItem(NavigationItemIds.SETTINGS_SUBSCRIPTION)
+    ];
+
   }
 
 }
