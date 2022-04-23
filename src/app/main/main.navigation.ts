@@ -86,6 +86,7 @@ export const navigationItems: NavigationItem[] = [
   {
     id: NavigationItemIds.ADMIN_SUBSCRIPTIONS,
     label: 'Subscriptions',
+    caption: 'Subscriptions management',
     routerLink: ['/app/ws/admin/ws/subscriptions'],
     icon: 'card_membership'
   },
@@ -131,13 +132,14 @@ export const navigationItems: NavigationItem[] = [
   {
     id: NavigationItemIds.SETTINGS_BANKING,
     label: 'Banking',
-    routerLink: ['/app/ws/settings/banking'],
+    routerLink: ['/app/ws/settings/ws/banking'],
     icon: 'account_balance'
   },
   {
     id: NavigationItemIds.SETTINGS_SUBSCRIPTION,
     label: 'Subscription',
-    routerLink: ['/app/ws/settings/subscription'],
+    caption: 'Manage your subscription',
+    routerLink: ['/app/ws/settings/ws/subscription'],
     icon: 'card_membership'
   },
 
@@ -145,13 +147,13 @@ export const navigationItems: NavigationItem[] = [
   {
     id: NavigationItemIds.PAYMENTMETHOD_NEW,
     label: 'New Payment',
-    routerLink: ['/app/ws/settings/banking'],
+    routerLink: ['/app/ws/settings/ws/banking'],
     icon: 'account_balance'
   },
   {
     id: NavigationItemIds.PAYMENTMETHOD_EDIT,
     label: 'Edit Payment',
-    routerLink: ['/app/ws/settings/banking'],
+    routerLink: ['/app/ws/settings/ws/banking'],
     icon: 'account_balance'
   },
 

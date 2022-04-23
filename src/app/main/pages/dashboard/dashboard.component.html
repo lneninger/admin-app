@@ -1,7 +1,7 @@
 <app-page navigationItem="DASHBOARD">
 
-  <section fxLayout="row wrap" fxLayoutGap="20px">
-    <mat-card class="dashboard-tile" fxFlex *ngFor="let i of [1,2,3,4]">
+  <section class="flex w-full h-full">
+    <mat-card class="dashboard-tile flex flex-col p-2 m-2 w-4/12 gt-md:w-[25%] h-[40vh]"  *ngFor="let i of [1,2,3,4]" >
       <mat-card-header>
         <mat-icon mat-card-avatar class="scale-100">fullscreen</mat-icon>
 
@@ -9,8 +9,8 @@
         <mat-card-title>Medicaid</mat-card-title>
         <mat-card-subtitle>Eligibility</mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-      <mat-card-content>
+      <img mat-card-image class="m-0" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      <mat-card-content class="flex h-full">
         <p>
           The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
           A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
