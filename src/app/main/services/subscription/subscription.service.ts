@@ -83,7 +83,7 @@ export class SubscriptionService {
 
   async attachSubscriptionToCustomer(req: IAttachSubscriptionToCustomerRequest) {
     const fn = this.firebaseService.fns.httpsCallable('attachSubscription');
-    return firstValueFrom(fn.call(req));
+    return firstValueFrom(fn(req));
   }
 
   async createCheckoutSession(req: ICheckoutSessionCreateRequest) {

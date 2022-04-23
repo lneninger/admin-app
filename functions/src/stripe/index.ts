@@ -11,3 +11,4 @@ export * from './payment-method-attach';
 export * from './payment-method-list';
 export * from './subscription-onchange';
 export * from './checkout-create';
+export * from './web-hooks/index';
