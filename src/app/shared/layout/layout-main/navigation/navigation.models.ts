@@ -4,6 +4,7 @@ export interface NavigationItem {
   icon?: string;
   fontSet?: string;
   label?: string;
+  caption?: string;
   routerLink?: any;
   type?: 'divider';
   bottom?: boolean;
