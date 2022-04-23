@@ -6,7 +6,7 @@ import { UserCredential, User as FirebaseUser, AuthProvider, GoogleAuthProvider 
 import { IUserClaims } from 'functions/src/user/user.models';
 import produce from 'immer';
 import { firstValueFrom } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { UtilitiesService } from 'src/app/shared/utilities.service';
 
@@ -38,7 +38,11 @@ API key not valid. Please pass a valid API key. (invalid API key provided)`,
 @Injectable()
 export class AuthService extends NgxsDataRepository<AuthStateModel> {
 
-  user$ = this.firebaseService.auth.authState;
+  user$ = this.firebaseService.auth.authState.pipe(tap(user => {
+    if(user){
+      this.setUserCredential(undefined, user);
+    }
+  }));
   // claims: IUserClaims;
 
   @Selector()
@@ -101,14 +105,16 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   }
 
   @DataAction()
-  async setUserCredential(@Payload('userCredential') userCredential: UserCredential) {
+  async setUserCredential(@Payload('userCredential') userCredential: UserCredential, @Payload('user') user?: FirebaseUser) {
 
-    const tokenResult = await userCredential.user.getIdTokenResult();
+    user = user || userCredential?.user;
+
+    const tokenResult = await user.getIdTokenResult();
     const claims = UtilitiesService.cloneHard(tokenResult.claims) as unknown as IUserClaims;
 
     this.ctx.setState(produce(this.ctx.getState(), (draft: AuthStateModel) => {
       draft.userCredential = userCredential;
-      draft.user = userCredential.user;
+      draft.user = user;
       draft.claims = claims;
     }));
 

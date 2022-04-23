@@ -145,13 +145,13 @@ export class UserService extends NgxsDataRepository<UserStateModel>{
   }
 
   async attachRole(userId: string, roleName: string) {
-    const attachRole = this.firebaseService.fns.httpsCallable('attachRole');
-    return await firstValueFrom(attachRole({ uid: userId, role: roleName } as IAttachRole));
+    const fn = this.firebaseService.fns.httpsCallable('attachRole');
+    return await firstValueFrom(fn({ uid: userId, role: roleName } as IAttachRole));
   }
 
   async setCurentRole(value: string) {
-    const setCurrentRole = this.firebaseService.fns.httpsCallable('setCurrentRole');
-    return await firstValueFrom(setCurrentRole({ name: value } as ISetCurrentRole));
+    const fn = this.firebaseService.fns.httpsCallable('setCurrentRole');
+    return await firstValueFrom(fn({ name: value } as ISetCurrentRole));
   }
 
 

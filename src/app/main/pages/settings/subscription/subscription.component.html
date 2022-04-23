@@ -25,12 +25,19 @@
           </p>
           <!-- i.data.details = {{i.data | json}} -->
           <span class="mt-4 text-lg">Options</span>
-          <ul class="divide-y divide-solid divide-gray-300 ">
-            <li *ngFor="let detail of item.data.details" class="py-4">
+          <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="divide-y divide-solid divide-gray-300 h-[100%]">
+            <div *cdkVirtualFor="let detail of item.data.details" class="py-4">
               <em class="fas fa-check mr-4"></em>
               {{detail.data.description}}
-            </li>
-          </ul>
+            </div>
+          </cdk-virtual-scroll-viewport>
+
+          <!-- <div class="divide-y divide-solid divide-gray-300 ">
+            <session *ngFor="let detail of item.data.details" class="py-4">
+              <em class="fas fa-check mr-4"></em>
+              {{detail.data.description}}
+            </session>
+          </div> -->
 
         </mat-card-content>
         <mat-card-actions class="flex justify-center">

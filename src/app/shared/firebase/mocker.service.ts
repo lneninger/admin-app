@@ -27,7 +27,7 @@ export class MockerService {
    * Initialize mocked firebase emulator
    */
   async initialize() {
-    const dataMockerFn = this.service.fns.httpsCallable('dataMocker');
-    await firstValueFrom(dataMockerFn({}));
+    const fn = this.service.fns.httpsCallable('dataMocker');
+    await firstValueFrom(fn({}));
   }
 }
