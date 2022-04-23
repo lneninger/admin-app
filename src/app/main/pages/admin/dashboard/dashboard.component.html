@@ -1,7 +1,7 @@
 <app-page navigationItem="ADMIN_DASHBOARD">
   <section fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="flex-start baseline">
 
-    <mat-card [routerLink]="this.susbscriptionNavigationItem.routerLink">
+    <mat-card class="p-2 cursor-pointer" [routerLink]="this.susbscriptionNavigationItem.routerLink">
       <mat-card-header>
         <mat-icon mat-card-avatar class="scale-100">{{this.susbscriptionNavigationItem.icon}}</mat-icon>
         <mat-card-title>{{this.susbscriptionNavigationItem.label}}</mat-card-title>

@@ -193,6 +193,7 @@ export class AppMenuService {
       NavigationItemIds.DIVIDER,
 
       NavigationItemIds.SETTINGS_BANKING,
+      NavigationItemIds.SETTINGS_SUBSCRIPTION,
     );
     console.info(`ended await this.generateSettingsMenu() => `, this.service.currentMenu);
   }

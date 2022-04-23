@@ -132,17 +132,10 @@ export const navigationItems: NavigationItem[] = [
   {
     id: NavigationItemIds.SETTINGS_BANKING,
     label: 'Banking',
+    caption: 'Manage your payments',
     routerLink: ['/app/ws/settings/ws/banking'],
     icon: 'account_balance'
   },
-  {
-    id: NavigationItemIds.SETTINGS_SUBSCRIPTION,
-    label: 'Subscription',
-    caption: 'Manage your subscription',
-    routerLink: ['/app/ws/settings/ws/subscription'],
-    icon: 'card_membership'
-  },
-
 
   {
     id: NavigationItemIds.PAYMENTMETHOD_NEW,
@@ -157,6 +150,13 @@ export const navigationItems: NavigationItem[] = [
     icon: 'account_balance'
   },
 
+  {
+    id: NavigationItemIds.SETTINGS_SUBSCRIPTION,
+    label: 'Subscription',
+    caption: 'Manage your subscription',
+    routerLink: ['/app/ws/settings/ws/subscription'],
+    icon: 'card_membership'
+  },
 
   {
     id: NavigationItemIds.PRODUCT_CATEGORIES,
