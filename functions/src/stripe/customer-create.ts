@@ -1,12 +1,14 @@
-import { IConfig } from './../functions.models';
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-import { Stripe } from 'stripe';
 import * as Cors from 'cors';
-import { ICustomerInputModel } from './payment.models';
-import { logHttp } from '../site/log-wrapper-function';
-import { DocumentMetadata } from 'plaid';
+import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
+import { UserRecord } from 'firebase-functions/v1/auth';
+import { Stripe } from 'stripe';
+
 import { accessDomains } from '../config/access-domains';
+import { logHttp } from '../site/log-wrapper-function';
+import { updateUserClaims, updateUserEntity } from '../user/utils';
+import { IConfig } from './../functions.models';
+import { ICustomerInputModel } from './payment.models';
 
 const cors = Cors({ origin: accessDomains });
 
@@ -21,55 +23,63 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
       const data = <ICustomerInputModel>req.body.data;
       console.log('Mapped to model', data, 'original body', req.body);
 
+      const response = await customerCreateCore(data.userId);
 
-      let userData: DocumentMetadata | undefined;
-      try {
-        userData = (await admin.firestore().collection('/entities').doc(data.userId).get());
-      } catch (eror) {
-        userData = undefined;
-      }
-      if (!userData || !userData.data()?.paymentId) {
+      const result = { customer: response?.id };
 
-        console.log('Creating customer');
-        const customer: Stripe.CustomerCreateParams = {
-          email: data.email,
-          name: data.fullName
-        };
+      res.status(200).json();
 
-        const response = await stripe.customers.create(customer);
-        // console.log('Customer Create Response:', response);
+      return result;
 
-        // add payment id claim
-        const auth = admin.auth();
-        const userRecord = await auth.getUser(data.userId);
-        let claims = userRecord.customClaims || {};
-        claims = { ...claims, paymentId: response.id };
-        await auth.setCustomUserClaims(data.userId, claims);
-
-        // add payment id to entity metadata
-        const entityUpdate = { paymentId: response.id };
-        try {
-          await admin.firestore().collection('/entities').doc(data.userId).update(entityUpdate);
-        } catch (error) {
-          await admin.firestore().collection('/entities').doc(data.userId).set(entityUpdate);
-        }
-
-        functions.logger.log('entity metadata created', entityUpdate);
-
-        const result = { customer: response.id };
-
-        res.status(200).json();
-
-        return result;
-      } else {
-        console.log('Customer already exists');
-
-        res.status(204).json({});
-
-        return null;
-      }
     });
 
   });
 
 });
+
+
+
+export async function customerCreateCore(createCustomerRequest: string | Stripe.CustomerCreateParams): Promise<Stripe.Customer> {
+  console.log('Creating customer');
+  const auth = admin.auth();
+  let userRecord: UserRecord;
+
+  if (typeof (createCustomerRequest) === 'string') {
+    // user Id
+    userRecord = await auth.getUser(createCustomerRequest);
+    createCustomerRequest = {
+      email: userRecord.email,
+      name: userRecord.displayName
+    } as Stripe.CustomerCreateParams;
+  } else {
+    userRecord = await auth.getUserByEmail(createCustomerRequest.email as string);
+  }
+
+  const userEntity = await admin.firestore().collection('/entities').doc(userRecord.uid).get();
+  let customer: Stripe.Customer;
+  if (!userEntity.exists || !userEntity.data()?.paymentId) {
+    const customerListParams: Stripe.CustomerListParams = {
+      email: createCustomerRequest.email
+    };
+    const existingCustomers = await stripe.customers.list(customerListParams);
+    if (existingCustomers.data.length > 0) {
+      // assume this customer as the correct customer and set the paymentid
+      customer = existingCustomers.data[0];
+    } else {
+      customer = await stripe.customers.create(createCustomerRequest);
+    }
+
+    const paymentId = customer.id;
+    updateUserEntity(userRecord.uid, { paymentId })
+    updateUserClaims(userRecord, { paymentId })
+
+  } else {
+    customer = await stripe.customers.retrieve(userEntity.data()?.paymentId) as unknown as Stripe.Customer;
+  }
+
+  return customer;
+}
+
+
+
+

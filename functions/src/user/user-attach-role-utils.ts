@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import { IAttachRole, IUserRole } from './user.models';
+import { updateUserClaims } from './utils';
 
 
 
@@ -24,12 +25,12 @@ export async function attachRoleCore(data: IAttachRole): Promise<admin.firestore
     // add claims
     const auth = admin.auth();
     const userRecord = await auth.getUser(data.uid);
-    let claims = userRecord.customClaims || {};
-    const roles = (claims.roles || []) as string[];
+
+    const roles: string[] = userRecord.customClaims?.roles || [];
+
     if (roles.indexOf(roleName) === -1) {
       roles.push(roleName);
-      claims = { ...claims, roles };
-      await auth.setCustomUserClaims(data.uid, claims);
+      await updateUserClaims(userRecord, { roles });
     }
 
     return relationship;

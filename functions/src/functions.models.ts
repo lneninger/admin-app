@@ -12,6 +12,7 @@ export interface IConfig {
     apiversion: '2020-08-27',
     publickey: string;
     secretkey: string;
+    webhookdomain: string;
   },
   plaid: {
     clientid: string;

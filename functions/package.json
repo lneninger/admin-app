@@ -11,7 +11,6 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-
     "set-configuration-dev": "firebase functions:config:get > .runtimeconfig.json",
     "global-packages": "npm list -g --depth 0",
     "port-process": "netstat -a -n -o | find \"port\"",
@@ -22,18 +21,19 @@
   },
   "main": "lib/functions/src/index.js",
   "dependencies": {
+    "@google-cloud/pubsub": "^2.19.0",
     "@types/faker": "^5.5.9",
     "@types/stripe-v3": "^3.1.26",
     "axios": "0.21.4",
+    "body-parser": "1.19.0",
+    "cors": "^2.8.5",
     "faker": "5.5.3",
     "firebase": "^9.6.10",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.19.0",
-    "cors": "^2.8.5",
-    "rxjs": "^7.4.0",
-    "body-parser": "1.19.0",
     "nodemailer": "^6.7.0",
     "plaid": "9.9.0",
+    "rxjs": "^7.4.0",
     "stripe": "8.181.0"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-export interface IAttachSubscriptionToCustomerRequest {
+export interface ICustomerAttachSubscriptionInputModel {
   subscriptionId: string;
   uid?: string;
 }
