@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { first, firstValueFrom, lastValueFrom, map } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { DataRetrieverInput, GridData } from 'src/app/shared/grid/grid-config';
 

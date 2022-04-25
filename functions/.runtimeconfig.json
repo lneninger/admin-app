@@ -17,7 +17,8 @@
   "stripe": {
     "apiversion": "2020-08-27",
     "secretkey": "sk_test_v20NmZyNCFKN87UaFEQLaZPX00YJdX1NC6",
-    "publickey": "pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O"
+    "publickey": "pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O",
+    "webhookdomain": "hooks.stripe.com"
   },
   "email": {
     "password": "hiphop-usa2015",
