@@ -8,6 +8,7 @@ import { accessDomains } from '../config/access-domains';
 import { logHttp } from '../site/log-wrapper-function';
 import { IConfig } from './../functions.models';
 import { ICheckoutSessionCreateInputModel } from './checkout-create.models';
+import { customerCreateCore } from './customer-create';
 
 const cors = Cors({ origin: accessDomains });
 
@@ -27,33 +28,37 @@ export const checkoutSessionCreate = functions.https.onRequest((req: functions.h
       } catch (eror) {
         userData = undefined;
       }
-      if (userData?.paymentId) {
 
-        try {
-          console.log('Creating checkout session');
-          const sessionParams: Stripe.Checkout.SessionCreateParams = {
-            success_url: data.successUrl,
-            cancel_url: data.cancelUrl,
-            customer: userData?.paymentId,
-            line_items: data.lineItems.map(item => ({ price: item.priceId, quantity: item.quantity })),
-            mode: 'subscription'
-          };
+      const customer = await customerCreateCore(data.userId);
 
-          const response = await stripe.checkout.sessions.create(sessionParams);
+      if (customer) {
+        if (!userData?.subscriptionId) {
+          try {
+            console.log('Creating checkout session');
+            const sessionParams: Stripe.Checkout.SessionCreateParams = {
+              success_url: data.successUrl,
+              cancel_url: data.cancelUrl,
+              customer: userData?.paymentId,
+              line_items: data.lineItems.map(item => ({ price: item.priceId, quantity: item.quantity })),
+              mode: 'subscription'
+            };
 
-          functions.logger.log('checkout session created', response.id);
+            const response = await stripe.checkout.sessions.create(sessionParams);
 
-          const result = { sessionId: response.id };
+            functions.logger.log('checkout session created', response.id);
 
-          res.status(200).json({ data: result });
+            const result = { sessionId: response.id };
 
-          return result;
-        }
-        catch (error) {
-          console.log('Error creating checkout session', error);
+            res.status(200).json({ data: result });
 
-          res.status(500).json({});
-          return null;
+            return result;
+          }
+          catch (error) {
+            console.log('Error creating checkout session', error);
+
+            res.status(500).json({});
+            return null;
+          }
         }
       } else {
         console.log('Customer does not exists');

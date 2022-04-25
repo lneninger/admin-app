@@ -1,14 +1,14 @@
-import { IWebHookEvent } from './web-hooks/stripe-webhook.models';
+import { IWebHookEvent, IWebHookEventBodySubscription } from './web-hooks/stripe-webhook.models';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 import { getUserEntityByPaymentId, updateUserClaims, updateUserEntity } from '../user/utils';
 
-export const subscriptionListener = functions.pubsub.topic('subscription').onPublish(async (message, context) => {
+export const subscriptionListener = functions.pubsub.topic('subscription').onPublish(async (message) => {
 
-  const webEvent = message.json as IWebHookEvent<any>;
+  const webEvent = message.json as IWebHookEvent<IWebHookEventBodySubscription>;
 
-  if(webEvent.object === 'customer.subscription'){
+  if(webEvent.object.object === 'customer.subscription'){
     const subscriptionId = webEvent.object.id;
     const customerId = webEvent.object.customer;
     const entity = await getUserEntityByPaymentId(customerId);
