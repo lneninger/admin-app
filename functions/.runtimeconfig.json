@@ -20,6 +20,9 @@
     "publickey": "pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O",
     "webhookdomain": "hooks.stripe.com"
   },
+  "pubsub": {
+    "stripe-subscription": "subscription"
+  },
   "email": {
     "password": "hiphop-usa2015",
     "user": "lneninger@hipalanet.com"

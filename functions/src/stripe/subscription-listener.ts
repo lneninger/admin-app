@@ -3,8 +3,9 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 import { getUserEntityByPaymentId, updateUserClaims, updateUserEntity } from '../user/utils';
+import { IConfig } from '../functions.models';
 
-export const subscriptionListener = functions.pubsub.topic('subscription').onPublish(async (message) => {
+export const subscriptionListener = functions.pubsub.topic((functions.config() as IConfig).pubsub['stripe-subscription']).onPublish(async (message) => {
 
   const webEvent = message.json as IWebHookEvent<IWebHookEventBodySubscription>;
 

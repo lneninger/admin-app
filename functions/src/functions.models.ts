@@ -19,5 +19,9 @@ export interface IConfig {
     secret: string;
     publickey: string;
     environment: string;
+  },
+  pubsub: {
+    'stripe-subscription': 'firebase-adminsys-20210823'
   }
+
 }
