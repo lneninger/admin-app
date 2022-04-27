@@ -59,6 +59,11 @@ export const checkoutSessionCreate = functions.https.onRequest((req: functions.h
             res.status(500).json({});
             return null;
           }
+        } else {
+          console.log('Already have subscriptions');
+
+          res.status(204).json({});
+          return null;
         }
       } else {
         console.log('Customer does not exists');

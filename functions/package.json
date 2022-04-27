@@ -13,6 +13,8 @@
     "logs": "firebase functions:log",
     "set-configuration-dev": "firebase functions:config:get > .runtimeconfig.json",
     "global-packages": "npm list -g --depth 0",
+    "env-pubsub-key": "set GOOGLE_APPLICATION_CREDENTIALS='../firebase-adminsys-20210823-3c04d9359e88.json'",
+    "create-pubsub-topic": "gcloud pubsub topics create my-topic --project firebase-adminsys-20210823",
     "port-process": "netstat -a -n -o | find \"port\"",
     "kill-process": "taskkill /F /PID pid_number"
   },
