@@ -6,6 +6,7 @@ export abstract class BaseComponent implements OnDestroy {
   AppInitializerService = AppInitializerService;
 
   ngOnDestroy(): void {
+    return;
   }
 
 }

@@ -1,19 +1,28 @@
-import { LazyLoaderService } from './../../lazy-loader/lazy-loader.service';
-import { AppConfigStateMenuModel, AppConfigOptionsModel } from '../states/appconfig.state';
-import { MediaService } from './../../common/media.service';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  OnInit,
+  QueryList,
+  TemplateRef,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, QueryList, ViewChildren, ContentChild, TemplateRef } from '@angular/core';
-import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
-import { Select } from '@ngxs/store';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { delay, filter, switchMap, tap } from 'rxjs/operators';
-import { AppConfigState } from '../states/appconfig.state';
+import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { LazyLoaderDirective } from '../../lazy-loader/lazy-loader.module';
+import { Select } from '@ngxs/store';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { BaseComponent } from '../../base.component';
-import { MenuService } from './navigation/menu/menu.service';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { LazyLoaderBaseComponent } from '../../lazy-loader/lazy-loader.component';
+import { LazyLoaderDirective } from '../../lazy-loader/lazy-loader.module';
+import { AppConfigOptionsModel, AppConfigState, AppConfigStateMenuModel } from '../states/appconfig.state';
+import { MediaService } from './../../common/media.service';
+import { LazyLoaderService } from './../../lazy-loader/lazy-loader.service';
+import { MenuService } from './navigation/menu/menu.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -79,10 +88,13 @@ export class LayoutMainComponent extends LazyLoaderBaseComponent implements OnIn
 
 
   async ngAfterViewInit() {
+    setTimeout(() => {
       super.ngAfterViewInit();
       this.elem = document.documentElement;
       this.initializeMenuListener();
       this.initializeOptionsListener();
+    });
+
   }
 
   initializeMenuListener() {
