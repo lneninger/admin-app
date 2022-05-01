@@ -29,27 +29,9 @@ import { MenuService } from './navigation/menu/menu.service';
   selector: 'app-layout-main',
   templateUrl: './layout-main.component.html',
   styleUrls: ['./layout-main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  // : { '[class]': 'app-wrapper' }
 })
 export class LayoutMainComponent extends LazyLoaderBaseComponent implements OnInit, AfterViewInit {
   elem: HTMLElement;
-
-  lazyLoaderSubscription: Subscription;
-  private lazyLoaderDirectivesInternal$ = new BehaviorSubject<LazyLoaderDirective[]>(null);
-  private lazyLoaderDirectivesInternal: QueryList<LazyLoaderDirective>;
-  @ViewChildren(LazyLoaderDirective)
-  set lazyLoaderDirectives(value: QueryList<LazyLoaderDirective>) {
-    this.lazyLoaderDirectivesInternal = value;
-    const currentDirectives = this.lazyLoaderDirectivesInternal$.value;
-    if (this.lazyLoaderDirectivesInternal) {
-      const directiveArray = this.lazyLoaderDirectivesInternal.map(x => x);
-      this.lazyLoaderDirectivesInternal$.next(directiveArray);
-    }
-  }
-  get lazyLoaderDirectives() {
-    return this.lazyLoaderDirectivesInternal;
-  }
 
   @ViewChild('drawer', { static: false })
   drawer: MatDrawer;
@@ -69,28 +51,27 @@ export class LayoutMainComponent extends LazyLoaderBaseComponent implements OnIn
   options$: Observable<AppConfigOptionsModel>;
   options$$: Subscription;
 
+  side = 'side';
+
   constructor(
     public menuService: MenuService,
     private mediaService: MediaService,
     private mediaObserver: MediaObserver,
-    private router: Router,
     lazyLoaderService: LazyLoaderService
   ) {
     super(lazyLoaderService);
     this.initializeMedia();
   }
 
-  side = 'side';
 
   async ngOnInit() {
 
   }
 
-
   async ngAfterViewInit() {
-    setTimeout(() => {
       super.ngAfterViewInit();
       this.elem = document.documentElement;
+      setTimeout(() => {
       this.initializeMenuListener();
       this.initializeOptionsListener();
     });

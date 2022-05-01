@@ -1,6 +1,5 @@
 <app-page navigationItem="SETTINGS_SUBSCRIPTION">
-  this.items = {{this.items | json}}
-  <!-- <section class="flex flex-wrap h-full justify-center">
+  <section class="flex flex-wrap h-full justify-center">
     <ng-container *ngIf="this.items; else loading">
       <mat-card *ngFor="let item of this.items" class="rounded-xl flex flex-col flex-grow-0 h-[70vh] m-2 gt-xs:w-6/12 gt-md:w-3/12 w-full mat-elevation-z2
 
@@ -35,10 +34,10 @@
         </mat-card-actions>
       </mat-card>
     </ng-container>
-  </section> -->
+  </section>
 </app-page>
 
-<!--
+
 <ng-template #loading>
   <section class="flex w-full h-full justify-center space-x-4">
     <ng-container *ngFor="let item of [1,2,3]">
@@ -81,4 +80,4 @@
       </div>
     </ng-container>
   </section>
-</ng-template> -->
+</ng-template>

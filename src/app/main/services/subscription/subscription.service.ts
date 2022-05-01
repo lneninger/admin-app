@@ -22,24 +22,22 @@ export class SubscriptionService {
   }
 
   async getFull() {
-    // const response = await lastValueFrom(this.firebaseService.firestore.collection(`app-subscriptions`/*, (queryRef) => {
-    //   return queryRef.orderBy('order', 'asc');
-    // }*/).get());
+    const response = await lastValueFrom(this.firebaseService.firestore.collection(`app-subscriptions`, (queryRef) => {
+      return queryRef.orderBy('order', 'asc');
+    }).get());
 
-    const response = await this.firebaseService.firestore.collection(`app-subscriptions`).get().pipe(first()).toPromise();
 
     const subscriptions = response.docs.map(item => {
-      return {id: '123', data: {}, $original: item} as IFireStoreDocument<ISubscriptionItem>;
       return SubscriptionService.map(item);
     });
 
-    // for (const subscription of subscriptions) {
-    //   const detailsResponse = await this.firebaseService.firestore.collection(`app-subscriptions/${subscription.id}/details`, (queryRef) => {
-    //     return queryRef.orderBy('description', 'asc');
-    //   }).ref.get();
+    for (const subscription of subscriptions) {
+      const detailsResponse = await this.firebaseService.firestore.collection(`app-subscriptions/${subscription.id}/details`, (queryRef) => {
+        return queryRef.orderBy('description', 'asc');
+      }).ref.get();
 
-    //   subscription.data.details = detailsResponse.docs.map(detail => SubscriptionService.mapDetail(detail));
-    // }
+      subscription.data.details = detailsResponse.docs.map(detail => SubscriptionService.mapDetail(detail));
+    }
 
     return subscriptions;
   }

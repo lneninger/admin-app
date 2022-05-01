@@ -1,4 +1,4 @@
-import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
+import { Component, ContentChild, Input, TemplateRef, AfterViewInit } from '@angular/core';
 import { AppMenuService } from 'src/app/main/shared/menu/app-menu.service';
 import { MenuService } from 'src/app/shared/layout/layout-main/navigation/menu/menu.service';
 
@@ -7,7 +7,7 @@ import { MenuService } from 'src/app/shared/layout/layout-main/navigation/menu/m
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']
 })
-export class PageComponent {
+export class PageComponent implements AfterViewInit {
   @Input() pageIcon: string;
   @Input() pageTitle: string;
   @Input() set navigationItem(value: string){
@@ -25,6 +25,13 @@ export class PageComponent {
     public appMenuService: AppMenuService
   ) { }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      if (this.navigationItem) {
+        this.loadNavigationConfiguration(this.navigationItem);
+      }
+    });
+  }
 
   loadNavigationConfiguration(navigationItem) {
     if (navigationItem) {

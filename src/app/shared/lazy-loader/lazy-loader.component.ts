@@ -33,13 +33,13 @@ export abstract class LazyLoaderBaseComponent extends BaseComponent implements A
      }
 
 
-     ngAfterViewInit() {
-        this.initializeListener();
+     async ngAfterViewInit() {
+      await this.initializeListener();
     }
 
-    initializeListener() {
-        this.lazyLoaderService.processDirectives(this._lazyComponentDirectives$.value);
-        this.lazyLoader$$ = this._lazyComponentDirectives$.asObservable().subscribe(views => this.lazyLoaderService.processDirectives(views));
+    async initializeListener() {
+        await this.lazyLoaderService.processDirectives(this._lazyComponentDirectives$.value);
+        this.lazyLoader$$ = this._lazyComponentDirectives$.asObservable().subscribe(async views => await this.lazyLoaderService.processDirectives(views));
     }
 
 }
