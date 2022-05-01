@@ -1,7 +1,7 @@
 <app-page navigationItem="DASHBOARD">
 
   <section class="flex w-full h-full">
-    <mat-card class="dashboard-tile flex flex-col p-2 m-2 w-4/12 gt-md:w-[25%] h-[40vh]"  *ngFor="let i of [1,2,3,4]" >
+    <mat-card class="dashboard-tile flex flex-col p-2 m-2 w-4/12 gt-md:w-[25%] h-[40vh]"  *ngFor="let i of this.items" >
       <mat-card-header>
         <mat-icon mat-card-avatar class="scale-100">fullscreen</mat-icon>
 

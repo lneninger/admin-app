@@ -1,13 +1,9 @@
 <app-page navigationItem="SETTINGS_SUBSCRIPTION">
   <section class="flex flex-wrap h-full justify-center">
     <ng-container *ngIf="this.items; else loading">
-      <mat-card *ngFor="let item of this.items"
-        class="rounded-xl flex flex-col flex-grow-0 h-[70vh] m-2 gt-xs:w-6/12 gt-md:w-3/12 w-full mat-elevation-z2
+      <mat-card *ngFor="let item of this.items" class="rounded-xl flex flex-col flex-grow-0 h-[70vh] m-2 gt-xs:w-6/12 gt-md:w-3/12 w-full mat-elevation-z2
 
-        "
-        [ngClass]="{'selected-subscription': item == this.selectedSubscription}"
-        >
-
+        " [ngClass]="{'selected-subscription': item == this.selectedSubscription}">
         <mat-card-header class="justify-center">
           <mat-card-title>{{item.data.name}}</mat-card-title>
           <mat-card-subtitle clas="flex flex-grow-0">
@@ -23,7 +19,6 @@
           <p class="min-h-[10vh]">
             {{item.data.description}}
           </p>
-          <!-- i.data.details = {{i.data | json}} -->
           <span class="mt-4 text-lg">Options</span>
           <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="divide-y divide-solid divide-gray-300 h-[100%]">
             <div *cdkVirtualFor="let detail of item.data.details" class="py-4">
@@ -32,12 +27,6 @@
             </div>
           </cdk-virtual-scroll-viewport>
 
-          <!-- <div class="divide-y divide-solid divide-gray-300 ">
-            <session *ngFor="let detail of item.data.details" class="py-4">
-              <em class="fas fa-check mr-4"></em>
-              {{detail.data.description}}
-            </session>
-          </div> -->
 
         </mat-card-content>
         <mat-card-actions class="flex justify-center">
@@ -52,7 +41,8 @@
 <ng-template #loading>
   <section class="flex w-full h-full justify-center space-x-4">
     <ng-container *ngFor="let item of [1,2,3]">
-      <div class="flex flex-col flex-grow-0 border border-gray-300 shadow rounded-md p-4 max-w-sm lt-md:w-full w-2/12 h-[70vh]">
+      <div
+        class="flex flex-col flex-grow-0 border border-gray-300 shadow rounded-md p-4 max-w-sm lt-md:w-full w-2/12 h-[70vh]">
         <div class="animate-pulse flex space-x-4 justify-center h-full">
           <div class="w-[80%] space-y-6 py-1 flex flex-col align-center items-center">
             <div class="h-2 bg-slate-300 rounded w-[50%]"></div>

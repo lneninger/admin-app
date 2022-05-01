@@ -1,46 +1,37 @@
-import { LazyLoaderService } from './../../lazy-loader/lazy-loader.service';
-import { AppConfigStateMenuModel, AppConfigOptionsModel } from '../states/appconfig.state';
-import { MediaService } from './../../common/media.service';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  OnInit,
+  QueryList,
+  TemplateRef,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, QueryList, ViewChildren, ContentChild, TemplateRef } from '@angular/core';
-import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
-import { Select } from '@ngxs/store';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { delay, filter, switchMap, tap } from 'rxjs/operators';
-import { AppConfigState } from '../states/appconfig.state';
+import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { LazyLoaderDirective } from '../../lazy-loader/lazy-loader.module';
+import { Select } from '@ngxs/store';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { BaseComponent } from '../../base.component';
-import { MenuService } from './navigation/menu/menu.service';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { LazyLoaderBaseComponent } from '../../lazy-loader/lazy-loader.component';
+import { LazyLoaderDirective } from '../../lazy-loader/lazy-loader.module';
+import { AppConfigOptionsModel, AppConfigState, AppConfigStateMenuModel } from '../states/appconfig.state';
+import { MediaService } from './../../common/media.service';
+import { LazyLoaderService } from './../../lazy-loader/lazy-loader.service';
+import { MenuService } from './navigation/menu/menu.service';
 
 @AutoUnsubscribe()
 @Component({
   selector: 'app-layout-main',
   templateUrl: './layout-main.component.html',
   styleUrls: ['./layout-main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  // : { '[class]': 'app-wrapper' }
 })
 export class LayoutMainComponent extends LazyLoaderBaseComponent implements OnInit, AfterViewInit {
   elem: HTMLElement;
-
-  lazyLoaderSubscription: Subscription;
-  private lazyLoaderDirectivesInternal$ = new BehaviorSubject<LazyLoaderDirective[]>(null);
-  private lazyLoaderDirectivesInternal: QueryList<LazyLoaderDirective>;
-  @ViewChildren(LazyLoaderDirective)
-  set lazyLoaderDirectives(value: QueryList<LazyLoaderDirective>) {
-    this.lazyLoaderDirectivesInternal = value;
-    const currentDirectives = this.lazyLoaderDirectivesInternal$.value;
-    if (this.lazyLoaderDirectivesInternal) {
-      const directiveArray = this.lazyLoaderDirectivesInternal.map(x => x);
-      this.lazyLoaderDirectivesInternal$.next(directiveArray);
-    }
-  }
-  get lazyLoaderDirectives() {
-    return this.lazyLoaderDirectivesInternal;
-  }
 
   @ViewChild('drawer', { static: false })
   drawer: MatDrawer;
@@ -60,29 +51,31 @@ export class LayoutMainComponent extends LazyLoaderBaseComponent implements OnIn
   options$: Observable<AppConfigOptionsModel>;
   options$$: Subscription;
 
+  side = 'side';
+
   constructor(
     public menuService: MenuService,
     private mediaService: MediaService,
     private mediaObserver: MediaObserver,
-    private router: Router,
     lazyLoaderService: LazyLoaderService
   ) {
     super(lazyLoaderService);
     this.initializeMedia();
   }
 
-  side = 'side';
 
   async ngOnInit() {
 
   }
 
-
   async ngAfterViewInit() {
       super.ngAfterViewInit();
       this.elem = document.documentElement;
+      setTimeout(() => {
       this.initializeMenuListener();
       this.initializeOptionsListener();
+    });
+
   }
 
   initializeMenuListener() {

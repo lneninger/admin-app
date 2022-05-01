@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { firstValueFrom } from 'rxjs';
+import { first, firstValueFrom, lastValueFrom } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { DataRetrieverInput, GridData } from 'src/app/shared/grid/grid-config';
 
@@ -22,7 +22,7 @@ export class SubscriptionService {
   }
 
   async getFull() {
-    const response = await firstValueFrom(this.firebaseService.firestore.collection(`app-subscriptions`, (queryRef) => {
+    const response = await lastValueFrom(this.firebaseService.firestore.collection(`app-subscriptions`, (queryRef) => {
       return queryRef.orderBy('order', 'asc');
     }).get());
 
