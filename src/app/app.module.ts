@@ -13,6 +13,9 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 // import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
 
 
+import { AngularFireAuthGuardModule } from '@angular/fire/compat/auth-guard';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireAuthModule, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
 // import { USE_EMULATOR as USE_DATABASE_EMULATOR } from '@angular/fire/compat/database';
 import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
@@ -42,8 +45,7 @@ import { MockerService } from './shared/firebase/mocker.service';
 import { NoOpMockerService } from './shared/firebase/noop-mocker.service';
 import { AppConfigState } from './shared/layout/states/appconfig.state';
 import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
-import { AngularFireAuthGuardModule } from '@angular/fire/compat/auth-guard';
-import { AngularFireModule } from '@angular/fire/compat';
+
 
 @NgModule({
   declarations: [
@@ -61,6 +63,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
     AngularFireFunctionsModule,
+    AngularFireStorageModule,
     // provide modular style for AppCheck, see app.browser/server
     provideFirebaseApp(() => initializeApp(environment.firebase)),
 
