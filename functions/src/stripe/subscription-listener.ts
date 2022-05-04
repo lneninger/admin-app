@@ -10,17 +10,19 @@ export const subscriptionListener = functions.pubsub.topic((functions.config() a
   const webEvent = message.json as IWebHookEvent<IWebHookEventBodySubscription>;
 
   if(webEvent.object.object === 'customer.subscription'){
-    const subscriptionId = webEvent.object.id;
+    const st_subscriptionid = webEvent.object.id;
     const customerId = webEvent.object.customer;
     const entity = await getUserEntityByPaymentId(customerId);
     if(entity != null){
-    updateUserEntity(entity.userId, { subscriptionId });
+    updateUserEntity(entity.userId, { st_subscriptionid });
 
     const auth = admin.auth();
     const userRecord = await auth.getUser(entity.userId);
+    // const appSubscription = (await admin.firestore().collection('/app-subscriptions').doc(webEvent.object.id/*WRONG*/).get()).data() as IUserPaymentMetadata;
+
     // get local subscription identifier
-    const subscription = null;
-    updateUserClaims(userRecord, { subscriptionId, subscription })
+    const subscriptionId = null;
+    updateUserClaims(userRecord, { subscriptionId })
   }
 }
 
