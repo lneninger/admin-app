@@ -105,6 +105,7 @@ this.confirmDialog = this.dialog.open(ConfirmDialogComponent, {
       await this.runPaymentCheckoutIntoServer();
     }
   });
+  ```
 
 ## 🚀 Deployment <a name = "deployment"></a>
 
