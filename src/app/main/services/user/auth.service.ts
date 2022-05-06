@@ -2,15 +2,14 @@ import { DataAction, Payload, Persistence, StateRepository } from '@angular-ru/n
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Selector, State, Store } from '@ngxs/store';
-import { UserCredential, User as FirebaseUser, AuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import { AuthProvider, GoogleAuthProvider, User as FirebaseUser, UserCredential } from 'firebase/auth';
 import { IUserClaims } from 'functions/src/user/user.models';
 import produce from 'immer';
-import { firstValueFrom } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { UtilitiesService } from 'src/app/shared/utilities.service';
 
-import { AuthStateModel, User, UserLogin } from './auth.models';
+import { AuthStateModel, UserLogin, UserModel } from './auth.models';
 
 // import firebase from 'firebase/app';
 
@@ -37,12 +36,9 @@ API key not valid. Please pass a valid API key. (invalid API key provided)`,
 })
 @Injectable()
 export class AuthService extends NgxsDataRepository<AuthStateModel> {
+  user$$: Subscription;
 
-  user$ = this.firebaseService.auth.authState.pipe(tap(user => {
-    if(user){
-      this.setUserCredential(undefined, user);
-    }
-  }));
+
   // claims: IUserClaims;
 
   @Selector()
@@ -51,19 +47,32 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
   }
 
   @Selector()
+  static user(state: AuthStateModel) {
+    return state.user;
+  }
+
+  @Selector()
   static claims(state: AuthStateModel) {
     return state.claims;
   }
 
-  get claims(){
+  get claims() {
     return this.store.selectSnapshot<IUserClaims>(AuthService.claims);
   }
-  get credentials$(){
+  get credentials$() {
     return this.store.select<UserCredential>(AuthService.credentials);
   }
 
-  get credentials(){
+  get credentials() {
     return this.store.selectSnapshot<UserCredential>(AuthService.credentials);
+  }
+
+  get user$() {
+    return this.store.select<UserModel>(AuthService.user);
+  }
+
+  get user() {
+    return this.store.selectSnapshot<UserModel>(AuthService.user);
   }
 
   constructor(
@@ -71,6 +80,10 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
     private store: Store
   ) {
     super();
+  }
+
+  ngxsAfterBootstrap() {
+    this.initializeUserListener();
   }
 
   async login(userLogin: UserLogin): Promise<FirebaseUser> {
@@ -90,6 +103,14 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
     } catch (error) {
       throw error;
     }
+  }
+
+  private initializeUserListener() {
+    this.user$$ = this.firebaseService.auth.authState.subscribe(user => {
+      if (user) {
+        this.setUserCredential(undefined, user);
+      }
+    });
   }
 
   async isLoggedIn() {
