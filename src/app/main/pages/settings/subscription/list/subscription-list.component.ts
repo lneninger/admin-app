@@ -52,10 +52,6 @@ export class SettingsSubscriptionListComponent extends BaseComponent implements 
   }
 
   async ngOnInit() {
-    this.userSubscription = await this.subscriptionService.getUserSubscription({
-      userId: this.authService.user.uid
-    });
-
     this.items = await this.subscriptionService.getFull();
   }
 

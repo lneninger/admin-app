@@ -1,0 +1,10 @@
+
+POST http://localhost:6099/firebase-adminsys-20210823/us-central1/subscriptionGetByUser HTTP/1.1
+content-type: application/json
+
+{
+    "data": {
+        "userId": "TSl6ssRJwiv5rycnPtInVDWSwfdQ",
+        "tryFromSource": true
+    }
+}

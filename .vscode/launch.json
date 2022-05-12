@@ -25,24 +25,23 @@
       "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**/*.js"]
     },
   {
-    "name": "[Benelynk]Attach to Chrome",
-    "port": 9222,
+    "name": "Firestore functions",
+    "port": 9229,
     "request": "attach",
-    "type": "pwa-chrome",
-    "webRoot": "${workspaceFolder}"
+    "type": "node"
   },
-    {
-      "type": "pwa-chrome",
-      "request": "attach",
-      "name": "[Benelynk]Attach to Karma",
-      "address": "localhost",
-      "port": 9222,
-      "timeout": 600000,
-      "sourceMaps": true,
-      "webRoot": "${workspaceFolder}",
-      "pathMapping": {
-        "/_karma_webpack_": "${workspaceFolder}"
-      }
+  {
+    "type": "pwa-chrome",
+    "request": "attach",
+    "name": "[Benelynk]Attach to Karma",
+    "address": "localhost",
+    "port": 9222,
+    "timeout": 600000,
+    "sourceMaps": true,
+    "webRoot": "${workspaceFolder}",
+    "pathMapping": {
+      "/_karma_webpack_": "${workspaceFolder}"
     }
+  }
   ]
 }

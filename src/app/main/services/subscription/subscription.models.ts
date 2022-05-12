@@ -42,6 +42,7 @@ export interface ICheckoutSessionCreateResponse {
 
 export interface IUserSubscriptionGetRequest{
   userId: string;
+  tryFromSource: boolean;
 }
 
 export interface IUserSubscriptionGetResponse{

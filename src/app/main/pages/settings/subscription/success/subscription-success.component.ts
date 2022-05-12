@@ -1,22 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { StripeService } from 'ngx-stripe';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
-import {
-  ICheckoutSessionCreateRequest,
-  ICheckoutSessionCreateResponse,
-  ISubscriptionItem,
-  IUserSubscriptionGetResponse,
-} from 'src/app/main/services/subscription/subscription.models';
+import { ISubscriptionItem, IUserSubscriptionGetResponse } from 'src/app/main/services/subscription/subscription.models';
 import { SubscriptionService } from 'src/app/main/services/subscription/subscription.service';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { BaseComponent } from 'src/app/shared/base.component';
-import {
-  ConfirmDialogComponent,
-  IConfirmDialogData,
-} from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 
@@ -40,12 +31,19 @@ export class SettingsSubscriptionSuccessComponent extends BaseComponent implemen
 
   constructor(
     breadcrumbService: BreadcrumbService,
+    private subscriptionService: SubscriptionService,
+    private authService: AuthService,
+
   ) {
     super();
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SETTINGS, NavigationItemIds.SETTINGS_SUBSCRIPTION);
   }
 
   async ngOnInit() {
+    this.userSubscription = await this.subscriptionService.getUserSubscription({
+      userId: this.authService.user.uid,
+      tryFromSource: true
+    });
 
   }
 
