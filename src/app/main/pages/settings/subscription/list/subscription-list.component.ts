@@ -1,4 +1,5 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeService } from 'ngx-stripe';
@@ -8,52 +9,50 @@ import {
   ICheckoutSessionCreateRequest,
   ICheckoutSessionCreateResponse,
   ISubscriptionItem,
+  IUserSubscriptionGetResponse,
 } from 'src/app/main/services/subscription/subscription.models';
 import { SubscriptionService } from 'src/app/main/services/subscription/subscription.service';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { BaseComponent } from 'src/app/shared/base.component';
-import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
-import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
-
 import {
   ConfirmDialogComponent,
   IConfirmDialogData,
-} from './../../../../shared/components/confirm-dialog/confirm-dialog.component';
+} from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
+import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
+
+
 
 
 @AutoUnsubscribe()
 @Component({
-  selector: 'app-settings-subscription',
-  templateUrl: './subscription.component.html',
-  styleUrls: ['./subscription.component.scss']
+  selector: 'app-settings-subscription-list',
+  templateUrl: './subscription-list.component.html',
+  styleUrls: ['./subscription-list.component.scss']
 })
-export class SettingsSubscriptionComponent extends BaseComponent implements AfterViewInit {
+export class SettingsSubscriptionListComponent extends BaseComponent implements OnInit {
 
   items: IFireStoreDocument<ISubscriptionItem>[];
   test: string;
   confirmDialog: MatDialogRef<ConfirmDialogComponent>;
   confirmDialog$$: Subscription;
   selectedSubscription: IFireStoreDocument<ISubscriptionItem>;
+  userSubscription: IUserSubscriptionGetResponse;
 
   constructor(
     breadcrumbService: BreadcrumbService,
     private subscriptionService: SubscriptionService,
     private dialog: MatDialog,
     private stripeService: StripeService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     super();
     breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.SETTINGS, NavigationItemIds.SETTINGS_SUBSCRIPTION);
   }
 
-  ngAfterViewInit() {
-    setTimeout(async () => {
-      // this.items = await timer(1000).pipe(map(_ => [])).pipe(first()).toPromise();
-      console.log('this.items => ', this.items);
-      this.items = await this.subscriptionService.getFull();
-      // this.ngZone.run(() => { return; });
-      // alert(`After set items: ${this.items.length}`);
-    }, 0);
+  async ngOnInit() {
+    this.items = await this.subscriptionService.getFull();
   }
 
   selectUserSubscription(subscription: IFireStoreDocument<ISubscriptionItem>) {
@@ -88,9 +87,9 @@ export class SettingsSubscriptionComponent extends BaseComponent implements Afte
 
   async runPaymentCheckoutIntoServer() {
     const req: ICheckoutSessionCreateRequest = {
-      userId: this.authService.credentials?.user.uid,
-      successUrl: window.location.href,
-      cancelUrl: window.location.href,
+      userId: this.authService.user.uid,
+      successUrl: window.location.href.replace('/list$', '/success'),
+      cancelUrl: window.location.href.replace('/list$', '/fail'),
       lineItems: [{ priceId: this.selectedSubscription.data.st_priceid, quantity: 1 }]
     };
     const sessionResponse = (await this.subscriptionService.createCheckoutSession(req)) as ICheckoutSessionCreateResponse;

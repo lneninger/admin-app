@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .selected-subscription {
+    @apply bg-orange-300;
+  }
+}

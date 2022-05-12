@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SettingsSubscriptionComponent } from './subscription.component';
+import { SettingsSubscriptionFailComponent } from './subscription-fail.component';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'ws',
-    component: SettingsSubscriptionComponent,
+    component: SettingsSubscriptionFailComponent,
     data: {
       menu: 'settings'
     }
@@ -29,4 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SettingsSubscriptionRoutingModule { }
+export class SettingsSubscriptionFailRoutingModule { }

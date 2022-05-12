@@ -4,7 +4,7 @@
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
     "build:watch": "tsc --watch --preserveWatchOutput",
-    "serve": "npm run build:watch | firebase emulators:start --only firestore,functions,auth,pubsub",
+    "serve": "npm run build:watch | firebase emulators:start --only firestore,functions,auth,pubsub  --inspect-functions",
     "serve-seed": "npx ts-node emulatorseed.ts",
     "serve-all": "npm run build:watch && firebase emulators:start",
     "shell": "npm run build && firebase functions:shell",

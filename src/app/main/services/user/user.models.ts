@@ -20,6 +20,7 @@ export interface IUserModel {
 export interface IUserPaymentMetadata{
   paymentId: string;
   subscriptionId: string;
+  st_subscriptionid: string;
 }
 
 

@@ -32,7 +32,7 @@
   </mat-toolbar>
 
   <div class="mx-8 pb-4" fxLayout="column" fxLayoutGap="20px">
-    <ng-container *ngIf="user$ | async as user">
+    <ng-container *ngIf="this.user$ | async as user">
       <section fxLayout="column">
         <!-- <span class="text-lg font-light italic text-gray-900">{{user.fullName}}</span> -->
         <span class="text-lg font-light italic text-gray-900">{{user.email}}</span>

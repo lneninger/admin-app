@@ -1,10 +1,11 @@
+import { UserModel } from './../../services/user/auth.models';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { User as FirebaseUser } from 'firebase/auth';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Role } from 'src/app/main/services/user/auth.models';
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { UserService } from 'src/app/main/services/user/user.service';
@@ -48,7 +49,7 @@ export class ToolbarUserComponent extends BaseComponent implements OnInit, After
 
   clickInside: boolean;
 
-  user$: Observable<FirebaseUser>;
+  user$: Observable<UserModel>;
 
   @Select(UserService.userRoles)
   userRoles$: Observable<Role[]>;

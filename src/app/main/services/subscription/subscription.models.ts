@@ -38,3 +38,16 @@ export interface ICheckoutSessionCreateRequest {
 export interface ICheckoutSessionCreateResponse {
   sessionId: string;
 }
+
+
+export interface IUserSubscriptionGetRequest{
+  userId: string;
+  tryFromSource: boolean;
+}
+
+export interface IUserSubscriptionGetResponse{
+  userId: string;
+  subscriptionId: string;
+  subscriptionName: string;
+  st_subscriptionid: string;
+}

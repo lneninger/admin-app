@@ -29,6 +29,7 @@ export const checkoutSessionCreate = functions.https.onRequest((req: functions.h
         userData = undefined;
       }
 
+
       const customer = await customerCreateCore(data.userId);
 
       if (customer) {
@@ -56,7 +57,7 @@ export const checkoutSessionCreate = functions.https.onRequest((req: functions.h
           catch (error) {
             console.log('Error creating checkout session', error);
 
-            res.status(500).json({});
+            res.status(500).json(new Error('Error creating checkout session'));
             return null;
           }
         } else {

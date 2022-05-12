@@ -86,6 +86,12 @@ Explain what these tests test and why
 Give an example
 ```
 
+
+## :beetle: Debug <a name="debug"></a>
+###Firebase functions
+After run the command npm start. Run the debug option Firebase Functions
+
+
 ## 🎈 Usage <a name="usage"></a>
 
 ### Confirm Dialog
