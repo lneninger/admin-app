@@ -33,14 +33,14 @@ export const customerAddPaymentMethod = functions.https.onRequest((req: function
 export async function customerAddPaymentMethodCore(input: ICustomerAddPaymentMethodInputModel){
   const paymentConfig = (await admin.firestore().doc(`/user-payment-configs/${input.userId}`).get()).data() as IUserPaymentConfig;
 
-  const input: Stripe.SetupIntentCreateParams = {
+  const stInput: Stripe.SetupIntentCreateParams = {
     confirm: false,
     usage: 'off_session',
     customer: paymentConfig.customerId,
     payment_method_types: ['card']
   };
 
-  const response = await stripe.setupIntents.create(input);
+  const response = await stripe.setupIntents.create(stInput);
   console.log('SetupIntent Create Response:', response);
 
   await admin.firestore().collection(`/user-payment-configs/${input.userId}/setup-intents`).add(response);

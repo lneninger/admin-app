@@ -11,9 +11,6 @@ import { attachRoleCore } from '../user/user-attach-role-utils';
 import { mockedSignUp1, mockedSignUp2 } from './mocker.models';
 
 
-
-
-
 const cors = Cors({ origin: true });
 const auth = admin.auth();
 const firestore = admin.firestore();
@@ -118,7 +115,7 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
         const createUserResult = await auth.createUser({ email: mockedSignUp2.email, password: mockedSignUp2.password, phoneNumber: mockedSignUp2.phoneNumber, photoURL: mockedSignUp2.photoUrl, metadata: null } as CreateRequest);
         userId = createUserResult.uid;
       }
-      
+
       await  customerCreateCore(userId);
 
       res.status(202).json({ data: { success: true } });
