@@ -17,28 +17,32 @@ export const customerAddPaymentMethod = functions.https.onRequest((req: function
 
     console.log('Mapped to model', data, 'original body', req.body);
 
-    const paymentConfig = (await admin.firestore().doc(`/user-payment-configs/${data.userId}`).get()).data() as IUserPaymentConfig;
 
-    const input: Stripe.SetupIntentCreateParams = {
-      confirm: false,
-      usage: 'off_session',
-      customer: paymentConfig.customerId,
-      payment_method_types: ['card']
+     try {
+    const subscriptionResult = await customerAddPaymentMethodCore(data);
+    res.status(200).jsonp({ data: subscriptionResult });
 
-    };
-
-    const response = await stripe.setupIntents.create(input);
-    console.log('SetupIntent Create Response:', response);
-
-    try {
-      await admin.firestore().collection(`/user-payment-configs/${data.userId}/setup-intents`).add(response);
-      res.status(200).jsonp({ data: response });
-
-    } catch (error) {
-      res.status(500).jsonp(error);
-    }
-
+  } catch (error) {
+    res.status(500).jsonp(error);
+  }
 
   })
 
 });
+
+export async function customerAddPaymentMethodCore(input: ICustomerAddPaymentMethodInputModel){
+  const paymentConfig = (await admin.firestore().doc(`/user-payment-configs/${input.userId}`).get()).data() as IUserPaymentConfig;
+
+  const input: Stripe.SetupIntentCreateParams = {
+    confirm: false,
+    usage: 'off_session',
+    customer: paymentConfig.customerId,
+    payment_method_types: ['card']
+  };
+
+  const response = await stripe.setupIntents.create(input);
+  console.log('SetupIntent Create Response:', response);
+
+  await admin.firestore().collection(`/user-payment-configs/${input.userId}/setup-intents`).add(response);
+  return response;
+}
