@@ -7,7 +7,7 @@ import * as functions from 'firebase-functions';
 
 import { ISecuredModule, IUserSecuredModule } from '../site/site.models';
 import { attachRoleCore } from '../user/user-attach-role-utils';
-import { mockedSignUp } from './mocker.models';
+import { mockedSignUp1, mockedSignUp2 } from './mocker.models';
 
 
 
@@ -24,14 +24,14 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       let userId: string;
 
       try {
-        const user = await auth.getUserByEmail(mockedSignUp.email);
+        const user = await auth.getUserByEmail(mockedSignUp1.email);
         userId = user.uid;
       } catch (error) {
         userId = undefined as unknown as string;
       }
 
       if (!userId) {
-        const createUserResult = await auth.createUser({ email: mockedSignUp.email, password: mockedSignUp.password, phoneNumber: mockedSignUp.phoneNumber, photoURL: mockedSignUp.photoUrl, metadata: null } as CreateRequest);
+        const createUserResult = await auth.createUser({ email: mockedSignUp1.email, password: mockedSignUp1.password, phoneNumber: mockedSignUp1.phoneNumber, photoURL: mockedSignUp1.photoUrl, metadata: null } as CreateRequest);
         userId = createUserResult.uid;
       }
 
@@ -106,6 +106,17 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       }
       //#endregion
 
+      try {
+        const user = await auth.getUserByEmail(mockedSignUp2.email);
+        userId = user.uid;
+      } catch (error) {
+        userId = undefined as unknown as string;
+      }
+
+      if (!userId) {
+        const createUserResult = await auth.createUser({ email: mockedSignUp2.email, password: mockedSignUp2.password, phoneNumber: mockedSignUp2.phoneNumber, photoURL: mockedSignUp2.photoUrl, metadata: null } as CreateRequest);
+        userId = createUserResult.uid;
+      }
 
       res.status(202).json({ data: { success: true } });
 
