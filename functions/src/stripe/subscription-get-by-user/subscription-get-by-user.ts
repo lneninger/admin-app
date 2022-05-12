@@ -41,7 +41,7 @@ export const subscriptionGetByUser = functions.https.onRequest((req: functions.h
             if (customer.subscriptions) {
               for (const subscriptionItem of customer.subscriptions?.data) {
                 for (const localSubscriptionItem of localSubscriptions) {
-                  if (subscriptionItem.items.data.some(subProductItem => subProductItem.id === localSubscriptionItem.$original.data().st_prodid)){
+                  if (subscriptionItem.items.data.some(subProductItem => subProductItem.product === localSubscriptionItem.$original.data().st_prodid)){
                     localSubscription = localSubscriptionItem;
                     subscription = subscriptionItem;
                     break;
