@@ -88,7 +88,7 @@ Give an example
 
 
 ## :lady_beetle: Debug <a name="debug"></a>
-###Firebase functions
+### Firebase functions
 After run the command npm start. Run the debug option Firebase Functions
 
 
