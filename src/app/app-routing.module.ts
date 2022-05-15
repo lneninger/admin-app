@@ -46,6 +46,7 @@ const routes: Routes = [
 
 
   { path: 'quote-edit', loadChildren: () => import('./main/pages/quote/update/quote-update.module').then(m => m.QuoteEditModule) },
+  { path: 'user-files', loadChildren: () => import('./main/pages/user-files/user-files.module').then(m => m.UserFilesModule) },
   // { path: 'product-category', loadChildren: () => import('./main/pages/product-category/product-category.module').then(m => m.ProductCategoryModule) },
   {
     path: '**',

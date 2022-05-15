@@ -26,6 +26,7 @@ export enum NavigationItemIds {
   PRODUCTS = 'PRODUCTS',
 
   QUOTES = 'QUOTES',
+  USER_FILES = 'USER_FILES',
   QUOTE_NEW = 'QUOTE_NEW',
   QUOTE_EDIT = 'QUOTE_EDIT',
   QUOTE_DASHBOARD = 'QUOTE_DASHBOARD',
@@ -178,6 +179,13 @@ export const navigationItems: NavigationItem[] = [
     routerLink: ['/app/quotes'],
     // icon: 'fa-id-card',
     // fontSet: 'far'
+  },
+  {
+    id: NavigationItemIds.USER_FILES,
+    label: 'Files',
+    routerLink: ['/app/ws/user-files'],
+    icon: 'fa-file',
+    fontSet: 'far'
   },
   {
     id: NavigationItemIds.QUOTE_NEW,
