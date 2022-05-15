@@ -53,19 +53,25 @@ export class UserFilesComponent implements OnInit {
     base = base || `${this.authService.user.uid}/unclassified`;
     const result = await firstValueFrom(this.firebaseService.storage.ref(base).list());
 
-     this.folders = result.prefixes;
+    this.folders = result.prefixes;
 
-     const files = [];
-     for(const file of result.items){
-      files.push(await file.getDownloadURL());
-     }
-
-     this.files = files;
+    this.files = [];
+    for (const file of result.items) {
+      const fileWrapper = { file, url: await file.getDownloadURL() };
+      this.files.push(fileWrapper);
+    }
 
   }
 
   async onChange($event: any) {
     await this.getFiles();
+  }
+
+
+  async delete(fileWrapper){
+    await fileWrapper.file.delete();
+    this.getFiles();
+
   }
 
 }
