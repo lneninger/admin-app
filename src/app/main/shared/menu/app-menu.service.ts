@@ -74,6 +74,7 @@ export class AppMenuService {
       NavigationItemIds.DASHBOARD,
       NavigationItemIds.DIVIDER,
       NavigationItemIds.QUOTES,
+      NavigationItemIds.USER_FILES,
       NavigationItemIds.SPECIALISTS,
       NavigationItemIds.PRODUCT_CATEGORIES,
       NavigationItemIds.PRODUCTS,

@@ -1,4 +1,3 @@
-import { IAppUploadResponse } from './../../../../shared/upload/upload.models';
 import { Component, OnInit } from '@angular/core';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
@@ -32,16 +31,16 @@ export class DocumentsComponent extends BaseComponent implements OnInit {
     this.breadcrumbService.build(NavigationItemIds.HOME, NavigationItemIds.QUOTES, NavigationItemIds.QUOTE_DOCUMENTS);
   }
 
-  async uploadSuccess($event: { uploadResponse: IAppUploadResponse }) {
-    const request = {
-      entityType: 'QUOTE',
-      entityId: this.quoteService.currentQuote.id,
-      originalFileName: $event.uploadResponse.originalFileName,
-      defaultStorageFilePath: $event.uploadResponse.storageFilePath,
-      contentType: $event.uploadResponse.contentType,
-      metadata: {}
-    } as IDocumentSaveRequest;
+  // async uploadSuccess($event: { uploadResponse: IAppUploadResponse }) {
+  //   const request = {
+  //     entityType: 'QUOTE',
+  //     entityId: this.quoteService.currentQuote.id,
+  //     originalFileName: $event.uploadResponse.originalFileName,
+  //     defaultStorageFilePath: $event.uploadResponse.storageFilePath,
+  //     contentType: $event.uploadResponse.contentType,
+  //     metadata: {}
+  //   } as IDocumentSaveRequest;
 
-    await firstValueFrom(this.service.save(request));
-  }
+  //   await firstValueFrom(this.service.save(request));
+  // }
 }

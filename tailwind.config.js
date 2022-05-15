@@ -30,5 +30,7 @@ module.exports = {
       '25per': '1 1 25%'
     }
   },
-  plugins: []
+  plugins: [
+    require('tailwindcss-textshadow')
+  ]
 }

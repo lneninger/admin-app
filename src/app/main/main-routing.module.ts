@@ -43,8 +43,11 @@ const routes: Routes = [
       },
       {
         path: 'quotes',
-        loadChildren: () => import('./pages/quote/quote.module').then(m => m.QuoteModule),
-        data: { menu: 'quote' }
+        loadChildren: () => import('./pages/quote/quote.module').then(m => m.QuoteModule)
+      },
+      {
+        path: 'user-files',
+        loadChildren: () => import('./pages/user-files/user-files.module').then(m => m.UserFilesModule)
       },
       {
         path: 'specialists',

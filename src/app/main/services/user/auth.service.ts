@@ -5,6 +5,7 @@ import { Selector, State, Store } from '@ngxs/store';
 import { AuthProvider, GoogleAuthProvider, User as FirebaseUser, UserCredential } from 'firebase/auth';
 import { IUserClaims } from 'functions/src/user/user.models';
 import produce from 'immer';
+import { email } from 'ngx-custom-validators/src/app/email/validator';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { UtilitiesService } from 'src/app/shared/utilities.service';
@@ -135,7 +136,8 @@ export class AuthService extends NgxsDataRepository<AuthStateModel> {
 
     this.ctx.setState(produce(this.ctx.getState(), (draft: AuthStateModel) => {
       draft.userCredential = userCredential;
-      draft.user = user;
+      // if we use draft.user = user, the mechanism converts user in inmutable and avoid to work the correct wait.
+      draft.user = UtilitiesService.cloneHard(user);
       draft.claims = claims;
     }));
 
