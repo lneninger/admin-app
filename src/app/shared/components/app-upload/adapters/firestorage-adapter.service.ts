@@ -67,7 +67,8 @@ export class FirestorageFilePickerAdapter extends FilePickerAdapter {
 
 
   public removeFile(fileItem: FilePreviewModel): Observable<any> {
-    const filePath = this.getFilePath(fileItem);
+    const filePath = fileItem.uploadResponse.metadata.fullPath;
+    // const filePath = this.getFilePath(fileItem);
     const ref = this.firebaseService.storage.ref(filePath);
     return ref.delete();
   }
