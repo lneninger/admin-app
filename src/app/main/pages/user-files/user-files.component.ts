@@ -55,10 +55,12 @@ export class UserFilesComponent implements OnInit {
 
      this.folders = result.prefixes;
 
-     this.files = [];
+     const files = [];
      for(const file of result.items){
-      this.files.push(await file.getDownloadURL());
+      files.push(await file.getDownloadURL());
      }
+
+     this.files = files;
 
   }
 

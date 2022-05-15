@@ -29,19 +29,6 @@
     "port": 9229,
     "request": "attach",
     "type": "node"
-  },
-  {
-    "type": "pwa-chrome",
-    "request": "attach",
-    "name": "[Benelynk]Attach to Karma",
-    "address": "localhost",
-    "port": 9222,
-    "timeout": 600000,
-    "sourceMaps": true,
-    "webRoot": "${workspaceFolder}",
-    "pathMapping": {
-      "/_karma_webpack_": "${workspaceFolder}"
-    }
   }
   ]
 }

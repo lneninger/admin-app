@@ -5,10 +5,10 @@
 
 
 <section id="files" class="flex flex-row flex-wrap">
-  <section *ngFor="let file of this.files" class="relative flex flex-col w-2/12 m-2 p-2 hover:scale-105">
+  <section *ngFor="let file of this.files" class="relative flex flex-col w-2/12 p-2 hover:scale-105">
     <mat-card class="p-0 h-full overflow-hidden">
       <mat-card-header class="absolute w-full justify-end top-0">
-        <button mat-icon-button>
+        <button mat-icon-button class="hover:scale-105">
           <mat-icon class="text-white text-shadow-md">delete</mat-icon>
         </button>
       </mat-card-header>
