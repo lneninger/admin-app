@@ -1,6 +1,6 @@
 import { BaseComponent } from 'src/app/shared/base.component';
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { FilePickerAdapter, FilePreviewModel } from 'ngx-awesome-uploader';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FilePickerAdapter, FilePreviewModel, UploadResponse } from 'ngx-awesome-uploader';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 
 import { FirestorageFilePickerAdapter } from './adapters/firestorage-adapter.service';
@@ -15,6 +15,9 @@ export class AppUploadComponent extends BaseComponent implements OnInit, AfterVi
 
   @Input('config')
   uploadConfig: IUploadConfig;
+
+  @Output('onChange')
+  onChange$ = new EventEmitter<UploadResponse>()
 
   adapter: FilePickerAdapter;
 
@@ -50,7 +53,8 @@ export class AppUploadComponent extends BaseComponent implements OnInit, AfterVi
     throw new Error('It is mandatory provide the mechanism to build the file path');
   }
 
-  uploadSuccess($event){
+  uploadSuccess($event: UploadResponse){
     console.log(`$event => `, $event);
+    this.onChange$.emit($event);
   }
 }
