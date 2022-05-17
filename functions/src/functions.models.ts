@@ -1,3 +1,6 @@
+import * as admin from 'firebase-admin';
+import { Firestore } from '@angular/fire/firestore';
+
 export interface IConfig {
   environment: {
     apptitle: string;
@@ -24,4 +27,11 @@ export interface IConfig {
     'stripe-subscription': 'firebase-adminsys-20210823'
   }
 
+}
+
+
+export interface FirestoreDocumentMapping<T>{
+  id: string;
+  data: T;
+  $original: admin.firestore.DocumentData
 }

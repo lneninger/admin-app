@@ -14,12 +14,12 @@ export const subscriptionOnchange = functions.firestore.document('app-subscripti
   const before = change.before.data() as ISubscriptionItem;
   const after = change.after.data() as ISubscriptionItem;
 
-console.log('context.eventType => ', context.eventType);
+  console.log('context.eventType => ', context.eventType);
 
   switch (true) {
     case !change.before.exists:
       {
-         // create
+        // create
         const product = await createProduct(after);
         const price = await createPrice(product.id, after);
         admin.firestore().doc(`app-subscriptions/${id}`).update({ st_prodid: product.id, st_priceid: price.id });
@@ -33,7 +33,7 @@ console.log('context.eventType => ', context.eventType);
         let update = false;
         if (after.st_prodid) {
           product = await updateProduct(after.st_prodid, after);
-        } else{
+        } else {
           update = true;
           product = await createProduct(after);
         }
@@ -47,7 +47,7 @@ console.log('context.eventType => ', context.eventType);
           admin.firestore().doc(`app-subscriptions/${id}`).update({
             st_prodid: after.st_prodid || product?.id,
             st_priceid: after.st_priceid || price?.id,
-           });
+          });
         }
 
       }
@@ -67,11 +67,23 @@ console.log('context.eventType => ', context.eventType);
 
 
 async function createProduct(subscription: ISubscriptionItem) {
-  return stripe.products.create({
-    name: subscription.name,
-    active: true,
-    description: subscription.description
+
+  const exists: Stripe.Product[] = await (stripe.products as unknown as any).search({
+    query: 'active:\'true\' AND name:\'' + subscription.name + '\'',
   });
+
+  if (exists.length) {
+    return exists[0];
+  } else {
+    return stripe.products.create({
+      name: subscription.name,
+      active: true,
+      description: subscription.description,
+      metadata: {
+        type: 'subscription'
+      }
+    });
+  }
 }
 
 async function updateProduct(id: string, subscription: ISubscriptionItem) {
