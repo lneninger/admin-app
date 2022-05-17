@@ -1,5 +1,4 @@
 import * as admin from 'firebase-admin';
-import { Firestore } from '@angular/fire/firestore';
 
 export interface IConfig {
   environment: {
