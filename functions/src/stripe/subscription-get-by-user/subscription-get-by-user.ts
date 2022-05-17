@@ -5,7 +5,7 @@ import { Stripe } from 'stripe';
 
 import { IUserPaymentMetadata } from '../../../../src/app/main/services/user/user.models';
 import { accessDomains } from '../../config/access-domains';
-import { IConfig } from '../../functions.models';
+import { FirestoreDocumentMapping, IConfig } from '../../functions.models';
 import { logHttp } from '../../site/log-wrapper-function';
 import { ISubscriptionGetByUserRequest } from './subscription-get-by-user.models';
 
@@ -22,7 +22,7 @@ export const subscriptionGetByUser = functions.https.onRequest((req: functions.h
       const data = <ISubscriptionGetByUserRequest>req.body.data;
 
       try {
-        const localSubscription = subscriptionGetByUserCore(data);
+        const localSubscription = await subscriptionGetByUserCore(data);
         if (localSubscription) {
           res.status(200).json({ data: localSubscription });
           return localSubscription;
@@ -32,7 +32,7 @@ export const subscriptionGetByUser = functions.https.onRequest((req: functions.h
         }
       } catch (error) {
         res.status(400).json(error);
-
+        return null;
       }
     });
 
@@ -63,37 +63,21 @@ export async function subscriptionGetByUserCore(input: ISubscriptionGetByUserReq
     }
 
 
-    let localSubscription: ({ id: string, data: any, $original: any }) | undefined = undefined;
+    let localSubscription: FirestoreDocumentMapping<any> | undefined = undefined;
 
     if (userData?.paymentId) {
       if (!userData.subscriptionId || !userData.st_subscriptionid) {
         if (tryFromSource) {
-          const customer = await stripe.customers.retrieve(userData.paymentId) as unknown as Stripe.Customer;
-          const localSubscriptions = (await admin.firestore().collection('/app-subscriptions').get()).docs.map(doc => ({ id: doc.id, data: doc.data(), $original: doc }));
-
-          let subscription: Stripe.Subscription | undefined;
-          if (customer.subscriptions?.data?.length) {
-            for (const subscriptionItem of customer.subscriptions?.data) {
-              for (const localSubscriptionItem of localSubscriptions) {
-                if (subscriptionItem.items.data.some(subProductItem => subProductItem.plan.product === localSubscriptionItem.$original.data().st_prodid)) {
-                  localSubscription = localSubscriptionItem;
-                  subscription = subscriptionItem;
-                  break;
-                }
-                if (localSubscription != null) {
-                  break;
-                }
-              }
-            }
-          }
-
-          if (localSubscription) {
-            await admin.firestore().collection('/entities').doc(userId).update({ subscriptionId: localSubscription.id, st_subscriptionid: subscription?.id } as IUserPaymentMetadata)
+          const subscriptions = await getCustomerSubscriptionsCore(userData.paymentId);
+          const subscription = subscriptions[0];
+          if (subscription) {
+            await admin.firestore().collection('/entities').doc(userId).update({ subscriptionId: subscription.localSubscriptionItem.id, st_subscriptionid: subscription.subscriptionItem.id } as IUserPaymentMetadata);
+            localSubscription = subscription.localSubscriptionItem;
           }
         }
       } else {
         const temp = (await admin.firestore().collection('/app-subscriptions').doc(userData.subscriptionId).get());
-        localSubscription = ({ id: temp.id, data: temp.data(), $original: temp });
+        localSubscription = ({ id: temp.id, data: temp.data(), $original: temp } as FirestoreDocumentMapping<any>);
       }
 
       return localSubscription;
@@ -103,4 +87,17 @@ export async function subscriptionGetByUserCore(input: ISubscriptionGetByUserReq
   }
 
   throw new Error('Parameter error. No user id');
+}
+
+export async function getCustomerSubscriptionsCore(customerId: string): Promise<{ subscriptionItem: Stripe.Subscription, localSubscriptionItem: FirestoreDocumentMapping<any> }[]> {
+  const result: { localSubscriptionItem: FirestoreDocumentMapping<any>, subscriptionItem: Stripe.Subscription }[] = [];
+  const customer = await stripe.customers.retrieve(customerId, { expand: ['subscriptions'] }) as unknown as Stripe.Customer;
+  const localSubscriptions = (await admin.firestore().collection('/app-subscriptions').get()).docs.map(doc => ({ id: doc.id, data: doc.data(), $original: doc }));
+  //const localSubscriptionItemIds = localSubscriptions.map(item => ({ productId: item.id, st_prodid: item.data.st_prodid }));
+  if (customer.subscriptions?.data?.length) {
+
+    let subscriptionMapping = customer.subscriptions?.data.map(subscriptionItem => ({ subscriptionItem, localSubscriptionItem: localSubscriptions.find(localSubscriptionItem => subscriptionItem.items.data.some(subProductItem => localSubscriptionItem.data.st_prodid === subProductItem.plan.product)) }))
+    subscriptionMapping = subscriptionMapping.filter(item => item.subscriptionItem);
+    return subscriptionMapping;
+  }
 }

@@ -88,8 +88,8 @@ export class SettingsSubscriptionListComponent extends BaseComponent implements 
   async runPaymentCheckoutIntoServer() {
     const req: ICheckoutSessionCreateRequest = {
       userId: this.authService.user.uid,
-      successUrl: window.location.href.replace('/list$', '/success'),
-      cancelUrl: window.location.href.replace('/list$', '/fail'),
+      successUrl: window.location.href.replace(/\/list$/, '/success'),
+      cancelUrl: window.location.href.replace(/\/list$/, '/fail'),
       lineItems: [{ priceId: this.selectedSubscription.data.st_priceid, quantity: 1 }]
     };
     const sessionResponse = (await this.subscriptionService.createCheckoutSession(req)) as ICheckoutSessionCreateResponse;

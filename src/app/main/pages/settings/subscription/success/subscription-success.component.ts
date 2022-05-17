@@ -8,7 +8,7 @@ import { SubscriptionService } from 'src/app/main/services/subscription/subscrip
 import { AuthService } from 'src/app/main/services/user/auth.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
-import { IFireStoreDocument } from 'src/app/shared/firebase/firestore.models';
+import { IFireStoreDocument as IFirestoreDocument } from 'src/app/shared/firebase/firestore.models';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 
 
@@ -22,12 +22,12 @@ import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/
 })
 export class SettingsSubscriptionSuccessComponent extends BaseComponent implements OnInit {
 
-  items: IFireStoreDocument<ISubscriptionItem>[];
+  items: IFirestoreDocument<ISubscriptionItem>[];
   test: string;
   confirmDialog: MatDialogRef<ConfirmDialogComponent>;
   confirmDialog$$: Subscription;
-  selectedSubscription: IFireStoreDocument<ISubscriptionItem>;
-  userSubscription: IUserSubscriptionGetResponse;
+  selectedSubscription: IFirestoreDocument<ISubscriptionItem>;
+  userSubscription: IFirestoreDocument<ISubscriptionItem>;
 
   constructor(
     breadcrumbService: BreadcrumbService,

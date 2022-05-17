@@ -37,7 +37,7 @@
     "nodemailer": "^6.7.0",
     "plaid": "9.9.0",
     "rxjs": "^7.4.0",
-    "stripe": "8.181.0"
+    "stripe": "9.1.0"
   },
   "devDependencies": {
     "@types/nodemailer": "^6.4.4",

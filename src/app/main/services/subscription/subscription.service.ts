@@ -92,8 +92,8 @@ export class SubscriptionService {
   }
 
   async getUserSubscription(req: IUserSubscriptionGetRequest) {
-    const fn = this.firebaseService.fns.httpsCallable('getSubscription');
-    return firstValueFrom<IUserSubscriptionGetResponse>(fn(req));
+    const fn = this.firebaseService.fns.httpsCallable('subscriptionGetByUser');
+    return firstValueFrom<IFireStoreDocument<ISubscriptionItem>>(fn(req));
   }
 
 

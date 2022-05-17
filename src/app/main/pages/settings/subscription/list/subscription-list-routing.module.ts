@@ -4,19 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { SettingsSubscriptionListComponent } from './subscription-list.component';
 
 const routes: Routes = [
+
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'ws'
-  },
-  {
-    path: 'ws',
     component: SettingsSubscriptionListComponent,
     data: {
       menu: 'settings'
     }
-
-
   },
   {
     path: '**',
