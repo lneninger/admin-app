@@ -1,3 +1,4 @@
+import { DocumentData } from '@angular/fire/firestore/firebase';
 import * as Cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
@@ -41,63 +42,62 @@ export const subscriptionGetByUser = functions.https.onRequest((req: functions.h
 });
 
 
-export async function subscriptionGetByUserCore(input: ISubscriptionGetByUserRequest | string): Promise<{ id: string, data: any, $original: any } | undefined> {
-  let userData: IUserPaymentMetadata | undefined;
+export async function subscriptionGetByUserCore(input: ISubscriptionGetByUserRequest | string): Promise<FirestoreDocumentMapping<DocumentData> | undefined> {
 
-  let userId: string | undefined;
-  let tryFromSource: boolean | undefined;
   if (input) {
-    if (typeof input === 'string') {
-      userId = input;
-    } else {
+    let userId = input as string;
+    let tryFromSource: boolean | undefined;
+
+    if (typeof input !== 'string') {
       userId = input.userId;
       tryFromSource = input.tryFromSource;
     }
-  }
 
-  if (userId) {
-    try {
-      userData = (await admin.firestore().collection('/entities').doc(userId).get()).data() as IUserPaymentMetadata;
-    } catch (eror) {
-      userData = undefined;
-    }
+    if (userId) {
+      const userDataRef = (await admin.firestore().collection('/entities').doc(userId).get());
+      const userData = userDataRef.exists ? ({ id: userDataRef.id, data: userDataRef.data() as IUserPaymentMetadata }) : undefined;
 
+      if (userData?.data.paymentId) {
+        let localSubscription: FirestoreDocumentMapping<DocumentData> | undefined = undefined;
 
-    let localSubscription: FirestoreDocumentMapping<any> | undefined = undefined;
-
-    if (userData?.paymentId) {
-      if (!userData.subscriptionId || !userData.st_subscriptionid) {
-        if (tryFromSource) {
-          const subscriptions = await getCustomerSubscriptionsCore(userData.paymentId);
-          const subscription = subscriptions[0];
-          if (subscription) {
-            await admin.firestore().collection('/entities').doc(userId).update({ subscriptionId: subscription.localSubscriptionItem.id, st_subscriptionid: subscription.subscriptionItem.id } as IUserPaymentMetadata);
-            localSubscription = subscription.localSubscriptionItem;
-          }
+        if (!userData.data.subscriptionId || !userData.data.st_subscriptionid) {
+          localSubscription = tryFromSource ? await updateSuvscriptionFromStripe(userData) : undefined;
+        } else {
+          const temp = (await admin.firestore().collection('/app-subscriptions').doc(userData.data.subscriptionId).get());
+          localSubscription = { id: temp.id, data: temp.data(), $original: temp } as FirestoreDocumentMapping<DocumentData>;
         }
-      } else {
-        const temp = (await admin.firestore().collection('/app-subscriptions').doc(userData.subscriptionId).get());
-        localSubscription = ({ id: temp.id, data: temp.data(), $original: temp } as FirestoreDocumentMapping<any>);
+
+        return localSubscription;
       }
 
-      return localSubscription;
+      throw new Error('customer doesn\'t have payment registration');
     }
-
-    throw new Error('customer doesn\'t have payment registration');
   }
+
 
   throw new Error('Parameter error. No user id');
 }
 
-export async function getCustomerSubscriptionsCore(customerId: string): Promise<{ subscriptionItem: Stripe.Subscription, localSubscriptionItem: FirestoreDocumentMapping<any> }[]> {
-  const result: { localSubscriptionItem: FirestoreDocumentMapping<any>, subscriptionItem: Stripe.Subscription }[] = [];
+export async function updateSuvscriptionFromStripe(userData: { id: string, data: IUserPaymentMetadata }) {
+  const subscription = (await getCustomerSubscriptionsCore(userData.data.paymentId))?.at(0);
+  if (subscription) {
+    await admin.firestore().collection('/entities').doc(userData.id).update({ subscriptionId: subscription.localSubscriptionItem.id, st_subscriptionid: subscription.subscriptionItem.id } as IUserPaymentMetadata);
+    return subscription.localSubscriptionItem;
+  }
+
+  return undefined;
+}
+
+
+export async function getCustomerSubscriptionsCore(customerId: string): Promise<{ subscriptionItem: Stripe.Subscription, localSubscriptionItem: FirestoreDocumentMapping<DocumentData> }[] | undefined> {
   const customer = await stripe.customers.retrieve(customerId, { expand: ['subscriptions'] }) as unknown as Stripe.Customer;
-  const localSubscriptions = (await admin.firestore().collection('/app-subscriptions').get()).docs.map(doc => ({ id: doc.id, data: doc.data(), $original: doc }));
-  //const localSubscriptionItemIds = localSubscriptions.map(item => ({ productId: item.id, st_prodid: item.data.st_prodid }));
+  const localSubscriptions = (await admin.firestore().collection('/app-subscriptions').get()).docs.map(doc => ({ id: doc.id, data: doc.data(), $original: doc } as FirestoreDocumentMapping<DocumentData>));
   if (customer.subscriptions?.data?.length) {
 
-    let subscriptionMapping = customer.subscriptions?.data.map(subscriptionItem => ({ subscriptionItem, localSubscriptionItem: localSubscriptions.find(localSubscriptionItem => subscriptionItem.items.data.some(subProductItem => localSubscriptionItem.data.st_prodid === subProductItem.plan.product)) }))
-    subscriptionMapping = subscriptionMapping.filter(item => item.subscriptionItem);
+    let subscriptionMapping: { subscriptionItem: Stripe.Subscription, localSubscriptionItem: FirestoreDocumentMapping<DocumentData> }[] = customer.subscriptions?.data.map(subscriptionItem => ({ subscriptionItem, localSubscriptionItem: localSubscriptions.filter(localSubscriptionItem => subscriptionItem.items.data.some(subProductItem => localSubscriptionItem.data.st_prodid === subProductItem.plan.product))[0] }))
+    subscriptionMapping = subscriptionMapping.filter(item => item.localSubscriptionItem);
     return subscriptionMapping;
   }
+
+  return undefined;
 }
