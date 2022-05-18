@@ -1,11 +1,12 @@
 import * as admin from 'firebase-admin';
+import { UserService } from '../_services/users/user.service';
 import { IAttachRole, IUserRole } from './user.models';
-import { updateUserClaims } from './utils';
 
 
 
 export async function attachRoleCore(data: IAttachRole): Promise<admin.firestore.DocumentSnapshot<admin.firestore.DocumentData> | { roleId: string; }> {
   console.log('Mapped to model', data, 'original body', data);
+  const userService = new UserService();
 
   const roleName = data.role.toUpperCase();
   const role = (await admin.firestore().collection('auth-roles').where('name', '==', roleName).limit(1).get()).docs[0];
@@ -30,7 +31,7 @@ export async function attachRoleCore(data: IAttachRole): Promise<admin.firestore
 
     if (roles.indexOf(roleName) === -1) {
       roles.push(roleName);
-      await updateUserClaims(userRecord, { roles });
+      await userService.updateUserClaims(userRecord, { roles });
     }
 
     return relationship;
