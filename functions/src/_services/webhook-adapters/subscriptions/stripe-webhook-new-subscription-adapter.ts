@@ -1,8 +1,8 @@
 import * as admin from 'firebase-admin';
 import { Stripe } from 'stripe';
-import { staticImplements } from '../../../functions.models';
 
-import { IWebHookEvent, IWebHookEventBodySubscription } from '../../../stripe/web-hooks/stripe-webhook.models';
+import { staticImplements } from '../../../functions.models';
+import { IWebHookEvent } from '../../../stripe/web-hooks/stripe-webhook.models';
 import { SubscriptionService } from '../../subscriptions/subscription.service';
 import { UserService } from '../../users/user.service';
 import { IStaticStripeWebhookAdapter } from '../abstract-stripe-webhook-adapter';

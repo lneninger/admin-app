@@ -1,7 +1,9 @@
 import * as functions from 'firebase-functions';
 
+import {
+  StripeWebhookSubscriptionAdapterFactory,
+} from '../_services/webhook-adapters/subscriptions/stripe-webhook-subscriptions-adapter-factory';
 import { IConfig } from '../functions.models';
-import { StripeWebhookSubscriptionAdapterFactory } from '../_services/webhook-adapters/subscriptions/stripe-webhook-subscriptions-adapter-factory';
 import { IWebHookEvent, IWebHookEventBodySubscription } from './web-hooks/stripe-webhook.models';
 
 
