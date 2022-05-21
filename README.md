@@ -94,6 +94,13 @@ After run the command npm start. Run the debug option Firebase Functions
 
 ## 🎈 Usage <a name="usage"></a>
 
+### Class type mapping
+```typescript
+export declare interface Type<T> extends Function {
+    new (...args: any[]): T;
+}
+```
+
 ### Confirm Dialog
 
 ```typescript
