@@ -11,15 +11,11 @@ export const webhookEventProxy = functions.firestore.document('stripe-webhooks/{
 
   const webHookEvent = snapshot.data() as IWebHookEvent<IWebHookEventBody>;
   let messageId: string;
-  switch (webHookEvent.object.object) {
-    case 'subscription':
-    case 'customer.subscription':
-    case 'customer.subscription.updated':
-    case 'customer.subscription.created': {
+  switch (true) {
+    case webHookEvent.type.includes('subscription'):
       messageId = await pubSubClient
         .topic((functions.config() as IConfig).pubsub['stripe-subscription'])
         .publishMessage({ json: webHookEvent });
-    }
       break;
 
     default: {

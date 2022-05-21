@@ -6,7 +6,7 @@ import { Stripe } from 'stripe';
 
 import { accessDomains } from '../config/access-domains';
 import { logHttp } from '../site/log-wrapper-function';
-import { updateUserClaims, updateUserEntity } from '../user/utils';
+import { UserService } from '../_services/users/user.service';
 import { IConfig } from './../functions.models';
 import { ICustomerInputModel } from './payment.models';
 
@@ -32,9 +32,7 @@ export const customerCreate = functions.https.onRequest((req: functions.https.Re
       return result;
 
     });
-
   });
-
 });
 
 
@@ -70,8 +68,9 @@ export async function customerCreateCore(createCustomerRequest: string | Stripe.
     }
 
     const paymentId = customer.id;
-    updateUserEntity(userRecord.uid, { paymentId })
-    updateUserClaims(userRecord, { paymentId })
+    const userService = new UserService();
+    await userService.updateUserEntity(userRecord.uid, { paymentId });
+    await userService.updateUserClaims(userRecord, { paymentId });
 
   } else {
     customer = await stripe.customers.retrieve(userEntity.data()?.paymentId) as unknown as Stripe.Customer;

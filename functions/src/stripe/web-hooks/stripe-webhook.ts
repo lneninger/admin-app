@@ -13,7 +13,7 @@ export const stripeWebhook = functions.https.onRequest((req: functions.https.Req
 
     return logHttp(req, res, 'webhook', async () => {
 
-      await admin.firestore().collection('/stripe-webhooks').add(req.body.data);
+      await admin.firestore().collection('/stripe-webhooks').add(req.body);
       res.status(200).json();
       return null;
 

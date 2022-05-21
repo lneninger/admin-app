@@ -1,6 +1,11 @@
 export interface IWebHookEvent<T extends IWebHookEventBody> {
-  previous_attributes: { [key: string]: string };
-  object: T;
+  id: string;
+  type: string;
+  object: string;
+  data: {
+    previous_attributes: { [key: string]: string };
+    object: T;
+  }
 }
 
 export interface IWebHookEventBody {

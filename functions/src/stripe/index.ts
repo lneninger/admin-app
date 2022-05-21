@@ -12,6 +12,6 @@ export * from './payment-method-list';
 export * from './subscription-onchange';
 export * from './checkout-create';
 export * from './web-hooks/index';
-export * from './subscription-listener';
+export * from './subscription--pubsub-listener';
 
 export * from './subscription-get-by-user/subscription-get-by-user';
