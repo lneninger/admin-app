@@ -8,5 +8,5 @@ export abstract class AbstractStripeWebhookAdapter implements IStripeWebhookAdap
 }
 
 export interface IStripeWebhookAdapter{
-  process(object: any): void;
+  process(webEvent: IWebHookEventBody): void;
 }

@@ -1,4 +1,4 @@
-import { FirestoreDocumentMapping } from './../../functions.models';
+import { FirestoreDocumentMapping, ICustomMapping } from './../../functions.models';
 
 import * as admin from 'firebase-admin';
 import { UserRecord } from 'firebase-admin/lib/auth/user-record';
@@ -6,7 +6,7 @@ import { IUserPaymentMetadata } from '../../../../src/app/main/services/user/use
 
 export class UserService {
 
-  async updateUserEntity(userId: string, entityUpdate: any): Promise<void> {
+  async updateUserEntity(userId: string, entityUpdate: ICustomMapping): Promise<void> {
     const userEntity = admin.firestore().collection('/entities').doc(userId);
     if ((await userEntity.get()).exists) {
       userEntity.update(entityUpdate);
@@ -21,7 +21,7 @@ export class UserService {
      return ({ id: dbData.id, data: dbData.data() as IUserPaymentMetadata, $original: dbData });
   }
 
-  async updateUserClaims(userRecord: UserRecord, claimsUpdate: any): Promise<boolean> {
+  async updateUserClaims(userRecord: UserRecord, claimsUpdate: ICustomMapping): Promise<boolean> {
     const auth = admin.auth();
     let claims = userRecord.customClaims || {};
     claims = { ...claims, ...claimsUpdate };
