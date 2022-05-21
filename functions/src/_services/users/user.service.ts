@@ -1,6 +1,8 @@
+import { FirestoreDocumentMapping } from './../../functions.models';
 
 import * as admin from 'firebase-admin';
 import { UserRecord } from 'firebase-admin/lib/auth/user-record';
+import { IUserPaymentMetadata } from '../../../../src/app/main/services/user/user.models';
 
 export class UserService {
 
@@ -13,9 +15,10 @@ export class UserService {
     }
   }
 
-  async getUserEntityByPaymentId(paymentId: string): Promise<FirebaseFirestore.DocumentData> {
+  async getUserEntityByPaymentId(paymentId: string): Promise<FirestoreDocumentMapping<IUserPaymentMetadata>> {
     const userEntity = admin.firestore().collection('/entities').where('paymentId', '==', paymentId);
-    return (await userEntity.get()).docs[0];
+    const dbData = (await userEntity.get()).docs[0];
+     return ({ id: dbData.id, data: dbData.data() as IUserPaymentMetadata, $original: dbData });
   }
 
   async updateUserClaims(userRecord: UserRecord, claimsUpdate: any): Promise<boolean> {
