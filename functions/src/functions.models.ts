@@ -1,5 +1,21 @@
 import * as admin from 'firebase-admin';
 
+/**
+ * Class type mapping copy from angular. Useful to create list of Class types
+ */
+export declare interface Type<T> extends Function {
+  new(...args: any[]): T;
+}
+
+/* class decorator to specify static interface implementation */
+export function staticImplements<T>() {
+  return <U extends T>(constructor: U) => { constructor };
+}
+
+export interface ICustomMapping {
+  [key: string]: unknown;
+}
+
 export interface IConfig {
   environment: {
     apptitle: string;
@@ -29,7 +45,7 @@ export interface IConfig {
 }
 
 
-export interface FirestoreDocumentMapping<T>{
+export interface FirestoreDocumentMapping<T> {
   id: string;
   data: T;
   $original: admin.firestore.DocumentData
