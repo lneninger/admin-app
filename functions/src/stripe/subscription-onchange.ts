@@ -27,8 +27,8 @@ export const subscriptionOnchange = functions.firestore.document('app-subscripti
       break;
     case change.before.exists && change.after.exists:
       {
-        let product = undefined as unknown as Stripe.Product;
-        let price = undefined as unknown as Stripe.Price;
+        let product: Stripe.Product | undefined;
+        let price: Stripe.Price | undefined;
 
         let update = false;
         if (after.st_prodid) {
