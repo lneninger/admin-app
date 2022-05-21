@@ -1,16 +1,12 @@
 import * as Cors from 'cors';
 import * as functions from 'firebase-functions';
-import { Stripe } from 'stripe';
 
 import { SubscriptionService } from '../../_services/subscriptions/subscription.service';
 import { accessDomains } from '../../config/access-domains';
-import { IConfig } from '../../functions.models';
 import { logHttp } from '../../site/log-wrapper-function';
 import { ISubscriptionGetByUserRequest } from './subscription-get-by-user.models';
 
 const cors = Cors({ origin: accessDomains });
-
-const stripe = new Stripe(functions.config().stripe.secretkey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
 
 export const subscriptionGetByUser = functions.https.onRequest((req: functions.https.Request, res: functions.Response) => {
 
