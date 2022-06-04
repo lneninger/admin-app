@@ -1,19 +1,17 @@
-import { AuthService } from 'src/app/main/services/user/auth.service';
 import { DataAction, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Selector, SelectorOptions, State, Store } from '@ngxs/store';
+import { Selector, State, Store } from '@ngxs/store';
 import { IAttachRole, ISetCurrentRole } from 'functions/src/user/user.models';
 import produce from 'immer';
-import { first } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 
 import { AppStateModel } from './../../../app.state';
-import { AuthStateModel, IUserMetadata, UserModel } from './auth.models';
+import { IUserMetadata, UserModel } from './auth.models';
 import { IUserPaymentMetadata, UserStateModel } from './user.models';
-import { firstValueFrom } from 'rxjs';
 
 
 @StateRepository()

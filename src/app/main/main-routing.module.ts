@@ -78,6 +78,11 @@ const routes: Routes = [
             path: 'axie-infinity',
             loadChildren: () => import('./dynamic-modules/axie-infinity/axie-infinity.module').then(m => m.AxieInfinityModule),
             data: { name: 'AXIE-INFINITY' } as ISecuredModuleReferece
+          },
+          {
+            path: 'interviews',
+            loadChildren: () => import('./dynamic-modules/interviews/interviews.module').then(m => m.InterviewsModule),
+            data: { name: 'INTERVIEWS' } as ISecuredModuleReferece
           }
         ]
 

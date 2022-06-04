@@ -1,15 +1,12 @@
-import { NavigationItemIds } from 'src/app/main/main.navigation';
-import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggregators.state';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router, Event, NavigationEnd } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { MenuService } from 'src/app/shared/layout/layout-main/navigation/menu/menu.service';
-import { Observable, Subscription, firstValueFrom } from 'rxjs';
-import { Select } from '@ngxs/store';
-import { filter, first } from 'rxjs/operators';
-import { AppInitializerService } from 'src/app/shared/app-initializer/app-initializer.service';
+import { ActivatedRoute, ActivatedRouteSnapshot, Event, NavigationEnd, Router } from '@angular/router';
 import { ISecuredModule } from 'functions/src/site/site.models';
-import { NavigationService } from 'src/app/shared/layout/layout-main/navigation/navigation.service';
+import { filter } from 'rxjs/operators';
+import { NavigationItemIds } from 'src/app/main/main.navigation';
+import { AppInitializerService } from 'src/app/shared/app-initializer/app-initializer.service';
+import { MenuService } from 'src/app/shared/layout/layout-main/navigation/menu/menu.service';
 import { NavigationItem } from 'src/app/shared/layout/layout-main/navigation/navigation.models';
+import { NavigationService } from 'src/app/shared/layout/layout-main/navigation/navigation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -98,7 +95,7 @@ export class AppMenuService {
     const navigationItems = modules.map(moduleItem => ({
       id: moduleItem.name,
       label: moduleItem.displayName,
-      routerLink: [`/app/secured/${moduleItem.path}`],
+      routerLink: [`/app/ws/secured/${moduleItem.path}`],
       bottom: false,
       icon: moduleItem.icon,
     } as NavigationItem))

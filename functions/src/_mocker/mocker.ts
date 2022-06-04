@@ -54,6 +54,21 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
           moduleId: 'AXIE-INFINITY'
         } as IUserSecuredModule);
       }
+
+      if (!(await moduleCollection.doc('INTERVIEWS').get()).exists) {
+
+        await moduleCollection.doc('INTERVIEWS').set({
+          name: 'INTERVIEWS',
+          displayName: 'Standarized QA flows',
+          path: 'interviews',
+          icon: 'question_mark',
+        } as ISecuredModule);
+
+        await userModuleCollection.add({
+          userId,
+          moduleId: 'INTERVIEWS'
+        } as IUserSecuredModule);
+      }
       //#endregion
 
 

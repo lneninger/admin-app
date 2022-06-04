@@ -2,32 +2,21 @@ import { NgxsDataPluginModule } from '@angular-ru/ngxs';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@angular-ru/ngxs/storage';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-
-import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-
-// import { AngularFireModule } from '@angular/fire';
-// import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
-// import { PERSISTENCE, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
-// import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
-// import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
-
-
-import { AngularFireAuthGuardModule } from '@angular/fire/compat/auth-guard';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireAuthModule, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
-// import { USE_EMULATOR as USE_DATABASE_EMULATOR } from '@angular/fire/compat/database';
+import { AngularFireAuthGuardModule } from '@angular/fire/compat/auth-guard';
 import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
 import { AngularFireFunctionsModule, USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/compat/functions';
-
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { NgxStripeModule } from 'ngx-stripe';
-import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { ProductCategoryService } from 'src/app/main/services/product-category/product-category.service';
 import { UserService } from 'src/app/main/services/user/user.service';
+import { PaymentService } from 'src/app/shared/payment/+services/payment.service';
 import { environment } from 'src/environments/environment';
 
 import { lazyArrayToObj } from './app-routing-lazy';
@@ -46,6 +35,14 @@ import { NoOpMockerService } from './shared/firebase/noop-mocker.service';
 import { AppConfigState } from './shared/layout/states/appconfig.state';
 import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
 
+// import { AngularFireModule } from '@angular/fire';
+// import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+// import { PERSISTENCE, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
+// import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
+// import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
+
+
+// import { USE_EMULATOR as USE_DATABASE_EMULATOR } from '@angular/fire/compat/database';
 
 @NgModule({
   declarations: [
