@@ -23,6 +23,7 @@ export * from './site/index';
 export * from './stripe/index';
 export * from './user/index';
 export * from './config/index';
+export * from './azure/index';
 
 
 

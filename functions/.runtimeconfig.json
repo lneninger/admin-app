@@ -20,6 +20,12 @@
     "publickey": "pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O",
     "webhookdomain": "hooks.stripe.com"
   },
+  "azure": {
+    "clientid": "7cc66819-d8bd-474a-88c0-ef81c8b0922f",
+    "tenantid": "b9f01fb9-9ecb-4d07-b9b5-3f53c05f2617",
+    "aadauthority": "https://login.microsoftonline.com/",
+    "scope": ["api://AzureADTokenExchange"]
+  },
   "pubsub": {
     "stripe-subscription": "subscription"
   },

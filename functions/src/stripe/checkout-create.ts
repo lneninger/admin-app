@@ -1,5 +1,5 @@
-import * as Cors from 'cors';
-import * as admin from 'firebase-admin';
+  import * as Cors from 'cors';
+  import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { Stripe } from 'stripe';
 

@@ -104,15 +104,19 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       }
       //#endregion
 
+      console.trace(`Trace: Processing member => `, mockedSignUp2.email);
       try {
         const user = await auth.getUserByEmail(mockedSignUp2.email);
         userId = user.uid;
-      } catch (error) {
-        userId = undefined as unknown as string;
+      console.trace(`Trace: Member found => `, mockedSignUp2.email);
+    } catch (error) {
+      console.trace(`Trace: Member not found => `, mockedSignUp2.email);
+      userId = undefined as unknown as string;
       }
 
       if (!userId) {
-        const createUserResult = await auth.createUser({ email: mockedSignUp2.email, password: mockedSignUp2.password, phoneNumber: mockedSignUp2.phoneNumber, photoURL: mockedSignUp2.photoUrl, metadata: null } as CreateRequest);
+      console.trace(`Trace: Creating member => `, mockedSignUp2.email);
+      const createUserResult = await auth.createUser({ email: mockedSignUp2.email, password: mockedSignUp2.password, phoneNumber: mockedSignUp2.phoneNumber, photoURL: mockedSignUp2.photoUrl, metadata: null } as CreateRequest);
         userId = createUserResult.uid;
       }
 

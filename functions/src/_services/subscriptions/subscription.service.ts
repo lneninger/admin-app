@@ -8,7 +8,7 @@ import { FirestoreDocumentMapping, IConfig } from '../../functions.models';
 import { ISubscriptionGetByUserRequest } from '../../stripe/subscription-get-by-user/subscription-get-by-user.models';
 import { ISubscriptionItem } from './subscription.models';
 
-const stripe = new Stripe(functions.config().stripe.secretkey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
+const stripe = new Stripe((functions.config() as IConfig).stripe.secretkey, { apiVersion: (functions.config() as IConfig).stripe.apiversion });
 
 export class SubscriptionService {
   async subscriptionGetByUserCore(input: ISubscriptionGetByUserRequest | string): Promise<FirestoreDocumentMapping<DocumentData> | undefined> {

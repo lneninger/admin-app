@@ -22,15 +22,16 @@ export class StripeWebhookNewSubscriptionAdapter implements IStripeWebhookAdapte
       const entity = await userService.getUserEntityByPaymentId(customerId);
       if (entity != null) {
         const localSubscription = await subscriptionService.getLocalSubscriptionByStripeSubscriptions(webEvent.data.object)
-        await userService.updateUserEntity(entity.id, { subscriptionId: localSubscription?.id, st_subscriptionid });
+        const subscriptionId = localSubscription?.id;
+        await userService.updateUserEntity(entity.id, { subscriptionId, st_subscriptionid });
 
         const auth = admin.auth();
         const userRecord = await auth.getUser(entity.id);
         // const appSubscription = (await admin.firestore().collection('/app-subscriptions').doc(webEvent.object.id/*WRONG*/).get()).data() as IUserPaymentMetadata;
 
         // get local subscription identifier
-        const subscriptionId = null;
-        await userService.updateUserClaims(userRecord, { subscriptionId })
+        const subscriptionName = localSubscription?.data.name;
+        await userService.updateUserClaims(userRecord, { subscriptionId, subscriptionName })
       }
     }
   }

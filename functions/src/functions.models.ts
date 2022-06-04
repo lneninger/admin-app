@@ -38,6 +38,12 @@ export interface IConfig {
     publickey: string;
     environment: string;
   },
+  azure: {
+    clientid: string,
+    tenantid: string,
+    aadauthority: string,
+    scope: string[] | string
+  },
   pubsub: {
     'stripe-subscription': 'firebase-adminsys-20210823'
   }

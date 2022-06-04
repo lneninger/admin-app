@@ -11,7 +11,7 @@ export const mockedSignUp2: IUserCreateForm = {
   password: '123123',
   confirmPassword: '123123',
   displayName: 'Leonardo Hipalanet',
-  phoneNumber: '+17864553456',
+  phoneNumber: '+17864553457',
 };
 
 export interface IUserCreateForm {
