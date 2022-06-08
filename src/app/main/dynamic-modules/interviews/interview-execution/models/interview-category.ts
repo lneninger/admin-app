@@ -1,4 +1,13 @@
-import { IInterviewPage } from './interview-page';
+import { IInterviewCategoryPage, IInterviewCategoryPageDefinition } from './interview-page';
+
+export interface IInterviewCategoryDefinition{
+  id: string;
+  name: string;
+  displayName: string;
+  description: string;
+  order: number;
+  pages: IInterviewCategoryPageDefinition[]
+}
 
 export interface IInterviewCategory {
   id: string;
@@ -6,6 +15,6 @@ export interface IInterviewCategory {
   displayName: string;
   description: string;
   order: number;
-  pages: IInterviewPage[]
+  pages: IInterviewCategoryPage[]
 }
 

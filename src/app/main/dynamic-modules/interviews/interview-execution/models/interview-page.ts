@@ -1,7 +1,15 @@
-import { IInterviewField } from './interview-field';
+import { IInterviewField, IInterviewFieldDefinition } from './interview-field';
 
+export interface IInterviewCategoryPageDefinition{
+  id: string;
+  name: string;
+  displayName: string;
+  description: string;
+  order: number;
+  fields: IInterviewFieldDefinition[];
+}
 
-export interface IInterviewPage {
+export interface IInterviewCategoryPage {
   id: string;
   name: string;
   displayName: string;
@@ -9,8 +17,9 @@ export interface IInterviewPage {
   order: number;
 }
 
+export interface IInterviewCurrentCategoryPage extends IInterviewCategoryPage{
+  fields: IInterviewField[];
 
-export interface IInterviewCurrentPage extends IInterviewPage {
-  fields: IInterviewField[]
 }
+
 

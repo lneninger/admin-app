@@ -1,8 +1,17 @@
-<app-page navigationItem="ADMIN_SUBSCRIPTIONS">
+<!-- <app-page navigationItem="INTERVIEWS"> -->
+<app-page pageTitle="Interview" pageIcon="question_mark">
 
-  <section class="flex w-full flex-col">
+  <ng-template #optionsContent>
+    <button mat-mini-fab aria-label="PDF">
+      <mat-icon class="fal fa-file-pdf"></mat-icon>
+    </button>
+  </ng-template>
 
-    <ng-container *ngIf="this.executingInterview">
+
+<section class="flex w-full h-full flex-col">
+
+  <ng-container *ngIf="this.executingInterview">
+    <section class="flex flex-col w-full mb-8 justify-center">
       <!--CATEGORIES-->
       <mat-stepper linear #stepper>
         <mat-step *ngFor="let category of this.executingInterview.categories" [label]="category.displayName"
@@ -12,56 +21,65 @@
 
 
       <!--PAGES-->
-      <mat-stepper linear #stepper>
-        <mat-step [editable]="true">
-        </mat-step>
-        <mat-step [editable]="true">
-        </mat-step>
-        <mat-step [editable]="true">
-        </mat-step>
-        <mat-step [editable]="true">
-        </mat-step>
-        <mat-step [editable]="true">
-        </mat-step>
-        <mat-step [editable]="true">
+      <mat-stepper linear #stepper class="pages flex justify-center">
+        <mat-step *ngFor="let page of this.currentCategory.pages"  [label]="page.displayName"
+        [ngClass]="{'no-label': !page.displayName}"
+        [editable]="true">
         </mat-step>
       </mat-stepper>
+    </section>
 
 
 
 
 
-      <section [formGroup]="form" fxFlex fxFlexFill>
-        <section class="mb-8">
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Name</mat-label>
-            <input matInput placeholder="Placeholder" formControlName="name">
-            <mat-icon matSuffix>check</mat-icon>
-            <mat-hint>Subscription name will appear as part of the subscription title</mat-hint>
-          </mat-form-field>
-        </section>
-
-        <section class="mb-8">
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Price</mat-label>
-            <input matInput placeholder="Placeholder" formControlName="price">
-            <mat-icon matSuffix>attach_money</mat-icon>
-            <mat-slider min="1" max="15" step="0.10" formControlName="price"></mat-slider>
-            <mat-hint>Hint</mat-hint>
-          </mat-form-field>
-        </section>
-
-        <section class="mb-8">
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Fill form field</mat-label>
-            <input matInput placeholder="Placeholder">
-            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-            <mat-hint>Hint</mat-hint>
-          </mat-form-field>
-        </section>
-
+    <section [formGroup]="form" fxFlex fxFlexFill>
+      <section class="mb-8">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Placeholder" formControlName="name">
+          <mat-icon matSuffix>check</mat-icon>
+          <mat-hint>Subscription name will appear as part of the subscription title</mat-hint>
+        </mat-form-field>
       </section>
 
-    </ng-container>
-  </section>
+      <section class="mb-8">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Price</mat-label>
+          <input matInput placeholder="Placeholder" formControlName="price">
+          <mat-icon matSuffix>attach_money</mat-icon>
+          <mat-slider min="1" max="15" step="0.10" formControlName="price"></mat-slider>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </section>
+
+      <section class="mb-8">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Fill form field</mat-label>
+          <input matInput placeholder="Placeholder">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </section>
+
+    </section>
+
+    <section class="flex h-[50px] justify-center">
+      <section class="navigation flex">
+        <button mat-button class="">
+          <mat-icon>keyboard_double_arrow_left</mat-icon>
+        </button>
+        <button mat-button class="">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <button mat-button class="">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+        <button mat-button class="">
+          <mat-icon>keyboard_double_arrow_right</mat-icon>
+        </button>
+      </section>
+    </section>
+  </ng-container>
+</section>
 </app-page>

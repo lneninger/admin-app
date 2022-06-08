@@ -98,7 +98,8 @@ export class AppMenuService {
       routerLink: [`/app/ws/secured/${moduleItem.path}`],
       bottom: false,
       icon: moduleItem.icon,
-    } as NavigationItem))
+    } as NavigationItem));
+
     this.navigationService.addItem(...navigationItems);
 
     return navigationItems.map(item => item.id);

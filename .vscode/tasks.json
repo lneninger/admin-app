@@ -1,0 +1,28 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+    {
+      "type": "npm",
+      "script": "start",
+      "problemMatcher": [],
+      "label": "npm: start",
+      "detail": "ng serve --open"
+    },
+    {
+      "type": "npm",
+      "script": "start",
+      "path": "functions",
+      "problemMatcher": [],
+      "label": "npm: start - functions",
+      "detail": "npm run serve"
+    },
+    {
+      "type": "npm",
+      "script": "start-ngrok",
+      "path": "functions",
+      "problemMatcher": [],
+      "label": "npm: start-ngrok - functions",
+      "detail": "ngrok http 6099"
+    }
+  ]
+}

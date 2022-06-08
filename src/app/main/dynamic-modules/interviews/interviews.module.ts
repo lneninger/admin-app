@@ -23,7 +23,6 @@ import { InterviewManagerModule } from './interview-manager/interview-manager.mo
       {
         path: 'execute',
         loadChildren: () => import('./interview-execution/interview-execution.module').then(m => m.InterviewExecutionModule),
-        component: InterviewDashboardComponent
       },
       {
         path: '**',

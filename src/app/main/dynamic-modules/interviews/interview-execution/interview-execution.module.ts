@@ -1,3 +1,4 @@
+import { NgxsModule } from '@ngxs/store';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -5,6 +6,7 @@ import { LayoutMainCommonModule } from 'src/app/shared/layout/layout-main/layout
 
 import { InterviewExecutionRoutingModule } from './interview-execution-routing.module';
 import { InterviewExecutionComponent } from './interview-execution.component';
+import { InterviewService } from './services/interview.service';
 
 
 @NgModule({
@@ -27,6 +29,9 @@ import { InterviewExecutionComponent } from './interview-execution.component';
         path: '**',
         redirectTo: ''
       }
+    ]),
+    NgxsModule.forFeature([
+      InterviewService
     ])
   ]
 })

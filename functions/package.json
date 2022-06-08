@@ -9,6 +9,7 @@
     "serve-all": "npm run build:watch && firebase emulators:start",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run serve",
+    "start-ngrok": "ngrok http 6099",
     "start_old": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",

@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+
+:host ::ng-deep * {
+  mat-stepper {
+    background-color: transparent;
+    & .mat-step-header {
+      height: 40px;
+    }
+
+    & .mat-horizontal-content-container {
+      display: none;
+    }
+
+    &.pages {
+      & .no-label {
+        & .mat-step-label {
+          display: none;
+        }
+      }
+    }
+  }
+}
