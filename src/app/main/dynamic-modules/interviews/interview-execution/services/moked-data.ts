@@ -6,21 +6,19 @@ export const vitae1: IInterviewDefinition = {
   id: 'vitae1',
   categories: [
     {
-      id: 'personal-info',
-      name: 'Personal Info',
+      name: 'personal-info',
       displayName: 'Personal Info',
       order: 1,
       description: 'Recolecting data like address, contact methods, etc',
       pages: [
 
         {
-          id: 'person-details',
-          name: 'Personal details',
+          name: 'person-details',
           displayName: 'Personal details',
           description: null,
           fields: [
             {
-              id: 'person-details|firstname',
+              name: 'person-details|firstname',
               label: 'First name',
               description: undefined,
               metadata: {
@@ -28,7 +26,7 @@ export const vitae1: IInterviewDefinition = {
               } as IInterviewFieldMetadata
             } as IInterviewFieldDefinition,
             {
-              id: 'person-details|lastname',
+              name: 'person-details|lastname',
               label: 'Last name',
               description: undefined,
               metadata: {
@@ -36,7 +34,7 @@ export const vitae1: IInterviewDefinition = {
               } as IInterviewFieldMetadata
             } as IInterviewFieldDefinition,
             {
-              id: 'person-details|gender',
+              name: 'person-details|gender',
               label: 'Gender',
               description: undefined,
               metadata: {
@@ -44,7 +42,7 @@ export const vitae1: IInterviewDefinition = {
               } as IInterviewFieldMetadata
             } as IInterviewFieldDefinition,
             {
-              id: 'person-details|dob',
+              name: 'person-details|dob',
               label: 'Date of birth',
               description: undefined,
               metadata: {
@@ -54,13 +52,12 @@ export const vitae1: IInterviewDefinition = {
           ]
         },
         {
-          id: 'postal-address',
-          name: 'postalAddress',
+          name: 'postal-address',
           displayName: 'Postal address',
           description: null,
           fields: [
             {
-              id: 'postal-address|street1',
+              name: 'postal-address|street1',
               label: 'Street 1',
               description: undefined,
               metadata: {
@@ -68,7 +65,7 @@ export const vitae1: IInterviewDefinition = {
               } as IInterviewFieldMetadata
             } as IInterviewFieldDefinition,
             {
-              id: 'postal-address|street2',
+              name: 'postal-address|street2',
               label: 'Street 2',
               description: undefined,
               metadata: {
@@ -77,7 +74,7 @@ export const vitae1: IInterviewDefinition = {
               } as IInterviewFieldMetadata
             } as IInterviewFieldDefinition,
             {
-              id: 'postal-address|country',
+              name: 'postal-address|country',
               label: 'Country',
               description: undefined,
               metadata: {
@@ -85,7 +82,7 @@ export const vitae1: IInterviewDefinition = {
               } as IInterviewFieldMetadata
             } as IInterviewFieldDefinition,
             {
-              id: 'postal-address|state',
+              name: 'postal-address|state',
               label: 'Date of birth',
               description: undefined,
               metadata: {
@@ -93,7 +90,7 @@ export const vitae1: IInterviewDefinition = {
               } as IInterviewFieldMetadata
             } as IInterviewFieldDefinition,
             {
-              id: 'postal-address|city',
+              name: 'postal-address|city',
               label: 'City',
               description: undefined,
               metadata: {
@@ -105,14 +102,12 @@ export const vitae1: IInterviewDefinition = {
       ]
     } as IInterviewCategoryDefinition,
     {
-      id: 'studies-info',
-      name: 'Studies',
+      name: 'studies-info',
       displayName: 'Studies',
       description: 'Area to detail the studies and certifications'
     } as IInterviewCategoryDefinition,
     {
-      id: 'skills-info',
-      name: 'Skills Test',
+      name: 'skills-info',
       displayName: 'Skills Test',
       description: 'Tecnical skills and its levels'
     } as IInterviewCategoryDefinition

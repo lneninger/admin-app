@@ -1,7 +1,6 @@
 import { IInterviewField, IInterviewFieldDefinition } from './interview-field';
 
 export interface IInterviewCategoryPageDefinition{
-  id: string;
   name: string;
   displayName: string;
   description: string;
@@ -10,7 +9,6 @@ export interface IInterviewCategoryPageDefinition{
 }
 
 export interface IInterviewCategoryPage {
-  id: string;
   name: string;
   displayName: string;
   description: string;

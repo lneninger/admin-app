@@ -1,30 +1,30 @@
 import { IInterviewCategory } from './interview-category';
 
 
-export interface IExecutingInterview {
+export interface IPersistedInterviewStatus {
   id: string;
-  categories?: IInterviewCategory[];
-
-  status?: IExecutingInterviewStatus;
-}
-
-export interface IExecutingInterviewStatus {
   currentCategory: string;
   currentPage: string;
 
   maxVisitedCategory: string;
   maxVisitedPage: string;
 
-  fieldStatus: IExecutingInterviewFieldStatus;
+  fieldStatus: IPersistedInterviewFieldStatus[];
 }
 
-export interface IExecutingInterviewFieldStatus {
-  id: string;
+export interface IPersistedInterviewFieldStatus {
+  name: string;
+  value: any;
+  date?: Date;
+}
 
+export interface IInterviewFieldStatus{
+  name: string;
+  value: any;
+  date?: Date;
 }
 
 export interface IInterviewEvaluateRequest {
-  id: string;
   action: InterviewEvaluationAction;
   pageInfo?: IInterviewEvaluatePageInfo;
   value?: any;
@@ -58,7 +58,7 @@ export interface IInterviewEvaluateFieldResponse{
 export interface IInterviewEvaluatePageInfo {
   currentCategory: string;
   currentPage: string;
-  currentVariable: string;
+  currentVariable?: string;
 }
 
 

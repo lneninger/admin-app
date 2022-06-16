@@ -2,12 +2,11 @@ import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Selector, State, Store } from '@ngxs/store';
-import { Utilities } from 'src/app/main/services/utilities';
-import { UtilitiesService } from 'src/app/shared/utilities.service';
-import { IExecutingInterview, IInterviewEvaluateFieldResponse, IInterviewEvaluateRequest, IInterviewEvaluateResponse, InterviewEvaluationAction } from '../models/executing-interview';
+import { IInterviewEvaluateRequest, IInterviewFieldStatus, InterviewEvaluationAction, IPersistedInterviewStatus } from '../models/executing-interview';
+import { InterviewFieldsEvalutionResult } from '../models/interview-field';
 import { IInterviewConfig } from '../models/interview.config';
 import { IInterviewDefinition } from './../models/interview-definition';
-import { IInterviewInstance } from './../models/interview-instance';
+import { IInterviewInstance, InterviewInstance } from './../models/interview-instance';
 import { IInterviewStateModel } from './interview-state.models';
 import { vitae1 } from './moked-data';
 
@@ -22,7 +21,6 @@ import { vitae1 } from './moked-data';
 })
 @Injectable()
 export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
-  config: IInterviewConfig;
 
   @Selector()
   static interviewDefinitionsSelector(state: IInterviewStateModel) {
@@ -42,73 +40,105 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
     console.trace('Interview Service bootstrapped!');
   }
 
-  initialize(config: IInterviewConfig) {
+  initialize(config: IInterviewConfig): IInterviewInstance {
 
-    this.config = config;
+    const interview = new InterviewInstance({ id: config.id, config });
     const req: IInterviewEvaluateRequest = {
-      id: this.config.id,
       action: InterviewEvaluationAction.Initialize,
     };
 
-    return this.evaluate(req);
+    this.evaluate(req, interview);
+
+    return interview
   }
 
-  evaluate(req: IInterviewEvaluateRequest): IInterviewEvaluateResponse {
-    const interviewDefinition = this.getInterviewDefinition(req.id);
-    const interviewInstance = this.getInterviewInstance(req.id);
-
-    const result: IInterviewEvaluateResponse = {
-      id: req.id,
-      currentCategory: interviewDefinition.categories[0].id,
-      currentPage: interviewDefinition.categories[0].pages[0].id,
-      values: !interviewInstance ? [] : Object.getOwnPropertyNames(interviewInstance.fieldValues).map(itemKey => ({ id: itemKey, value: interviewInstance.fieldValues[itemKey] } as IInterviewEvaluateFieldResponse)),
-    };
+  evaluate(req: IInterviewEvaluateRequest, interview: IInterviewInstance): void {
 
 
-    const fieldsEvaluation = this.fieldsEvaluation(interviewInstance?.fieldValues || [], interviewDefinition);
+    const interviewDefinition = this.getInterviewDefinition(interview.id);
+    const previousInterview = this.getInterviewInstance(interview.id);
+
+    // const result: IInterviewEvaluateResponse = {
+    //   id: interview.id,
+    //   currentCategory: interviewDefinition.categories[0].id,
+    //   currentPage: interviewDefinition.categories[0].pages[0].id,
+    //   values: Object.getOwnPropertyNames(interview.fieldValues).map(itemKey => ({ id: itemKey, value: interview.fieldValues[itemKey] } as IInterviewEvaluateFieldResponse)),
+    // };
+
+
+
 
     if (req.action === InterviewEvaluationAction.Initialize) {
-      result.categories = interviewDefinition.categories.map(item => {
-        const result = Utilities.cloneHard({ ...item });
-        // delete result['pages'];
-        return result;
-      });
+
+
+      interview.fieldStatus = (previousInterview?.fieldStatus || []).map(item => ({
+        ...item
+      } as IInterviewFieldStatus));
+
+      interview.categories = interviewDefinition.categories.map(item => ({
+        name: item.name,
+        displayName: item.displayName,
+        description: item.description,
+        order: item.order,
+      })).sort((itemA, itemB) => itemA.order == itemB.order ? 0 : (itemA.order < itemB.order ? -1 : 1));
+
+      interview.currentCategory = previousInterview?.currentCategory || interview.categories[0].name;
+
+      const currentCategoryDef = interviewDefinition.categories.find(item => item.name === interview.currentCategory);
+      interview.currentCategoryPages = currentCategoryDef.pages.map(pageItem => ({
+        name: pageItem.name,
+        displayName: pageItem.displayName,
+        description: pageItem.description,
+        order: pageItem.order,
+      }));
+
+      interview.currentPage = previousInterview?.currentPage || interview.currentCategoryPages[0].name;
+
+      const currentPageDef = currentCategoryDef.pages.find(item => item.name === interview.currentPage);
+      interview.currentPageFields = currentPageDef.fields.map(fieldItem => ({
+        name: fieldItem.name,
+        label: fieldItem.label,
+        description: fieldItem.description
+      }));
+
     }
 
 
-    // if (!result.status) {
-    //   result.status = {
-    //     currentCategory: result.categories[0].id,
-    //     currentPage:
-    //   } as IExecutingInterviewStatus;
-    // }
+    const fieldsEvaluation = this.fieldsEvaluation(interview, interviewDefinition);
 
-    return result;
+
   }
-  fieldsEvaluation(fieldValues: { [key: string]: any; }, interviewDefinition: IInterviewDefinition) {
+
+  fieldsEvaluation(interview: IInterviewInstance, interviewDefinition: IInterviewDefinition): InterviewFieldsEvalutionResult {
+    const result = new InterviewFieldsEvalutionResult();
     for (let category of interviewDefinition.categories) {
       if (category.pages) {
         for (let page of category.pages) {
           if (page.fields) {
             for (let field of page.fields) {
-
+              field.validators?.forEach(validatorItem => {
+                const fieldStatus = interview.fieldStatus.find(persistedFieldItem => persistedFieldItem.name === field.name);
+                const evaluationResult = validatorItem.rule(fieldStatus, interview.fieldStatus);
+                if (evaluationResult) {
+                  result.push(evaluationResult);
+                }
+              });
             }
           }
         }
       }
     }
+
+    return result;
   }
+
 
   getInterviewDefinition(id: string): IInterviewDefinition {
     return this.store.selectSnapshot(InterviewService.interviewDefinitionsSelector).find(item => item.id === id);
   }
 
-  getInterviewInstance(id: string): IInterviewInstance {
+  getInterviewInstance(id: string): IPersistedInterviewStatus {
     return this.store.selectSnapshot(InterviewService.interviewInstancesSelector).find(item => item.id === id);
-  }
-
-  getInterviewStatus(id: string): IExecutingInterview {
-    return UtilitiesService.cloneHard(vitae1);
   }
 
 

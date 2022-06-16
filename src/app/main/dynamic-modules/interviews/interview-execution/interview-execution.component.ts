@@ -1,8 +1,10 @@
-import { InterviewService } from './services/interview.service';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { IExecutingInterview } from './models/executing-interview';
+import { IInterviewEvaluateRequest, InterviewEvaluationAction } from './models/executing-interview';
 import { IInterviewCategory } from './models/interview-category';
+import { IInterviewInstance } from './models/interview-instance';
+import { IInterviewConfig } from './models/interview.config';
+import { InterviewService } from './services/interview.service';
 
 @Component({
   selector: 'app-interview-execution',
@@ -15,17 +17,21 @@ export class InterviewExecutionComponent implements OnInit, AfterViewInit {
     name: null,
     price: null
   });
-  executingInterview: IExecutingInterview;
+  interview: IInterviewInstance;
 
   private _currentCategory: IInterviewCategory;
-  get currentCategory(): IInterviewCategory{
+  get currentCategory(): IInterviewCategory {
     return this._currentCategory;
   }
+
+  @Input() config: IInterviewConfig = { id: 'vitae1' };
+
+  InterviewEvaluationAction = InterviewEvaluationAction;
 
   constructor(
     private fmBuilder: FormBuilder,
     private service: InterviewService
-    ) { }
+  ) { }
 
 
   ngOnInit(): void {
@@ -37,10 +43,14 @@ export class InterviewExecutionComponent implements OnInit, AfterViewInit {
     }, 0);
   }
   initializeInterview() {
-    const evaluationResult = this.executingInterview = this.service.initialize({id: 'vitae1'});
-    this.executingInterview = evaluationResult;
-    this._currentCategory = this.executingInterview.categories.find(item => item.id === evaluationResult.currentCategory);
-
+    this.interview = this.service.initialize(this.config);
+    this._currentCategory = this.interview.categories.find(item => item.name === this.interview.currentCategory);
   }
 
+  onPage(action: InterviewEvaluationAction) {
+    const req: IInterviewEvaluateRequest = {
+      action,
+    };
+    this.service.evaluate(req, this.interview);
+  }
 }

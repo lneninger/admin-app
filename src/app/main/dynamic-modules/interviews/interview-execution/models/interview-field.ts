@@ -1,30 +1,29 @@
+import { IInterviewFieldStatus } from './executing-interview';
 
 export interface IInterviewFieldDefinition {
-  id: string;
+  name: string;
   label: string;
   description: string;
   metadata: IInterviewFieldMetadata;
   validators: IInterviewValidatorDefinition[]
 }
 
-export interface IInterviewValidatorDefinition{
+export interface IInterviewValidatorDefinition {
   id: string;
-  rule: () => boolean;
+  rule: (fieldStatus: IInterviewFieldStatus, fieldStatusList: IInterviewFieldStatus[]) => InterviewFieldEvalution;
   message: string;
 }
 
 export interface IInterviewField {
-  id: string;
+  name: string;
   label: string;
   description: string;
-  metadata: IInterviewFieldMetadata;
 }
 
 export class InterviewField implements IInterviewField {
-  id: string;
+  name: string;
   label: string;
   description: string;
-  metadata: IInterviewFieldMetadata;
 
   constructor(input: Partial<IInterviewField>) {
     Object.assign(this, input);
@@ -32,9 +31,20 @@ export class InterviewField implements IInterviewField {
 }
 
 
-export interface IInterviewFieldMetadata{
+export interface IInterviewFieldMetadata {
   control: ControlTypeNames,
   controlDataProvider?: any;
 }
 
-export declare type ControlTypeNames = 'INPUT' | 'CHECKBOX' | 'CHECKBOXLIST' | 'RADIO'  | 'RADIOLIST' | 'BOOLEAN' | 'NULLABLEBOOLEAN' | 'SELECT' | 'MULTISELECT' | 'DATE' | 'DATERANGE';
+
+export interface InterviewFieldEvalution {
+  type: 'evaluation' | 'disqualification',
+  message: string;
+}
+
+export class InterviewFieldsEvalutionResult extends Array<InterviewFieldEvalution>{
+
+
+}
+
+export declare type ControlTypeNames = 'INPUT' | 'CHECKBOX' | 'CHECKBOXLIST' | 'RADIO' | 'RADIOLIST' | 'BOOLEAN' | 'NULLABLEBOOLEAN' | 'SELECT' | 'MULTISELECT' | 'DATE' | 'DATERANGE';
