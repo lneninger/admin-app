@@ -1,4 +1,5 @@
 import { IInterviewCategory } from './interview-category';
+import { InterviewFieldsEvalutionResult } from './interview-field';
 
 
 export interface IPersistedInterviewStatus {
@@ -22,6 +23,7 @@ export interface IInterviewFieldStatus{
   name: string;
   value: any;
   date?: Date;
+  evaluationResult?: InterviewFieldsEvalutionResult;
 }
 
 export interface IInterviewEvaluateRequest {

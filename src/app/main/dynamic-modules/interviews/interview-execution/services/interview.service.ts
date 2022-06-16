@@ -70,7 +70,6 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
     if (req.action === InterviewEvaluationAction.Initialize) {
 
-
       interview.fieldStatus = (previousInterview?.fieldStatus || []).map(item => ({
         ...item
       } as IInterviewFieldStatus));
@@ -103,24 +102,27 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
     }
 
-
-    const fieldsEvaluation = this.fieldsEvaluation(interview, interviewDefinition);
-
-
+    this.fieldsEvaluation(interview, interviewDefinition);
   }
 
-  fieldsEvaluation(interview: IInterviewInstance, interviewDefinition: IInterviewDefinition): InterviewFieldsEvalutionResult {
-    const result = new InterviewFieldsEvalutionResult();
+  fieldsEvaluation(interview: IInterviewInstance, interviewDefinition: IInterviewDefinition) {
     for (let category of interviewDefinition.categories) {
       if (category.pages) {
         for (let page of category.pages) {
           if (page.fields) {
             for (let field of page.fields) {
               field.validators?.forEach(validatorItem => {
-                const fieldStatus = interview.fieldStatus.find(persistedFieldItem => persistedFieldItem.name === field.name);
+                let fieldStatus = interview.fieldStatus.find(persistedFieldItem => persistedFieldItem.name === field.name);
+                if (!fieldStatus) {
+                  fieldStatus = {
+                    name: field.name,
+                    value: undefined
+                  } as IInterviewFieldStatus;
+                  interview.fieldStatus.push(fieldStatus);
+                }
                 const evaluationResult = validatorItem.rule(fieldStatus, interview.fieldStatus);
                 if (evaluationResult) {
-                  result.push(evaluationResult);
+                  fieldStatus.evaluationResult.push(evaluationResult);
                 }
               });
             }
@@ -128,8 +130,6 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
         }
       }
     }
-
-    return result;
   }
 
 
