@@ -3,6 +3,7 @@ import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Selector, State, Store } from '@ngxs/store';
 import { IInterviewEvaluateRequest, IInterviewFieldStatus, InterviewEvaluationAction, IPersistedInterviewStatus } from '../models/executing-interview';
+import { IInterviewEvaluationResult } from '../models/interview-evaluation-result';
 import { InterviewFieldsEvalutionResult } from '../models/interview-field';
 import { IInterviewConfig } from '../models/interview.config';
 import { IInterviewDefinition } from './../models/interview-definition';
@@ -54,7 +55,6 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
   evaluate(req: IInterviewEvaluateRequest, interview: IInterviewInstance): void {
 
-
     const interviewDefinition = this.getInterviewDefinition(interview.id);
     const previousInterview = this.getInterviewInstance(interview.id);
 
@@ -97,15 +97,35 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
       interview.currentPageFields = currentPageDef.fields.map(fieldItem => ({
         name: fieldItem.name,
         label: fieldItem.label,
-        description: fieldItem.description
+        description: fieldItem.description,
+        metadata: fieldItem.metadata
       }));
 
     }
 
-    this.fieldsEvaluation(interview, interviewDefinition);
+    const evaluationResult = this.interviewEvaluation(interview, interviewDefinition, req);
+
+    this.formatForm(interview, evaluationResult);
+
+  }
+  formatForm(interview: IInterviewInstance, evaluationResult: IInterviewEvaluationResult) {
+
+    // clear form if page changed
+    if (evaluationResult.targetPage !== interview.currentPage) {
+      const controlNames = Object.getOwnPropertyNames(interview.form.controls);
+      controlNames.forEach(controlName => interview.form.removeControl(controlName));
+    }
+
+
+    interview.currentPageFields.forEach((fieldItem, index) => {
+      if (interview.form.get(fieldItem.name)) {
+
+      }
+    });
+
   }
 
-  fieldsEvaluation(interview: IInterviewInstance, interviewDefinition: IInterviewDefinition) {
+  interviewEvaluation(interview: IInterviewInstance, interviewDefinition: IInterviewDefinition, req: IInterviewEvaluateRequest) {
     for (let category of interviewDefinition.categories) {
       if (category.pages) {
         for (let page of category.pages) {
@@ -130,6 +150,63 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
         }
       }
     }
+
+    const evaluationResult = {} as IInterviewEvaluationResult;
+
+    const currentPageFieldStatus = interview.currentPageFields.map(pageField => interview.fieldStatus.find(fieldStatus => fieldStatus.name === pageField.name));
+
+    switch (req.action) {
+      case InterviewEvaluationAction.First:
+        {
+          const categoryRef = interviewDefinition.categories[0];
+          evaluationResult.targetCategory = categoryRef.name;
+          evaluationResult.targetPage = categoryRef.pages[0].name;
+        }
+        break;
+      case InterviewEvaluationAction.Previous:
+      {
+        const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryPageIndexes(interview.currentCategory, interview.currentPage);
+        if (pageIndex > 0) {
+          evaluationResult.targetPage = categoryRef.pages[pageIndex - 1].name;
+        } else if (categoryIndex > 0) {
+          const newCategoryRef = interviewDefinition.categories[categoryIndex - 1];
+          evaluationResult.targetCategory = newCategoryRef.name;
+          evaluationResult.targetPage = newCategoryRef.pages[newCategoryRef.pages.length - 1].name;
+        }
+      }
+        break;
+      case InterviewEvaluationAction.Next:
+        {
+          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryPageIndexes(interview.currentCategory, interview.currentPage);
+          if (pageIndex < categoryRef.pages.length - 1) {
+            evaluationResult.targetPage = categoryRef.pages[pageIndex + 1].name;
+          } else if (categoryIndex < interviewDefinition.categories.length - 1) {
+            const newCategoryRef = interviewDefinition.categories[categoryIndex + 1];
+            evaluationResult.targetCategory = newCategoryRef.name;
+            evaluationResult.targetPage = newCategoryRef.pages[0].name;
+          }
+        }
+
+        break;
+      case InterviewEvaluationAction.Last:
+        {
+          const categoryRef = interviewDefinition.categories[interview.categories.length - 1];
+          evaluationResult.targetCategory = categoryRef.name;
+          evaluationResult.targetPage = categoryRef.pages[categoryRef.pages.length - 1].name;
+        }
+
+        break;
+      case InterviewEvaluationAction.Initialize:
+      case InterviewEvaluationAction.PostBack:
+        {
+          evaluationResult.targetCategory = interview.currentCategory;
+          evaluationResult.targetPage = interview.currentPage;
+        }
+
+        break;
+    }
+
+    return evaluationResult;
   }
 
 

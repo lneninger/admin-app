@@ -18,12 +18,14 @@ export interface IInterviewField {
   name: string;
   label: string;
   description: string;
+  metadata: IInterviewFieldMetadata;
 }
 
 export class InterviewField implements IInterviewField {
   name: string;
   label: string;
   description: string;
+  metadata: IInterviewFieldMetadata;
 
   constructor(input: Partial<IInterviewField>) {
     Object.assign(this, input);
