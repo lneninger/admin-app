@@ -1,16 +1,11 @@
-import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Select } from '@ngxs/store';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { StripeCardComponent, StripeIdealBankComponent, StripeService } from 'ngx-stripe';
-import { Observable } from 'rxjs';
 import { filter, first } from 'rxjs/operators';
 import { NavigationItemIds } from 'src/app/main/main.navigation';
-import { AggregatorsState } from 'src/app/main/services/+state-aggregators/aggregators.state';
-import { TenantStateModel } from 'src/app/main/services/tenant/tenant.models';
-import { UserStateModel } from 'src/app/main/services/user/user.models';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { BreadcrumbService } from 'src/app/shared/layout/layout-main/navigation/breadcrumb/breadcrumb.service';
 import { environment } from 'src/environments/environment';
@@ -28,9 +23,6 @@ export class SystemProductComponent extends BaseComponent implements OnInit {
   @ViewChild(StripeIdealBankComponent) idealBank: StripeIdealBankComponent;
 
   stripeTest: FormGroup;
-
-  @Select(AggregatorsState.aggregatorMemberTenant)
-  aggregatorMemberTenant$: Observable<{ userState: UserStateModel, tenant: TenantStateModel }>;
 
   cardOptions: StripeCardElementOptions = {
     style: {

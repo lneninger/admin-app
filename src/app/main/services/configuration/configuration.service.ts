@@ -168,7 +168,7 @@ export class ConfigurationService {
       }
     }
 
-    this.onConfigurationImported.next();
+    this.onConfigurationImported.next(true);
   }
 
 

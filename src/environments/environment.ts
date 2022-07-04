@@ -23,7 +23,8 @@ export const environment = {
     projectId: "firebase-adminsys-20210823",
     storageBucket: "firebase-adminsys-20210823.appspot.com",
     messagingSenderId: "1030745001822",
-    appId: "1:1030745001822:web:08f10b9fbd6d084d10c9cf"
+    appId: "1:1030745001822:web:08f10b9fbd6d084d10c9cf",
+    measurementId: "G-DS5G6KRZKS"
   },
   stripe: {
     publicKey: 'pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O'

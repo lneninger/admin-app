@@ -6,7 +6,7 @@ import { IInterviewEvaluateRequest, IInterviewFieldStatus, InterviewEvaluationAc
 import { IInterviewEvaluationResult } from '../models/interview-evaluation-result';
 import { InterviewFieldsEvalutionResult } from '../models/interview-field';
 import { IInterviewConfig } from '../models/interview.config';
-import { IInterviewDefinition } from './../models/interview-definition';
+import { IInterviewDefinition, InterviewDefinition } from './../models/interview-definition';
 import { IInterviewInstance, InterviewInstance } from './../models/interview-instance';
 import { IInterviewStateModel } from './interview-state.models';
 import { vitae1 } from './moked-data';
@@ -108,6 +108,7 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
     this.formatForm(interview, evaluationResult);
 
   }
+
   formatForm(interview: IInterviewInstance, evaluationResult: IInterviewEvaluationResult) {
 
     // clear form if page changed
@@ -118,9 +119,7 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
 
     interview.currentPageFields.forEach((fieldItem, index) => {
-      if (interview.form.get(fieldItem.name)) {
-
-      }
+      interview.formatFormField(fieldItem.name);
     });
 
   }
@@ -140,9 +139,9 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
                   } as IInterviewFieldStatus;
                   interview.fieldStatus.push(fieldStatus);
                 }
-                const evaluationResult = validatorItem.rule(fieldStatus, interview.fieldStatus);
-                if (evaluationResult) {
-                  fieldStatus.evaluationResult.push(evaluationResult);
+                const fieldEvaluationResult = validatorItem.rule(fieldStatus, interview.fieldStatus);
+                if (fieldEvaluationResult) {
+                  fieldStatus.evaluationResult.push(fieldEvaluationResult);
                 }
               });
             }
@@ -165,7 +164,7 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
         break;
       case InterviewEvaluationAction.Previous:
       {
-        const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryPageIndexes(interview.currentCategory, interview.currentPage);
+        const { categoryRef, categoryIndex, pageIndex } = (interviewDefinition as InterviewDefinition).getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
         if (pageIndex > 0) {
           evaluationResult.targetPage = categoryRef.pages[pageIndex - 1].name;
         } else if (categoryIndex > 0) {
@@ -177,7 +176,7 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
         break;
       case InterviewEvaluationAction.Next:
         {
-          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryPageIndexes(interview.currentCategory, interview.currentPage);
+          const { categoryRef, categoryIndex, pageIndex } = (interviewDefinition as InterviewDefinition).getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
           if (pageIndex < categoryRef.pages.length - 1) {
             evaluationResult.targetPage = categoryRef.pages[pageIndex + 1].name;
           } else if (categoryIndex < interviewDefinition.categories.length - 1) {

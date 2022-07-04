@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAnalyticsModule, ScreenTrackingService, UserTrackingService } from '@angular/fire/compat/analytics';
 import { AngularFireAuthModule, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
 import { AngularFireAuthGuardModule } from '@angular/fire/compat/auth-guard';
 import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
@@ -61,6 +62,7 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
     AngularFireAuthGuardModule,
     AngularFireFunctionsModule,
     AngularFireStorageModule,
+    AngularFireAnalyticsModule,
     // provide modular style for AppCheck, see app.browser/server
     provideFirebaseApp(() => initializeApp(environment.firebase)),
 
@@ -117,6 +119,8 @@ import { LAZY_WIDGETS } from './shared/lazy-loader/tokens';
 
     { provide: MockerService, useClass: environment.production ? NoOpMockerService : MockerService },
 
+    ScreenTrackingService,
+    UserTrackingService
 
   ],
   bootstrap: [AppComponent]

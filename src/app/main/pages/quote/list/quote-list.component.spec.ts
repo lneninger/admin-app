@@ -121,7 +121,7 @@ describe('QuoteListComponent', () => {
     });
   });
 
-  fit('should show quote list', async () => {
+  it('should show quote list', async () => {
     fixture.whenStable().then(async () => {
 
       const tableHarness = await rootLoader.getHarness<MatTableHarness>(MatTableHarness);

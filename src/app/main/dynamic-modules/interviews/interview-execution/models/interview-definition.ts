@@ -4,7 +4,7 @@ export interface IInterviewDefinition {
   id: string;
   categories: IInterviewCategoryDefinition[];
 
-  getCategoryPageIndexes(categoryName: string, pageName: string): { categoryRef: IInterviewCategoryDefinition, categoryIndex: number, pageIndex: number };
+  // getCategoryAndPageIndexes(categoryName: string, pageName: string): { categoryRef: IInterviewCategoryDefinition, categoryIndex: number, pageIndex: number };
 }
 
 
@@ -15,7 +15,7 @@ export class InterviewDefinition implements IInterviewDefinition {
   constructor(input: Partial<IInterviewDefinition>) {
     Object.assign(this, input);
   }
-  getCategoryPageIndexes(categoryName: string, pageName: string): { categoryRef: IInterviewCategoryDefinition, categoryIndex: number; pageIndex: number; } {
+  getCategoryAndPageIndexes(categoryName: string, pageName: string): { categoryRef: IInterviewCategoryDefinition, categoryIndex: number; pageIndex: number; } {
     const categoryRef = this.categories.find(item => item.name === categoryName);
     const categoryIndex = this.categories.indexOf(categoryRef);
 
