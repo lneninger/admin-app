@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,15 +16,13 @@ import { AuthService } from 'src/app/main/services/user/auth.service';
 import { DataRetrieverInput, GridData } from 'src/app/shared/grid/grid-config';
 import { GridModule } from 'src/app/shared/grid/grid.module';
 import { LayoutMainCommonModule } from 'src/app/shared/layout/layout-main/layout-main-common/layout-main-common.module';
-import { MenuModule } from 'src/app/shared/layout/layout-main/navigation/menu/menu.module';
 import { MaterialImportsModule } from 'src/app/shared/layout/material-imports.module';
 import { AppConfigState } from 'src/app/shared/layout/states/appconfig.state';
 
-import { QuoteListComponent } from './quote-list.component';
-import { ComponentHarness, HarnessEnvironment, HarnessLoader } from '@angular/cdk/testing';
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatTableHarness } from '@angular/material/table/testing';
-import { MatTabGroupHarness } from '@angular/material/tabs/testing';
+import { QuoteListComponent } from './quote-list.component';
 
 
 const MockQuoteService = {

@@ -21,9 +21,8 @@ export interface IInterviewInstance {
   currentCategoryPages: IInterviewCategoryPage[];
   currentPageFields: IInterviewField[];
 
-  form: FormGroup;
+  formFields: FormFields;
 
-  formatFormField(name: string);
 
 }
 
@@ -43,23 +42,15 @@ export class InterviewInstance implements IInterviewInstance {
   currentCategoryPages: IInterviewCategoryPage[];
   currentPageFields: IInterviewField[];
 
-  form: FormGroup;
   formFields: FormFields;
 
   constructor(input: Partial<IInterviewInstance>) {
     Object.assign(this, input);
 
-    this.form = new FormGroup({
-    });
-
-    this.formFields = new FormFields();
+    this.formFields = new FormFields(this);
   }
 
-  formatFormField(name: string) {
-    const formField = this.currentPageFields.find(item => item.name === name);
-    const fieldStatus = this.fieldStatus.find(item => item.name === name);
-    this.formFields.formatFormField(this, formField, fieldStatus);
-  }
+
 
 }
 

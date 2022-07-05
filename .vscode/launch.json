@@ -14,7 +14,10 @@
       //   "webRoot": "${workspaceRoot}",
       //   "webpack:/*": "${workspaceRoot}/*"
       // }
-      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**/*.js"]
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/node_modules/**/*.js"
+      ]
     },
     {
       "name": "[Admin]Firebase Functions Emulator",
@@ -22,13 +25,48 @@
       "request": "attach",
       "type": "node",
       "webRoot": "${workspaceFolder}/functions",
-      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**/*.js"]
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/node_modules/**/*.js"
+      ]
     },
-  {
-    "name": "Firestore functions",
-    "port": 9229,
-    "request": "attach",
-    "type": "node"
-  }
+    {
+      "type": "pwa-chrome",
+      "request": "attach",
+      "name": "[Admin]Launch Chrome - Attach to Karma",
+      "address": "localhost",
+      "restart": true,
+      "port": 9222,
+      "timeout": 600000,
+      "sourceMaps": true,
+      "webRoot": "${workspaceFolder}",
+      "pathMapping": {
+        "/_karma_webpack_": "${workspaceFolder}"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "[Admin]Launch Chrome - Debug Test",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "console": "integratedTerminal",
+      "program": "${workspaceFolder}/node_modules/.bin/ng",
+      "args": [
+        "test",
+        "--include",
+        "${relativeFile}"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/**/*.js"
+      ]
+    },
+    {
+      "name": "Firestore functions",
+      "port": 9229,
+      "request": "attach",
+      "type": "node"
+    }
   ]
 }

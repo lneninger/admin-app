@@ -33,6 +33,7 @@ module.exports = function (config) {
           "--no-sandbox", // required to run without privileges in docker
           "--user-data-dir=/tmp/chrome-test-profile",
           "--disable-web-security",
+          "--remote-debugging-address=0.0.0.0",
           "--remote-debugging-port=9222",
         ],
         debug: true,

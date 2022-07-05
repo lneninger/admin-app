@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { Selector, State, Store } from '@ngxs/store';
 import { IInterviewEvaluateRequest, IInterviewFieldStatus, InterviewEvaluationAction, IPersistedInterviewStatus } from '../models/executing-interview';
 import { IInterviewEvaluationResult } from '../models/interview-evaluation-result';
-import { InterviewFieldsEvalutionResult } from '../models/interview-field';
 import { IInterviewConfig } from '../models/interview.config';
 import { IInterviewDefinition, InterviewDefinition } from './../models/interview-definition';
 import { IInterviewInstance, InterviewInstance } from './../models/interview-instance';
@@ -113,13 +112,12 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
     // clear form if page changed
     if (evaluationResult.targetPage !== interview.currentPage) {
-      const controlNames = Object.getOwnPropertyNames(interview.form.controls);
-      controlNames.forEach(controlName => interview.form.removeControl(controlName));
+      const controlNames = Object.getOwnPropertyNames(interview.formFields.form.controls);
+      controlNames.forEach(controlName => interview.formFields.form.removeControl(controlName));
     }
 
-
     interview.currentPageFields.forEach((fieldItem, index) => {
-      interview.formatFormField(fieldItem.name);
+      interview.formFields.formatFormField(fieldItem.name);
     });
 
   }
@@ -130,15 +128,16 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
         for (let page of category.pages) {
           if (page.fields) {
             for (let field of page.fields) {
+              let fieldStatus = interview.fieldStatus.find(persistedFieldItem => persistedFieldItem.name === field.name);
+              if (!fieldStatus) {
+                fieldStatus = {
+                  name: field.name,
+                  value: undefined
+                } as IInterviewFieldStatus;
+                interview.fieldStatus.push(fieldStatus);
+              }
+
               field.validators?.forEach(validatorItem => {
-                let fieldStatus = interview.fieldStatus.find(persistedFieldItem => persistedFieldItem.name === field.name);
-                if (!fieldStatus) {
-                  fieldStatus = {
-                    name: field.name,
-                    value: undefined
-                  } as IInterviewFieldStatus;
-                  interview.fieldStatus.push(fieldStatus);
-                }
                 const fieldEvaluationResult = validatorItem.rule(fieldStatus, interview.fieldStatus);
                 if (fieldEvaluationResult) {
                   fieldStatus.evaluationResult.push(fieldEvaluationResult);
