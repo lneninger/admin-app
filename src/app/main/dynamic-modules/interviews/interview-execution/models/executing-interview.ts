@@ -1,5 +1,5 @@
+import { FieldEvalutionResultArray } from '../evaluation/services/evaluator.models';
 import { IInterviewCategory } from './interview-category';
-import { InterviewFieldsEvalutionResult } from './interview-field';
 
 
 export interface IPersistedInterviewStatus {
@@ -23,7 +23,7 @@ export interface IInterviewFieldStatus{
   name: string;
   value: any;
   date?: Date;
-  evaluationResult?: InterviewFieldsEvalutionResult;
+  evaluationResult?: FieldEvalutionResultArray;
 }
 
 export interface IInterviewEvaluateRequest {

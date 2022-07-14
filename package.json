@@ -54,6 +54,7 @@
     "@ngxs/store": "^3.7.2",
     "@stripe/stripe-js": "^1.19.1",
     "angular-oauth2-oidc": "^10.0.3",
+    "filtrex": "^3.0.0",
     "firebase": "^9.6.8",
     "guid-ts": "^1.1.2",
     "immer": "^9.0.12",

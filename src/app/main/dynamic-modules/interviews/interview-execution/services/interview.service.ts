@@ -2,10 +2,11 @@ import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Selector, State, Store } from '@ngxs/store';
+import { EvaluatorService } from '../evaluation/services/evaluator.service';
 import { IInterviewEvaluateRequest, IInterviewFieldStatus, InterviewEvaluationAction, IPersistedInterviewStatus } from '../models/executing-interview';
 import { IInterviewEvaluationResult } from '../models/interview-evaluation-result';
 import { IInterviewConfig } from '../models/interview.config';
-import { IInterviewDefinition, InterviewDefinition } from './../models/interview-definition';
+import { InterviewDefinition } from './../models/interview-definition';
 import { IInterviewInstance, InterviewInstance } from './../models/interview-instance';
 import { IInterviewStateModel } from './interview-state.models';
 import { vitae1 } from './moked-data';
@@ -122,7 +123,10 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
   }
 
-  interviewEvaluation(interview: IInterviewInstance, interviewDefinition: IInterviewDefinition, req: IInterviewEvaluateRequest) {
+  interviewEvaluation(interview: IInterviewInstance, interviewDefinition: InterviewDefinition, req: IInterviewEvaluateRequest) {
+
+    const evaluatorService = new EvaluatorService(interviewDefinition, interview.fieldStatus);
+
     for (let category of interviewDefinition.categories) {
       if (category.pages) {
         for (let page of category.pages) {
@@ -137,12 +141,9 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
                 interview.fieldStatus.push(fieldStatus);
               }
 
-              field.validators?.forEach(validatorItem => {
-                const fieldEvaluationResult = validatorItem.rule(fieldStatus, interview.fieldStatus);
-                if (fieldEvaluationResult) {
-                  fieldStatus.evaluationResult.push(fieldEvaluationResult);
-                }
-              });
+              const fieldEvaluationResult = evaluatorService.evaluateField(fieldStatus.name);
+              fieldStatus.evaluationResult = fieldEvaluationResult;
+
             }
           }
         }
@@ -162,16 +163,16 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
         }
         break;
       case InterviewEvaluationAction.Previous:
-      {
-        const { categoryRef, categoryIndex, pageIndex } = (interviewDefinition as InterviewDefinition).getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
-        if (pageIndex > 0) {
-          evaluationResult.targetPage = categoryRef.pages[pageIndex - 1].name;
-        } else if (categoryIndex > 0) {
-          const newCategoryRef = interviewDefinition.categories[categoryIndex - 1];
-          evaluationResult.targetCategory = newCategoryRef.name;
-          evaluationResult.targetPage = newCategoryRef.pages[newCategoryRef.pages.length - 1].name;
+        {
+          const { categoryRef, categoryIndex, pageIndex } = (interviewDefinition as InterviewDefinition).getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
+          if (pageIndex > 0) {
+            evaluationResult.targetPage = categoryRef.pages[pageIndex - 1].name;
+          } else if (categoryIndex > 0) {
+            const newCategoryRef = interviewDefinition.categories[categoryIndex - 1];
+            evaluationResult.targetCategory = newCategoryRef.name;
+            evaluationResult.targetPage = newCategoryRef.pages[newCategoryRef.pages.length - 1].name;
+          }
         }
-      }
         break;
       case InterviewEvaluationAction.Next:
         {
@@ -208,8 +209,9 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
   }
 
 
-  getInterviewDefinition(id: string): IInterviewDefinition {
-    return this.store.selectSnapshot(InterviewService.interviewDefinitionsSelector).find(item => item.id === id);
+  getInterviewDefinition(id: string): InterviewDefinition {
+    const partial = this.store.selectSnapshot(InterviewService.interviewDefinitionsSelector).find(item => item.id === id);
+    return new InterviewDefinition(partial);
   }
 
   getInterviewInstance(id: string): IPersistedInterviewStatus {

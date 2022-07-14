@@ -9,13 +9,18 @@ export interface IInterviewFieldDefinition {
   label: string;
   description: string;
   metadata: IInterviewFieldMetadata;
-  validators: IInterviewValidatorDefinition[]
+  validators: IEvaluatorDefinition[]
 }
 
-export interface IInterviewValidatorDefinition {
+export interface IEvaluatorDefinition {
   id: string;
-  rule: (fieldStatus: IInterviewFieldStatus, fieldStatusList: IInterviewFieldStatus[]) => InterviewFieldEvalution;
+  type: 'VALIDATION',
+  rule: IInterviewValidatorRuleDefinition, //(fieldStatus: IInterviewFieldStatus, fieldStatusList: IInterviewFieldStatus[]) => InterviewFieldEvalution;
   message: string;
+}
+
+export interface IInterviewValidatorRuleDefinition{
+  expression: string,
 }
 
 export interface IInterviewField {
@@ -43,15 +48,8 @@ export interface IInterviewFieldMetadata {
 }
 
 
-export interface InterviewFieldEvalution {
-  type: 'evaluation' | 'disqualification',
-  message: string;
-}
-
-export class InterviewFieldsEvalutionResult extends Array<InterviewFieldEvalution>{
 
 
-}
 
 export class FormFields extends Array<FormField>{
   form: FormGroup;

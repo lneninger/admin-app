@@ -1,3 +1,4 @@
+import { IEvaluatorDefinition } from './interview-field';
 import { IInterviewCategoryPage, IInterviewCategoryPageDefinition } from './interview-page';
 
 export interface IInterviewCategoryDefinition{
@@ -5,7 +6,9 @@ export interface IInterviewCategoryDefinition{
   displayName: string;
   description: string;
   order: number;
-  pages: IInterviewCategoryPageDefinition[]
+  pages: IInterviewCategoryPageDefinition[];
+  validators: IEvaluatorDefinition[];
+
 }
 
 export interface IInterviewCategory {

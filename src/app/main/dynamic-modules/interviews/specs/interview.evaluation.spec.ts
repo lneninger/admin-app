@@ -6,8 +6,10 @@ import { InterviewInstance } from '../interview-execution/models/interview-insta
 import { NgxsModule } from '@ngxs/store';
 import { Interview } from '../interview-execution/evaluation/annotations/interview-annotation';
 import { Category } from '../interview-execution/evaluation/annotations/category-annotation';
-import { FieldsCategory } from '../interview-execution/models/interview-definition';
+import { FieldsCategory, InterviewDefinition } from '../interview-execution/models/interview-definition';
 import { Field } from '../interview-execution/evaluation/annotations/field-annotation';
+import { IPersistedInterviewFieldStatus, IPersistedInterviewStatus } from '../interview-execution/models/executing-interview';
+import { EvaluatorService } from '../interview-execution/evaluation/services/evaluator.service';
 
 enum Genders{
   Male,
@@ -47,7 +49,7 @@ class CVFields {
 
 }
 
-fdescribe('Interview Evaluator', () => {
+describe('Interview Evaluator', () => {
 
   let interview: InterviewInstance;
   let interviewService: InterviewService;
@@ -105,7 +107,6 @@ fdescribe('Interview Evaluator', () => {
 
   it(' - categories are not null', () => {
     const cvInterview = new CVFields({
-
       personalFields: {
         firstName: 'Leonardo',
         lastName: 'Neninger',
@@ -115,7 +116,22 @@ fdescribe('Interview Evaluator', () => {
         name: 'Leonardo'
       },
     });
+
     expect(cvInterview.categories).not.toEqual(null);
+  });
+
+
+  fit(' - evaluator instance', () => {
+    const cvInterviewDefinition = new InterviewDefinition(vitae1);
+    const cvPersistedStatus = {
+      id: 'vitae1',
+      fieldStatus: []
+    } as IPersistedInterviewStatus;
+
+    const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
+    const evaluationResult = evaluatorService.evaluateField('personal-info|firstName');
+
+    expect(evaluationResult).toBeTruthy();
   });
 
 });

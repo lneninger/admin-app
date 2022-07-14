@@ -7,7 +7,7 @@ import { NgxsModule } from '@ngxs/store';
 
 
 
-fdescribe('Interview Service', () => {
+describe('Interview Service', () => {
 
   let interview: InterviewInstance;
   let interviewService: InterviewService;
