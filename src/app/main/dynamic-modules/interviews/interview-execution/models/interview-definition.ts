@@ -37,14 +37,11 @@ export class InterviewDefinition implements IInterviewDefinition {
   }
 
   getFieldDefinition(fieldIdentifier: string): IInterviewFieldDefinition {
-    const [categoryName, fieldName] = fieldIdentifier.split('|');
     for (let i = 0; i < this.categories.length; i++) {
-      if (this.categories[i].name === categoryName) {
-        for (let j = 0; i < this.categories[i].pages.length; i++) {
-          const fieldDefinition = this.categories[i].pages[j].fields.find(fieldItem => fieldItem.name === fieldName);
-          if (fieldDefinition) {
-            return fieldDefinition;
-          }
+      for (let j = 0; i < this.categories[i].pages?.length || 0; i++) {
+        const fieldDefinition = this.categories[i].pages[j].fields.find(fieldItem => fieldItem.name === fieldIdentifier);
+        if (fieldDefinition) {
+          return fieldDefinition;
         }
       }
     }

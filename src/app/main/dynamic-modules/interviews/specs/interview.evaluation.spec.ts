@@ -120,8 +120,7 @@ describe('Interview Evaluator', () => {
     expect(cvInterview.categories).not.toEqual(null);
   });
 
-
-  fit(' - evaluator instance', () => {
+  fit(' - evaluator instance evaluate item', () => {
     const cvInterviewDefinition = new InterviewDefinition(vitae1);
     const cvPersistedStatus = {
       id: 'vitae1',
@@ -129,7 +128,20 @@ describe('Interview Evaluator', () => {
     } as IPersistedInterviewStatus;
 
     const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
-    const evaluationResult = evaluatorService.evaluateField('personal-info|firstName');
+    const evaluationResult = evaluatorService.evaluateItem('personal_info.person_details.firstName');
+
+    expect(evaluationResult).toBeTruthy();
+  });
+
+  fit(' - evaluator instance evaluate interview', () => {
+    const cvInterviewDefinition = new InterviewDefinition(vitae1);
+    const cvPersistedStatus = {
+      id: 'vitae1',
+      fieldStatus: []
+    } as IPersistedInterviewStatus;
+
+    const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
+    const evaluationResult = evaluatorService.evaluateInterview();
 
     expect(evaluationResult).toBeTruthy();
   });

@@ -125,30 +125,59 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
   interviewEvaluation(interview: IInterviewInstance, interviewDefinition: InterviewDefinition, req: IInterviewEvaluateRequest) {
 
-    const evaluatorService = new EvaluatorService(interviewDefinition, interview.fieldStatus);
 
-    for (let category of interviewDefinition.categories) {
-      if (category.pages) {
-        for (let page of category.pages) {
-          if (page.fields) {
-            for (let field of page.fields) {
-              let fieldStatus = interview.fieldStatus.find(persistedFieldItem => persistedFieldItem.name === field.name);
-              if (!fieldStatus) {
-                fieldStatus = {
-                  name: field.name,
-                  value: undefined
-                } as IInterviewFieldStatus;
-                interview.fieldStatus.push(fieldStatus);
-              }
 
-              const fieldEvaluationResult = evaluatorService.evaluateField(fieldStatus.name);
-              fieldStatus.evaluationResult = fieldEvaluationResult;
-
-            }
-          }
+    // Save interview fields status base on request value object.
+    const currentFieldStatus = interview.fieldStatus || [];
+    if(req.value){
+      for(const prop of Object.getOwnPropertyNames(req.value)){
+        const itemStatus = currentFieldStatus.find(fieldStatusItem => fieldStatusItem.name === prop);
+        if(itemStatus){
+          itemStatus.value = req.value[prop];
+          itemStatus.date = new Date();
+        } else {
+          currentFieldStatus.push({
+          name: prop,
+          date: new Date(),
+          value: req.value[prop],
+          } as IInterviewFieldStatus);
         }
       }
     }
+
+    // get fields status as key value pair representation.
+    const flatKeyValueRepresentation = {};
+    for(const fieldStatusItem of  currentFieldStatus){
+      flatKeyValueRepresentation[fieldStatusItem.name] = fieldStatusItem.value;
+    }
+
+    const evaluatorService = new EvaluatorService(interviewDefinition, interview.fieldStatus);
+    evaluatorService.evaluateInterview();
+
+    // This logic evaluate field by field which is not correct.
+    // for (let category of interviewDefinition.categories) {
+    //   if (category.pages) {
+    //     for (let page of category.pages) {
+    //       if (page.fields) {
+    //         for (let field of page.fields) {
+    //           let fieldStatus = interview.fieldStatus.find(persistedFieldItem => persistedFieldItem.name === field.name);
+    //           if (!fieldStatus) {
+    //             fieldStatus = {
+    //               name: field.name,
+    //               value: undefined
+                      // date: new Date(),
+          //             } as IInterviewFieldStatus;
+    //             interview.fieldStatus.push(fieldStatus);
+    //           }
+
+    //           const fieldEvaluationResult = evaluatorService.evaluateField(fieldStatus.name);
+    //           fieldStatus.evaluationResult = fieldEvaluationResult;
+
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
     const evaluationResult = {} as IInterviewEvaluationResult;
 

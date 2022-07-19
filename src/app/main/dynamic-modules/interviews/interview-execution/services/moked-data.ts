@@ -6,11 +6,11 @@ export const vitae1: IInterviewDefinition = {
   id: 'vitae1',
   categories: [
     {
-      name: 'personal-info',
+      name: 'personal_info',
       displayName: 'Personal Info',
       order: 1,
       description: 'Recolecting data like address, contact methods, etc',
-      validators:[
+      evaluators:[
         {
           type: 'VALIDATION',
           rule: {
@@ -21,25 +21,26 @@ export const vitae1: IInterviewDefinition = {
       ],
       pages: [
         {
-          name: 'person-details',
+          name: 'personal_info.person_details',
           displayName: 'Personal details',
           description: null,
           fields: [
             {
-              name: 'firstName',
+              name: 'personal_info.person_details.firstName',
               label: 'First name',
               description: undefined,
               order: 1,
               metadata: {
                 control: 'INPUT',
               } as IInterviewFieldMetadata,
-              validators:[
+              evaluators:[
                 {
                   id: 'required',
                   type: 'VALIDATION',
                   rule: {
                     // expression: '1 == 1'
-                    expression: 'firstName != null and length(trim(firstName)) > 0'
+                    // expression: 'personal_info.person_details.firstName != null and length(trim(personal_info.person_details.firstName)) > 0'
+                    expression: 'not empty(personal_info.person_details.firstName)'
                   },
                   message: 'First name is required'
                 },
@@ -47,9 +48,7 @@ export const vitae1: IInterviewDefinition = {
                   id: 'gt-2',
                   type: 'VALIDATION',
                   rule: {
-                    // expression: '2 == 2'
-                    // expression: 'length(x) > 2'
-                    expression: 'abs(profit) > 20.5'
+                    expression: 'length(personal_info.person_details.firstName) > 2'
                   },
                   message: 'First name most be greater that 2 char length'
                 },
@@ -57,19 +56,19 @@ export const vitae1: IInterviewDefinition = {
               ],
             } as IInterviewFieldDefinition,
             {
-              name: 'lastName',
+              name: 'personal_info.person_details.lastName',
               label: 'Last name',
               description: undefined,
               order: 1,
               metadata: {
                 control: 'INPUT',
               } as IInterviewFieldMetadata,
-              validators:[
+              evaluators:[
                 {
                   id: 'required',
                   type: 'VALIDATION',
                   rule: {
-                    expression: 'lastName != null && lastName.trim().length > 0'
+                    expression: 'personal_info.person_details.lastName != null && length(trim(personal_info.person_details.lastName)) > 0'
                   },
                   message: 'Last name is required'
                 },
@@ -84,14 +83,14 @@ export const vitae1: IInterviewDefinition = {
               ],
             } as IInterviewFieldDefinition,
             {
-              name: 'person-details|gender',
+              name: 'personal_info.person_details.gender',
               label: 'Gender',
               description: undefined,
               order: 1,
               metadata: {
                 control: 'NULLABLEBOOLEAN',
               } as IInterviewFieldMetadata,
-              validators:[
+              evaluators:[
                 {
                   id: '',
                   type: 'VALIDATION',
@@ -103,13 +102,13 @@ export const vitae1: IInterviewDefinition = {
               ],
             } as IInterviewFieldDefinition,
             {
-              name: 'person-details|dob',
+              name: 'personal_info.person_details.dob',
               label: 'Date of birth',
               description: undefined,
               metadata: {
                 control: 'DATE',
               } as IInterviewFieldMetadata,
-              validators:[
+              evaluators:[
                 {
                   type: 'VALIDATION',
                   rule: {
@@ -123,19 +122,19 @@ export const vitae1: IInterviewDefinition = {
           ]
         },
         {
-          name: 'postal-address',
+          name: 'personal_info.postal-address',
           displayName: 'Postal address',
           description: null,
           order: 1,
           fields: [
             {
-              name: 'postal-address|street1',
+              name: 'personal_info.postal-address.street1',
               label: 'Street 1',
               description: undefined,
               metadata: {
                 control: 'INPUT',
               } as IInterviewFieldMetadata,
-              validators:[
+              evaluators:[
                 {
                   type: 'VALIDATION',
                   rule: {
@@ -146,14 +145,14 @@ export const vitae1: IInterviewDefinition = {
               ]
             } as IInterviewFieldDefinition,
             {
-              name: 'postal-address|street2',
+              name: 'personal_info.postal-address.street2',
               label: 'Street 2',
               description: undefined,
               metadata: {
                 control: 'INPUT',
                 placeholder: 'ex Suite, Apt'
               } as IInterviewFieldMetadata,
-              validators:[
+              evaluators:[
                 {
                   type: 'VALIDATION',
                   rule: {
@@ -164,13 +163,13 @@ export const vitae1: IInterviewDefinition = {
               ]
             } as IInterviewFieldDefinition,
             {
-              name: 'postal-address|country',
+              name: 'personal_info.postal-address.country',
               label: 'Country',
               description: undefined,
               metadata: {
                 control: 'SELECT',
               } as IInterviewFieldMetadata,
-              validators:[
+              evaluators:[
                 {
                   type: 'VALIDATION',
                   rule: {
@@ -181,13 +180,13 @@ export const vitae1: IInterviewDefinition = {
               ]
             } as IInterviewFieldDefinition,
             {
-              name: 'postal-address|state',
+              name: 'personal_info.postal-address.state',
               label: 'Date of birth',
               description: undefined,
               metadata: {
                 control: 'SELECT',
               } as IInterviewFieldMetadata,
-              validators:[
+              evaluators:[
                 {
                   type: 'VALIDATION',
                   rule: {
@@ -198,13 +197,13 @@ export const vitae1: IInterviewDefinition = {
               ]
             } as IInterviewFieldDefinition,
             {
-              name: 'postal-address|city',
+              name: 'personal_info.postal-address.city',
               label: 'City',
               description: undefined,
               metadata: {
                 control: 'INPUT',
               } as IInterviewFieldMetadata,
-              validators:[
+              evaluators:[
                 {
                   type: 'VALIDATION',
                   rule: {

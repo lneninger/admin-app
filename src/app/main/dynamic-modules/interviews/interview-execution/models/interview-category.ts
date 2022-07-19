@@ -7,7 +7,7 @@ export interface IInterviewCategoryDefinition{
   description: string;
   order: number;
   pages: IInterviewCategoryPageDefinition[];
-  validators: IEvaluatorDefinition[];
+  evaluators: IEvaluatorDefinition[];
 
 }
 

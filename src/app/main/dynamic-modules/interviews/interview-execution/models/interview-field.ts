@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { FormField } from '../controls/_base-formfield';
 import { ControlTypeNames, formFieldControlMapping } from '../controls/_mapping-formfield';
+import { IFieldEvaluationResult } from '../evaluation/services/evaluator.models';
 import { IInterviewFieldStatus } from './executing-interview';
 import { IInterviewInstance } from './interview-instance';
 
@@ -9,15 +10,16 @@ export interface IInterviewFieldDefinition {
   label: string;
   description: string;
   metadata: IInterviewFieldMetadata;
-  validators: IEvaluatorDefinition[]
+  evaluators: IEvaluatorDefinition[]
 }
 
 export interface IEvaluatorDefinition {
   id: string;
   type: 'VALIDATION',
-  rule: IInterviewValidatorRuleDefinition, //(fieldStatus: IInterviewFieldStatus, fieldStatusList: IInterviewFieldStatus[]) => InterviewFieldEvalution;
+  rule: IInterviewValidatorRuleDefinition,
   message: string;
 }
+
 
 export interface IInterviewValidatorRuleDefinition{
   expression: string,
