@@ -1,15 +1,17 @@
-import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
+import { IItemEvaluationResult } from './../evaluation/services/evaluator.models';
+import { DataAction, Payload, Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Selector, State, Store } from '@ngxs/store';
 import { EvaluatorService } from '../evaluation/services/evaluator.service';
 import { IInterviewEvaluateRequest, IInterviewFieldStatus, InterviewEvaluationAction, IPersistedInterviewStatus } from '../models/executing-interview';
-import { IInterviewEvaluationResult } from '../models/interview-evaluation-result';
+import { IInterviewPagingResult } from '../models/interview-evaluation-result';
 import { IInterviewConfig } from '../models/interview.config';
 import { InterviewDefinition } from './../models/interview-definition';
 import { IInterviewInstance, InterviewInstance } from './../models/interview-instance';
 import { IInterviewStateModel } from './interview-state.models';
 import { vitae1 } from './moked-data';
+import { append, patch, updateItem } from '@ngxs/store/operators';
 
 @Persistence()
 @StateRepository()
@@ -41,6 +43,18 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
     console.trace('Interview Service bootstrapped!');
   }
 
+  @DataAction()
+  saveInterview(@Payload('action') action: ('ADD' | 'UPDATE'), @Payload('interview') interview: IPersistedInterviewStatus) {
+    this.setState(
+      action === 'UPDATE' ? patch({
+        interviewInstances: updateItem<IPersistedInterviewStatus>(item => item.id === interview.id, interview)
+      })
+      : patch({
+          interviewInstances: append([interview])
+        })
+    );
+  }
+
   initialize(config: IInterviewConfig): IInterviewInstance {
 
     const interview = new InterviewInstance({ id: config.id, config });
@@ -58,58 +72,61 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
     const interviewDefinition = this.getInterviewDefinition(interview.id);
     const previousInterview = this.getInterviewInstance(interview.id);
 
-    // const result: IInterviewEvaluateResponse = {
-    //   id: interview.id,
-    //   currentCategory: interviewDefinition.categories[0].id,
-    //   currentPage: interviewDefinition.categories[0].pages[0].id,
-    //   values: Object.getOwnPropertyNames(interview.fieldValues).map(itemKey => ({ id: itemKey, value: interview.fieldValues[itemKey] } as IInterviewEvaluateFieldResponse)),
-    // };
 
+    let evaluationResult: IItemEvaluationResult[];
+    let pagingResult: IInterviewPagingResult;
+    if (req.action !== InterviewEvaluationAction.Initialize) {
+      // TODO: update interview status field values
 
+      // evaluate
+      evaluationResult = this.interviewEvaluation(interview, interviewDefinition, req);
 
-
-    if (req.action === InterviewEvaluationAction.Initialize) {
-
-      interview.fieldStatus = (previousInterview?.fieldStatus || []).map(item => ({
-        ...item
-      } as IInterviewFieldStatus));
-
-      interview.categories = interviewDefinition.categories.map(item => ({
-        name: item.name,
-        displayName: item.displayName,
-        description: item.description,
-        order: item.order,
-      })).sort((itemA, itemB) => itemA.order == itemB.order ? 0 : (itemA.order < itemB.order ? -1 : 1));
-
-      interview.currentCategory = previousInterview?.currentCategory || interview.categories[0].name;
-
-      const currentCategoryDef = interviewDefinition.categories.find(item => item.name === interview.currentCategory);
-      interview.currentCategoryPages = currentCategoryDef.pages.map(pageItem => ({
-        name: pageItem.name,
-        displayName: pageItem.displayName,
-        description: pageItem.description,
-        order: pageItem.order,
-      }));
-
-      interview.currentPage = previousInterview?.currentPage || interview.currentCategoryPages[0].name;
-
-      const currentPageDef = currentCategoryDef.pages.find(item => item.name === interview.currentPage);
-      interview.currentPageFields = currentPageDef.fields.map(fieldItem => ({
-        name: fieldItem.name,
-        label: fieldItem.label,
-        description: fieldItem.description,
-        metadata: fieldItem.metadata
-      }));
-
+      // calculate paging outcome
+      pagingResult = this.paging(interview, interviewDefinition, req);
+    } else {
+      // calculate paging
+      pagingResult = {
+        targetCategory: previousInterview.currentCategory,
+        targetPage: previousInterview.currentPage
+      } as IInterviewPagingResult;
     }
 
-    const evaluationResult = this.interviewEvaluation(interview, interviewDefinition, req);
+    interview.fieldStatus = (previousInterview?.fieldStatus || []).map(item => ({
+      ...item
+    } as IInterviewFieldStatus));
 
-    this.formatForm(interview, evaluationResult);
+    interview.categories = interviewDefinition.categories.map(item => ({
+      name: item.name,
+      displayName: item.displayName,
+      description: item.description,
+      order: item.order,
+    })).sort((itemA, itemB) => itemA.order == itemB.order ? 0 : (itemA.order < itemB.order ? -1 : 1));
 
+    interview.currentCategory = previousInterview?.currentCategory || interview.categories[0].name;
+
+    const currentCategoryDef = interviewDefinition.categories.find(item => item.name === interview.currentCategory);
+    interview.currentCategoryPages = currentCategoryDef.pages.map(pageItem => ({
+      name: pageItem.name,
+      displayName: pageItem.displayName,
+      description: pageItem.description,
+      order: pageItem.order,
+    }));
+
+    interview.currentPage = previousInterview?.currentPage || interview.currentCategoryPages[0].name;
+
+    const currentPageDef = currentCategoryDef.pages.find(item => item.name === interview.currentPage);
+    interview.currentPageFields = currentPageDef.fields.map(fieldItem => ({
+      name: fieldItem.name,
+      label: fieldItem.label,
+      description: fieldItem.description,
+      metadata: fieldItem.metadata
+    }));
+
+
+    this.formatForm(interview, pagingResult);
   }
 
-  formatForm(interview: IInterviewInstance, evaluationResult: IInterviewEvaluationResult) {
+  formatForm(interview: IInterviewInstance, evaluationResult: IInterviewPagingResult) {
 
     // clear form if page changed
     if (evaluationResult.targetPage !== interview.currentPage) {
@@ -125,21 +142,19 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
   interviewEvaluation(interview: IInterviewInstance, interviewDefinition: InterviewDefinition, req: IInterviewEvaluateRequest) {
 
-
-
     // Save interview fields status base on request value object.
     const currentFieldStatus = interview.fieldStatus || [];
-    if(req.value){
-      for(const prop of Object.getOwnPropertyNames(req.value)){
+    if (req.value) {
+      for (const prop of Object.getOwnPropertyNames(req.value)) {
         const itemStatus = currentFieldStatus.find(fieldStatusItem => fieldStatusItem.name === prop);
-        if(itemStatus){
+        if (itemStatus) {
           itemStatus.value = req.value[prop];
           itemStatus.date = new Date();
         } else {
           currentFieldStatus.push({
-          name: prop,
-          date: new Date(),
-          value: req.value[prop],
+            name: prop,
+            date: new Date(),
+            value: req.value[prop],
           } as IInterviewFieldStatus);
         }
       }
@@ -147,71 +162,51 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
     // get fields status as key value pair representation.
     const flatKeyValueRepresentation = {};
-    for(const fieldStatusItem of  currentFieldStatus){
+    for (const fieldStatusItem of currentFieldStatus) {
       flatKeyValueRepresentation[fieldStatusItem.name] = fieldStatusItem.value;
     }
 
     const evaluatorService = new EvaluatorService(interviewDefinition, interview.fieldStatus);
-    evaluatorService.evaluateInterview();
+    const evaluationResult = evaluatorService.evaluateInterview();
 
-    // This logic evaluate field by field which is not correct.
-    // for (let category of interviewDefinition.categories) {
-    //   if (category.pages) {
-    //     for (let page of category.pages) {
-    //       if (page.fields) {
-    //         for (let field of page.fields) {
-    //           let fieldStatus = interview.fieldStatus.find(persistedFieldItem => persistedFieldItem.name === field.name);
-    //           if (!fieldStatus) {
-    //             fieldStatus = {
-    //               name: field.name,
-    //               value: undefined
-                      // date: new Date(),
-          //             } as IInterviewFieldStatus;
-    //             interview.fieldStatus.push(fieldStatus);
-    //           }
 
-    //           const fieldEvaluationResult = evaluatorService.evaluateField(fieldStatus.name);
-    //           fieldStatus.evaluationResult = fieldEvaluationResult;
+    return evaluationResult;
+  }
 
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+  paging(interview: IInterviewInstance, interviewDefinition: InterviewDefinition, req: IInterviewEvaluateRequest) {
+    const result = {} as IInterviewPagingResult;
 
-    const evaluationResult = {} as IInterviewEvaluationResult;
-
-    const currentPageFieldStatus = interview.currentPageFields.map(pageField => interview.fieldStatus.find(fieldStatus => fieldStatus.name === pageField.name));
+    // const currentPageFieldStatus = interview.currentPageFields.map(pageField => interview.fieldStatus.find(fieldStatus => fieldStatus.name === pageField.name));
 
     switch (req.action) {
       case InterviewEvaluationAction.First:
         {
           const categoryRef = interviewDefinition.categories[0];
-          evaluationResult.targetCategory = categoryRef.name;
-          evaluationResult.targetPage = categoryRef.pages[0].name;
+          result.targetCategory = categoryRef.name;
+          result.targetPage = categoryRef.pages[0].name;
         }
         break;
       case InterviewEvaluationAction.Previous:
         {
-          const { categoryRef, categoryIndex, pageIndex } = (interviewDefinition as InterviewDefinition).getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
+          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
           if (pageIndex > 0) {
-            evaluationResult.targetPage = categoryRef.pages[pageIndex - 1].name;
+            result.targetPage = categoryRef.pages[pageIndex - 1].name;
           } else if (categoryIndex > 0) {
             const newCategoryRef = interviewDefinition.categories[categoryIndex - 1];
-            evaluationResult.targetCategory = newCategoryRef.name;
-            evaluationResult.targetPage = newCategoryRef.pages[newCategoryRef.pages.length - 1].name;
+            result.targetCategory = newCategoryRef.name;
+            result.targetPage = newCategoryRef.pages[newCategoryRef.pages.length - 1].name;
           }
         }
         break;
       case InterviewEvaluationAction.Next:
         {
-          const { categoryRef, categoryIndex, pageIndex } = (interviewDefinition as InterviewDefinition).getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
+          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
           if (pageIndex < categoryRef.pages.length - 1) {
-            evaluationResult.targetPage = categoryRef.pages[pageIndex + 1].name;
+            result.targetPage = categoryRef.pages[pageIndex + 1].name;
           } else if (categoryIndex < interviewDefinition.categories.length - 1) {
             const newCategoryRef = interviewDefinition.categories[categoryIndex + 1];
-            evaluationResult.targetCategory = newCategoryRef.name;
-            evaluationResult.targetPage = newCategoryRef.pages[0].name;
+            result.targetCategory = newCategoryRef.name;
+            result.targetPage = newCategoryRef.pages[0].name;
           }
         }
 
@@ -219,22 +214,22 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
       case InterviewEvaluationAction.Last:
         {
           const categoryRef = interviewDefinition.categories[interview.categories.length - 1];
-          evaluationResult.targetCategory = categoryRef.name;
-          evaluationResult.targetPage = categoryRef.pages[categoryRef.pages.length - 1].name;
+          result.targetCategory = categoryRef.name;
+          result.targetPage = categoryRef.pages[categoryRef.pages.length - 1].name;
         }
 
         break;
       case InterviewEvaluationAction.Initialize:
       case InterviewEvaluationAction.PostBack:
         {
-          evaluationResult.targetCategory = interview.currentCategory;
-          evaluationResult.targetPage = interview.currentPage;
+          result.targetCategory = interview.currentCategory;
+          result.targetPage = interview.currentPage;
         }
 
         break;
     }
 
-    return evaluationResult;
+    return result;
   }
 
 

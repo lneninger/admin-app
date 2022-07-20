@@ -1,29 +1,35 @@
 import { IEvaluatorDefinition } from '../../models/interview-field';
 
 export interface IEvaluatorDefinitionCompilation extends IEvaluatorDefinition {
-  compilation: (evaluator: IEvaluatorDefinition, target: { [key: string]: any }) => IFieldEvaluationResult;
+  compilation: (evaluator: IEvaluatorDefinition, target: { [key: string]: any }) => IEvaluatorResult;
 }
 
-export enum EvaluationLevel{
+export enum EvaluationLevel {
   Category = 'Category',
   Page = 'Page',
   Field = 'Field'
 }
 
-export interface IFieldEvaluationResult{
+export interface IItemEvaluationResult {
   name: string;
   level: EvaluationLevel;
-  evaluator: IEvaluatorDefinitionCompilation,
-  evaluationResult: IEvaluatorResut
+  evaluations: IEvaluationResultItem[]
 }
 
-export interface IEvaluatorResut {
+
+export interface IEvaluationResultItem{
+  evaluator: IEvaluatorDefinitionCompilation,
+  evaluationResult: IEvaluatorResult
+}
+
+
+export interface IEvaluatorResult {
   continue: boolean;
   evaluationResult: any;
 }
 
 
-export class FieldEvalutionResultArray extends Array<IFieldEvaluationResult>{
+export class FieldEvalutionResultArray extends Array<IItemEvaluationResult>{
 
 }
 

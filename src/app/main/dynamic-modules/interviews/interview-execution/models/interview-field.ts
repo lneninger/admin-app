@@ -1,7 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { FormField } from '../controls/_base-formfield';
 import { ControlTypeNames, formFieldControlMapping } from '../controls/_mapping-formfield';
-import { IFieldEvaluationResult } from '../evaluation/services/evaluator.models';
+import { IItemEvaluationResult } from '../evaluation/services/evaluator.models';
 import { IInterviewFieldStatus } from './executing-interview';
 import { IInterviewInstance } from './interview-instance';
 

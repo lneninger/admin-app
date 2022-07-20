@@ -11,12 +11,12 @@ import { Field } from '../interview-execution/evaluation/annotations/field-annot
 import { IPersistedInterviewFieldStatus, IPersistedInterviewStatus } from '../interview-execution/models/executing-interview';
 import { EvaluatorService } from '../interview-execution/evaluation/services/evaluator.service';
 
-enum Genders{
+enum Genders {
   Male,
   Female
 }
 
-class PersonalFields extends FieldsCategory{
+class PersonalFields extends FieldsCategory {
   @Field(1, 'First Name')
   firstName?: string;
   @Field(2, 'Last Name')
@@ -39,11 +39,11 @@ class CVFields {
   educationFields?: EducationFields;
 
   // test access to annotated metadata
-  get categories(){
+  get categories() {
     return (this as any).$categories;
   }
 
-  constructor(input: Partial<any>){
+  constructor(input: Partial<any>) {
     Object.assign(this, input);
   }
 
@@ -133,7 +133,7 @@ describe('Interview Evaluator', () => {
     expect(evaluationResult).toBeTruthy();
   });
 
-  fit(' - evaluator instance evaluate interview', () => {
+  fit(' - evaluator instance evaluate empty interview', () => {
     const cvInterviewDefinition = new InterviewDefinition(vitae1);
     const cvPersistedStatus = {
       id: 'vitae1',
@@ -145,5 +145,32 @@ describe('Interview Evaluator', () => {
 
     expect(evaluationResult).toBeTruthy();
   });
+
+  fit(' - evaluator instance evaluate interview for not empty', () => {
+    const cvInterviewDefinition = new InterviewDefinition(vitae1);
+    const cvPersistedStatus = {
+      id: 'vitae1',
+      fieldStatus: [
+        {
+          name: 'personal_info.person_details.firstName',
+          value: '',
+          date: new Date()
+        }
+
+      ]
+    } as IPersistedInterviewStatus;
+
+    const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
+    const evaluationResult = evaluatorService.evaluateInterview();
+    const evaluatable = evaluatorService.evaluatables.find(item => item.name === 'personal_info.person_details.firstName');
+
+    expect(evaluatable).toBeTruthy();
+    const firstName = evaluationResult.find(resultItem => resultItem.name === 'personal_info.person_details.firstName');
+    expect(firstName).toBeTruthy();
+    const results = firstName.evaluations.map(item => item.evaluationResult.evaluationResult);
+    expect(results.every(result => !result)).toBeTruthy();
+  });
+
+
 
 });
