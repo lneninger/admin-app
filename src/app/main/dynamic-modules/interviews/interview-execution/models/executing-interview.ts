@@ -2,29 +2,9 @@ import { FieldEvalutionResultArray } from '../evaluation/services/evaluator.mode
 import { IInterviewCategory } from './interview-category';
 
 
-export interface IPersistedInterviewStatus {
-  id: string;
-  currentCategory: string;
-  currentPage: string;
 
-  maxVisitedCategory: string;
-  maxVisitedPage: string;
 
-  fieldStatus: IPersistedInterviewFieldStatus[];
-}
 
-export interface IPersistedInterviewFieldStatus {
-  name: string;
-  value: any;
-  date?: Date;
-}
-
-export interface IInterviewFieldStatus{
-  name: string;
-  value: any;
-  date?: Date;
-  evaluationResult?: FieldEvalutionResultArray;
-}
 
 export interface IInterviewEvaluateRequest {
   action: InterviewEvaluationAction;

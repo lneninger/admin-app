@@ -313,6 +313,10 @@ export class Utilities {
       }, {});
     }
   }
+
+  static hardCopy(obj: any){
+    return !obj ? obj : JSON.parse(JSON.stringify(obj));
+  }
 }
 
 export type GroupByFunctionSelector = (x: any) => any;

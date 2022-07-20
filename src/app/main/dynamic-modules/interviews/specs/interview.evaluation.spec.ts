@@ -127,6 +127,8 @@ describe('Interview Evaluator', () => {
       fieldStatus: []
     } as IPersistedInterviewStatus;
 
+    interviewService.evaluate
+
     const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
     const evaluationResult = evaluatorService.evaluateItem('personal_info.person_details.firstName');
 
