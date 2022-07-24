@@ -1,6 +1,7 @@
+import { EvaluationLevel } from './evaluation/services/evaluator.models';
 import { IEvaluatorDefinition } from './models/interview-field';
 
-export interface IInterviewEvaluationRequest{
+export interface IInterviewEvaluationRequest {
   id: string;
   action: InterviewEvaluationAction;
   pageInfo?: IInterviewEvaluatePageInfo;
@@ -23,6 +24,15 @@ export enum InterviewEvaluationAction {
   PostBack = 'POSTBACK',
 }
 
+
+export interface IInterviewEvaluateRequest {
+  id: string;
+  action: InterviewEvaluationAction;
+  pageInfo?: IInterviewEvaluatePageInfo;
+  value?: any;
+}
+
+
 export interface IPersistedInterviewStatus {
   id: string;
   currentCategory: string;
@@ -34,11 +44,11 @@ export interface IPersistedInterviewStatus {
   fieldStatus: IPersistedInterviewFieldStatus[];
 }
 
-export interface IInterviewFieldStatus{
+export interface IInterviewFieldStatus {
   name: string;
   value: any;
   date?: Date;
-  evaluationResult?: FieldEvalutionResultArray;
+  evaluationResult?: IItemEvaluationResultResponse;
 }
 
 export interface IPersistedInterviewFieldStatus {
@@ -52,20 +62,15 @@ export interface IEvaluatorDefinitionCompilation extends IEvaluatorDefinition {
   compilation: (evaluator: IEvaluatorDefinition, target: { [key: string]: any }) => IEvaluatorResult;
 }
 
-export enum EvaluationLevel {
-  Category = 'Category',
-  Page = 'Page',
-  Field = 'Field'
-}
 
-export interface IItemEvaluationResult {
+export interface IItemEvaluationResultResponse {
   name: string;
   level: EvaluationLevel;
-  evaluations: IEvaluationResultItem[]
+  evaluations: IEvaluationResultItemResponse[]
 }
 
 
-export interface IEvaluationResultItem{
+export interface IEvaluationResultItemResponse {
   evaluator: IEvaluatorDefinitionCompilation,
   evaluationResult: IEvaluatorResult
 }
@@ -76,8 +81,4 @@ export interface IEvaluatorResult {
   evaluationResult: any;
 }
 
-
-export class FieldEvalutionResultArray extends Array<IItemEvaluationResult>{
-
-}
 

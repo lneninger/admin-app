@@ -1,12 +1,11 @@
 import { FormControl } from '@angular/forms';
-import { IInterviewFieldStatus } from '../models/executing-interview';
-import { FormFields, IInterviewField } from '../models/interview-field';
+import { IInterviewField } from '../models/interfaces/interface-interview-field';
+import { FormFields } from './_form-fields';
 
 export interface IFormField {
 
 }
 export abstract class FormField implements IFormField {
-  fieldStatus: IInterviewFieldStatus;
   formControl: FormControl;
   get fieldName() {
     return this.field.name
@@ -15,12 +14,11 @@ export abstract class FormField implements IFormField {
 
   }
 
-  format(fieldStatus: IInterviewFieldStatus) {
-    this.fieldStatus = fieldStatus;
+  format() {
   }
 
   destroy() {
-    this.formFields.form.removeControl(this.fieldStatus.name);
+    this.formFields.form.removeControl(this.fieldName);
   }
 }
 

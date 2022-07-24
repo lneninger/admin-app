@@ -8,7 +8,7 @@ import { Interview } from '../interview-execution/evaluation/annotations/intervi
 import { Category } from '../interview-execution/evaluation/annotations/category-annotation';
 import { FieldsCategory, InterviewDefinition } from '../interview-execution/models/interview-definition';
 import { Field } from '../interview-execution/evaluation/annotations/field-annotation';
-import { IPersistedInterviewFieldStatus, IPersistedInterviewStatus } from '../interview-execution/models/executing-interview';
+import { IPersistedInterviewFieldStatus, IPersistedInterviewStatus } from '../../../../../../functions/src/_services/interviews/models/interview-evaluation-response';
 import { EvaluatorService } from '../interview-execution/evaluation/services/evaluator.service';
 
 enum Genders {

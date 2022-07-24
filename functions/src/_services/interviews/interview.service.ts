@@ -1,16 +1,17 @@
 import * as admin from 'firebase-admin';
+import { IItemEvaluationResult } from './evaluation/services/evaluator.models';
 
 
-import { Utilities } from 'src/app/shared/common/utilities';
 import { EvaluatorService } from './evaluation/services/evaluator.service';
-import { IInterviewFieldStatus, IItemEvaluationResult, InterviewEvaluationAction, IPersistedInterviewFieldStatus, IPersistedInterviewStatus } from './interview.models';
+import { IInterviewEvaluateRequest, IInterviewFieldStatus, InterviewEvaluationAction, IPersistedInterviewFieldStatus, IPersistedInterviewStatus } from './interview.models';
 import { IInterviewDefinition, InterviewDefinition } from './models/interview-definition';
-import { IInterviewPagingResult } from './models/interview-evaluation-result';
+import { IInterviewEvaluateResponse } from './models/interview-evaluation-response';
+import { IInterviewPagingResult } from './models/interview-paging-result';
 
 export class InterviewService {
   async evaluate(req: IInterviewEvaluateRequest){
     const interviewDefinition = await this.getInterviewDefinition(req.id);
-    const previousInterview = await this.getInterviewInstance(interview.id);
+    const previousInterview = await this.getInterviewInstance(req.id);
 
 
     let evaluationResult: IItemEvaluationResult[];
@@ -27,6 +28,7 @@ export class InterviewService {
       // calculate paging outcome
       pagingResult = this.paging(previousInterview, evaluationResult, interviewDefinition, req);
     } else {
+      evaluationResult = [];
       // calculate paging
       pagingResult = {
         targetCategory: previousInterview.currentCategory,
@@ -37,7 +39,7 @@ export class InterviewService {
     const interview = this.formatEvaluationResult(evaluationResult, interviewDefinition, pagingResult);
   }
 
-  paging(interview: IInterviewInstance, interviewDefinition: InterviewDefinition, req: IInterviewEvaluateRequest) {
+  paging(previousInterview: IPersistedInterviewStatus, evaluationResult: IItemEvaluationResult[], interviewDefinition: InterviewDefinition, req: IInterviewEvaluateRequest) {
     const result = {} as IInterviewPagingResult;
 
     // const currentPageFieldStatus = interview.currentPageFields.map(pageField => interview.fieldStatus.find(fieldStatus => fieldStatus.name === pageField.name));
@@ -52,7 +54,7 @@ export class InterviewService {
         break;
       case InterviewEvaluationAction.Previous:
         {
-          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
+          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(previousInterview.currentCategory, previousInterview.currentPage);
           if (pageIndex! > 0) {
             result.targetPage = categoryRef!.pages[pageIndex! - 1].name;
           } else if (categoryIndex! > 0) {
@@ -64,7 +66,7 @@ export class InterviewService {
         break;
       case InterviewEvaluationAction.Next:
         {
-          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(interview.currentCategory, interview.currentPage);
+          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(previousInterview.currentCategory, previousInterview.currentPage);
           if (pageIndex! < categoryRef!.pages.length - 1) {
             result.targetPage = categoryRef!.pages[pageIndex! + 1].name;
           } else if (categoryIndex! < interviewDefinition.categories.length - 1) {
@@ -77,7 +79,7 @@ export class InterviewService {
         break;
       case InterviewEvaluationAction.Last:
         {
-          const categoryRef = interviewDefinition.categories[interview.categories.length - 1];
+          const categoryRef = interviewDefinition.categories[interviewDefinition.categories.length - 1];
           result.targetCategory = categoryRef.name;
           result.targetPage = categoryRef.pages[categoryRef.pages.length - 1].name;
         }
@@ -86,8 +88,8 @@ export class InterviewService {
       case InterviewEvaluationAction.Initialize:
       case InterviewEvaluationAction.PostBack:
         {
-          result.targetCategory = interview.currentCategory;
-          result.targetPage = interview.currentPage;
+          result.targetCategory = previousInterview.currentCategory;
+          result.targetPage = previousInterview.currentPage;
         }
 
         break;
@@ -96,38 +98,41 @@ export class InterviewService {
     return result;
   }
 
-  private formatEvaluationResult(interview: IInterviewInstance, previousInterview: IPersistedInterviewStatus, interviewDefinition: InterviewDefinition, pagingResult: IInterviewPagingResult) {
+  private formatEvaluationResult(evaluationResult: IItemEvaluationResult[], interviewDefinition: InterviewDefinition, pagingResult: IInterviewPagingResult) {
     // interview.fieldStatus = (previousInterview?.fieldStatus || []).map(item => ({
     //   ...item
     // } as IInterviewFieldStatus));
-    const result =
 
-    interview.categories = interviewDefinition.categories.map(item => ({
+    const categories = interviewDefinition.categories.map(item => ({
       name: item.name,
       displayName: item.displayName,
       description: item.description,
       order: item.order,
     })).sort((itemA, itemB) => itemA.order == itemB.order ? 0 : (itemA.order < itemB.order ? -1 : 1));
 
-    interview.currentCategory = pagingResult.targetCategory || interview.categories[0].name;
+    const currentCategory = pagingResult.targetCategory || interviewDefinition.categories[0].name;
 
-    const currentCategoryDef = interviewDefinition.categories.find(item => item.name === interview.currentCategory);
-    interview.currentCategoryPages = currentCategoryDef!.pages.map(pageItem => ({
+    const currentCategoryDef = interviewDefinition.categories.find(item => item.name === currentCategory);
+    const currentCategoryPages = currentCategoryDef!.pages.map(pageItem => ({
       name: pageItem.name,
       displayName: pageItem.displayName,
       description: pageItem.description,
       order: pageItem.order,
     }));
 
-    interview.currentPage = pagingResult.targetPage || interview.currentCategoryPages[0].name;
+    const currentPage = pagingResult.targetPage || currentCategoryPages[0].name;
 
-    const currentPageDef = currentCategoryDef!.pages.find(item => item.name === interview.currentPage);
-    interview.currentPageFields = currentPageDef!.fields.map(fieldItem => ({
+    const currentPageDef = currentCategoryDef!.pages.find(item => item.name === currentPage);
+    const currentPageFields = currentPageDef!.fields.map(fieldItem => ({
       name: fieldItem.name,
       label: fieldItem.label,
       description: fieldItem.description,
-      metadata: fieldItem.metadata
+      metadata: fieldItem.metadata,
+      value: null
     }));
+
+    const result: IInterviewEvaluateResponse = {categories, currentCategory, currentCategoryPages, currentPage, currentPageFields};
+
   }
 
   interviewEvaluation(interviewFieldStatus: IInterviewFieldStatus[], interviewDefinition: InterviewDefinition) {

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { IInterviewEvaluateRequest, InterviewEvaluationAction } from './models/executing-interview';
+import { IInterviewEvaluateRequest, InterviewEvaluationAction } from '../../../../../../functions/src/_services/interviews/models/interview-evaluation-response';
 import { IInterviewCategory } from './models/interview-category';
 import { IInterviewInstance } from './models/interview-instance';
 import { IInterviewConfig } from './models/interview.config';

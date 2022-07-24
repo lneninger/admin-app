@@ -24,6 +24,7 @@ export * from './stripe/index';
 export * from './user/index';
 export * from './config/index';
 export * from './azure/index';
+export * from './interview/index';
 
 
 

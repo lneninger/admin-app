@@ -28,8 +28,3 @@ export interface IEvaluatorResult {
   evaluationResult: any;
 }
 
-
-export class FieldEvalutionResultArray extends Array<IItemEvaluationResult>{
-
-}
-

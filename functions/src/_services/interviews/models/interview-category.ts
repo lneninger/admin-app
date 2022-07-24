@@ -11,10 +11,5 @@ export interface IInterviewCategoryDefinition{
 
 }
 
-export interface IInterviewCategory {
-  name: string;
-  displayName: string;
-  description: string;
-  order: number;
-}
+
 

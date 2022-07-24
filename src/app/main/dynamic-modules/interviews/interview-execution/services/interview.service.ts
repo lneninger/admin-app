@@ -1,20 +1,18 @@
-import { Utilities } from './../../../../../shared/common/utilities';
-import { IItemEvaluationResult } from './../evaluation/services/evaluator.models';
-import { DataAction, Payload, Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
+import { Persistence, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataRepository } from '@angular-ru/ngxs/repositories';
 import { Injectable } from '@angular/core';
 import { Selector, State, Store } from '@ngxs/store';
-import { EvaluatorService } from '../evaluation/services/evaluator.service';
-import { IInterviewEvaluateRequest, IInterviewFieldStatus, InterviewEvaluationAction, IPersistedInterviewFieldStatus, IPersistedInterviewStatus } from '../models/executing-interview';
-import { IInterviewPagingResult } from '../models/interview-evaluation-result';
+import { IInterviewEvaluateRequest } from 'functions/src/_services/interviews/interview.models';
+import { IInterviewEvaluationResult } from 'functions/src/_services/interviews/models/interview-evaluation-result';
+import { firstValueFrom } from 'rxjs';
+import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
+import { InterviewEvaluationAction } from '../../../../../../../functions/src/_services/interviews/models/interview-evaluation-response';
+import { IInterviewInstance } from '../models/interfaces/interface-interview-instance';
+import { IInterviewActionPayload } from '../models/interview-action-payload';
 import { IInterviewConfig } from '../models/interview.config';
-import { InterviewDefinition } from './../models/interview-definition';
-import { IInterviewInstance, InterviewInstance } from './../models/interview-instance';
+import { InterviewInstance } from './../models/interview-instance';
 import { IInterviewStateModel } from './interview-state.models';
 import { vitae1 } from './moked-data';
-import { append, patch, updateItem } from '@ngxs/store/operators';
-import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
-import { firstValueFrom } from 'rxjs';
 
 @Persistence()
 @StateRepository()
@@ -46,22 +44,23 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
     console.trace('Interview Service bootstrapped!');
   }
 
-  @DataAction()
-  saveInterview(@Payload('action') action: ('ADD' | 'UPDATE'), @Payload('interview') interview: IPersistedInterviewStatus) {
-    this.setState(
-      action === 'UPDATE' ? patch({
-        interviewInstances: updateItem<IPersistedInterviewStatus>(item => item.id === interview.id, interview)
-      })
-        : patch({
-          interviewInstances: append([interview])
-        })
-    );
-  }
+  // @DataAction()
+  // saveInterview(@Payload('action') action: ('ADD' | 'UPDATE'), @Payload('interview') interview: IPersistedInterviewStatus) {
+  //   this.setState(
+  //     action === 'UPDATE' ? patch({
+  //       interviewInstances: updateItem<IPersistedInterviewStatus>(item => item.id === interview.id, interview)
+  //     })
+  //       : patch({
+  //         interviewInstances: append([interview])
+  //       })
+  //   );
+  // }
 
   initialize(config: IInterviewConfig): IInterviewInstance {
 
     const interview = new InterviewInstance({ id: config.id, config });
     const req: IInterviewEvaluateRequest = {
+      id: config.id,
       action: InterviewEvaluationAction.Initialize,
     };
 
@@ -72,22 +71,26 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
 
 
-  evaluate(req: IInterviewEvaluateRequest, interview: IInterviewInstance): void {
+  async evaluate(req: IInterviewEvaluateRequest, interview: IInterviewInstance): Promise<void> {
+
+    const formattedRequest = this.formatEvaluationRequest(req);
+    const evaluationResult = await this.remoteEvaluation(formattedRequest);
 
 
-
-
-    this.formatForm(interview, pagingResult);
+    this.formatForm(interview, evaluationResult);
+  }
+  formatEvaluationRequest(req: IInterviewActionPayload): IInterviewEvaluateRequest {
+    return {...req};
   }
 
-  async remoteEvaluation(){
+  async remoteEvaluation(req: IInterviewEvaluateRequest){
       const fn = this.firebaseService.fns.httpsCallable('attachRole');
-      return firstValueFrom(fn({ uid: userId, role: roleName } as IEvaluationResult));
+      return firstValueFrom(fn(req));
   }
 
 
 
-  formatForm(interview: IInterviewInstance, evaluationResult: IInterviewPagingResult) {
+  formatForm(interview: IInterviewInstance, evaluationResult: IInterviewEvaluationResult) {
 
     // clear form if page changed
     if (evaluationResult.targetPage !== interview.currentPage) {

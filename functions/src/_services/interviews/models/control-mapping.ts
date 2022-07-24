@@ -1,0 +1,1 @@
+export declare type ControlTypeNames = 'INPUT' | 'CHECKBOX' | 'CHECKBOXLIST' | 'RADIO' | 'RADIOLIST' | 'BOOLEAN' | 'NULLABLEBOOLEAN' | 'SELECT' | 'MULTISELECT' | 'DATE' | 'DATERANGE';

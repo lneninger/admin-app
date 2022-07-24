@@ -1,4 +1,4 @@
-export interface IInterviewEvaluationResult{
+export interface IInterviewPagingResult{
   targetCategory: string;
   targetPage: string;
 }

@@ -1,11 +1,10 @@
 import { compileExpression } from 'filtrex';
-import { IPersistedInterviewFieldStatus } from '../../models/executing-interview';
 import { IEvaluatorDefinition } from '../../models/interview-field';
 import { InterviewDefinition } from './../../models/interview-definition';
-import { EvaluationLevel, FieldEvalutionResultArray, IEvaluatorDefinitionCompilation, IEvaluatorResult, IItemEvaluationResult } from './evaluator.models';
+import { EvaluationLevel, IEvaluatorDefinitionCompilation, IEvaluatorResult, IItemEvaluationResult } from './evaluator.models';
 
-export interface IEValuatorService {
-
+export interface IEvaluatorService {
+  evaluateInterview(): IItemEvaluationResult[];
 }
 
 
@@ -17,11 +16,11 @@ function length(s: string) {
   return s.length;
 }
 
-let options = {
+const options = {
   extraFunctions: { trim, length }
 };
 
-export class EvaluatorService implements IEValuatorService {
+export class EvaluatorService implements IEvaluatorService {
   readonly evaluatables: { name: string; level: EvaluationLevel; evaluators: IEvaluatorDefinitionCompilation[]; }[];
   constructor(private values: any, private interviewDefinition: InterviewDefinition) {
     // get evaluatable interview elements from definition. Which are Categories and Fields
@@ -32,12 +31,12 @@ export class EvaluatorService implements IEValuatorService {
   }
   private getEvaluatables(): { name: string; level: EvaluationLevel; evaluators: IEvaluatorDefinition[] }[] {
     const result: { name: string, level: EvaluationLevel, evaluators: IEvaluatorDefinition[] }[] = [];
-    for (let category of this.interviewDefinition.categories) {
+    for (const category of this.interviewDefinition.categories) {
       result.push({ name: category.name, level: EvaluationLevel.Category, evaluators: category.evaluators });
       if (category.pages) {
-        for (let page of category.pages) {
+        for (const page of category.pages) {
           if (page.fields) {
-            for (let field of page.fields) {
+            for (const field of page.fields) {
               result.push({ name: field.name, level: EvaluationLevel.Field, evaluators: field.evaluators });
             }
           }
@@ -59,12 +58,12 @@ export class EvaluatorService implements IEValuatorService {
     });
   }
 
-  evaluateInterview() {
+  evaluateInterview(): IItemEvaluationResult[] {
     // Evaluate
     const fieldEvaluationResults: IItemEvaluationResult[] = [];
-    for (let evaluatable of this.evaluatables) {
-      const fieldEvaluationResult: IItemEvaluationResult = {name: evaluatable.name, level: evaluatable.level, evaluations: []};
-      for (let evaluator of evaluatable.evaluators) {
+    for (const evaluatable of this.evaluatables) {
+      const fieldEvaluationResult: IItemEvaluationResult = { name: evaluatable.name, level: evaluatable.level, evaluations: [] };
+      for (const evaluator of evaluatable.evaluators) {
         const evaluationResult = evaluator.compilation(evaluator, this.values);
         fieldEvaluationResult.evaluations.push({ evaluator: evaluator, evaluationResult: evaluationResult });
       }
@@ -76,27 +75,29 @@ export class EvaluatorService implements IEValuatorService {
 
   evaluateItem(item: string | { [key: string]: any }) {
     if (item) {
-      let fieldDefinition: {
+      let evaluatable: {
         name: string;
         level: EvaluationLevel;
         evaluators: IEvaluatorDefinitionCompilation[];
-      };
+      } | undefined;
       let internalField: { [key: string]: any };
       if (typeof item === 'string') {
-        fieldDefinition = this.evaluatables.find(evaluatableItem => evaluatableItem.name === item);
+        evaluatable = this.evaluatables.find(evaluatableItem => evaluatableItem.name === item);
         internalField = {};
         internalField[item] = this.values[item];
       } else {
-        fieldDefinition = this.evaluatables.find(statusItem => statusItem.name === Object.getOwnPropertyNames(item)[0]);
+        evaluatable = this.evaluatables.find(statusItem => statusItem.name === Object.getOwnPropertyNames(item)[0]);
         internalField = item;
       }
 
-      const fieldEvaluationResult: IItemEvaluationResult = {name: fieldDefinition.name, level: fieldDefinition.level, evaluations: []};
-      for (let evaluatorCompilation of fieldDefinition.evaluators) {
-        const evaluationResult = evaluatorCompilation.compilation(evaluatorCompilation, internalField);
-        fieldEvaluationResult.evaluations.push({ evaluator: evaluatorCompilation, evaluationResult });
+      if (evaluatable) {
+        const fieldEvaluationResult: IItemEvaluationResult = { name: evaluatable.name, level: evaluatable.level, evaluations: [] };
+        for (const evaluatorCompilation of evaluatable?.evaluators) {
+          const evaluationResult = evaluatorCompilation.compilation(evaluatorCompilation, internalField);
+          fieldEvaluationResult.evaluations.push({ evaluator: evaluatorCompilation, evaluationResult });
+        }
+        return fieldEvaluationResult;
       }
-      return fieldEvaluationResult;
     }
   }
 
@@ -105,7 +106,7 @@ export class EvaluatorService implements IEValuatorService {
       let compiledEvaluator: any;
       try {
         compiledEvaluator = compileExpression(evaluator.rule.expression, options);
-      } catch (ex) {
+      } catch (ex: any) {
         console.log(`Error running evaluator => `, ex);
         const error = new Error(`${ex.message} ${evaluator.rule.expression}`);
         error.stack = ex.stack;

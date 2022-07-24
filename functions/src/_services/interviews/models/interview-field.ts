@@ -1,9 +1,4 @@
-import { FormGroup } from '@angular/forms';
-import { FormField } from '../controls/_base-formfield';
-import { ControlTypeNames, formFieldControlMapping } from '../controls/_mapping-formfield';
-import { IItemEvaluationResult } from '../evaluation/services/evaluator.models';
-import { IInterviewFieldStatus } from './executing-interview';
-import { IInterviewInstance } from './interview-instance';
+import { ControlTypeNames } from './control-mapping';
 
 export interface IInterviewFieldDefinition {
   name: string;
@@ -15,7 +10,7 @@ export interface IInterviewFieldDefinition {
 
 export interface IEvaluatorDefinition {
   id: string;
-  type: 'VALIDATION',
+  type: EvaluationType;
   rule: IInterviewValidatorRuleDefinition,
   message: string;
 }
@@ -33,10 +28,10 @@ export interface IInterviewField {
 }
 
 export class InterviewField implements IInterviewField {
-  name: string;
-  label: string;
-  description: string;
-  metadata: IInterviewFieldMetadata;
+  name!: string;
+  label!: string;
+  description!: string;
+  metadata!: IInterviewFieldMetadata;
 
   constructor(input: Partial<IInterviewField>) {
     Object.assign(this, input);
@@ -50,34 +45,9 @@ export interface IInterviewFieldMetadata {
 }
 
 
+export declare type EvaluationType = 'VALIDATION' | 'DISQUALIFICATION' | 'DISABLE' | 'HIDE';
 
 
-
-export class FormFields extends Array<FormField>{
-  form: FormGroup;
-
-
-  constructor(private interviewRef: IInterviewInstance){
-    super();
-
-    this.form = new FormGroup({
-    });
-  }
-
-  formatFormField(name: string) {
-    const field = this.interviewRef.currentPageFields.find(item => item.name === name);
-    const fieldStatus = this.interviewRef.fieldStatus.find(item => item.name === name);
-
-    let fieldItem = this.find(item => item.fieldName === field.name);
-    if (!fieldItem) {
-      const fieldType = formFieldControlMapping.get(field.metadata.control);
-      fieldItem = new fieldType(this.interviewRef, field);
-      this.push(fieldItem);
-    }
-
-    fieldItem.format(fieldStatus);
-  }
-}
 
 
 
