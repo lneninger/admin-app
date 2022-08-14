@@ -8,7 +8,8 @@ import * as functions from 'firebase-functions';
 import { ISecuredModule, IUserSecuredModule } from '../site/site.models';
 import { customerCreateCore } from '../stripe/customer-create';
 import { attachRoleCore } from '../user/user-attach-role-utils';
-import { mockedSignUp1, mockedSignUp2, vitae1 } from './mocker.models';
+import { mockedSignUp1, mockedSignUp2 } from './mocker.models';
+import { initializeInterviews } from './mocker-interviews';
 
 
 const cors = Cors({ origin: true });
@@ -141,18 +142,9 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
 
 
       //#region Interviews
-      console.trace(`Trace: Interview start`);
-      if ((await firestore.collection('app-interview-definitions').limit(1).get()).size === 0) {
-        console.trace(`Trace: Interview running`);
-        try {
-          const interviews = firestore.collection('app-interview-definitions');
-          // BASIC
-          await interviews.doc('vitae1').set(vitae1);
-        } catch (ex) {
-          console.error(ex);
-        }
-      }
-      console.trace(`Trace: Interview end`);
+
+      await initializeInterviews();
+
       //#endregion
 
 

@@ -1,18 +1,28 @@
+// netstat -a -n -o | find "7099"
+// taskkill /F /PID pid_number
+
 import { test } from '@jest/globals';
+
+// import * as firebase from '@firebase/testing';
+import * as admin from 'firebase-admin';
+
+import { initializeInterviews } from './../../src/_mocker/mocker-interviews';
 import { IInterviewEvaluationRequest, InterviewEvaluationAction } from '../../src/_services/interviews/interview.models';
 import { InterviewService } from '../../src/_services/interviews/interview.service';
 
-import * as firebase from 'firebase/app';
-import * as admin from 'firebase-admin';
+const projectId = 'firebase-adminsys-20210823';
+process.env.GCLOUD_PROJECT = projectId;
+process.env.FIRESTORE_EMULATOR_HOST = 'localhost:7099';
+const app = admin.initializeApp({ projectId });
 
-firebase.initializeApp({
-  // name: 'firebase-adminsys-20210823',
-  apiKey: 'AIzaSyBVX_mxqJJZO6gDvUJDER1jA8BL5xr6qcc',
+
+admin.firestore(app);
+beforeAll(() => {
+  return initializeInterviews();
 });
-// const testEnv = Test();
 
-test('logstore', () => {
-  admin.initializeApp();
+
+test('logstore', async () => {
 
   const data = <IInterviewEvaluationRequest>{
     id: 'vitae1',
@@ -23,7 +33,7 @@ test('logstore', () => {
 
 
   const service = new InterviewService();
-  const result = service.evaluate(data);
+  const result = await service.evaluate(data);
 
   expect(result).toBeTruthy();
 });
