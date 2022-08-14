@@ -1,10 +1,10 @@
 import { IEvaluatorDefinition } from './interview-field';
-import { IInterviewCategoryPage, IInterviewCategoryPageDefinition } from './interview-page';
+import { IInterviewCategoryPageDefinition } from './interview-page';
 
 export interface IInterviewCategoryDefinition{
   name: string;
   displayName: string;
-  description: string;
+  description?: string;
   order: number;
   pages: IInterviewCategoryPageDefinition[];
   evaluators: IEvaluatorDefinition[];

@@ -1,15 +1,14 @@
-import { IInterviewConfig } from '../interview-execution/models/interview.config';
-import { InterviewService } from '../interview-execution/services/interview.service';
 import { TestBed } from '@angular/core/testing';
-import { vitae1 } from '../interview-execution/services/moked-data';
-import { InterviewInstance } from '../interview-execution/models/interview-instance';
 import { NgxsModule } from '@ngxs/store';
-import { Interview } from '../interview-execution/evaluation/annotations/interview-annotation';
+import { IPersistedInterviewStatus } from '../../../../../../functions/src/_services/interviews/models/interview-evaluation-response';
 import { Category } from '../interview-execution/evaluation/annotations/category-annotation';
-import { FieldsCategory, InterviewDefinition } from '../interview-execution/models/interview-definition';
 import { Field } from '../interview-execution/evaluation/annotations/field-annotation';
-import { IPersistedInterviewFieldStatus, IPersistedInterviewStatus } from '../../../../../../functions/src/_services/interviews/models/interview-evaluation-response';
+import { Interview } from '../interview-execution/evaluation/annotations/interview-annotation';
 import { EvaluatorService } from '../interview-execution/evaluation/services/evaluator.service';
+import { FieldsCategory, InterviewDefinition } from '../interview-execution/models/interview-definition';
+import { InterviewInstance } from '../interview-execution/models/interview-instance';
+import { InterviewService } from '../interview-execution/services/interview.service';
+import { vitae1 } from '../interview-execution/services/moked-data';
 
 enum Genders {
   Male,

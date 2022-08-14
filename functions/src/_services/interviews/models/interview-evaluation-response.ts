@@ -14,7 +14,7 @@ export interface IInterviewEvaluateResponse {
 export interface IInternviewCurrentCategoryPage {
   name: string;
   displayName: string;
-  description: string;
+  description: string | undefined;
   order: number;
 }
 
@@ -29,7 +29,7 @@ export interface IInterviewEvaluateCurrentCategoryPageResponse {
 export interface IInterviewEvaluateFieldResponse {
   name: string;
   label: string;
-  description: string;
+  description: string | undefined;
   metadata: any;
   value: any;
 }

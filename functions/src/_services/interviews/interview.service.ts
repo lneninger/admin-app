@@ -9,7 +9,7 @@ import { IInterviewEvaluateResponse } from './models/interview-evaluation-respon
 import { IInterviewPagingResult } from './models/interview-paging-result';
 
 export class InterviewService {
-  async evaluate(req: IInterviewEvaluateRequest){
+  async evaluate(req: IInterviewEvaluateRequest): Promise<IInterviewEvaluateResponse>{
     const interviewDefinition = await this.getInterviewDefinition(req.id);
     const previousInterview = await this.getInterviewInstance(req.id);
 
@@ -37,6 +37,8 @@ export class InterviewService {
     }
 
     const interview = this.formatEvaluationResult(evaluationResult, interviewDefinition, pagingResult);
+
+    return interview;
   }
 
   paging(previousInterview: IPersistedInterviewStatus, evaluationResult: IItemEvaluationResult[], interviewDefinition: InterviewDefinition, req: IInterviewEvaluateRequest) {
@@ -133,6 +135,7 @@ export class InterviewService {
 
     const result: IInterviewEvaluateResponse = {categories, currentCategory, currentCategoryPages, currentPage, currentPageFields};
 
+    return result;
   }
 
   interviewEvaluation(interviewFieldStatus: IInterviewFieldStatus[], interviewDefinition: InterviewDefinition) {
@@ -169,13 +172,14 @@ export class InterviewService {
 
 
   async getInterviewDefinition(id: string): Promise<InterviewDefinition> {
-    const defRef = (await admin.firestore().collection('/interview-definition').doc(id).get());
+    const defRef = (await admin.firestore().collection('/app-interview-definitions').doc(id).get());
     const definitionData = defRef.data() as IInterviewDefinition;
+    console.log(`Resolved definition for ${id} => `, definitionData);
     return new InterviewDefinition(definitionData);
   }
 
   async getInterviewInstance(id: string): Promise<IPersistedInterviewStatus> {
-    const executionRef = (await admin.firestore().collection('/interview-execution').doc(id).get());
+    const executionRef = (await admin.firestore().collection('/app-interview-executions').doc(id).get());
     return executionRef.data() as IPersistedInterviewStatus;
   }
 }

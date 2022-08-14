@@ -73,7 +73,7 @@ export class EvaluatorService implements IEvaluatorService {
     return fieldEvaluationResults;
   }
 
-  evaluateItem(item: string | { [key: string]: any }) {
+  evaluateItem(item: string | { [key: string]: any }): IItemEvaluationResult | undefined {
     if (item) {
       let evaluatable: {
         name: string;
@@ -99,6 +99,8 @@ export class EvaluatorService implements IEvaluatorService {
         return fieldEvaluationResult;
       }
     }
+
+    return undefined;
   }
 
   private buildCompiledEvaluation(): (evaluator: IEvaluatorDefinition, target: { [key: string]: any }) => IEvaluatorResult {

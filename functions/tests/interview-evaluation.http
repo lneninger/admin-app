@@ -1,0 +1,7 @@
+POST http://localhost:6099/firebase-adminsys-20210823/us-central1/interviewEvaluation HTTP/1.1
+content-type: application/json
+
+{
+  "id": "vitae1",
+  "action": "INITIALIZE"
+}

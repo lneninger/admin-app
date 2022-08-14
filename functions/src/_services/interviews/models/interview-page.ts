@@ -3,7 +3,7 @@ import { IInterviewField, IInterviewFieldDefinition } from './interview-field';
 export interface IInterviewCategoryPageDefinition{
   name: string;
   displayName: string;
-  description: string;
+  description: string | undefined;
   order: number;
   fields: IInterviewFieldDefinition[];
 }

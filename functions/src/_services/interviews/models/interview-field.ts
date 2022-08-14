@@ -3,7 +3,7 @@ import { ControlTypeNames } from './control-mapping';
 export interface IInterviewFieldDefinition {
   name: string;
   label: string;
-  description: string;
+  description: string | undefined;
   metadata: IInterviewFieldMetadata;
   evaluators: IEvaluatorDefinition[]
 }

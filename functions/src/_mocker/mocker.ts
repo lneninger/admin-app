@@ -8,7 +8,7 @@ import * as functions from 'firebase-functions';
 import { ISecuredModule, IUserSecuredModule } from '../site/site.models';
 import { customerCreateCore } from '../stripe/customer-create';
 import { attachRoleCore } from '../user/user-attach-role-utils';
-import { mockedSignUp1, mockedSignUp2 } from './mocker.models';
+import { mockedSignUp1, mockedSignUp2, vitae1 } from './mocker.models';
 
 
 const cors = Cors({ origin: true });
@@ -123,19 +123,38 @@ export const dataMocker = functions.https.onRequest((req: functions.https.Reques
       try {
         const user = await auth.getUserByEmail(mockedSignUp2.email);
         userId = user.uid;
-      console.trace(`Trace: Member found => `, mockedSignUp2.email);
-    } catch (error) {
-      console.trace(`Trace: Member not found => `, mockedSignUp2.email);
-      userId = undefined as unknown as string;
+        console.trace(`Trace: Member found => `, mockedSignUp2.email);
+      } catch (error) {
+        console.trace(`Trace: Member not found => `, mockedSignUp2.email);
+        userId = undefined as unknown as string;
       }
 
       if (!userId) {
-      console.trace(`Trace: Creating member => `, mockedSignUp2.email);
-      const createUserResult = await auth.createUser({ email: mockedSignUp2.email, password: mockedSignUp2.password, phoneNumber: mockedSignUp2.phoneNumber, photoURL: mockedSignUp2.photoUrl, metadata: null } as CreateRequest);
+        console.trace(`Trace: Creating member => `, mockedSignUp2.email);
+        const createUserResult = await auth.createUser({ email: mockedSignUp2.email, password: mockedSignUp2.password, phoneNumber: mockedSignUp2.phoneNumber, photoURL: mockedSignUp2.photoUrl, metadata: null } as CreateRequest);
         userId = createUserResult.uid;
       }
 
-      await  customerCreateCore(userId);
+      await customerCreateCore(userId);
+
+
+
+
+      //#region Interviews
+      console.trace(`Trace: Interview start`);
+      if ((await firestore.collection('app-interview-definitions').limit(1).get()).size === 0) {
+        console.trace(`Trace: Interview running`);
+        try {
+          const interviews = firestore.collection('app-interview-definitions');
+          // BASIC
+          await interviews.doc('vitae1').set(vitae1);
+        } catch (ex) {
+          console.error(ex);
+        }
+      }
+      console.trace(`Trace: Interview end`);
+      //#endregion
+
 
       res.status(202).json({ data: { success: true } });
 

@@ -47,7 +47,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "[Admin]Launch Chrome - Debug Test",
+      "name": "[Admin]Launch Chrome - Debug Test(No Working)",
       "skipFiles": [
         "<node_internals>/**"
       ],

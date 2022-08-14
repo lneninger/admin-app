@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "module": "commonjs",
-    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
     "noUnusedLocals": true,
     "outDir": "lib",
     "sourceMap": true,
