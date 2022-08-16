@@ -7,5 +7,5 @@ module.exports = {
     '**/tests/**/*.[jt]s?(x)',
     '**/?(*.)+(spec|test).[tj]s?(x)'
   ],
-  setupFilesAfterEnv: ['./jest.setup.js']
+  // setupFilesAfterEnv: ['./jest.setup.js']
 };

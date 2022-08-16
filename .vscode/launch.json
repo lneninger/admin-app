@@ -34,7 +34,7 @@
       "type": "node",
       "request": "launch",
       "name": "Firebase Functions Jest Unit Test: current file",
-      //"env": { "NODE_ENV": "test" },
+      "env": { "NODE_ENV": "test" },
       "program": "${workspaceFolder}/functions/node_modules/.bin/jest",
       "args": ["${fileBasenameNoExtension}", "--config", "functions/jest.config.js"/*, "--passWithNoTests"*/],
       "console": "integratedTerminal",

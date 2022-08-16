@@ -60,7 +60,7 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
     const interview = new InterviewInstance({ id: config.id, config });
     const req: IInterviewEvaluateRequest = {
-      id: config.id,
+      type: config.id,
       action: InterviewEvaluationAction.Initialize,
     };
 

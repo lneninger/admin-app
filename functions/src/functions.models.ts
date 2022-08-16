@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import { QueryDocumentSnapshot } from 'firebase/firestore';
 
 /**
  * Class type mapping copy from angular. Useful to create list of Class types
@@ -14,6 +15,12 @@ export function staticImplements<T>() {
 
 export interface ICustomMapping {
   [key: string]: unknown;
+}
+
+export interface IFireStoreDocument<T>{
+  id: string;
+  data: T;
+  $original: QueryDocumentSnapshot<T>
 }
 
 export interface IConfig {

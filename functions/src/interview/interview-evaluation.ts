@@ -2,7 +2,7 @@ import * as Cors from 'cors';
 import * as functions from 'firebase-functions';
 import { accessDomains } from '../config/access-domains';
 import { logHttp } from '../site/log-wrapper-function';
-import { IInterviewEvaluationRequest } from '../_services/interviews/interview.models';
+import { IInterviewEvaluateRequest } from '../_services/interviews/interview.models';
 import { InterviewService } from '../_services/interviews/interview.service';
 
 const cors = Cors({ origin: true/*accessDomains*/ });
@@ -12,7 +12,7 @@ export const interviewEvaluation = functions.https.onRequest((req: functions.htt
 
     return logHttp(req, res, 'interviewEvaluation', async () => {
 
-      const data = <IInterviewEvaluationRequest>req.body;
+      const data = <IInterviewEvaluateRequest>req.body;
 
       console.log('Mapped to model', data, 'original body', req.body);
 

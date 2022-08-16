@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import { ICustomMapping, IFireStoreDocument } from '../../functions.models';
 import { IItemEvaluationResult } from './evaluation/services/evaluator.models';
 
 
@@ -9,39 +10,74 @@ import { IInterviewEvaluateResponse } from './models/interview-evaluation-respon
 import { IInterviewPagingResult } from './models/interview-paging-result';
 
 export class InterviewService {
-  async evaluate(req: IInterviewEvaluateRequest): Promise<IInterviewEvaluateResponse>{
-    const interviewDefinition = await this.getInterviewDefinition(req.id);
-    const previousInterview = await this.getInterviewInstance(req.id);
+  async evaluate(req: IInterviewEvaluateRequest): Promise<IInterviewEvaluateResponse> {
+    const interviewDefinition = await this.getInterviewDefinition(req.type);
+    const previousInterview = await this.getInterviewInstance(req);
 
-
+    let instanceId = previousInterview?.id;
     let evaluationResult: IItemEvaluationResult[];
     let pagingResult: IInterviewPagingResult;
     let newInterviewFieldStatus: any;
-    if (req.action !== InterviewEvaluationAction.Initialize) {
+    if (req.action == InterviewEvaluationAction.Initialize) {
+      evaluationResult = [];
+      // calculate paging
+      pagingResult = {
+        targetCategory: previousInterview?.data.currentCategory,
+        targetPage: previousInterview?.data.currentPage
+      } as IInterviewPagingResult;
+
+      if (!previousInterview) {
+        instanceId = await this.generateInstanceId(req, interviewDefinition);
+      }
+
+    } else {
+
+
       // TODO: update interview status field values
       // Update interview fields status base on request value object.
-      newInterviewFieldStatus = this.mergeFieldStatus(previousInterview.fieldStatus, req.value);
+      newInterviewFieldStatus = this.mergeFieldStatus(previousInterview!.data?.fieldStatus, req.value);
 
       // evaluate
       evaluationResult = this.interviewEvaluation(newInterviewFieldStatus, interviewDefinition);
 
       // calculate paging outcome
-      pagingResult = this.paging(previousInterview, evaluationResult, interviewDefinition, req);
-    } else {
-      evaluationResult = [];
-      // calculate paging
-      pagingResult = {
-        targetCategory: previousInterview.currentCategory,
-        targetPage: previousInterview.currentPage
-      } as IInterviewPagingResult;
+      pagingResult = this.paging(previousInterview!, evaluationResult, interviewDefinition, req);
+
     }
 
-    const interview = this.formatEvaluationResult(evaluationResult, interviewDefinition, pagingResult);
+    const interview = this.buildEvaluationResult(evaluationResult, interviewDefinition, pagingResult);
 
+    const fieldStatus = this.buildEvaluationStatus(evaluationResult, newInterviewFieldStatus);
+
+    if (instanceId) {
+      const status: IPersistedInterviewStatus = {
+        id: instanceId,
+        currentCategory: interview.currentCategory as string,
+        currentPage: interview.currentPage,
+        fieldStatus,
+        maxVisitedCategory: '',
+        maxVisitedPage: ''
+      };
+      this.saveInterviewInstance(instanceId, status);
+    }
     return interview;
   }
+  buildEvaluationStatus(evaluationResult: IItemEvaluationResult[], fieldValues: ICustomMapping): IPersistedInterviewFieldStatus[] {
+    const date = new Date();
+    return evaluationResult.map(evaluationItem => {
+      return {
+        name: evaluationItem.name,
+        value: fieldValues[evaluationItem.name],
+        date: date
+      } as IPersistedInterviewFieldStatus;
+    })
+  }
+  async generateInstanceId(req: IInterviewEvaluateRequest, interviewDefinition: InterviewDefinition): Promise<string> {
+    const date = new Date();
+    return `${req.type}_${date.getFullYear()}_${date.getMonth()}_${date.getDay()}`;
+  }
 
-  paging(previousInterview: IPersistedInterviewStatus, evaluationResult: IItemEvaluationResult[], interviewDefinition: InterviewDefinition, req: IInterviewEvaluateRequest) {
+  paging(previousInterview: IFireStoreDocument<IPersistedInterviewStatus>, evaluationResult: IItemEvaluationResult[], interviewDefinition: InterviewDefinition, req: IInterviewEvaluateRequest) {
     const result = {} as IInterviewPagingResult;
 
     // const currentPageFieldStatus = interview.currentPageFields.map(pageField => interview.fieldStatus.find(fieldStatus => fieldStatus.name === pageField.name));
@@ -56,7 +92,7 @@ export class InterviewService {
         break;
       case InterviewEvaluationAction.Previous:
         {
-          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(previousInterview.currentCategory, previousInterview.currentPage);
+          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(previousInterview.data.currentCategory, previousInterview.data.currentPage);
           if (pageIndex! > 0) {
             result.targetPage = categoryRef!.pages[pageIndex! - 1].name;
           } else if (categoryIndex! > 0) {
@@ -68,7 +104,7 @@ export class InterviewService {
         break;
       case InterviewEvaluationAction.Next:
         {
-          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(previousInterview.currentCategory, previousInterview.currentPage);
+          const { categoryRef, categoryIndex, pageIndex } = interviewDefinition.getCategoryAndPageIndexes(previousInterview.data.currentCategory, previousInterview.data.currentPage);
           if (pageIndex! < categoryRef!.pages.length - 1) {
             result.targetPage = categoryRef!.pages[pageIndex! + 1].name;
           } else if (categoryIndex! < interviewDefinition.categories.length - 1) {
@@ -90,8 +126,8 @@ export class InterviewService {
       case InterviewEvaluationAction.Initialize:
       case InterviewEvaluationAction.PostBack:
         {
-          result.targetCategory = previousInterview.currentCategory;
-          result.targetPage = previousInterview.currentPage;
+          result.targetCategory = previousInterview.data.currentCategory;
+          result.targetPage = previousInterview.data.currentPage;
         }
 
         break;
@@ -100,10 +136,7 @@ export class InterviewService {
     return result;
   }
 
-  private formatEvaluationResult(evaluationResult: IItemEvaluationResult[], interviewDefinition: InterviewDefinition, pagingResult: IInterviewPagingResult) {
-    // interview.fieldStatus = (previousInterview?.fieldStatus || []).map(item => ({
-    //   ...item
-    // } as IInterviewFieldStatus));
+  private buildEvaluationResult(evaluationResult: IItemEvaluationResult[], interviewDefinition: InterviewDefinition, pagingResult: IInterviewPagingResult) {
 
     const categories = interviewDefinition.categories.map(item => ({
       name: item.name,
@@ -133,13 +166,13 @@ export class InterviewService {
       value: null
     }));
 
-    const result: IInterviewEvaluateResponse = {categories, currentCategory, currentCategoryPages, currentPage, currentPageFields};
+    const result: IInterviewEvaluateResponse = { categories, currentCategory, currentCategoryPages, currentPage, currentPageFields };
 
     return result;
   }
 
-  interviewEvaluation(interviewFieldStatus: IInterviewFieldStatus[], interviewDefinition: InterviewDefinition) {
-    const values:{[ket:string]: any | undefined} = {};
+  interviewEvaluation(interviewFieldStatus: IInterviewFieldStatus[], interviewDefinition: InterviewDefinition): IItemEvaluationResult[] {
+    const values: { [ket: string]: any | undefined } = {};
     for (const fieldStatusItem of interviewFieldStatus) {
       values[fieldStatusItem.name] = fieldStatusItem.value;
     }
@@ -149,8 +182,8 @@ export class InterviewService {
   }
 
 
-  mergeFieldStatus(fieldStatus: IPersistedInterviewFieldStatus[], newValue: any) {
-    const result = fieldStatus.map(item => ({...item}));
+  mergeFieldStatus(fieldStatus: IPersistedInterviewFieldStatus[], newValue: any): IInterviewFieldStatus[] {
+    const result = fieldStatus.map(item => ({ ...item }));
     if (newValue) {
       for (const prop of Object.getOwnPropertyNames(newValue)) {
         const itemStatus = result.find(fieldStatusItem => fieldStatusItem.name === prop);
@@ -178,8 +211,20 @@ export class InterviewService {
     return new InterviewDefinition(definitionData);
   }
 
-  async getInterviewInstance(id: string): Promise<IPersistedInterviewStatus> {
-    const executionRef = (await admin.firestore().collection('/app-interview-executions').doc(id).get());
-    return executionRef.data() as IPersistedInterviewStatus;
+  async getInterviewInstance(request: IInterviewEvaluateRequest): Promise<IFireStoreDocument<IPersistedInterviewStatus> | undefined> {
+    const elements = await admin.firestore().collection('/app-interview-executions').where('type', '==', request.type).limit(1).get();
+    if (elements.size == 1) {
+      return InterviewService.mapInterviewStatus(elements[0]);
+    }
+
+    return undefined;
+  }
+
+  saveInterviewInstance(id: string, status: IPersistedInterviewStatus): Promise<admin.firestore.WriteResult> {
+    return admin.firestore().collection('/app-interview-executions').doc(id).set(status);
+  }
+
+  static mapInterviewStatus(doc: any) {
+    return ({ id: doc.id, data: doc.data(), $original: doc } as IFireStoreDocument<IPersistedInterviewStatus>);
   }
 }

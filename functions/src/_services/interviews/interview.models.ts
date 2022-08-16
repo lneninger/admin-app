@@ -1,14 +1,6 @@
 import { EvaluationLevel } from './evaluation/services/evaluator.models';
 import { IEvaluatorDefinition } from './models/interview-field';
 
-export interface IInterviewEvaluationRequest {
-  id: string;
-  action: InterviewEvaluationAction;
-  pageInfo?: IInterviewEvaluatePageInfo;
-  value?: any;
-}
-
-
 export interface IInterviewEvaluatePageInfo {
   currentCategory: string;
   currentPage: string;
@@ -26,7 +18,9 @@ export enum InterviewEvaluationAction {
 
 
 export interface IInterviewEvaluateRequest {
-  id: string;
+  type: string;
+  entityId: string;
+  entityType: string; // user, product, service request
   action: InterviewEvaluationAction;
   pageInfo?: IInterviewEvaluatePageInfo;
   value?: any;

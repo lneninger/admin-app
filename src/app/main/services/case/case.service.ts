@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 import { CaseEndpointService } from './case-endpoint.service';
 
 
