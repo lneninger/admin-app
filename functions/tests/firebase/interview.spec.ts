@@ -72,3 +72,23 @@ test('new initialize application must be saved', async () => {
   expect(interviewSize).toBe(1);
 
 });
+
+test('new initialize application must have maxVisitedCategory and maxVisitedPage', async () => {
+
+  const data = <IInterviewEvaluateRequest>{
+    type: 'vitae1',
+    entityId: undefined,
+    entityType: 'user',
+    action: InterviewEvaluationAction.Initialize,
+    pageInfo: undefined,
+    value: undefined
+  };
+
+
+  const service = new InterviewService();
+  const result = await service.evaluate(data);
+
+  expect(result.maxVisitedCategory).toBeTruthy();
+  expect(result.maxVisitedPage).toBeTruthy();
+
+});

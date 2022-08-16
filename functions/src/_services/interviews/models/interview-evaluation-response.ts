@@ -6,8 +6,12 @@ import { IInterviewCategoryResponse } from './interview-category-response';
 export interface IInterviewEvaluateResponse {
   categories?: IInterviewCategoryResponse[]; // only for initialize
   currentCategory: string/*same category*/ | IInterviewEvaluateCurrentCategoryResponse/*category changed, need to bring the pages*/;
+  currentCategoryIndex: number;
+  maxVisitedCategory: string;
   currentCategoryPages: IInternviewCurrentCategoryPage[];
   currentPage: string/**/;
+  currentPageIndex: number;
+  maxVisitedPage: string;
   currentPageFields: IInterviewEvaluateFieldResponse[]; //
 }
 

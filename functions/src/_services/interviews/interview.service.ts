@@ -28,12 +28,13 @@ export class InterviewService {
 
       if (!previousInterview) {
         instanceId = await this.generateInstanceId(req, interviewDefinition);
+      } else {
+        instanceId = previousInterview.id;
       }
 
     } else {
+      instanceId = previousInterview?.id;
 
-
-      // TODO: update interview status field values
       // Update interview fields status base on request value object.
       newInterviewFieldStatus = this.mergeFieldStatus(previousInterview!.data?.fieldStatus, req.value);
 
@@ -45,9 +46,11 @@ export class InterviewService {
 
     }
 
-    const interview = this.buildEvaluationResult(evaluationResult, interviewDefinition, pagingResult);
+    const interview = this.buildEvaluationResult(evaluationResult, interviewDefinition, pagingResult, previousInterview);
 
     const fieldStatus = this.buildEvaluationStatus(evaluationResult, newInterviewFieldStatus);
+
+
 
     if (instanceId) {
       const status: IPersistedInterviewStatus = {
@@ -55,13 +58,15 @@ export class InterviewService {
         currentCategory: interview.currentCategory as string,
         currentPage: interview.currentPage,
         fieldStatus,
-        maxVisitedCategory: '',
-        maxVisitedPage: ''
+        maxVisitedCategory: interview.maxVisitedCategory,
+        maxVisitedPage: interview.maxVisitedPage
       };
+
       this.saveInterviewInstance(instanceId, status);
     }
     return interview;
   }
+
   buildEvaluationStatus(evaluationResult: IItemEvaluationResult[], fieldValues: ICustomMapping): IPersistedInterviewFieldStatus[] {
     const date = new Date();
     return evaluationResult.map(evaluationItem => {
@@ -72,6 +77,7 @@ export class InterviewService {
       } as IPersistedInterviewFieldStatus;
     })
   }
+
   async generateInstanceId(req: IInterviewEvaluateRequest, interviewDefinition: InterviewDefinition): Promise<string> {
     const date = new Date();
     return `${req.type}_${date.getFullYear()}_${date.getMonth()}_${date.getDay()}`;
@@ -136,7 +142,7 @@ export class InterviewService {
     return result;
   }
 
-  private buildEvaluationResult(evaluationResult: IItemEvaluationResult[], interviewDefinition: InterviewDefinition, pagingResult: IInterviewPagingResult) {
+  private buildEvaluationResult(evaluationResult: IItemEvaluationResult[], interviewDefinition: InterviewDefinition, pagingResult: IInterviewPagingResult, previousInterview: IFireStoreDocument<IPersistedInterviewStatus> | undefined) {
 
     const categories = interviewDefinition.categories.map(item => ({
       name: item.name,
@@ -146,6 +152,7 @@ export class InterviewService {
     })).sort((itemA, itemB) => itemA.order == itemB.order ? 0 : (itemA.order < itemB.order ? -1 : 1));
 
     const currentCategory = pagingResult.targetCategory || interviewDefinition.categories[0].name;
+    const currentCategoryIndex = interviewDefinition.categories.findIndex(catItem => catItem.name === currentCategory);
 
     const currentCategoryDef = interviewDefinition.categories.find(item => item.name === currentCategory);
     const currentCategoryPages = currentCategoryDef!.pages.map(pageItem => ({
@@ -156,6 +163,7 @@ export class InterviewService {
     }));
 
     const currentPage = pagingResult.targetPage || currentCategoryPages[0].name;
+    const currentPageIndex = currentCategoryPages.findIndex(pageItem => pageItem.name === currentPage);
 
     const currentPageDef = currentCategoryDef!.pages.find(item => item.name === currentPage);
     const currentPageFields = currentPageDef!.fields.map(fieldItem => ({
@@ -166,7 +174,36 @@ export class InterviewService {
       value: null
     }));
 
-    const result: IInterviewEvaluateResponse = { categories, currentCategory, currentCategoryPages, currentPage, currentPageFields };
+    const maxCategoryIndex = interviewDefinition.categories.findIndex(catItem => catItem.name === previousInterview?.data.maxVisitedCategory);
+
+
+    let maxVisitedCategory: string;
+    let maxVisitedPage: string;
+    if (maxCategoryIndex > currentCategoryIndex) {
+      maxVisitedCategory = <string>previousInterview?.data.maxVisitedCategory;
+      maxVisitedPage = <string>previousInterview?.data.maxVisitedPage;
+    } else if (maxCategoryIndex < currentCategoryIndex) {
+      maxVisitedCategory = <string>currentCategory;
+      maxVisitedPage = currentPage;
+    } else {
+      maxVisitedCategory = <string>previousInterview?.data.maxVisitedCategory;
+      const maxPageIndex = currentCategoryDef?.pages.findIndex(pageItem => pageItem.name === previousInterview?.data.maxVisitedCategory);
+      maxVisitedPage = (maxPageIndex || -1) > currentPageIndex ? <string>previousInterview?.data.maxVisitedCategory : currentPage;
+
+    }
+
+
+    const result: IInterviewEvaluateResponse = {
+      categories,
+      currentCategory,
+      currentCategoryIndex,
+      maxVisitedCategory,
+      currentCategoryPages,
+      currentPage,
+      currentPageIndex,
+      maxVisitedPage,
+      currentPageFields
+    };
 
     return result;
   }

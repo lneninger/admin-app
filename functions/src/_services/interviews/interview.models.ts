@@ -1,3 +1,4 @@
+import { ICustomMapping } from './../../functions.models';
 import { EvaluationLevel } from './evaluation/services/evaluator.models';
 import { IEvaluatorDefinition } from './models/interview-field';
 
@@ -19,11 +20,11 @@ export enum InterviewEvaluationAction {
 
 export interface IInterviewEvaluateRequest {
   type: string;
-  entityId: string;
+  entityId: string | undefined;
   entityType: string; // user, product, service request
   action: InterviewEvaluationAction;
   pageInfo?: IInterviewEvaluatePageInfo;
-  value?: any;
+  value?: ICustomMapping;
 }
 
 
