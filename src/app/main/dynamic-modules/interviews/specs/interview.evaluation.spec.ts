@@ -1,177 +1,177 @@
-import { TestBed } from '@angular/core/testing';
-import { NgxsModule } from '@ngxs/store';
-import { IPersistedInterviewStatus } from '../../../../../../functions/src/_services/interviews/models/interview-evaluation-response';
-import { Category } from '../interview-execution/evaluation/annotations/category-annotation';
-import { Field } from '../interview-execution/evaluation/annotations/field-annotation';
-import { Interview } from '../interview-execution/evaluation/annotations/interview-annotation';
-import { EvaluatorService } from '../interview-execution/evaluation/services/evaluator.service';
-import { FieldsCategory, InterviewDefinition } from '../interview-execution/models/interview-definition';
-import { InterviewInstance } from '../interview-execution/models/interview-instance';
-import { InterviewService } from '../interview-execution/services/interview.service';
-import { vitae1 } from '../interview-execution/services/moked-data';
+// import { TestBed } from '@angular/core/testing';
+// import { NgxsModule } from '@ngxs/store';
+// import { IPersistedInterviewStatus } from '../../../../../../functions/src/_services/interviews/models/interview-evaluation-response';
+// import { Category } from '../interview-execution/evaluation/annotations/category-annotation';
+// import { Field } from '../interview-execution/evaluation/annotations/field-annotation';
+// import { Interview } from '../interview-execution/evaluation/annotations/interview-annotation';
+// import { EvaluatorService } from '../interview-execution/evaluation/services/evaluator.service';
+// import { FieldsCategory, InterviewDefinition } from '../interview-execution/models/interview-definition';
+// import { InterviewInstance } from '../interview-execution/models/interview-instance';
+// import { InterviewService } from '../interview-execution/services/interview.service';
+// import { vitae1 } from '../interview-execution/services/moked-data';
 
-enum Genders {
-  Male,
-  Female
-}
+// enum Genders {
+//   Male,
+//   Female
+// }
 
-class PersonalFields extends FieldsCategory {
-  @Field(1, 'First Name')
-  firstName?: string;
-  @Field(2, 'Last Name')
-  lastName?: string;
-  @Field(3, 'Gender')
-  gender?: Genders;
-}
+// class PersonalFields extends FieldsCategory {
+//   @Field(1, 'First Name')
+//   firstName?: string;
+//   @Field(2, 'Last Name')
+//   lastName?: string;
+//   @Field(3, 'Gender')
+//   gender?: Genders;
+// }
 
-class EducationFields extends FieldsCategory {
-  name?: string;
-}
+// class EducationFields extends FieldsCategory {
+//   name?: string;
+// }
 
-@Interview()
-class CVFields {
+// @Interview()
+// class CVFields {
 
-  @Category(PersonalFields, 1, 'Personal Information')
-  personalFields?: PersonalFields;
+//   @Category(PersonalFields, 1, 'Personal Information')
+//   personalFields?: PersonalFields;
 
-  @Category(EducationFields, 2, 'Courses and Education')
-  educationFields?: EducationFields;
+//   @Category(EducationFields, 2, 'Courses and Education')
+//   educationFields?: EducationFields;
 
-  // test access to annotated metadata
-  get categories() {
-    return (this as any).$categories;
-  }
+//   // test access to annotated metadata
+//   get categories() {
+//     return (this as any).$categories;
+//   }
 
-  constructor(input: Partial<any>) {
-    Object.assign(this, input);
-  }
+//   constructor(input: Partial<any>) {
+//     Object.assign(this, input);
+//   }
 
-}
+// }
 
-describe('Interview Evaluator', () => {
+// describe('Interview Evaluator', () => {
 
-  let interview: InterviewInstance;
-  let interviewService: InterviewService;
+//   let interview: InterviewInstance;
+//   let interviewService: InterviewService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([
-          InterviewService
-        ], { developmentMode: true })
-      ],
-      declarations: [],
-      providers: [
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({
+//       imports: [
+//         NgxsModule.forRoot([
+//           InterviewService
+//         ], { developmentMode: true })
+//       ],
+//       declarations: [],
+//       providers: [
 
-      ]
-    })
-      .compileComponents();
+//       ]
+//     })
+//       .compileComponents();
 
-    interviewService = TestBed.inject(InterviewService);
-    interview = new InterviewInstance(vitae1);
-  });
+//     interviewService = TestBed.inject(InterviewService);
+//     interview = new InterviewInstance(vitae1);
+//   });
 
-  it(' - inteview instance is not null', () => {
-    const cvInterview = new CVFields({
+//   it(' - inteview instance is not null', () => {
+//     const cvInterview = new CVFields({
 
-      personalFields: {
-        firstName: 'Leonardo',
-        lastName: 'Neninger',
-        gender: Genders.Male
-      },
-      educationFields: {
-        name: 'Leonardo'
-      },
-    });
+//       personalFields: {
+//         firstName: 'Leonardo',
+//         lastName: 'Neninger',
+//         gender: Genders.Male
+//       },
+//       educationFields: {
+//         name: 'Leonardo'
+//       },
+//     });
 
-    expect(cvInterview).toBeTruthy();
-  });
+//     expect(cvInterview).toBeTruthy();
+//   });
 
-  it(' - interview categories is not null', () => {
-    const cvInterview = new CVFields({
+//   it(' - interview categories is not null', () => {
+//     const cvInterview = new CVFields({
 
-      personalFields: {
-        firstName: 'Leonardo',
-        lastName: 'Neninger',
-        gender: Genders.Male
-      },
-      educationFields: {
-        name: 'Leonardo'
-      },
-    });
-    expect(cvInterview.personalFields?.metadata).not.toEqual(null);
-    expect(cvInterview.educationFields?.metadata).not.toEqual(null);
-  });
-
-
-  it(' - categories are not null', () => {
-    const cvInterview = new CVFields({
-      personalFields: {
-        firstName: 'Leonardo',
-        lastName: 'Neninger',
-        gender: Genders.Male
-      },
-      educationFields: {
-        name: 'Leonardo'
-      },
-    });
-
-    expect(cvInterview.categories).not.toEqual(null);
-  });
-
-  fit(' - evaluator instance evaluate item', () => {
-    const cvInterviewDefinition = new InterviewDefinition(vitae1);
-    const cvPersistedStatus = {
-      id: 'vitae1',
-      fieldStatus: []
-    } as IPersistedInterviewStatus;
-
-    interviewService.evaluate
-
-    const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
-    const evaluationResult = evaluatorService.evaluateItem('personal_info.person_details.firstName');
-
-    expect(evaluationResult).toBeTruthy();
-  });
-
-  fit(' - evaluator instance evaluate empty interview', () => {
-    const cvInterviewDefinition = new InterviewDefinition(vitae1);
-    const cvPersistedStatus = {
-      id: 'vitae1',
-      fieldStatus: []
-    } as IPersistedInterviewStatus;
-
-    const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
-    const evaluationResult = evaluatorService.evaluateInterview();
-
-    expect(evaluationResult).toBeTruthy();
-  });
-
-  fit(' - evaluator instance evaluate interview for not empty', () => {
-    const cvInterviewDefinition = new InterviewDefinition(vitae1);
-    const cvPersistedStatus = {
-      id: 'vitae1',
-      fieldStatus: [
-        {
-          name: 'personal_info.person_details.firstName',
-          value: '',
-          date: new Date()
-        }
-
-      ]
-    } as IPersistedInterviewStatus;
-
-    const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
-    const evaluationResult = evaluatorService.evaluateInterview();
-    const evaluatable = evaluatorService.evaluatables.find(item => item.name === 'personal_info.person_details.firstName');
-
-    expect(evaluatable).toBeTruthy();
-    const firstName = evaluationResult.find(resultItem => resultItem.name === 'personal_info.person_details.firstName');
-    expect(firstName).toBeTruthy();
-    const results = firstName.evaluations.map(item => item.evaluationResult.evaluationResult);
-    expect(results.every(result => !result)).toBeTruthy();
-  });
+//       personalFields: {
+//         firstName: 'Leonardo',
+//         lastName: 'Neninger',
+//         gender: Genders.Male
+//       },
+//       educationFields: {
+//         name: 'Leonardo'
+//       },
+//     });
+//     expect(cvInterview.personalFields?.metadata).not.toEqual(null);
+//     expect(cvInterview.educationFields?.metadata).not.toEqual(null);
+//   });
 
 
+//   it(' - categories are not null', () => {
+//     const cvInterview = new CVFields({
+//       personalFields: {
+//         firstName: 'Leonardo',
+//         lastName: 'Neninger',
+//         gender: Genders.Male
+//       },
+//       educationFields: {
+//         name: 'Leonardo'
+//       },
+//     });
 
-});
+//     expect(cvInterview.categories).not.toEqual(null);
+//   });
+
+//   fit(' - evaluator instance evaluate item', () => {
+//     const cvInterviewDefinition = new InterviewDefinition(vitae1);
+//     const cvPersistedStatus = {
+//       id: 'vitae1',
+//       fieldStatus: []
+//     } as IPersistedInterviewStatus;
+
+//     interviewService.evaluate
+
+//     const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
+//     const evaluationResult = evaluatorService.evaluateItem('personal_info.person_details.firstName');
+
+//     expect(evaluationResult).toBeTruthy();
+//   });
+
+//   fit(' - evaluator instance evaluate empty interview', () => {
+//     const cvInterviewDefinition = new InterviewDefinition(vitae1);
+//     const cvPersistedStatus = {
+//       id: 'vitae1',
+//       fieldStatus: []
+//     } as IPersistedInterviewStatus;
+
+//     const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
+//     const evaluationResult = evaluatorService.evaluateInterview();
+
+//     expect(evaluationResult).toBeTruthy();
+//   });
+
+//   fit(' - evaluator instance evaluate interview for not empty', () => {
+//     const cvInterviewDefinition = new InterviewDefinition(vitae1);
+//     const cvPersistedStatus = {
+//       id: 'vitae1',
+//       fieldStatus: [
+//         {
+//           name: 'personal_info.person_details.firstName',
+//           value: '',
+//           date: new Date()
+//         }
+
+//       ]
+//     } as IPersistedInterviewStatus;
+
+//     const evaluatorService = new EvaluatorService(cvInterviewDefinition, cvPersistedStatus.fieldStatus);
+//     const evaluationResult = evaluatorService.evaluateInterview();
+//     const evaluatable = evaluatorService.evaluatables.find(item => item.name === 'personal_info.person_details.firstName');
+
+//     expect(evaluatable).toBeTruthy();
+//     const firstName = evaluationResult.find(resultItem => resultItem.name === 'personal_info.person_details.firstName');
+//     expect(firstName).toBeTruthy();
+//     const results = firstName.evaluations.map(item => item.evaluationResult.evaluationResult);
+//     expect(results.every(result => !result)).toBeTruthy();
+//   });
+
+
+
+// });

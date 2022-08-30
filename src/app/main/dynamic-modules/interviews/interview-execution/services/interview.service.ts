@@ -8,18 +8,16 @@ import { firstValueFrom } from 'rxjs';
 import { FirebaseService } from 'src/app/shared/firebase/firebase.service';
 import { InterviewEvaluationAction } from '../../../../../../../functions/src/_services/interviews/models/interview-evaluation-response';
 import { IInterviewInstance } from '../models/interfaces/interface-interview-instance';
-import { IInterviewActionPayload } from '../models/interview-action-payload';
 import { IInterviewConfig } from '../models/interview.config';
 import { InterviewInstance } from './../models/interview-instance';
 import { IInterviewStateModel } from './interview-state.models';
-import { vitae1 } from './moked-data';
 
 @Persistence()
 @StateRepository()
 @State<IInterviewStateModel>({
   name: 'interviews',
   defaults: {
-    interviewDefinitions: [vitae1],
+    interviewDefinitions: [],
     interviewInstances: []
   }
 })
@@ -41,7 +39,7 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
   }
 
   ngxsAfterBootstrap() {
-    console.trace('Interview Service bootstrapped!');
+    console.log('Interview Service bootstrapped!');
   }
 
   // @DataAction()
@@ -61,6 +59,8 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
     const interview = new InterviewInstance({ id: config.id, config });
     const req: IInterviewEvaluateRequest = {
       type: config.id,
+      entityId: config.entityId,
+      entityType: config.entityType,
       action: InterviewEvaluationAction.Initialize,
     };
 
@@ -79,12 +79,12 @@ export class InterviewService extends NgxsDataRepository<IInterviewStateModel> {
 
     this.formatForm(interview, evaluationResult);
   }
-  formatEvaluationRequest(req: IInterviewActionPayload): IInterviewEvaluateRequest {
+  formatEvaluationRequest(req: IInterviewEvaluateRequest): IInterviewEvaluateRequest {
     return {...req};
   }
 
   async remoteEvaluation(req: IInterviewEvaluateRequest){
-      const fn = this.firebaseService.fns.httpsCallable('attachRole');
+      const fn = this.firebaseService.fns.httpsCallable('interviewEvaluation');
       return firstValueFrom(fn(req));
   }
 

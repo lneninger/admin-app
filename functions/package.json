@@ -3,7 +3,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
-    "test": "jest -o",
+    "jas": "cross-env NODE_OPTIONS=--loader=ts-node/esm jasmine --config=jasmine.json",
+    "test": "jasmine-ts \"**/tests/**/*.spec.ts\"",
     "build:watch": "tsc --watch --preserveWatchOutput",
     "serve": "npm run build:watch | firebase emulators:start --only firestore,functions,auth,pubsub  --inspect-functions",
     "serve-seed": "npx ts-node emulatorseed.ts",
@@ -19,7 +20,8 @@
     "env-pubsub-key": "set GOOGLE_APPLICATION_CREDENTIALS='../firebase-adminsys-20210823-3c04d9359e88.json'",
     "create-pubsub-topic": "gcloud pubsub topics create my-topic --project firebase-adminsys-20210823",
     "port-process": "netstat -a -n -o | find \"port\"",
-    "kill-process": "taskkill /F /PID pid_number"
+    "kill-process": "taskkill /F /PID pid_number",
+    "postinstall": "npx json -I -f ./node_modules/jasmine/package.json -e \"delete this.exports\""
   },
   "engines": {
     "node": "16"
@@ -36,17 +38,19 @@
     "firebase": "^9.6.10",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.19.0",
+    "g": "^2.0.1",
+    "ionic": "^5.4.16",
     "nodemailer": "^6.7.0",
     "plaid": "9.9.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.4.0",
-    "stripe": "9.1.0",
-    "ts-node": "^8.10.2"
+    "stripe": "9.1.0"
   },
   "devDependencies": {
     "@firebase/testing": "^0.20.11",
     "@jest/globals": "^28.1.3",
-    "@types/jest": "^28.1.6",
+    "@types/jasmine": "^4.3.0",
+    "@types/node": "^18.7.13",
     "@types/nodemailer": "^6.4.4",
     "@typescript-eslint/eslint-plugin": "^3.9.1",
     "@typescript-eslint/parser": "^3.8.0",
@@ -54,9 +58,8 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.22.0",
     "firebase-functions-test": "^0.3.3",
-    "jasmine-ts": "^0.4.0",
-    "jest": "^28.1.3",
-    "ts-jest": "^28.0.7",
+    "jasmine-ts": "^0.3.3",
+    "ts-node": "^10.9.1",
     "typescript": "~4.5.5"
   },
   "private": true

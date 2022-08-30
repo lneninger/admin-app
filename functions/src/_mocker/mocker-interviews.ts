@@ -6,7 +6,7 @@ import { vitae1 } from './mocker.models';
 
 export const initializeInterviews = async (): Promise<void> => {
 const firestore = admin.firestore();
-console.trace('Trace: Interview start');
+console.log('Trace: Interview start');
   if ((await firestore.collection('app-interview-definitions').limit(1).get()).size === 0) {
     console.trace('Trace: Interview running');
     try {
@@ -17,5 +17,5 @@ console.trace('Trace: Interview start');
       console.error(ex);
     }
   }
-  console.trace('Trace: Interview end');
+  console.log('Trace: Interview end');
 }

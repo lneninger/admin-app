@@ -1,4 +1,4 @@
-import { IEvaluatorDefinition } from '../../models/interview-field';
+import { EvaluationType, IEvaluatorDefinition } from '../../models/interview-field';
 
 export interface IEvaluatorDefinitionCompilation extends IEvaluatorDefinition {
   compilation: (evaluator: IEvaluatorDefinition, target: { [key: string]: any }) => IEvaluatorResult;
@@ -15,6 +15,16 @@ export interface IItemEvaluationResult {
   level: EvaluationLevel;
   evaluations: IEvaluationResultItem[]
 }
+
+
+export interface IItemEvaluationResultGrouping {
+  status: EvaluationType;
+  fails: IEvaluationResultItem[];
+  errors: IEvaluationResultItem[];
+  disqualifications: IEvaluationResultItem[];
+  valids: IEvaluationResultItem[];
+}
+
 
 
 export interface IEvaluationResultItem{

@@ -1,3 +1,4 @@
+import { IItemEvaluationResultGrouping } from './../evaluation/services/evaluator.models';
 import { IInterviewCategoryResponse } from './interview-category-response';
 
 
@@ -35,6 +36,7 @@ export interface IInterviewEvaluateFieldResponse {
   label: string;
   description: string | undefined;
   metadata: any;
+  evaluations: IItemEvaluationResultGrouping;
   value: any;
 }
 

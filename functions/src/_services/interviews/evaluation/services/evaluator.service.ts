@@ -124,7 +124,7 @@ export class EvaluatorService implements IEvaluatorService {
           return ({ continue: true, evaluationResult });
         }
       } else {
-        const continueEvaluation = evaluationResult || this.continueEvaluation(evaluator);
+        const continueEvaluation = evaluationResult === true || this.continueEvaluation(evaluator);
         return ({ continue: continueEvaluation, evaluationResult });
       }
     };

@@ -1,7 +1,7 @@
+import { IInterviewInstance } from './../interview-execution/models/interfaces/interface-interview-instance';
 import { IInterviewConfig } from './../interview-execution/models/interview.config';
 import { InterviewService } from './../interview-execution/services/interview.service';
 import { TestBed } from '@angular/core/testing';
-import { vitae1 } from '../interview-execution/services/moked-data';
 import { InterviewInstance } from './../interview-execution/models/interview-instance';
 import { NgxsModule } from '@ngxs/store';
 
@@ -9,7 +9,7 @@ import { NgxsModule } from '@ngxs/store';
 
 describe('Interview Service', () => {
 
-  let interview: InterviewInstance;
+  let interview: IInterviewInstance;
   let interviewService: InterviewService;
 
   beforeEach(() => {
@@ -27,7 +27,6 @@ describe('Interview Service', () => {
       .compileComponents();
 
     interviewService = TestBed.inject(InterviewService);
-    interview = new InterviewInstance(vitae1);
   });
 
   it(' - is not null', () => {
@@ -35,7 +34,7 @@ describe('Interview Service', () => {
   });
 
   it(' - interview instance is not null', () => {
-    interview = new InterviewInstance(vitae1);
+    interview = new InterviewInstance({});
     expect(interview).toBeTruthy();
   });
 

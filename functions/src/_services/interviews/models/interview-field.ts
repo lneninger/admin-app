@@ -16,7 +16,7 @@ export interface IEvaluatorDefinition {
 }
 
 
-export interface IInterviewValidatorRuleDefinition{
+export interface IInterviewValidatorRuleDefinition {
   expression: string,
 }
 
@@ -45,7 +45,13 @@ export interface IInterviewFieldMetadata {
 }
 
 
-export declare type EvaluationType = 'VALIDATION' | 'DISQUALIFICATION' | 'DISABLE' | 'HIDE';
+export enum EvaluationType {
+  Unvalidated = 'UNVALIDATED',
+  Validation = 'VALIDATION',
+  Disqualification = 'DISQUALIFICATION',
+  Disable = 'DISABLE',
+  Hide = 'HIDE'
+}
 
 
 
