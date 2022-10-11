@@ -41,6 +41,7 @@
     "g": "^2.0.1",
     "ionic": "^5.4.16",
     "nodemailer": "^6.7.0",
+    "filtrex": "^3.0.0",
     "plaid": "9.9.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.4.0",
